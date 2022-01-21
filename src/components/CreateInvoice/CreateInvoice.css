@@ -1,0 +1,22 @@
+.createinvoice{
+    padding: 20px 30px;
+}
+.createinvoice__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.createinvoice__input{
+    margin-bottom: 5px;
+}
+.createinvoice__input h5{
+    margin-bottom: 10px;
+}
+.createinvoice__buyerwrapper{
+
+}
+.createinvoice__buyer{
+    display: flex;
+    justify-content: space-around;
+    flex-flow: column wrap;
+}
