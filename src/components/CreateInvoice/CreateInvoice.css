@@ -3,7 +3,7 @@
 }
 .createinvoice__header{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 .createinvoice__input{
@@ -12,11 +12,20 @@
 .createinvoice__input h5{
     margin-bottom: 10px;
 }
-.createinvoice__buyerwrapper{
-
+.createinvoice__wrapper{
+    display: flex;
+    justify-content: space-around;
 }
 .createinvoice__buyer{
     display: flex;
     justify-content: space-around;
     flex-flow: column wrap;
+}
+.createinvoice__products{
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+}
+.createinvoice__products > div{
+    width: 30%;
 }

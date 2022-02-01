@@ -1,53 +1,41 @@
-import { TextField } from "@mui/material";
-
-import moment from "moment";
-import NumberFormat from "react-number-format";
 import React, { useState, useEffect } from "react";
 import "./CreateInvoice.css";
 
-const today = () => {
-  let date = new Date();
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
+import { nanoid } from "nanoid";
+import { useNavigate } from "react-router-dom";
 
-  const currentDay = () => {
-    if (day < 10) {
-      return `0${day}`;
-    } else return day;
-  };
-  const currentMonth = () => {
-    if (month < 10) {
-      return `0${month}`;
-    } else return month;
-  };
-
-  let fulldate = `${year}-${currentMonth()}-${currentDay()}`;
-  return fulldate;
-};
+import db from "../../assets/utility/firebase";
+import { today } from "../../assets/functions";
+import NumberFormat from "react-number-format";
+import { TextField } from "@mui/material";
+import NativeSelect from "@mui/material/NativeSelect";
+import { useStateValue } from "../../assets/utility/StateProvider";
 
 function CreateInvoice() {
   const [number, setNumber] = useState("01/2022/42563");
   const [sequence, setSequence] = useState(1);
   const [date, setDate] = useState(today());
-  const [buyer, setBuyer] = useState([]);
   const [nameBuyer, setNameBuyer] = useState("");
   const [streetBuyer, setStreetBuyer] = useState("");
   const [zipcodeBuyer, setZipcodeBuyer] = useState("");
   const [townBuyer, setTownBuyer] = useState("");
   const [seller, setSeller] = useState("Małgorzata Kamińska");
-  const [selected, setSelected] = useState("Przelew");
+  const [selected, setSelected] = useState("przelew");
   const [products, setProducts] = useState([]);
   const [title, setTitle] = useState("");
   //ilość
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(0);
   //wartość
   const [worth, setWorth] = useState(0);
-  const [inWords, setInWords] = useState("");
-  // useEffect(() => {
-  //   console.log(selected);
-  // }, [selected]);
+
+  const [{ user }] = useStateValue();
+  const history = useNavigate();
+
+  const index = () => {
+    return `Invoice-${nanoid(10)}`;
+  };
+
   const endValue = () => {
     return quantity * price;
   };
@@ -65,7 +53,6 @@ function CreateInvoice() {
         price: price,
         worth: endValue(),
         vat: 0,
-        inWords: inWords,
       },
     ]);
     setTitle("");
@@ -73,20 +60,31 @@ function CreateInvoice() {
     setPrice(0);
     setWorth(0);
   };
-  const addBuyer = () => {
-    setBuyer([
-      ...buyer,
-      {
-        name: nameBuyer,
-        street: streetBuyer,
-        zipcode: zipcodeBuyer,
-        town: townBuyer,
-      },
-    ]);
-    setNameBuyer("");
-    setStreetBuyer("");
-    setZipcodeBuyer("");
-    setTownBuyer("");
+  const addInvoice = (e) => {
+    e.preventDefault();
+    db.collection("invoices")
+      .doc(user?.uid)
+      .collection("invoice")
+      .doc(index())
+      .set({
+        date: date,
+        number: number,
+        payment: selected,
+        buyer: {
+          name: nameBuyer,
+          street: streetBuyer,
+          zipcode: zipcodeBuyer,
+          town: townBuyer,
+        },
+        seller: seller,
+        products: products,
+      })
+
+      history("./invoices")
+  };
+
+  const numberInput = (e) => {
+    setQuantity(e.target.value);
   };
   return (
     <div className="createinvoice">
@@ -111,15 +109,11 @@ function CreateInvoice() {
                 onChange={(e) => setDate(e.target.value)}
               />
             </div>
-            <div>
-              <h5>Data zakońćzenia dostawy lub wykonania usługi</h5>
-              {date}
-            </div>
           </div>
         </div>
-        <div className="createinvoice__buyerwrapper">
-          <h5>Nabywca</h5>
+        <div className="createinvoice__wrapper">
           <div className="createinvoice__buyer">
+            <h5>Nabywca:</h5>
             <div className="createinvoice__input">
               <TextField
                 value={nameBuyer}
@@ -139,7 +133,6 @@ function CreateInvoice() {
               />
             </div>
             <div className="createinvoice__input">
-              {/* <h5>Kod pocztowy</h5> */}
               <NumberFormat
                 customInput={TextField}
                 format="##-###"
@@ -160,38 +153,34 @@ function CreateInvoice() {
                 variant="outlined"
               />
             </div>
-            <button type="button" onClick={addBuyer}>
-              Dodaj Nabywce
-            </button>
           </div>
-          <div className="createinvoice__viewBuyer">
-            {buyer.map((item, index) => (
-              <div key={index}>
-                <p>{item.name}</p>
-                <p>{item.street}</p>
-                <p>
-                  {item.zipcode} {item.town}
-                </p>
-              </div>
-            ))}
+          <div className="createinvoice__input">
+            <h5>Sprzedawca:</h5>
+            <TextField
+              value={seller}
+              onChange={(e) => setSeller(e.target.value)}
+              id="outlined-basic"
+              label="Sprzedawca"
+              variant="outlined"
+            />
           </div>
         </div>
-        <div>{seller}</div>
         <div>
           <p>Forma płatności:</p>
-          <select
+          <NativeSelect
             name="method-shipping"
             value={selected}
             onChange={(e) => setSelected(e.target.value)}
+            fullWidth
           >
-            <option value="przelew">Przelew</option>
-            <option value="pobranie">Pobranie</option>
-          </select>
+            <option value="przelew">przelew</option>
+            <option value="pobranie">pobranie</option>
+          </NativeSelect>
         </div>
         <div>
           <p>Product</p>
           <div>
-            <div>
+            <div className="createinvoice__input">
               <TextField
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -200,17 +189,19 @@ function CreateInvoice() {
                 variant="outlined"
               />
             </div>
-            <div>
+            <div className="createinvoice__input">
               <TextField
+                min="1"
+                max="999"
                 value={quantity}
                 type="number"
-                onChange={(e) => setQuantity(e.target.value)}
+                onChange={numberInput}
                 id="outlined-basic"
                 label="Ilość"
                 variant="outlined"
               />
             </div>
-            <div>
+            <div className="createinvoice__input">
               <TextField
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
@@ -219,21 +210,11 @@ function CreateInvoice() {
                 variant="outlined"
               />
             </div>
-            <div>
-              <TextField
-                type="text"
-                value={inWords}
-                onChange={(e) => setInWords(e.target.value)}
-                id="outlined-basic"
-                label="Wartość słowanie"
-                variant="outlined"
-              ></TextField>
-            </div>
             <button type="button" onClick={addProduct}>
               Dodaj produkt
             </button>
           </div>
-          <div>
+          <div className="createinvoice__products">
             {products.map((item, index) => (
               <div key={index}>
                 <p>Lp. {item.lp}</p>
@@ -242,15 +223,13 @@ function CreateInvoice() {
                 <p>Cene jedn. netto: {item.price}</p>
                 <p>Wartość: {item.worth}</p>
                 <p>Vat: {item.vat}</p>
-                <p>Razem: {item.worth}</p>
-                <p>Słownie: {item.inWords}</p>
-                <p>Zapłacono: {item.worth}</p>
-                <p>Pozostało do zapłaty: 0</p>
               </div>
             ))}
           </div>
         </div>
-        <div></div>
+        <button type="button" onClick={addInvoice}>
+          Dodaj fakturę
+        </button>
       </form>
     </div>
   );
