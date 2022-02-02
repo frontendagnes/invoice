@@ -18,3 +18,5 @@ export const today = () => {
     let fulldate = `${year}-${currentMonth()}-${currentDay()}`;
     return fulldate;
   };
+
+  export const getTotal = (data) => data?.reduce((amount, item) => item.worth + amount, 0)

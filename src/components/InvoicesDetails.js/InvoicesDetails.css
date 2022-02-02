@@ -1,1 +1,109 @@
-
+#invoice{
+    width: 595px;
+    height: 822px;
+    border: 1px solid #000000;
+    padding-top: 20px;
+}
+.invoicesdetail{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.invoicesdetail__wrapper{
+    display: flex;
+    justify-content: center;
+    
+}
+.invoicesdetail__number{
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.2rem;
+}
+.invoicesdetail__text{
+    font-weight: 600;
+}
+.invoicesdetail__date{
+    padding: 20px;
+}
+.invoicesdetail__date > div{
+    display: flex;
+    justify-content: space-between;
+}
+.invoicesdetail__date > div > span{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.invoicesdetail__middle > div{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+.invoicesdetail__headline{
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+.invoicecdetail__button{
+    margin: 20px;
+    padding: 10px 20px;
+    border: transparent;
+    border-radius: 10px;
+    background: #ff4500;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background 0.75s;
+}
+.invoicecdetail__button:hover{
+    background: rgb(255, 131, 86);
+}
+.invoicesdetails__products{
+    padding: 10px;
+}
+table, td{
+    border: 1px solid #000000;
+}
+td{
+    height: 30px;
+    padding: 5px;
+    text-align:center;
+}
+.table__title{
+    width: 400px;
+    text-align: left;
+}
+.table__price{
+    width: 30px;
+}
+.invoicesdetails__summary{
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; */
+    margin-top: 50px
+}
+.invoicesdetails__summary > div{
+    margin-left: 100px;
+    margin-right: 100px;
+}
+.invoicesdetails__summary > div{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}   
+.invoicesdetails__bottom{
+    text-align: center;
+}
+.invoicesdetails__siganture{
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin: 30px;
+    margin-top: 50px;
+}
+.invoicesdetails__siganture > div{
+    width: 200px;
+    border-top: 1px solid #000000;
+}
