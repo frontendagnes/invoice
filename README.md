@@ -4,6 +4,11 @@ Aplikacja pozwala wystawić faktury z 0 Vat , osobom któe na mocy art. 5 ust.1 
 
 Aplikacja pozwala na wystawienie i wydrukowanie do pdf prostej fakrury, podgląd wystawionych faktur oraz wyszukiwanie wystawionej faktury po dacie wystawienie lub po naziwe kontrahenta jak również po numerze faktury.
 
+dane do testowego logowanie:
+
+login: aga@kam.com
+pass: agakam
+
 ## Documentation
 
 Projekt został stworzone przez [create-react-app](https://github.com/facebook/create-react-app), w aplikacji zostały użyte następujące rozwiązania:
