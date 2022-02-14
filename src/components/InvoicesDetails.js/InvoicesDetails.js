@@ -9,14 +9,13 @@ import { today } from "../../assets/functions";
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();
   const generatePDF = () => {
-    console.log("siema generuje sobie pdf");
     const input = document.querySelector("#invoice");
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const doc = new jsPDF("p", "pt", "a4");
       let width = doc.internal.pageSize.getWidth() - 5;
       let height = doc.internal.pageSize.getHeight();
-      doc.addImage(imgData, "JPEG", 0, 0, width, height);
+      doc.addImage(imgData, "PNG", 0, 0, width, height);
       doc.save(`${today()}-`);
     });
   };
