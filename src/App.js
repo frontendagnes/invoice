@@ -3,7 +3,7 @@ import "./App.css";
 import { auth } from "./assets/utility/firebase";
 import { useStateValue } from "./assets/utility/StateProvider";
 import db from "./assets/utility/firebase";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 //components
 import Header from "./components/Header/Header";
 import CreateInvoice from "./components/CreateInvoice/CreateInvoice";
@@ -16,7 +16,7 @@ import NoMatch from "./components/NoMatch/NoMatch";
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [{ user, amount }, dispatch] = useStateValue();
-
+  const history = useLocation();
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -59,6 +59,14 @@ function App() {
       });
   }, [amount, dispatch, user]);
 
+  useEffect(() => {
+    // if(user){
+    //   return history("/")
+    // }else{
+    //   return history("/login")
+    // }
+    // return() => user
+  }, [user, history]);
   return (
     <div className="app">
       <Routes>
@@ -66,9 +74,15 @@ function App() {
           index
           path="/"
           element={
-            <div>
-              <Header />
-              <CreateInvoice />
+            <div className="app__login">
+              {user ? (
+                <div>
+                  <Header />
+                  <CreateInvoice />
+                </div>
+              ) : (
+                <Login />
+              )}
             </div>
           }
         />
