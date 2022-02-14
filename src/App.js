@@ -37,7 +37,7 @@ function App() {
       db.collection("invoices")
         .doc(user.uid)
         .collection("invoice")
-        .orderBy("date", "desc")
+        .orderBy("number", "desc")
         .onSnapshot((snapshot) => {
           setInvoices(
             snapshot.docs.map((doc) => ({

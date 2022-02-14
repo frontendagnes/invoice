@@ -3,12 +3,12 @@ import "./DateFilter.css";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import InvoicesItem from "../InvoicesItem/InvoicesItem";
 import { TextField } from "@mui/material";
-
+import {today} from "../../assets/functions"
 function DateFilter({ data, openDetails, deleteItem }) {
-  const [anyDate, setAnyDate] = useState("");
+  const [anyDate, setAnyDate] = useState(today());
 
   const resetDate = () => {
-    setAnyDate("");
+    setAnyDate(today());
   };
   return (
     <div className="datefilter">

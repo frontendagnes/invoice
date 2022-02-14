@@ -28,7 +28,7 @@ function CreateInvoice() {
   const [zipcodeBuyer, setZipcodeBuyer] = useState("");
   const [townBuyer, setTownBuyer] = useState("");
   const [nip, setNip] = useState("");
-  const [seller, setSeller] = useState("");
+  const [seller, setSeller] = useState("Małgorzata Kamińska");
   const [selected, setSelected] = useState("przelew");
   const [products, setProducts] = useState([]);
   const [title, setTitle] = useState("");
