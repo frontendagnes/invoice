@@ -1,0 +1,27 @@
+.formtop{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.formtop__input{
+    width: 40%;
+
+}
+.formtop__input > div{
+    margin-bottom: 10px;
+}
+
+.formtop__input > input{
+    height: 30px;
+    text-align: center ;
+    width: 100%;
+    outline-color: #1976d2;
+    font-size: 1.2rem;
+}
+.formtop__wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+.formtop__input_row{
+    width: 25%;
+}

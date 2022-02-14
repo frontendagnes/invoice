@@ -8,17 +8,37 @@
     font-size: 1.2rem;
     letter-spacing: 1px;
 }
+.header__left{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header__left > span{
+    padding: 10px;
+}
 
+.header__left a{
+    letter-spacing: 2px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    font-weight: 600;
+}
 .header__right{
     display: flex;
     width: 30%;
     justify-content: space-around;
+    align-items: center;
 }
-
-.header__right button{
+.header__button{
     padding: 10px 20px;
-    font-size: 1rem;
-    letter-spacing: 1px;
-    border-radius: 5px;
-    margin-left: 10px;
+    border: transparent;
+    border-radius: 10px;
+    color: #ff4500;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: color 0.75s;
+}
+.header__button:hover{
+    color: rgb(255, 131, 86);
 }

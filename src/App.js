@@ -11,9 +11,11 @@ import Login from "./components/Login/Login";
 import Invoices from "./components/Invoices/Invoices";
 import Invoice from "./components/Invoice/Invoice";
 import InvoicesDetails from "./components/InvoicesDetails.js/InvoicesDetails";
+import SnackBar from "./components/Snackbar/Snackbar";
+import NoMatch from "./components/NoMatch/NoMatch";
 function App() {
   const [invoices, setInvoices] = useState([]);
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, amount }, dispatch] = useStateValue();
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -47,6 +49,16 @@ function App() {
     }
   }, [user]);
 
+  useEffect(() => {
+    db.collection("invoices")
+      .doc(user?.uid)
+      .collection("number")
+      .doc("YgYuBDoz5AisskTWslyB")
+      .onSnapshot((snapshot) => {
+        dispatch({ type: "GET_COUNT", item: snapshot.data().count });
+      });
+  }, [amount, dispatch, user]);
+
   return (
     <div className="app">
       <Routes>
@@ -70,10 +82,15 @@ function App() {
             </div>
           }
         />
-        <Route path="/invoice" element={<Invoice data={invoices} />}>
-          <Route path=":invoiceId" element={<InvoicesDetails data={invoices} />} />
+        <Route path="/invoice" element={<Invoice />}>
+          <Route
+            path=":invoiceId"
+            element={<InvoicesDetails data={invoices} />}
+          />
         </Route>
+        <Route path="*" element={<NoMatch />} />
       </Routes>
+      <SnackBar />
     </div>
   );
 }

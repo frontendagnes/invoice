@@ -1,19 +1,46 @@
 import React from "react";
 import "./Invoices.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import db from "../../assets/utility/firebase";
+import { useStateValue } from "../../assets/utility/StateProvider";
+
+import DateFilter from "../DateFilter/DateFilter";
+import NameFilter from "../NameFilter/NameFilter";
 function Invoices({ data }) {
+  const [{ user }, dispatch] = useStateValue();
+
+  const history = useNavigate();
+  const openDetails = (detail) => {
+    history(`/invoice/${detail}`);
+  };
+  const deleteItem = (itemId) => {
+    db.collection("invoices")
+      .doc(user.uid)
+      .collection("invoice")
+      .doc(itemId)
+      .delete()
+      .then(() => {
+        dispatch({ type: "ALERT_DELETE" });
+      })
+      .catch((error) =>
+        dispatch({ type: "ALERT__ERROR", item: error.message })
+      );
+  };
+
   return (
     <div className="invoices">
-      <h1>Zestawienie Faktur</h1>
-      {data?.map((item) => (
-        <div className="invoices__wrapper" key={item.id}>
-          <p>Identyfiaktor: {item.id}</p>
-          <Link to={`/invoice/${item.id}`}>
-            <p>Numer Faktury: {item.data.number}</p>
-          </Link>
-          <p>Data wystawienie: {item.data.date}</p>
-        </div>
-      ))}
+      <h2>Wyszukaj faktury wg daty</h2>
+      <DateFilter
+        data={data}
+        deleteItem={deleteItem}
+        openDetails={openDetails}
+      />
+      <h2>Zestawienie faktur</h2>
+      <NameFilter
+        data={data}
+        openDetails={openDetails}
+        deleteItem={deleteItem}
+      />
     </div>
   );
 }

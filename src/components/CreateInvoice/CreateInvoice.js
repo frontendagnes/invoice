@@ -1,67 +1,85 @@
 import React, { useState, useEffect } from "react";
 import "./CreateInvoice.css";
-
+import Form from "../Form/Form";
+import FormTop from "../Form/FormTop/FormTop";
+import FormBuyer from "../Form/FormBuyer/FormBuyer";
+import FormSeller from "../Form/FormSeller/FormSeller";
+import FormPayment from "../Form/FormPaymnet/FormPayment";
+import FormProducts from "../Form/FormProducts/FormProducts";
+import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
 import { nanoid } from "nanoid";
 import { useNavigate } from "react-router-dom";
-
-import db from "../../assets/utility/firebase";
 import { today } from "../../assets/functions";
-import NumberFormat from "react-number-format";
-import { TextField } from "@mui/material";
-import NativeSelect from "@mui/material/NativeSelect";
+import db from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
+import { getTotal } from "../../assets/functions";
+import { validate } from "../Form/ValidateHomeForm";
+import ValidationError from "../ValidationError/ValidationError";
+import firebase from "firebase";
 
 function CreateInvoice() {
-  const [number, setNumber] = useState("01/2022/42563");
-  const [sequence, setSequence] = useState(1);
+  const [count, setCount] = useState(0);
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [order, setOrder] = useState("");
+  const [number, setNumber] = useState("");
   const [date, setDate] = useState(today());
   const [nameBuyer, setNameBuyer] = useState("");
   const [streetBuyer, setStreetBuyer] = useState("");
   const [zipcodeBuyer, setZipcodeBuyer] = useState("");
   const [townBuyer, setTownBuyer] = useState("");
+  const [nip, setNip] = useState("");
   const [seller, setSeller] = useState("Małgorzata Kamińska");
   const [selected, setSelected] = useState("przelew");
   const [products, setProducts] = useState([]);
   const [title, setTitle] = useState("");
+  const [price, setPrice] = useState(0);
   //ilość
   const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(0);
-  //wartość
-  const [worth, setWorth] = useState(0);
 
-  const [{ user }] = useStateValue();
+  const [{ user, amount, numberInvoice }, dispatch] = useStateValue();
+
+  useEffect(() => {
+    if (amount) {
+      setCount(amount);
+    } else setCount(1);
+  }, [amount]);
+
+  useEffect(() => {
+    dispatch({
+      type: "INVOICE_NUMBER",
+      count: amount || count,
+      year: year,
+      order: order,
+    });
+    setNumber(numberInvoice);
+  }, [dispatch, order, year, amount, numberInvoice, count]);
+
+  //validation error
+  const [error, setError] = useState("");
+
   const history = useNavigate();
 
   const index = () => {
     return `Invoice-${nanoid(10)}`;
   };
 
-  const endValue = () => {
-    return quantity * price;
-  };
-  const numberSequence = () => {
-    setSequence((num) => num + 1);
-  };
-  const addProduct = () => {
-    numberSequence();
-    setProducts([
-      ...products,
-      {
-        lp: sequence,
-        title: title,
-        quantity: quantity,
-        price: price,
-        worth: endValue(),
-        vat: 0,
-      },
-    ]);
-    setTitle("");
-    setQuantity(0);
-    setPrice(0);
-    setWorth(0);
-  };
-  const addInvoice = (e) => {
+  const addInvoice = async (e) => {
     e.preventDefault();
+    const msg = validate(
+      count,
+      year,
+      date,
+      nameBuyer,
+      streetBuyer,
+      zipcodeBuyer,
+      townBuyer,
+      seller
+    );
+    if (msg) {
+      setError(msg);
+      return;
+    }
+
     db.collection("invoices")
       .doc(user?.uid)
       .collection("invoice")
@@ -75,162 +93,91 @@ function CreateInvoice() {
           street: streetBuyer,
           zipcode: zipcodeBuyer,
           town: townBuyer,
+          nip: nip,
         },
         seller: seller,
         products: products,
       })
+      .then(() => {
+        dispatch({ type: "ALERT_ADD_INVOICE" });
+        history("/invoices");
+      })
+      .catch((error) => {
+        dispatch({ type: "ALERT_ERROR", item: error.message });
+      });
 
-      history("./invoices")
+    db.collection("invoices")
+      .doc(user?.uid)
+      .collection("number")
+      .doc("YgYuBDoz5AisskTWslyB")
+      .update({
+        count: firebase.firestore.FieldValue.increment(1),
+      })
+      .then(() => console.log("Edytowano :)"))
+      .catch((error) => {
+        console.log(error.message);
+        dispatch({ type: "ALERT__ERROR", item: error.message });
+      });
   };
 
-  const numberInput = (e) => {
-    setQuantity(e.target.value);
-  };
   return (
     <div className="createinvoice">
-      <h2>Wprowadzanie danych</h2>
-      <form>
-        <div className="createinvoice__header">
-          <div className="createinvoice__input">
-            <TextField
-              value={number}
-              onChange={(e) => setNumber(e.target.value)}
-              id="outlined-basic"
-              label="Numer Faktury"
-              variant="outlined"
-            />
-          </div>
-          <div className="createinvoice__date">
-            <div className="createinvoice__input">
-              <h5>Data Faktury</h5>
-              <input
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
+      {error ? <ValidationError text={error} /> : null}
+      <h2 className="createinvoice__text">Wprowadzanie danych</h2>
+      <Form>
+        <FormTop
+          date={date}
+          setDate={setDate}
+          count={count}
+          year={year}
+          order={order}
+          setOrder={setOrder}
+          number={number}
+        />
         <div className="createinvoice__wrapper">
-          <div className="createinvoice__buyer">
-            <h5>Nabywca:</h5>
-            <div className="createinvoice__input">
-              <TextField
-                value={nameBuyer}
-                onChange={(e) => setNameBuyer(e.target.value)}
-                id="outlined-basic"
-                label="Imię i nazwisko"
-                variant="outlined"
-              />
-            </div>
-            <div className="createinvoice__input">
-              <TextField
-                value={streetBuyer}
-                onChange={(e) => setStreetBuyer(e.target.value)}
-                id="outlined-basic"
-                label="Ulica i numer domu"
-                variant="outlined"
-              />
-            </div>
-            <div className="createinvoice__input">
-              <NumberFormat
-                customInput={TextField}
-                format="##-###"
-                mask="_"
-                placeholder="__-___"
-                label="Kod pocztowy"
-                className="createinvoice__zipcode"
-                value={zipcodeBuyer}
-                onChange={(e) => setZipcodeBuyer(e.target.value)}
-              />
-            </div>
-            <div className="createinvoice__input">
-              <TextField
-                value={townBuyer}
-                onChange={(e) => setTownBuyer(e.target.value)}
-                id="outlined-basic"
-                label="Miejscowość"
-                variant="outlined"
-              />
-            </div>
-          </div>
-          <div className="createinvoice__input">
-            <h5>Sprzedawca:</h5>
-            <TextField
-              value={seller}
-              onChange={(e) => setSeller(e.target.value)}
-              id="outlined-basic"
-              label="Sprzedawca"
-              variant="outlined"
-            />
-          </div>
+          <FormBuyer
+            nameBuyer={nameBuyer}
+            setNameBuyer={setNameBuyer}
+            streetBuyer={streetBuyer}
+            setStreetBuyer={setStreetBuyer}
+            zipcodeBuyer={zipcodeBuyer}
+            setZipcodeBuyer={setZipcodeBuyer}
+            townBuyer={townBuyer}
+            setTownBuyer={setTownBuyer}
+            nip={nip}
+            setNip={setNip}
+          />
+          <FormSeller seller={seller} setSeller={setSeller} />
         </div>
-        <div>
-          <p>Forma płatności:</p>
-          <NativeSelect
-            name="method-shipping"
-            value={selected}
-            onChange={(e) => setSelected(e.target.value)}
-            fullWidth
-          >
-            <option value="przelew">przelew</option>
-            <option value="pobranie">pobranie</option>
-          </NativeSelect>
-        </div>
-        <div>
-          <p>Product</p>
+        <FormPayment selected={selected} setSelected={setSelected} />
+        <FormProducts
+          title={title}
+          setTitle={setTitle}
+          quantity={quantity}
+          price={price}
+          setPrice={setPrice}
+          setProducts={setProducts}
+          products={products}
+          setQuantity={setQuantity}
+        />
+        {products.length !== 0 ? (
           <div>
-            <div className="createinvoice__input">
-              <TextField
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                id="outlined-basic"
-                label="Nazwa produktu"
-                variant="outlined"
-              />
-            </div>
-            <div className="createinvoice__input">
-              <TextField
-                min="1"
-                max="999"
-                value={quantity}
-                type="number"
-                onChange={numberInput}
-                id="outlined-basic"
-                label="Ilość"
-                variant="outlined"
-              />
-            </div>
-            <div className="createinvoice__input">
-              <TextField
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                id="outlined-basic"
-                label="Cena jedn. netto"
-                variant="outlined"
-              />
-            </div>
-            <button type="button" onClick={addProduct}>
-              Dodaj produkt
-            </button>
-          </div>
-          <div className="createinvoice__products">
-            {products.map((item, index) => (
-              <div key={index}>
-                <p>Lp. {item.lp}</p>
-                <p>Nazwa towaru: {item.title}</p>
-                <p>Ilość: {item.quantity}</p>
-                <p>Cene jedn. netto: {item.price}</p>
-                <p>Wartość: {item.worth}</p>
-                <p>Vat: {item.vat}</p>
+            <ViewProducts products={products} setProducts={setProducts} />
+            <div className="createinvoice__footer">
+              <div className="creativeinvoice__summary">
+                Razem: {getTotal(products)} zł
               </div>
-            ))}
+              <button
+                type="button"
+                onClick={addInvoice}
+                className="createinvoice__button createinvoice__addInvoice"
+              >
+                Dodaj fakturę
+              </button>
+            </div>
           </div>
-        </div>
-        <button type="button" onClick={addInvoice}>
-          Dodaj fakturę
-        </button>
-      </form>
+        ) : null}
+      </Form>
     </div>
   );
 }

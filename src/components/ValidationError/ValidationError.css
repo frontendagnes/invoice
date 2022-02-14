@@ -1,0 +1,12 @@
+.validationError{
+    display: flex;
+    align-items: center;
+}
+.validationError > p{
+    margin-left: 10px;
+    font-size: 18px;
+    color: #f50057;
+    font-weight: 600;
+    letter-spacing: 2px;
+    list-style-type: none;
+}

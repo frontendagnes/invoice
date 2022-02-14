@@ -10,7 +10,7 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <StateProvider initialState={initialState} reducer={reducer}>
-        <App />
+          <App />
       </StateProvider>
     </BrowserRouter>
   </React.StrictMode>,

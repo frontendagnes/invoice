@@ -1,0 +1,32 @@
+.noMatch{
+    height: 91vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 3rem;
+}
+.noMatch__top{
+    text-align: center;
+}
+.noMatch__top > span{
+    margin-left: 15px;
+    margin-right: 15px;
+    color: #3f4d70;
+}
+.noMatch button{
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    color: #fafafafa;
+    background-color: #3f4d70;
+    font-size: 2rem;
+    transition: all 0.75s ease;
+}
+
+.noMatch button:hover{
+    background-color: #a4b0cc;
+    color: #3f4d70;
+}

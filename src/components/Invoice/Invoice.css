@@ -1,6 +1,22 @@
+.invoice a{
+    letter-spacing: 2px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    font-weight: 600;
+}
+
 .invoice_wrapper{
     display: flex;
     justify-content: space-around;
     align-items: center;
     border-bottom: 1px solid #808080;
+}
+.invoice_wrapper > div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+}
+.invoice__button{
+    cursor: pointer;
 }

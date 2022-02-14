@@ -1,4 +1,14 @@
-.invoices__wrapper{
-    display: flex;
-    justify-content: space-around;
+.invoices{
+    padding-bottom: 10px;
 }
+.invoices h2{
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+    border-bottom: 1px solid #d3d3d3;
+    border-top: 1px solid #d3d3d3;
+    padding: 10px 20px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+

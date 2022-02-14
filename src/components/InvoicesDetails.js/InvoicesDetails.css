@@ -1,14 +1,19 @@
 #invoice{
+    box-sizing: border-box;
     width: 595px;
-    height: 822px;
+    height: 842px;
     border: 1px solid #000000;
     padding-top: 20px;
+    background-color: #ffffff;
 }
+
 .invoicesdetail{
-    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #fafafafa;
 }
 .invoicesdetail__wrapper{
     display: flex;
@@ -37,7 +42,9 @@
 .invoicesdetail__middle > div{
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    /* padding: top right bottom left; */
+    padding: 40px 20px 0px 20px;
+
 }
 .invoicesdetail__headline{
     font-weight: 600;
@@ -62,26 +69,7 @@
 .invoicesdetails__products{
     padding: 10px;
 }
-table, td{
-    border: 1px solid #000000;
-}
-td{
-    height: 30px;
-    padding: 5px;
-    text-align:center;
-}
-.table__title{
-    width: 400px;
-    text-align: left;
-}
-.table__price{
-    width: 30px;
-}
 .invoicesdetails__summary{
-    /* display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; */
     margin-top: 50px
 }
 .invoicesdetails__summary > div{
@@ -105,5 +93,7 @@ td{
 }
 .invoicesdetails__siganture > div{
     width: 200px;
-    border-top: 1px solid #000000;
+}
+.invoicesdetails__name{
+    border-bottom: 1px solid #000000;
 }

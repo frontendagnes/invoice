@@ -1,17 +1,30 @@
 .createinvoice{
     padding: 20px 30px;
 }
-.createinvoice__header{
+.createinvoice__text{
+    font-size: 1.3rem;
+    padding: 20px 30px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+.createinvoice__wrapper{
     display: flex;
     justify-content: space-around;
-    align-items: center;
+
 }
-.createinvoice__input{
+/* .createinvoice form{
+    display: flex;
+    flex-direction: column;
+} */
+/* .createinvoice__header{ */
+    /* display: flex;
+    justify-content: space-around;
+    align-items: center; */
+/* } */
+/* .createinvoice__input{
     margin-bottom: 5px;
 }
-.createinvoice__input h5{
-    margin-bottom: 10px;
-}
+
 .createinvoice__wrapper{
     display: flex;
     justify-content: space-around;
@@ -22,10 +35,44 @@
     flex-flow: column wrap;
 }
 .createinvoice__products{
-    display: flex;
-    justify-content: space-around;
-    flex-flow: row wrap;
+    padding: 20px 30px;
 }
-.createinvoice__products > div{
-    width: 30%;
+.createinvoice__products table{
+    margin: 0 auto;
+}
+
+.createinvoive__inputsproduct{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.createinvoive__inputsproduct > input{
+    width: 20%;
+}*/
+.creativeinvoice__summary{
+    /* text-align: right; */
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+} 
+.createinvoice__footer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.createinvoice__button{
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: transparent;
+    border-radius: 10px;
+    background: #ff4500;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background 0.75s;
+}
+.createinvoice__button:hover{
+    background: rgb(255, 131, 86);
 }

@@ -1,0 +1,7 @@
+.formproducts__wrapper{
+    display: flex;
+    justify-content: space-around;
+}
+.formproducts__input{
+    width:25%;
+}

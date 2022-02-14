@@ -1,0 +1,7 @@
+.formpayment{
+    display: flex;
+    align-items: center;
+}
+.formpayment__selected{
+    width: 60%;
+}
