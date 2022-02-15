@@ -1,4 +1,4 @@
-# FAKTURA
+# FAKTURA (INVOICE)
 
 Aplikacja pozwala wystawić faktury z 0 Vat , osobom któe na mocy art. 5 ust.1 Prawa przedsięborców nie mają zarejestrowajnej działalności gospodarczej.
 

@@ -28,7 +28,7 @@ function Header() {
       .signOut()
       .then(() => {
         dispatch({ type: "ALERT_LOGOUT", item: user?.email });
-        history("/login");
+        history("/");
       })
       .catch((error) => {
         dispatch({ type: "ALERT__ERROR", item: error.message });

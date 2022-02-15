@@ -83,7 +83,7 @@ function Login() {
               <TextField
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                id="outlined-basic"
+                // id="outlined-basic"
                 label="Wpisz e-mail"
                 variant="outlined"
               />
@@ -93,7 +93,7 @@ function Login() {
                 value={password}
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
-                id="outlined-basic"
+                // id="outlined-basic"
                 label="Wpisz hasło"
                 variant="outlined"
               />
