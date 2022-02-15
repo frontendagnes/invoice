@@ -1,8 +1,8 @@
 import React from "react";
 import "./GoHome.css";
 import { useNavigate } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+
 function GoHome() {
   const history = useNavigate();
   const goHome = () => {

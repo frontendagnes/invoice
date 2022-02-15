@@ -15,7 +15,7 @@ import SnackBar from "./components/Snackbar/Snackbar";
 import NoMatch from "./components/NoMatch/NoMatch";
 function App() {
   const [invoices, setInvoices] = useState([]);
-  const [{ user, amount }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
