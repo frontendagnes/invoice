@@ -96,8 +96,8 @@ function InvoicesDetails({ data }) {
                           <td>{index + 1}</td>
                           <td className="table__title">{item.title}</td>
                           <td>{item.quantity} szt.</td>
-                          <td className="table__price">{item.price} zł</td>
-                          <td className="table__price">{item.worth} zł</td>
+                          <td className="table__price">{Number.parseFloat(item.price).toFixed(2)} zł</td>
+                          <td className="table__price">{Number.parseFloat(item.worth).toFixed(2)} zł</td>
                           <td>{item.vat}</td>
                         </tr>
                       </tbody>
@@ -110,13 +110,13 @@ function InvoicesDetails({ data }) {
                   <span>
                     <b>Razem: </b>
                   </span>
-                  <span>{getTotal(item.data.products)} PLN</span>
+                  <span>{Number.parseFloat(getTotal(item.data.products)).toFixed(2)} PLN</span>
                 </div>
                 <div>
                   <span>
                     <b>Zapłacono:</b>
                   </span>
-                  <span>{getTotal(item.data.products)} PLN </span>
+                  <span>{Number.parseFloat(getTotal(item.data.products)).toFixed(2)} PLN </span>
                 </div>
                 <div>
                   <span>

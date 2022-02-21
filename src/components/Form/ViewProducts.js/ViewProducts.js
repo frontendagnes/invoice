@@ -28,8 +28,8 @@ function ViewProducts({ products, setProducts }) {
               <td>{index + 1}</td>
               <td>{item.title}</td>
               <td>{item.quantity} szt.</td>
-              <td>{item.price} zł</td>
-              <td>{item.worth} zł</td>
+              <td>{Number.parseFloat(item.price).toFixed(2)} zł</td>
+              <td>{Number.parseFloat(item.worth).toFixed(2)} zł</td>
               <td>{item.vat}</td>
               <td>
                 <RemoveCircleIcon

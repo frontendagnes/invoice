@@ -20,6 +20,6 @@ export const today = () => {
     return fulldate;
   };
 
-  export const getTotal = (data) => data?.reduce((amount, item) => item.worth + amount, 0)
+  export const getTotal = (data) => data?.reduce((amount, item) =>item.worth + amount, 0)
 
 
