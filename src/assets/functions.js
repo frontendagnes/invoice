@@ -1,4 +1,3 @@
-
 export const today = () => {
     let date = new Date();
     let year = date.getFullYear();
@@ -21,5 +20,3 @@ export const today = () => {
   };
 
   export const getTotal = (data) => data?.reduce((amount, item) =>item.worth + amount, 0)
-
-

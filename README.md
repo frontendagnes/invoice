@@ -62,8 +62,8 @@ Wszystkie pozostałe niezbędne informację znajdują się tutaj: [create-react-
 
 ## Contribute
 
-* Source Code:  [https://github.com/zabula81/invoice](https://github.com/zabula81/invoice)
-* Issue Tracker:  [https://github.com/zabula81/invoice/issues](https://github.com/zabula81/invoice/issues)
+* Source Code:  [https://github.com/frontendagnes/invoice](https://github.com/zabula81/invoice)
+* Issue Tracker:  [https://github.com/frontendagnes/invoice/issues](https://github.com/zabula81/invoice/issues)
 * View: [invoice-939f8.web.app](https://invoice-939f8.web.app/)
 
 ## Author
