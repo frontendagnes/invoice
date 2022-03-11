@@ -13,6 +13,7 @@ import Invoice from "./components/Invoice/Invoice";
 import InvoicesDetails from "./components/InvoicesDetails.js/InvoicesDetails";
 import SnackBar from "./components/Snackbar/Snackbar";
 import NoMatch from "./components/NoMatch/NoMatch";
+import Records from "./components/Records/Records";
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [{ user }, dispatch] = useStateValue();
@@ -48,7 +49,9 @@ function App() {
         });
     }
   }, [user]);
-
+  useEffect(()=>{
+    console.log("inv>>", invoices )
+  },[invoices])
   useEffect(() => {
     db.collection("invoices")
       .doc(user?.uid)
@@ -95,6 +98,7 @@ function App() {
             element={<InvoicesDetails data={invoices} />}
           />
         </Route>
+        <Route path="/records" element={<Records data={invoices} />} />
         <Route path="*" element={<NoMatch />} />
       </Routes>
       <SnackBar />

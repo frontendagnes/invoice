@@ -1,0 +1,21 @@
+.records button{
+    margin: 10px 10px;
+    padding: 10px 20px;
+}
+.records ul{
+    margin: 0;
+    padding: 0;
+}
+.records ul li{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+    background: #fafafafa;
+    padding: 10px 20px;
+}
+
+.records__total{
+    padding: 10px 20px;
+    font-size: 2rem;
+}
