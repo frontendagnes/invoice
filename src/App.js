@@ -49,9 +49,7 @@ function App() {
         });
     }
   }, [user]);
-  useEffect(()=>{
-    console.log("inv>>", invoices )
-  },[invoices])
+
   useEffect(() => {
     db.collection("invoices")
       .doc(user?.uid)
@@ -95,10 +93,23 @@ function App() {
         <Route path="/invoice" element={<Invoice />}>
           <Route
             path=":invoiceId"
-            element={<InvoicesDetails data={invoices} />}
+            element={
+              <div>
+            <Header />
+            <InvoicesDetails data={invoices} />
+            </div>
+            }
           />
         </Route>
-        <Route path="/records" element={<Records data={invoices} />} />
+        <Route
+          path="/records"
+          element={
+            <div>
+              <Header /> 
+              <Records data={invoices} />
+            </div>
+          }
+        />
         <Route path="*" element={<NoMatch />} />
       </Routes>
       <SnackBar />
