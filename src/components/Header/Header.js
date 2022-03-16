@@ -91,7 +91,7 @@ function Header() {
             }}
           >
             <ul className="header__settingsUl">
-              <li onClick={logout}>Wyloguj się</li>
+              <li onClick={logout}>Wyloguj</li>
             </ul>
           </div>
       </div>

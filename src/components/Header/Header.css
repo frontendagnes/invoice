@@ -7,6 +7,11 @@
     border-radius: 0px 0px 5px 5px;
     font-size: 1.2rem;
     letter-spacing: 1px;
+    background: url("../../assets/pic/background.svg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: #fafafafa;
+    text-shadow: 2px 2px 2px #000000;
 }
 .header ul{
     padding-inline-start: 0px;
@@ -34,6 +39,7 @@
     justify-content: space-around;
     flex-wrap: wrap;
     width: 60%;
+    
     /* border-bottom: 3px solid #a4b0cc; */
     /* border-top: 3px solid #a4b0cc; */
 }
@@ -67,7 +73,7 @@
 }
 .header__center a {
     text-decoration: none;
-    color: #262e44;
+    color: #fafafafa;
     letter-spacing: 1.5px;
     font-weight: 600;
 }
