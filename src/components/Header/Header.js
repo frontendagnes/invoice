@@ -87,7 +87,7 @@ function Header() {
             className="header__pulldownMenu"
             style={{
               transform: settingsView ? "scaleX(1)" : "scaleX(0)",
-              visibility: settingsView ? "visible" : "hidden",
+              // visibility: settingsView ? "visible" : "hidden",
             }}
           >
             <ul className="header__settingsUl">

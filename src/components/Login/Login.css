@@ -1,12 +1,11 @@
 .login{
-    min-height: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 .login__wrapper{
-    height: 100%;
     border: 1px solid #808080;
     padding: 40px 60px;
     justify-content: center;
