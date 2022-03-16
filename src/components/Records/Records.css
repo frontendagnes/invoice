@@ -1,21 +1,84 @@
-.records button{
-    margin: 10px 10px;
-    padding: 10px 20px;
+.records {
+  padding: 20px;
 }
-.records ul{
-    margin: 0;
-    padding: 0;
+.records__wrapper{
+  display: flex;
+  justify-content: center;
 }
-.records ul li{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 10px;
-    background: #fafafafa;
-    padding: 10px 20px;
+.records button {
+  margin: 10px 10px;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
-.records__total{
-    padding: 10px 20px;
-    font-size: 2rem;
+.records__buttons{
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  cursor: pointer;
+}
+.records__button{
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  color: #fafafafa;
+}
+.records ul {
+  margin: 0;
+  padding: 0;
+}
+.records ul li {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px;
+  background: #fafafafa;
+  padding: 10px 20px;
+}
+
+.records__total {
+  padding-top: 20px;
+  padding-bottom: 5px;
+  font-size: 2rem;
+}
+
+.records table {
+  width: 100%;
+}
+.records table caption{
+  text-align: left;
+}
+.records table thead {
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+ .records table tbody tr:nth-child(2){
+  background: red;
+}
+.records table tbody tr:nth-child(even){
+  background: yellow;
+}
+.records__summary,
+.records__amount {
+  text-align: right;
+  letter-spacing: 2px;
+}
+.records__summary {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+.records__tableSummary{
+  font-size: 1.1rem;
+  margin-top: 20px;
+}
+.records__monthTd{
+  text-align: left;
+  padding-left: 50px;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+#records__tableSummary{
+  width: 60%;
 }
