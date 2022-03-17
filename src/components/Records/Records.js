@@ -108,7 +108,7 @@ function Records({ data }) {
         <table>
           <caption>
             <div className="records__total">
-              Podsumowanie miesiąca {months[number - 1]}: {sumMonth(number)} zł
+              Podsumowanie miesiąca {months[number - 1]}: {Number.parseFloat(sumMonth(number)).toFixed(2)} zł
             </div>
           </caption>
           <thead>
@@ -131,9 +131,9 @@ function Records({ data }) {
                   <td>{item.data.number}</td>
                   <td>{item.data.date}</td>
                   <td className="records__amount">
-                    {getTotal(item.data.products)} zł
+                    {Number.parseFloat(getTotal(item.data.products)).toFixed(2)} zł
                   </td>
-                  <td className="records__amount">{cumTotal[index]} zł</td>
+                  <td className="records__amount">{Number.parseFloat(cumTotal[index]).toFixed(2)} zł</td>
                 </tr>
               </tbody>
             ))}
@@ -142,7 +142,7 @@ function Records({ data }) {
               <td className="records__summary" colSpan={4}>
                 Podsumowanie:
               </td>
-              <td className="records__summary">{sumMonth(number)} zł</td>
+              <td className="records__summary">{Number.parseFloat(sumMonth(number)).toFixed(2)} zł</td>
             </tr>
           </tfoot>
         </table>
