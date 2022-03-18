@@ -3,7 +3,7 @@ import "./App.css";
 import { auth } from "./assets/utility/firebase";
 import { useStateValue } from "./assets/utility/StateProvider";
 import db from "./assets/utility/firebase";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 //components
 import Header from "./components/Header/Header";
 import CreateInvoice from "./components/CreateInvoice/CreateInvoice";
@@ -65,6 +65,7 @@ function App() {
   return (
     <div className="app">
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route
           index
           path="/"
@@ -95,9 +96,9 @@ function App() {
             path=":invoiceId"
             element={
               <div>
-            <Header />
-            <InvoicesDetails data={invoices} />
-            </div>
+                <Header />
+                <InvoicesDetails data={invoices} />
+              </div>
             }
           />
         </Route>
@@ -105,7 +106,7 @@ function App() {
           path="/records"
           element={
             <div>
-              <Header /> 
+              <Header />
               <Records data={invoices} />
             </div>
           }

@@ -38,3 +38,7 @@
 .createinvoice__button:hover{
     background: rgb(255, 131, 86);
 }
+.createinvoice__footer{
+    margin-right: 40px;
+    margin-top: 20px;
+}

@@ -2,16 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Header.css";
 import styled from "styled-components";
 import classNames from "classnames";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { auth } from "../../assets/utility/firebase";
+import logo from "../../assets/pic/logo.webp"
 // mui
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+//comonents
+import Menu from "../Menu/Menu";
 
 function Header() {
   const [settingsView, setSettingsView] = useState(false);
-  const [isActive, setIsActive] = useState(1);
-  const [atrr, setAtrr] = useState(1);
   const [{ user }, dispatch] = useStateValue();
   const history = useNavigate();
 
@@ -26,52 +27,13 @@ function Header() {
         dispatch({ type: "ALERT__ERROR", item: error.message });
       });
   };
-  const getData = (e) => {
-    // let id = e.target.getAttribute("data-number");
-    // setIsActive(id);
-    const headerUl = document.querySelector(".header__center");
-    const liElements = headerUl.querySelectorAll(".header__li");
 
-    liElements.forEach((element) => {
-      // console.log(element.dataset.number)
-      // if(element.dataset.number === isActive){
-      //   element.classList.add("classLi")
-      //   console.log(element.dataset.number)
-      // }else {
-      //   element.classList.remove("classLi")
-      // }
-    });
-    // console.log(id);
-    // setAtrr(id);
-  };
-  useEffect(() => {
-    getData();
-  }, [getData]);
   return (
-    <div className="header">
-      <div className="header_left">FAKTURKA 2.0</div>
-      <ul className="header__center">
-        <Link to="/" onClick={getData}>
-          <li data-number={1} className="header__li">
-            Dodaj Fakturę
-          </li>
-        </Link>
-        <Link to="/invoices" onClick={getData}>
-          <li data-number={2} className="header__li">
-            Wyszukaj/Zestawienie
-          </li>
-        </Link>
-        <Link to="/records" onClick={getData}>
-          <li data-number={3} className="header__li">
-            Podsumowanie
-          </li>
-        </Link>
-        <Link to="#" onClick={getData}>
-          <li data-number={4} className="header__li" title="Jeszcze nie działa">
-            Koszty
-          </li>
-        </Link>
-      </ul>
+    <header className="header">
+      <div className="header__left">
+        <img src={logo}/>
+      </div>
+       <Menu />
       <div className="header__right">
         <div
           className="header__user"
@@ -83,19 +45,18 @@ function Header() {
           </div>
           <ExpandMoreIcon fontSize="large" />
         </div>
-          <div
-            className="header__pulldownMenu"
-            style={{
-              transform: settingsView ? "scaleX(1)" : "scaleX(0)",
-              // visibility: settingsView ? "visible" : "hidden",
-            }}
-          >
-            <ul className="header__settingsUl">
-              <li onClick={logout}>Wyloguj</li>
-            </ul>
-          </div>
+        <div
+          className="header__pulldownMenu"
+          style={{
+            transform: settingsView ? "scaleY(1)" : "scaleY(0)",
+          }}
+        >
+          <ul className="header__settingsUl">
+            <li onClick={logout}>Wyloguj</li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </header>
   );
 }
 

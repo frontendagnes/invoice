@@ -165,7 +165,7 @@ function CreateInvoice() {
             <ViewProducts products={products} setProducts={setProducts} />
             <div className="createinvoice__footer">
               <div className="creativeinvoice__summary">
-                Razem: {getTotal(products)} zł
+                Razem: {Number.parseFloat(getTotal(products)).toFixed(2)} zł
               </div>
               <button
                 type="button"

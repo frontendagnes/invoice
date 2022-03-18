@@ -16,67 +16,10 @@
 .header ul{
     padding-inline-start: 0px;
 }
-.header__left {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.header__left img{
+    width: 200px;
 }
 
-.header__left>span {
-    padding: 10px;
-}
-
-.header__left a {
-    letter-spacing: 2px;
-    font-size: 1.2rem;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.header__center {
-    list-style-type: none;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    width: 60%;
-    
-    /* border-bottom: 3px solid #a4b0cc; */
-    /* border-top: 3px solid #a4b0cc; */
-}
-
-.header__center li {
-    box-sizing: border-box;
-    padding: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    text-align: center;
-    border-bottom: 3px solid #a4b0cc;
-}
-
-.header__center li::before {
-    content: "";
-    display: block;
-    border-top: 3px solid #a4b0cc;
-    margin-bottom: 5px;
-    transition: transform 0.75s ease-in-out;
-    transform: scaleX(0);
-    transform-origin: 0 50%;
-}
-.classLi{
-    border-top: 3px solid #a4b0cc;
-    transform: scaleX(1);
-}
-.header__center li:hover::before {
-    /* content: "";
-    display: block; */
-    transform: scaleX(1);
-}
-.header__center a {
-    text-decoration: none;
-    color: #fafafafa;
-    letter-spacing: 1.5px;
-    font-weight: 600;
-}
 
 .header__right {
     display: flex;
@@ -97,8 +40,8 @@
     color: #ffffff;
     width: 100%;
     top: 60px;
-    transition: transform 0.5s ease-in;
-    transform-origin: right 0;
+    transition: transform 0.3s ease-in;
+    transform-origin: 0 top;
 }
 
 .header__pulldownMenu ul {

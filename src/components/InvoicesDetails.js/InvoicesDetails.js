@@ -8,17 +8,41 @@ import { today } from "../../assets/functions";
 
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();
+  // const generatePDF = () => {
+  //   const input = document.querySelector("#invoice");
+  //   html2canvas(input).then((canvas) => {
+  //     const imgData = canvas.toDataURL("image/png");
+  //     const doc = new jsPDF("p", "pt", "a4");
+  //     let width = doc.internal.pageSize.getWidth() - 5;
+  //     let height = doc.internal.pageSize.getHeight();
+  //     doc.addImage(imgData, "PNG", 0, 0, width, height);
+  //     doc.save(`${today()}-`);
+  //   });
   const generatePDF = () => {
-    const input = document.querySelector("#invoice");
+    const input = document.querySelector(`#invoice`);
     html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const doc = new jsPDF("p", "pt", "a4");
-      let width = doc.internal.pageSize.getWidth() - 5;
-      let height = doc.internal.pageSize.getHeight();
-      doc.addImage(imgData, "PNG", 0, 0, width, height);
+      const imgData = canvas.toDataURL("image/webp");
+      const doc = new jsPDF("p", "mm", "a4");
+      let width = doc.internal.pageSize.getWidth();
+      let pageHeight = doc.internal.pageSize.getHeight();
+      const imgHeight = (canvas.height * width) / canvas.width;
+      let heightLeft = imgHeight;
+  
+      let position = 0;
+  
+      doc.addImage(imgData, "WEBP", 0, position, width, imgHeight);
+      heightLeft -= pageHeight;
+  
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        doc.addPage();
+        doc.addImage(imgData, "WEBP", 0, position, width, imgHeight);
+        heightLeft -= pageHeight;
+      }
       doc.save(`${today()}-`);
     });
   };
+
   return (
     <div className="invoicesdetail">
       <button

@@ -1,7 +1,8 @@
 #invoice{
     box-sizing: border-box;
     width: 595px;
-    height: 842px;
+    min-height: 842px;
+    height: 100%;
     padding-top: 20px;
     background-color: #ffffff;
 }
