@@ -1,0 +1,15 @@
+.cost{
+    display: flex;
+    justify-content: space-between;
+    background-color: #e7e7e7;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+.cost__item{
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+}
+.cost__item > span{
+    font-weight: 600;
+}
