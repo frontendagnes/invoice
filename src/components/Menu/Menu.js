@@ -13,11 +13,11 @@ const menuItems = [
     name: "Wyszukaj/Zestawienie",
     href: "/invoices",
   },
-  // {
-  //   id: 3,
-  //   name: "Koszty",
-  //   href: "/rec",
-  // },
+  {
+    id: 3,
+    name: "Koszty",
+    href: "/costs",
+  },
   {
     id: 4,
     name: "Podsumowanie",

@@ -7,6 +7,14 @@ export const initialState = {
   },
   amount: 0,
   numberInvoice: "",
+  costs: [
+  //   {
+  //   number: "123/2022",
+  //   contractor: "Sklep spożywczy",
+  //   date: "12.04.2022",
+  //   amount: 123,
+  // }
+],
 };
 
 const reducer = (state, action) => {
@@ -22,6 +30,18 @@ const reducer = (state, action) => {
         ...state,
         user: null,
       };
+    //Costs
+    case "SET_COSTS":
+      return {
+        ...state,
+        costs: action.item,
+      };
+    case "ADD_COSTS":
+      return {
+        ...state,
+        costs: [...state.costs, action.item],
+      };
+
     //Snackbar
     case "ALLERT_DEFAULT":
       return {
@@ -77,15 +97,24 @@ const reducer = (state, action) => {
           type: "success",
         },
       };
-      case "ALERT_DELETE":
-        return {
-          ...state,
-          alert: {
-            open: true,
-            message: `Gratualcje! Fakturę usunięto porawnie`,
-            type: "success",
-          },
-        };
+    case "ALERT_DELETE":
+      return {
+        ...state,
+        alert: {
+          open: true,
+          message: `Gratualcje! Fakturę usunięto poprawnie`,
+          type: "success",
+        },
+      };
+    case "ALERT__COSTSOK":
+      return{
+        ...state,
+        alert:{
+          open: true,
+          massage: `Gratulacje Koszt został dodany poprawnie`,
+          type: "success",
+        }
+      }
     // Count
     case "COUNT_INCREMENT":
       return {

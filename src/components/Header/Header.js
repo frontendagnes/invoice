@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import "./Header.css";
-import styled from "styled-components";
-import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
+// import styled from "styled-components";
+// import classNames from "classnames";
+import { useNavigate, Link } from "react-router-dom";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { auth } from "../../assets/utility/firebase";
 import logo from "../../assets/pic/logo.webp"
@@ -31,7 +31,7 @@ function Header() {
   return (
     <header className="header">
       <div className="header__left">
-        <img src={logo}/>
+        <Link to="/"><img src={logo} title="Fakturka 2.0" alt="Logo.webp"/></Link>
       </div>
        <Menu />
       <div className="header__right">
