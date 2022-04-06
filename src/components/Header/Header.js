@@ -4,13 +4,13 @@ import "./Header.css";
 // import classNames from "classnames";
 import { useNavigate, Link } from "react-router-dom";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { auth } from "../../assets/utility/firebase";
+import { auth, signOut } from "../../assets/utility/firebase";
 import logo from "../../assets/pic/logo.webp";
 // mui
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 //comonents
 import Menu from "../Menu/Menu";
-import { signOut } from "firebase/auth";
+
 
 function Header() {
   const [settingsView, setSettingsView] = useState(false);
@@ -21,6 +21,7 @@ function Header() {
     signOut(auth)
       .then(() => {
         dispatch({ type: "ALERT_LOGOUT", item: user?.email });
+        dispatch({ type: "GET_COUNT", item: null })
         history("/");
       })
       .catch((error) => {

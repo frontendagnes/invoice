@@ -4,7 +4,7 @@ import Cost from "../Cost/Cost";
 import AddCost from "../AddCost/AddCost";
 import { useStateValue } from "../../assets/utility/StateProvider";
 function Costs() {
-  const [{ costs }, dispatch] = useStateValue();
+  const [{ costs }] = useStateValue();
   return (
     <div className="costs">
       <AddCost />

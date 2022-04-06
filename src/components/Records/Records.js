@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./Records.css";
 import { getTotal } from "../../assets/functions";
 import { useStateValue } from "../../assets/utility/StateProvider";

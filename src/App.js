@@ -17,7 +17,7 @@ import { CircularProgress } from "@mui/material";
 //components
 import Header from "./components/Header/Header";
 import CreateInvoice from "./components/CreateInvoice/CreateInvoice";
-import Login from "./components/Login/Login";
+import Authorization from "./components/Authorization/Authoryzation.js";
 import Invoices from "./components/Invoices/Invoices";
 import Invoice from "./components/Invoice/Invoice";
 import InvoicesDetails from "./components/InvoicesDetails.js/InvoicesDetails";
@@ -38,12 +38,10 @@ function App() {
           type: "SET_USER",
           user: authUser,
         });
-        setIsLoading(true);
       } else {
         dispatch({
           type: "DELETE_USER",
         });
-        setIsLoading(false);
       }
     });
     return () => {
@@ -52,8 +50,8 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isLoading) {
-      const docRef = doc(db, "invoices", user.uid);
+    if (user) {
+      const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "invoice");
       const sortRef = query(ref, orderBy("date", "desc"));
       const unsb = onSnapshot(sortRef, (snap) => {
@@ -68,11 +66,11 @@ function App() {
         unsb();
       };
     }
-  }, [isLoading, user]);
+  }, [user]);
 
   useEffect(() => {
-    if (isLoading) {
-      const docRef = doc(db, "invoices", user.uid);
+    if (user) {
+      const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "number");
 
       const unsb = onSnapshot(ref, (snap) => {
@@ -84,11 +82,11 @@ function App() {
         unsb();
       };
     }
-  }, [isLoading, dispatch, user]);
+  }, [dispatch, user]);
 
   useEffect(() => {
-    if (isLoading) {
-      const docRef = doc(db, "invoices", user.uid);
+    if (user) {
+      const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "costs");
       const sortRef = query(ref, orderBy("date", "desc"));
       const unsb = onSnapshot(sortRef, (snap) => {
@@ -104,7 +102,7 @@ function App() {
         unsb();
       };
     }
-  }, [isLoading, dispatch, user]);
+  }, [dispatch, user]);
   const renderLoader = () => (
     <div
       style={{
@@ -129,7 +127,7 @@ function App() {
     <div className="app">
       <Suspense fallback={renderLoader()}>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/authorization" element={<Authorization />} />
           <Route
             index
             path="/"
@@ -141,7 +139,7 @@ function App() {
                     <CreateInvoice />
                   </div>
                 ) : (
-                  <Login />
+                  <Authorization />
                 )}
               </div>
             }

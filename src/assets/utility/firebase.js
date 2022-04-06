@@ -7,7 +7,13 @@
 // import "firebase/compat/firestore";
 // import "firebase/compat/auth";
 
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
@@ -53,5 +59,8 @@ export {
   addDoc,
   increment,
   updateDoc,
+  signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 };
 // export default db;

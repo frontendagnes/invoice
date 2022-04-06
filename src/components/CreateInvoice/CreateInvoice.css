@@ -13,7 +13,6 @@
 
 }
 .creativeinvoice__summary{
-    /* text-align: right; */
     font-size: 1.2rem;
     margin-bottom: 10px;
 } 
@@ -27,7 +26,7 @@
     padding: 10px 20px;
     border: transparent;
     border-radius: 10px;
-    background: #ff4500;
+    background: #3f4d70;
     color: #ffffff;
     font-size: 1rem;
     font-weight: 600;
@@ -36,7 +35,7 @@
     transition: background 0.75s;
 }
 .createinvoice__button:hover{
-    background: rgb(255, 131, 86);
+    background: #5a71aa;
 }
 .createinvoice__footer{
     margin-right: 40px;

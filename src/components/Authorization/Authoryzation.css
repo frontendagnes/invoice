@@ -1,0 +1,81 @@
+.authoryzation{
+    height: 100%;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    height: 240px;
+    justify-content: space-around;
+}
+.authoryzation__top{
+    height: 15%;
+}
+.authoryzation__top img{
+    width: 50%;
+}
+.authoryzation__middle{
+
+    height: 80%
+}
+.authoryzation__antyspam{
+    height: 60px;
+}
+.authoryzation__wrapper{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap-reverse;
+    height: 100%;
+}
+.authoryzation__descryption{
+    width: 30%;
+}
+.authoryzation__form{
+    padding: 20px 30px 20px 150px;
+    border-left: 2px solid #3f4d70;
+}
+.authoryzation button{
+    padding: 10px 20px;
+    border: transparent;
+    border-radius: 10px;
+    background: #3f4d70;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background 0.75s;
+}
+.authoryzation button:hover{
+    background: #5a71aa;
+}
+
+.login,
+.registration{
+    border: 1px solid #808080;
+    padding: 40px 60px;
+    justify-content: center;
+    border-radius: 0 0 10px 10px;
+    height: 210px;
+}
+
+.authoryzation__row{
+    margin-bottom: 10px;
+}
+.authoryzation__inputs, .authoryzation__buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.authoryzation__inputs{
+    flex-flow: column wrap;
+}
+.authoryzation__buttons{
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.authoryzation__phone{
+    display: none;
+}
