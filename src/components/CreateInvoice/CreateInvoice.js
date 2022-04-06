@@ -7,16 +7,20 @@ import FormSeller from "../Form/FormSeller/FormSeller";
 import FormPayment from "../Form/FormPaymnet/FormPayment";
 import FormProducts from "../Form/FormProducts/FormProducts";
 import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
-import { nanoid } from "nanoid";
 import { useNavigate } from "react-router-dom";
 import { today } from "../../assets/functions";
-import db from "../../assets/utility/firebase";
+import { db } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { getTotal } from "../../assets/functions";
 import { validate } from "../Form/ValidateHomeForm";
 import ValidationError from "../ValidationError/ValidationError";
-
-import firebase from "firebase";
+import {
+  doc,
+  collection,
+  addDoc,
+  increment,
+  updateDoc,
+} from "../../assets/utility/firebase";
 
 function CreateInvoice() {
   const [count, setCount] = useState(0);
@@ -36,8 +40,10 @@ function CreateInvoice() {
   const [price, setPrice] = useState(0);
   //ilość
   const [quantity, setQuantity] = useState(1);
-
   const [{ user, amount, numberInvoice }, dispatch] = useStateValue();
+  //validation error
+  const [error, setError] = useState("");
+  const history = useNavigate();
 
   useEffect(() => {
     if (amount) {
@@ -54,15 +60,6 @@ function CreateInvoice() {
     });
     setNumber(numberInvoice);
   }, [dispatch, order, year, amount, numberInvoice, count]);
-
-  //validation error
-  const [error, setError] = useState("");
-
-  const history = useNavigate();
-
-  const index = () => {
-    return `Invoice-${nanoid(10)}`;
-  };
 
   const addInvoice = async (e) => {
     e.preventDefault();
@@ -81,24 +78,22 @@ function CreateInvoice() {
       return;
     }
 
-    db.collection("invoices")
-      .doc(user?.uid)
-      .collection("invoice")
-      .doc(index())
-      .set({
-        date: date,
-        number: number,
-        payment: selected,
-        buyer: {
-          name: nameBuyer,
-          street: streetBuyer,
-          zipcode: zipcodeBuyer,
-          town: townBuyer,
-          nip: nip,
-        },
-        seller: seller,
-        products: products,
-      })
+    const docRef = doc(db, "invoices", user.uid);
+    const ref = collection(docRef, "invoice");
+    await addDoc(ref, {
+      date: date,
+      number: number,
+      payment: selected,
+      buyer: {
+        name: nameBuyer,
+        street: streetBuyer,
+        zipcode: zipcodeBuyer,
+        town: townBuyer,
+        nip: nip,
+      },
+      seller: seller,
+      products: products,
+    })
       .then(() => {
         dispatch({ type: "ALERT_ADD_INVOICE" });
         history("/invoices");
@@ -107,13 +102,14 @@ function CreateInvoice() {
         dispatch({ type: "ALERT_ERROR", item: error.message });
       });
 
-    db.collection("invoices")
-      .doc(user?.uid)
-      .collection("number")
-      .doc("YgYuBDoz5AisskTWslyB")
-      .update({
-        count: firebase.firestore.FieldValue.increment(1),
-      })
+    // editing invoice number
+    const updateRef = doc(
+      db,
+      `invoices/${user.uid}/number/YgYuBDoz5AisskTWslyB`
+    );
+    await updateDoc(updateRef, {
+      count: increment(1),
+    })
       .then(() => console.log("Edytowano :)"))
       .catch((error) => {
         console.log(error.message);

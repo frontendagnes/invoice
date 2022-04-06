@@ -2,7 +2,15 @@ import React, { useEffect, useState, Suspense } from "react";
 import "./App.css";
 import { auth } from "./assets/utility/firebase";
 import { useStateValue } from "./assets/utility/StateProvider";
-import db from "./assets/utility/firebase";
+import {
+  db,
+  onSnapshot,
+  collection,
+  doc,
+  onAuthStateChanged,
+  orderBy,
+  query,
+} from "./assets/utility/firebase";
 import { Routes, Route } from "react-router-dom";
 //mui
 import { CircularProgress } from "@mui/material";
@@ -17,70 +25,86 @@ import SnackBar from "./components/Snackbar/Snackbar";
 import NoMatch from "./components/NoMatch/NoMatch";
 import Records from "./components/Records/Records";
 import Costs from "./components/Costs/Costs";
+
 function App() {
   const [invoices, setInvoices] = useState([]);
-
-  const [{ user, costs }, dispatch] = useStateValue();
+  const [isLoading, setIsLoading] = useState(false);
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
+    const authUser = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
         dispatch({
           type: "SET_USER",
           user: authUser,
         });
+        setIsLoading(true);
       } else {
         dispatch({
           type: "DELETE_USER",
         });
+        setIsLoading(false);
       }
     });
+    return () => {
+      authUser();
+    };
   }, [dispatch]);
 
   useEffect(() => {
-    if (user) {
-      db.collection("invoices")
-        .doc(user.uid)
-        .collection("invoice")
-        .orderBy("number", "desc")
-        .onSnapshot((snapshot) => {
-          setInvoices(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              data: doc.data(),
-            }))
-          );
-        });
+    if (isLoading) {
+      const docRef = doc(db, "invoices", user.uid);
+      const ref = collection(docRef, "invoice");
+      const sortRef = query(ref, orderBy("date", "desc"));
+      const unsb = onSnapshot(sortRef, (snap) => {
+        setInvoices(
+          snap.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        );
+      });
+      return () => {
+        unsb();
+      };
     }
-  }, [user]);
+  }, [isLoading, user]);
 
   useEffect(() => {
-    db.collection("invoices")
-      .doc(user?.uid)
-      .collection("number")
-      .doc("YgYuBDoz5AisskTWslyB")
-      .onSnapshot((snapshot) => {
-        if (snapshot.data()) {
-          dispatch({ type: "GET_COUNT", item: snapshot.data().count });
-        }
+    if (isLoading) {
+      const docRef = doc(db, "invoices", user.uid);
+      const ref = collection(docRef, "number");
+
+      const unsb = onSnapshot(ref, (snap) => {
+        snap.docs.map((doc) =>
+          dispatch({ type: "GET_COUNT", item: doc.data().count })
+        );
       });
-  }, [user, dispatch]);
+      return () => {
+        unsb();
+      };
+    }
+  }, [isLoading, dispatch, user]);
 
   useEffect(() => {
-    db.collection("invoices")
-      .doc(user?.uid)
-      .collection("costs")
-      .orderBy("date", "desc")
-      .onSnapshot((snapshot) => {
-          dispatch({
-            type: "SET_COSTS",
-            item: snapshot.docs.map((doc) => ({
-              id: doc.id,
-              data: doc.data(),
-            })),
-          });
+    if (isLoading) {
+      const docRef = doc(db, "invoices", user.uid);
+      const ref = collection(docRef, "costs");
+      const sortRef = query(ref, orderBy("date", "desc"));
+      const unsb = onSnapshot(sortRef, (snap) => {
+        dispatch({
+          type: "SET_COSTS",
+          item: snap.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          })),
+        });
       });
-  }, [dispatch, costs]);
+      return () => {
+        unsb();
+      };
+    }
+  }, [isLoading, dispatch, user]);
   const renderLoader = () => (
     <div
       style={{

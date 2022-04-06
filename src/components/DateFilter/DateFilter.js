@@ -3,7 +3,7 @@ import "./DateFilter.css";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import InvoicesItem from "../InvoicesItem/InvoicesItem";
 import { TextField } from "@mui/material";
-import {today, getTotal} from "../../assets/functions"
+import { today  } from "../../assets/functions";
 function DateFilter({ data, openDetails, deleteItem }) {
   const [anyDate, setAnyDate] = useState(today());
 
@@ -31,7 +31,6 @@ function DateFilter({ data, openDetails, deleteItem }) {
       {data
         .filter((item) => item.data.date === anyDate)
         .map((item) => (
-          <div>
           <InvoicesItem
             key={item.id}
             name={item.data.buyer.name}
@@ -41,10 +40,7 @@ function DateFilter({ data, openDetails, deleteItem }) {
             openDetails={openDetails}
             deleteItem={deleteItem}
           />
-          
-          </div>
-        )
-        )}
+        ))}
     </div>
   );
 }

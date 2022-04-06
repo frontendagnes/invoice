@@ -25,36 +25,42 @@ function Records({ data }) {
   ]);
   const summaryYearId = months.indexOf("Podsumowanie roku");
 
-  const [{ costs }, dispatch] = useStateValue();
+  const [{ costs }] = useStateValue();
 
-  const sumMonth = (num) => {
-    let i = 0;
-    let arr = [];
+  const sumMonth = useCallback(
+    (num) => {
+      let i = 0;
+      let arr = [];
 
-    while (i < data.length) {
-      let date = new Date(data[i].data.date).getMonth() + 1;
-      if (date === num) {
-        data[i].data.products.map((product) =>
-          arr.push({ worth: product.worth })
-        );
+      while (i < data.length) {
+        let date = new Date(data[i].data.date).getMonth() + 1;
+        if (date === num) {
+          data[i].data.products.map((product) =>
+            arr.push({ worth: product.worth })
+          );
+        }
+        i++;
       }
-      i++;
-    }
-    return getTotal(arr);
-  };
+      return getTotal(arr);
+    },
+    [data]
+  );
 
-  const sumCosts = (num) => {
-    let i = 0;
-    let arr = [];
-    while (i < costs.length) {
-      let date = new Date(costs[i].data.date).getMonth() + 1;
-      if (date === num) {
-        arr.push(costs[i]);
+  const sumCosts = useCallback(
+    (num) => {
+      let i = 0;
+      let arr = [];
+      while (i < costs.length) {
+        let date = new Date(costs[i].data.date).getMonth() + 1;
+        if (date === num) {
+          arr.push(costs[i]);
+        }
+        i++;
       }
-      i++;
-    }
-    return arr.reduce((amount, item) => item.data.amount + amount, 0);
-  };
+      return arr.reduce((amount, item) => item.data.amount + amount, 0);
+    },
+    [costs]
+  );
 
   const cumulativeTotal = useCallback(() => {
     let i = 0;
@@ -94,7 +100,7 @@ function Records({ data }) {
         totalArr.push(sumMonth(index + 1));
       });
     setTotalMonth(totalArr);
-  }, [data]);
+  }, [months, sumMonth, summaryYearId]);
 
   const summaryCosts = useCallback(() => {
     let totalCosts = [];
@@ -104,7 +110,7 @@ function Records({ data }) {
         totalCosts.push(sumCosts(index + 1));
       });
     setTotalCosts(totalCosts);
-  }, [costs]);
+  }, [months, sumCosts, summaryYearId]);
 
   useEffect(() => {
     summaryYear();
@@ -171,7 +177,7 @@ function Records({ data }) {
                         <td className="records__amount">
                           {Number.parseFloat(
                             getTotal(item.data.products)
-                          ).toFixed(2)}
+                          ).toFixed(2)}{" "}
                           zł
                         </td>
                         <td className="records__amount">
@@ -229,7 +235,7 @@ function Records({ data }) {
                 <tfoot>
                   <tr>
                     <td className="records__summary" colSpan={4}>
-                      Razem
+                      Podsumowanie:
                     </td>
                     <td className="records__summary">
                       {Number.parseFloat(sumCosts(number)).toFixed(2)} zł

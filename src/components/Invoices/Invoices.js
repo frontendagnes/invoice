@@ -1,7 +1,7 @@
 import React from "react";
 import "./Invoices.css";
 import { useNavigate } from "react-router-dom";
-import db from "../../assets/utility/firebase";
+import { db } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 
 import DateFilter from "../DateFilter/DateFilter";

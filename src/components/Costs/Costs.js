@@ -8,6 +8,7 @@ function Costs() {
   return (
     <div className="costs">
       <AddCost />
+      
       {costs.map((item) => (
         <Cost
           key={item.id}

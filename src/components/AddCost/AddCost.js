@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./AddCost.css";
-import db from "../../assets/utility/firebase";
+import { db, collection, doc, addDoc } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { TextField } from "@mui/material";
 import NumberFormat from "react-number-format";
+import PropTypes from "prop-types";
+
 const validate = (number, contractor, date, amount) => {
   if (!number) {
     return "Pole 'Numer Faktury' musi zostać wypełnione";
@@ -19,15 +21,15 @@ const validate = (number, contractor, date, amount) => {
   }
 };
 function AddCost() {
-  const [{ costs, user }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   const [number, setNumber] = useState("");
   const [contractor, setContractor] = useState("");
   const [date, setDate] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
 
-  const handleClick = (e) => {
-    // e.preventDefault();
+  const handleClick = async (e) => {
+    e.preventDefault();
 
     const msg = validate(number, contractor, date, amount);
 
@@ -36,15 +38,14 @@ function AddCost() {
       return;
     }
 
-    db.collection("invoices")
-      .doc(user?.uid)
-      .collection("costs")
-      .add({
-        number: number,
-        contractor: contractor,
-        date: date,
-        amount: amount,
-      })
+    const docRef = doc(db, "invoices", user.uid);
+    const ref = collection(docRef, "costs");
+    await addDoc(ref, {
+      number: number,
+      contractor: contractor,
+      date: date,
+      amount: parseFloat(amount, 10),
+    })
       .then(() => dispatch({ type: "ALERT__COSTSOK" }))
       .catch((error) => console.error("ERROR>>", error.massage));
 
@@ -101,5 +102,12 @@ function AddCost() {
     </form>
   );
 }
+
+AddCost.propTypes = {
+  amount: PropTypes.number,
+  date: PropTypes.string,
+  contractor: PropTypes.string,
+  number: PropTypes.string,
+};
 
 export default AddCost;

@@ -5,11 +5,12 @@ import "./Header.css";
 import { useNavigate, Link } from "react-router-dom";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { auth } from "../../assets/utility/firebase";
-import logo from "../../assets/pic/logo.webp"
+import logo from "../../assets/pic/logo.webp";
 // mui
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 //comonents
 import Menu from "../Menu/Menu";
+import { signOut } from "firebase/auth";
 
 function Header() {
   const [settingsView, setSettingsView] = useState(false);
@@ -17,8 +18,7 @@ function Header() {
   const history = useNavigate();
 
   const logout = () => {
-    auth
-      .signOut()
+    signOut(auth)
       .then(() => {
         dispatch({ type: "ALERT_LOGOUT", item: user?.email });
         history("/");
@@ -31,9 +31,11 @@ function Header() {
   return (
     <header className="header">
       <div className="header__left">
-        <Link to="/"><img src={logo} title="Fakturka 2.0" alt="Logo.webp"/></Link>
+        <Link to="/">
+          <img src={logo} title="Fakturka 2.0" alt="Logo.webp" />
+        </Link>
       </div>
-       <Menu />
+      <Menu />
       <div className="header__right">
         <div
           className="header__user"

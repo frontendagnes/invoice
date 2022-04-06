@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../assets/utility/firebase";
 import ValidationError from "../ValidationError/ValidationError";
 import { useStateValue } from "../../assets/utility/StateProvider";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const validate = (email, password, test) => {
   if (!email) {
@@ -40,8 +41,8 @@ function Login() {
       setError(msg);
       return;
     }
-    auth
-      .signInWithEmailAndPassword(name, password)
+  
+    signInWithEmailAndPassword(auth, name, password)
       .then((user) => {
         if (user) {
           history("/");
@@ -62,8 +63,8 @@ function Login() {
       setError(msg);
       return;
     }
-    auth
-      .createUserWithEmailAndPassword(name, password)
+    
+    createUserWithEmailAndPassword(auth, name, password)
       .then(() => {
         history("/");
         dispatch({ type: "ALERT_REGISETER" });

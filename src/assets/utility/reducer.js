@@ -8,13 +8,13 @@ export const initialState = {
   amount: 0,
   numberInvoice: "",
   costs: [
-  //   {
-  //   number: "123/2022",
-  //   contractor: "Sklep spożywczy",
-  //   date: "12.04.2022",
-  //   amount: 123,
-  // }
-],
+    //   {
+    //   number: "123/2022",
+    //   contractor: "Sklep spożywczy",
+    //   date: "12.04.2022",
+    //   amount: 123,
+    // }
+  ],
 };
 
 const reducer = (state, action) => {
@@ -107,14 +107,14 @@ const reducer = (state, action) => {
         },
       };
     case "ALERT__COSTSOK":
-      return{
+      return {
         ...state,
-        alert:{
+        alert: {
           open: true,
-          massage: `Gratulacje Koszt został dodany poprawnie`,
+          message: `Gratulacje Koszt został dodany poprawnie`,
           type: "success",
-        }
-      }
+        },
+      };
     // Count
     case "COUNT_INCREMENT":
       return {
