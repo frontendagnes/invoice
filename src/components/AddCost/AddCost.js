@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import "./AddCost.css";
+import AntySpam from "../AntySpam/AntySpam";
 import { db, collection, doc, addDoc } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { TextField } from "@mui/material";
 import NumberFormat from "react-number-format";
 import PropTypes from "prop-types";
 
-const validate = (number, contractor, date, amount) => {
+const validate = (number, contractor, date, amount, test) => {
+  if (test) {
+    return "Nie przeszedłeś filtra antyspamowego odśwież stronę i spróbuj ponownie";
+  }
   if (!number) {
     return "Pole 'Numer Faktury' musi zostać wypełnione";
   }
@@ -27,11 +31,13 @@ function AddCost() {
   const [contractor, setContractor] = useState("");
   const [date, setDate] = useState("");
   const [amount, setAmount] = useState(0);
+  const [nip, setNip] = useState("");
+  const [test, setTest] = useState("");
 
   const handleClick = async (e) => {
     e.preventDefault();
 
-    const msg = validate(number, contractor, date, amount);
+    const msg = validate(number, contractor, date, amount, test);
 
     if (msg) {
       dispatch({ type: "ALERT__ERROR", item: msg });
@@ -45,6 +51,7 @@ function AddCost() {
       contractor: contractor,
       date: date,
       amount: parseFloat(amount, 10),
+      nip: nip,
     })
       .then(() => dispatch({ type: "ALERT__COSTSOK" }))
       .catch((error) => console.error("ERROR>>", error.massage));
@@ -53,9 +60,12 @@ function AddCost() {
     setContractor("");
     setDate("");
     setAmount("");
+    setNip("");
   };
   return (
     <form className="addcost">
+      <AntySpam test={test} setTest={setTest} />
+      <h2>Dodaj Koszt</h2>
       <div className="addcost__wrapper">
         <div className="addcost__item">
           <TextField
@@ -76,8 +86,20 @@ function AddCost() {
           />
         </div>
         <div className="addcost__item">
+          <NumberFormat
+            customInput={TextField}
+            format="###-###-##-##"
+            mask="_"
+            placeholder="___-___-__-__"
+            label="NIP"
+            value={nip}
+            onChange={(e) => setNip(e.target.value)}
+            helperText="Podaj numer NIP"
+            fullWidth
+          />
+        </div>
+        <div className="addcost__item">
           <TextField
-            // label="Data Faktury"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             type="date"

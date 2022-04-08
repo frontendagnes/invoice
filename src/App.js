@@ -28,7 +28,6 @@ import Costs from "./components/Costs/Costs";
 
 function App() {
   const [invoices, setInvoices] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
@@ -134,10 +133,10 @@ function App() {
             element={
               <div className="app__login">
                 {user ? (
-                  <div>
+                  <>
                     <Header />
                     <CreateInvoice />
-                  </div>
+                  </>
                 ) : (
                   <Authorization />
                 )}
@@ -147,20 +146,20 @@ function App() {
           <Route
             path="/invoices"
             element={
-              <div>
+              <>
                 <Header />
                 <Invoices data={invoices} />
-              </div>
+              </>
             }
           />
           <Route path="/invoice" element={<Invoice />}>
             <Route
               path=":invoiceId"
               element={
-                <div>
+                <>
                   <Header />
                   <InvoicesDetails data={invoices} />
-                </div>
+                </>
               }
             />
           </Route>
@@ -184,6 +183,9 @@ function App() {
           />
           <Route path="*" element={<NoMatch />} />
         </Routes>
+        <footer>
+        &copy; <a href="https://frontend-agnes.pl" title="frontend-agnes.pl" alt="frontend-agnes.pl">frontend-agnes</a>
+      </footer>
       </Suspense>
       <SnackBar />
     </div>

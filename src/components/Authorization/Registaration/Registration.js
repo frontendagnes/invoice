@@ -20,6 +20,7 @@ function Registration({
               onChange={(e) => setName(e.target.value)}
               label="Wpisz e-mail"
               variant="outlined"
+              fullWidth
             />
           </div>
           <div className="authoryzation__row">
@@ -29,6 +30,7 @@ function Registration({
               onChange={(e) => setPassword(e.target.value)}
               label="Wpisz hasło"
               variant="outlined"
+              fullWidth
             />
           </div>
           <div className="authoryzation__row">
@@ -38,6 +40,7 @@ function Registration({
               onChange={(e) => setRepeatPassword(e.target.value)}
               label="Powtórz hasło"
               variant="outlined"
+              fullWidth
             />
           </div>
         </div>

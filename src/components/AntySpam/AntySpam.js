@@ -1,4 +1,5 @@
 import React from "react";
+import "./AntySpam.css"
 
 function AntySpam({ test, setTest }) {
 
@@ -6,7 +7,7 @@ function AntySpam({ test, setTest }) {
     <div>
       <input
         type="text"
-        className="authoryzation__phone"
+        className="phone"
         value={test}
         onChange={(e) => setTest(e.target.value)}
       />

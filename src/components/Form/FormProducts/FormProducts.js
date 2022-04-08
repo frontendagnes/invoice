@@ -88,7 +88,7 @@ function FormProducts({
             customInput={TextField}
             value={price}
             onChange={e => setPrice(e.target.value)}
-            label="Cena jedn. netto"
+            label="Cena jedn."
             fullWidth
           />
         </div>

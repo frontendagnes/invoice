@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const TabsWrapper = styled.div`
+  width: 100%;
 `;
 const Tabs = styled.div`
   display: flex;
@@ -24,13 +25,19 @@ const Tab = styled.div`
   }
 `;
 
-function TabGenerator({ component, component1 }) {
+function TabGenerator({ component, component1, component2, title, title1 }) {
   const [tab, setTab] = useState(true);
   const [tab1, setTab1] = useState(false);
 
   const styles = {
-    activeStyle: "#3f4d70",
-    defaultStyle: "#5a71aa",
+    defaultStyle: {
+      background: "#3f4d70",
+    },
+    activeStyle: {
+      background: "#5a71aa",
+      border: "3px ridge #3f4d70",
+      borderBottomColor: "transparent",
+    },
   };
 
   const switchTab = () => {
@@ -46,18 +53,16 @@ function TabGenerator({ component, component1 }) {
     <TabsWrapper>
       <Tabs>
         <Tab
-          style={{ background: tab ? styles.activeStyle : styles.defaultStyle }}
+          style={tab ? styles.activeStyle : styles.defaultStyle}
           onClick={switchTab}
         >
-          Logowanie
+          {title}
         </Tab>
         <Tab
-          style={{
-            background: tab1 ? styles.activeStyle : styles.defaultStyle,
-          }}
+          style={tab1 ? styles.activeStyle : styles.defaultStyle}
           onClick={switchTab1}
         >
-          Rejestracja
+          {title1}
         </Tab>
       </Tabs>
       <div className="tabgenrator__content">

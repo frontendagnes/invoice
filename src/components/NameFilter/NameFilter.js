@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import "./NameFilter.css"
+import "./NameFilter.css";
 import { TextField } from "@mui/material";
 import InvoicesItem from "../InvoicesItem/InvoicesItem";
-function NameFilter({ data, openDetails, deleteItem }) {
+import Cost from "../Cost/Cost";
+function NameFilter({ data, openDetails, deleteItem, isCost }) {
   const [text, setText] = useState("");
   return (
     <div>
@@ -18,23 +19,46 @@ function NameFilter({ data, openDetails, deleteItem }) {
           fullWidth
         />
       </div>
-      {data
-        .filter(
-          (item) =>
-            item.data.buyer.name.toLowerCase().includes(text.toLowerCase()) ||
-            item.data.number.toLowerCase().includes(text.toLowerCase())
-        )
-        .map((item) => (
-          <InvoicesItem
-            key={item.id}
-            name={item.data.buyer.name}
-            number={item.data.number}
-            index={item.id}
-            date={item.data.date}
-            openDetails={openDetails}
-            deleteItem={deleteItem}
-          />
-        ))}
+
+      {isCost
+        ? data
+            .filter(
+              (item) =>
+                item.data.contractor
+                  .toLowerCase()
+                  .includes(text.toLowerCase()) ||
+                item.data.number.toLowerCase().includes(text.toLowerCase())
+            )
+            .map((item) => (
+              <Cost
+                key={item.id}
+                index={item.id}
+                number={item.data.number}
+                contractor={item.data.contractor}
+                date={item.data.date}
+                amount={item.data.amount}
+                deleteItem={deleteItem}
+              />
+            ))
+        : data
+            .filter(
+              (item) =>
+                item.data.buyer.name
+                  .toLowerCase()
+                  .includes(text.toLowerCase()) ||
+                item.data.number.toLowerCase().includes(text.toLowerCase())
+            )
+            .map((item) => (
+              <InvoicesItem
+                key={item.id}
+                name={item.data.buyer.name}
+                number={item.data.number}
+                index={item.id}
+                date={item.data.date}
+                openDetails={openDetails}
+                deleteItem={deleteItem}
+              />
+            ))}
     </div>
   );
 }

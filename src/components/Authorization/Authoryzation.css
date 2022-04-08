@@ -1,7 +1,7 @@
 .authoryzation{
     height: 100%;
 }
-form{
+.authoryzation form{
     display: flex;
     flex-direction: column;
     height: 240px;
@@ -17,7 +17,7 @@ form{
 
     height: 80%
 }
-.authoryzation__antyspam{
+.authoryzation__validate{
     height: 60px;
 }
 .authoryzation__wrapper{
@@ -31,7 +31,8 @@ form{
     width: 30%;
 }
 .authoryzation__form{
-    padding: 20px 30px 20px 150px;
+    width: 40%;
+    padding: 20px 30px;
     border-left: 2px solid #3f4d70;
 }
 .authoryzation button{
@@ -61,6 +62,7 @@ form{
 
 .authoryzation__row{
     margin-bottom: 10px;
+    width: 100%;
 }
 .authoryzation__inputs, .authoryzation__buttons{
     display: flex;
@@ -75,7 +77,10 @@ form{
     justify-content: space-around;
     align-items: flex-end;
 }
-
-.authoryzation__phone{
-    display: none;
+.authoryzation footer{
+    text-align: center;
+    font-size: 1.2rem;
+}
+.authoryzation footer > a{
+    text-decoration: none;
 }

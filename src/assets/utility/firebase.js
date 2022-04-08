@@ -26,6 +26,7 @@ import {
   addDoc,
   increment,
   updateDoc,
+  deleteDoc
 } from "firebase/firestore";
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -62,5 +63,6 @@ export {
   signOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  deleteDoc
 };
 // export default db;

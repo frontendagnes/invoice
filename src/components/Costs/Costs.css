@@ -1,3 +1,30 @@
-.costs{
-    padding: 20px 30px
+.costs,
+.costs__input--date{
+    padding: 20px 5px;
+}
+.costs h5{
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+    border-bottom: 1px solid #d3d3d3;
+    border-top: 1px solid #d3d3d3;
+    padding: 10px 20px;
+    margin-top: 5px;
+    font-size: 1rem;
+}
+.costs__input{
+    padding: 10px 20px;
+}
+.costs__input--date{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.costs__input--width{
+    width: 60%;
+}
+
+.costs__button{
+    cursor: pointer;
+    margin-left: 10px;
 }

@@ -4,7 +4,7 @@ import logo from "../../assets/pic/logo.webp";
 import TabGenerator from "../TabGenerator/TabGenerator";
 import Login from "./Login/Login";
 import Registration from "./Registaration/Registration";
-import AntySpam from "./AntySpam";
+import AntySpam from "../AntySpam/AntySpam";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { useNavigate } from "react-router-dom";
 import {
@@ -91,7 +91,7 @@ function Authoryzation() {
             quod ut.
           </div>
           <div className="authoryzation__form">
-            <div className="authoryzation__antyspam">
+            <div className="authoryzation__validate">
               {error ? <ValidationError text={error} /> : null}
             </div>
             <TabGenerator
@@ -117,10 +117,15 @@ function Authoryzation() {
                   register={register}
                 />
               }
+              title="Login"
+              title1="Rejestracja"
             />
           </div>
         </div>
       </div>
+      <footer>
+        &copy; <a href="https://frontend-agnes.pl" title="frontend-agnes.pl" alt="frontend-agnes.pl">frontend-agnes</a>
+      </footer>
       <AntySpam test={test} setTest={setTest} />
     </div>
   );

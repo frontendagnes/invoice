@@ -55,7 +55,7 @@
     padding: 10px 20px;
     border: transparent;
     border-radius: 10px;
-    background: #ff4500;
+    background: #3f4d70;
     color: #ffffff;
     font-size: 1rem;
     font-weight: 600;
@@ -64,7 +64,7 @@
     transition: background 0.75s;
 }
 .invoicecdetail__button:hover{
-    background: rgb(255, 131, 86);
+    background: #5a71aa;
 }
 .invoicesdetails__products{
     padding: 10px;

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "./Header.css";
-// import styled from "styled-components";
-// import classNames from "classnames";
 import { useNavigate, Link } from "react-router-dom";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { auth, signOut } from "../../assets/utility/firebase";

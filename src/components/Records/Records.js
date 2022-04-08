@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import "./Records.css";
 import { getTotal } from "../../assets/functions";
 import { useStateValue } from "../../assets/utility/StateProvider";
-
+import TabGenerator from "../TabGenerator/TabGenerator";
 function Records({ data }) {
   const [cumTotal, setCumTotal] = useState([]);
   const [totalMnoth, setTotalMonth] = useState([]);
@@ -145,8 +145,8 @@ function Records({ data }) {
       <div className="records__buttons">{printButtons()}</div>
       <div className="records__wrapper">
         {number - 1 !== summaryYearId ? (
-          <div className="records__singlemonth">
-            <div>
+            <TabGenerator 
+              component={
               <table>
                 <caption>
                   <div className="records__total">
@@ -197,8 +197,10 @@ function Records({ data }) {
                   </tr>
                 </tfoot>
               </table>
-            </div>
-            <div>
+              }
+            title="Przychody"
+            title1="Koszty"
+            component1={
               <table>
                 <caption>
                   <div className="records__total">
@@ -243,8 +245,8 @@ function Records({ data }) {
                   </tr>
                 </tfoot>
               </table>
-            </div>
-          </div>
+            }
+            />
         ) : (
           <div className="records__summaryyear">
             <div className="records__revenue">

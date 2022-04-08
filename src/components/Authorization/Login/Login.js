@@ -13,6 +13,7 @@ function Login({name, setName, password, setPassword, signIn}) {
                 onChange={(e) => setName(e.target.value)}
                 label="Wpisz e-mail"
                 variant="outlined"
+                fullWidth
               />
             </div>
             <div className="authoryzation__row">
@@ -22,6 +23,7 @@ function Login({name, setName, password, setPassword, signIn}) {
                 onChange={(e) => setPassword(e.target.value)}
                 label="Wpisz hasło"
                 variant="outlined"
+                fullWidth
               />
             </div>
 

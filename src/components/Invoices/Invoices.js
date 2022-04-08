@@ -1,24 +1,22 @@
 import React from "react";
 import "./Invoices.css";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../assets/utility/firebase";
+import { db, deleteDoc, doc } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
-
+// components
 import DateFilter from "../DateFilter/DateFilter";
 import NameFilter from "../NameFilter/NameFilter";
+
 function Invoices({ data }) {
   const [{ user }, dispatch] = useStateValue();
 
   const history = useNavigate();
-  const openDetails = (detail) => {
-    history(`/invoice/${detail}`);
+
+  const openDetails = (details) => {
+    history(`/invoice/${details}`);
   };
-  const deleteItem = (itemId) => {
-    db.collection("invoices")
-      .doc(user.uid)
-      .collection("invoice")
-      .doc(itemId)
-      .delete()
+  const deleteItem = async (itemId) => {
+    await deleteDoc(doc(db, "invoices", user.uid, "invoice", itemId))
       .then(() => {
         dispatch({ type: "ALERT_DELETE" });
       })
@@ -34,12 +32,14 @@ function Invoices({ data }) {
         data={data}
         deleteItem={deleteItem}
         openDetails={openDetails}
+        isCost={false}
       />
       <h2>Zestawienie faktur</h2>
       <NameFilter
         data={data}
         openDetails={openDetails}
         deleteItem={deleteItem}
+        isCost={false}
       />
     </div>
   );

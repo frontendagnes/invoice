@@ -12,6 +12,8 @@
     background-size: 100% 100%;
     color: #fafafafa;
     text-shadow: 2px 2px 2px #000000;
+    height: 80px;
+    z-index: 999;
 }
 .header ul{
     padding-inline-start: 0px;
@@ -19,7 +21,6 @@
 .header__left img{
     width: 200px;
 }
-
 
 .header__right {
     display: flex;

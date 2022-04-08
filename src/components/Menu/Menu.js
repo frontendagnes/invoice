@@ -10,7 +10,7 @@ const menuItems = [
   },
   {
     id: 2,
-    name: "Wyszukaj/Zestawienie",
+    name: "Przychody/Wyszukaj",
     href: "/invoices",
   },
   {
