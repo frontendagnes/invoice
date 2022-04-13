@@ -1,99 +1,96 @@
-#invoice{
-    box-sizing: border-box;
-    width: 595px;
-    min-height: 842px;
-    height: 100%;
-    padding-top: 20px;
-    background-color: #ffffff;
+#invoice {
+  box-sizing: border-box;
+  width: 595px;
+  min-height: 842px;
+  height: 100%;
+  padding-top: 10px;
+  background-color: #ffffff;
 }
 
-.invoicesdetail{
-    padding-top: 20px;
-    padding-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #e7e7e7;
+.invoicesdetail {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e7e7e7;
 }
-.invoicesdetail__wrapper{
-    display: flex;
-    justify-content: center;
-    
+.invoicesdetail__wrapper {
+  display: flex;
+  justify-content: center;
 }
-.invoicesdetail__number{
-    display: flex;
-    justify-content: space-around;
-    font-size: 1.2rem;
+.invoicesdetail__number {
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.2rem;
 }
-.invoicesdetail__text{
-    font-weight: 600;
+.invoicesdetail__text {
+  font-weight: 600;
 }
-.invoicesdetail__date{
-    padding: 20px;
+.invoicesdetail__date {
+  padding: 20px;
 }
-.invoicesdetail__date > div{
-    display: flex;
-    justify-content: space-between;
+.invoicesdetail__date > div {
+  display: flex;
+  justify-content: space-between;
 }
-.invoicesdetail__date > div > span{
-    padding-left: 10px;
-    padding-right: 10px;
+.invoicesdetail__date > div > span {
+  padding-left: 10px;
+  padding-right: 10px;
 }
-.invoicesdetail__middle > div{
-    display: flex;
-    justify-content: space-between;
-    /* padding: top right bottom left; */
-    padding: 40px 20px 0px 20px;
-
+.invoicesdetail__middle > div {
+  display: flex;
+  justify-content: space-between;
+  /* padding: top right bottom left; */
+  padding: 30px 20px 0px 20px;
 }
-.invoicesdetail__headline{
-    font-weight: 600;
-    padding-bottom: 10px;
+.invoicesdetail__headline {
+  font-weight: 600;
+  padding-bottom: 10px;
 }
-.invoicecdetail__button{
-    margin: 20px;
-    padding: 10px 20px;
-    border: transparent;
-    border-radius: 10px;
-    background: #3f4d70;
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: background 0.75s;
+.invoicecdetail__button {
+  margin: 20px;
+  padding: 10px 20px;
+  border: transparent;
+  border-radius: 10px;
+  background: #3f4d70;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.75s;
 }
-.invoicecdetail__button:hover{
-    background: #5a71aa;
+.invoicecdetail__button:hover {
+  background: #5a71aa;
 }
-.invoicesdetails__products{
-    padding: 10px;
+.invoicesdetails__products {
+  padding: 10px;
 }
-.invoicesdetails__summary{
-    margin-top: 50px
+.invoicesdetails__summary {
+  margin-top: 50px;
 }
-.invoicesdetails__summary > div{
-    margin-left: 100px;
-    margin-right: 100px;
+.invoicesdetails__summary > div {
+  margin-left: 100px;
+  margin-right: 100px;
 }
-.invoicesdetails__summary > div{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-}   
-.invoicesdetails__bottom{
-    text-align: center;
+.invoicesdetails__summary > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
 }
-.invoicesdetails__siganture{
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    margin: 30px;
-    margin-top: 50px;
+.invoicesdetails__bottom {
+  text-align: center;
 }
-.invoicesdetails__siganture > div{
-    width: 200px;
+.invoicesdetails__siganture {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin: 30px;
+  margin-top: 50px;
 }
-.invoicesdetails__name{
-    border-bottom: 1px solid #000000;
+.invoicesdetails__siganture > div {
+  width: 200px;
+}
+.invoicesdetails__name {
+  border-bottom: 1px solid #000000;
 }

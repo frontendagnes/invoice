@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import "./Authoryzation.css";
 import logo from "../../assets/pic/logo.webp";
-import TabGenerator from "../TabGenerator/TabGenerator";
-import Login from "./Login/Login";
-import Registration from "./Registaration/Registration";
-import AntySpam from "../AntySpam/AntySpam";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 import {
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "../../assets/utility/firebase.js";
-import ValidationError from "../ValidationError/ValidationError";
 import { validateLogin, validateRegister } from "./validate";
+//components
+import ValidationError from "../ValidationError/ValidationError";
+import TabGenerator from "../TabGenerator/TabGenerator";
+import Login from "./Login/Login";
+import Registration from "./Registaration/Registration";
+import AntySpam from "../AntySpam/AntySpam";
+import Footer from "../Footer/Footer";
 
 function Authoryzation() {
   const [name, setName] = useState("");
@@ -123,10 +125,8 @@ function Authoryzation() {
           </div>
         </div>
       </div>
-      <footer>
-        &copy; <a href="https://frontend-agnes.pl" title="frontend-agnes.pl" alt="frontend-agnes.pl">frontend-agnes</a>
-      </footer>
       <AntySpam test={test} setTest={setTest} />
+      <Footer />
     </div>
   );
 }

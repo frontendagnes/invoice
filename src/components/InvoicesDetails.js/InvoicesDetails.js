@@ -5,6 +5,7 @@ import { getTotal } from "../../assets/functions";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import { today } from "../../assets/functions";
+import Footer from "../Footer/Footer";
 
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();
@@ -176,6 +177,7 @@ function InvoicesDetails({ data }) {
             </div>
           ))}
       </div>
+      <Footer />
     </div>
   );
 }

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./CreateInvoice.css";
 import Form from "../Form/Form";
 import FormTop from "../Form/FormTop/FormTop";
-import FormBuyer from "../Form/FormBuyer/FormBuyer";
-import FormSeller from "../Form/FormSeller/FormSeller";
+import FormPerson from "../Form/FormPerson/FormPerson";
 import FormPayment from "../Form/FormPaymnet/FormPayment";
 import FormProducts from "../Form/FormProducts/FormProducts";
 import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
@@ -20,6 +19,7 @@ import {
   addDoc,
   increment,
   updateDoc,
+  setDoc,
 } from "../../assets/utility/firebase";
 
 function CreateInvoice() {
@@ -28,12 +28,20 @@ function CreateInvoice() {
   const [order, setOrder] = useState("");
   const [number, setNumber] = useState("");
   const [date, setDate] = useState(today());
-  const [nameBuyer, setNameBuyer] = useState("");
-  const [streetBuyer, setStreetBuyer] = useState("");
-  const [zipcodeBuyer, setZipcodeBuyer] = useState("");
-  const [townBuyer, setTownBuyer] = useState("");
-  const [nip, setNip] = useState("");
-  const [seller, setSeller] = useState("Małgorzata Kamińska");
+  const [buyer, setBuyer] = useState({
+    name: "",
+    street: "",
+    zipcode: "",
+    town: "",
+    nip: "",
+  });
+  const [seller, setSeller] = useState({
+    name: "",
+    street: "",
+    zipcode: "",
+    town: "",
+    nip: "",
+  });
   const [selected, setSelected] = useState("przelew");
   const [products, setProducts] = useState([]);
   const [title, setTitle] = useState("");
@@ -61,17 +69,31 @@ function CreateInvoice() {
     setNumber(numberInvoice);
   }, [dispatch, order, year, amount, numberInvoice, count]);
 
+  const handleChangeSeller = (e) => {
+    const value = e.target.value;
+    setSeller({
+      ...seller,
+      [e.target.name]: value,
+    });
+  };
+  const handleChangeBuyer = (e) => {
+    const value = e.target.value;
+    setBuyer({
+      ...buyer,
+      [e.target.name]: value,
+    });
+  };
   const addInvoice = async (e) => {
     e.preventDefault();
     const msg = validate(
       count,
       year,
       date,
-      nameBuyer,
-      streetBuyer,
-      zipcodeBuyer,
-      townBuyer,
-      seller
+      buyer.name,
+      buyer.street,
+      buyer.zipcode,
+      buyer.town,
+      seller.name
     );
     if (msg) {
       setError(msg);
@@ -85,13 +107,12 @@ function CreateInvoice() {
       number: number,
       payment: selected,
       buyer: {
-        name: nameBuyer,
-        street: streetBuyer,
-        zipcode: zipcodeBuyer,
-        town: townBuyer,
-        nip: nip,
+        name: buyer.name,
+        street: buyer.street,
+        zipcode: buyer.zipcode,
+        town: buyer.town,
+        nip: buyer.nip,
       },
-      seller: seller,
       products: products,
     })
       .then(() => {
@@ -101,7 +122,16 @@ function CreateInvoice() {
       .catch((error) => {
         dispatch({ type: "ALERT_ERROR", item: error.message });
       });
-
+    const refSeller = collection(docRef, "seller");
+    await setDoc(refSeller, {
+      seller: {
+        name: seller.name,
+        street: seller.street,
+        zipcode: seller.zipcode,
+        town: seller.town,
+        nip: seller.nip,
+      },
+    });
     // editing invoice number
     const updateRef = doc(
       db,
@@ -132,19 +162,24 @@ function CreateInvoice() {
           number={number}
         />
         <div className="createinvoice__wrapper">
-          <FormBuyer
-            nameBuyer={nameBuyer}
-            setNameBuyer={setNameBuyer}
-            streetBuyer={streetBuyer}
-            setStreetBuyer={setStreetBuyer}
-            zipcodeBuyer={zipcodeBuyer}
-            setZipcodeBuyer={setZipcodeBuyer}
-            townBuyer={townBuyer}
-            setTownBuyer={setTownBuyer}
-            nip={nip}
-            setNip={setNip}
+          <FormPerson
+            title="Nabywca"
+            name={buyer.name}
+            street={buyer.street}
+            zipcode={buyer.zipcode}
+            town={buyer.town}
+            nip={buyer.nip}
+            handleChange={handleChangeBuyer}
           />
-          <FormSeller seller={seller} setSeller={setSeller} />
+          <FormPerson
+            title="Sprzedawca"
+            name={seller.name}
+            street={seller.street}
+            zipcode={seller.zipcode}
+            town={seller.town}
+            nip={seller.nip}
+            handleChange={handleChangeSeller}
+          />
         </div>
         <FormPayment selected={selected} setSelected={setSelected} />
         <FormProducts

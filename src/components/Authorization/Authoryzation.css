@@ -77,10 +77,3 @@
     justify-content: space-around;
     align-items: flex-end;
 }
-.authoryzation footer{
-    text-align: center;
-    font-size: 1.2rem;
-}
-.authoryzation footer > a{
-    text-decoration: none;
-}

@@ -25,7 +25,7 @@ import SnackBar from "./components/Snackbar/Snackbar";
 import NoMatch from "./components/NoMatch/NoMatch";
 import Records from "./components/Records/Records";
 import Costs from "./components/Costs/Costs";
-
+import Footer from "./components/Footer/Footer";
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [{ user }, dispatch] = useStateValue();
@@ -136,6 +136,7 @@ function App() {
                   <>
                     <Header />
                     <CreateInvoice />
+                    <Footer />
                   </>
                 ) : (
                   <Authorization />
@@ -149,6 +150,7 @@ function App() {
               <>
                 <Header />
                 <Invoices data={invoices} />
+                <Footer />
               </>
             }
           />
@@ -169,6 +171,7 @@ function App() {
               <>
                 <Header />
                 <Costs />
+                <Footer />
               </>
             }
           />
@@ -178,14 +181,12 @@ function App() {
               <div>
                 <Header />
                 <Records data={invoices} />
+                <Footer />
               </div>
             }
           />
           <Route path="*" element={<NoMatch />} />
         </Routes>
-        <footer>
-        &copy; <a href="https://frontend-agnes.pl" title="frontend-agnes.pl" alt="frontend-agnes.pl">frontend-agnes</a>
-      </footer>
       </Suspense>
       <SnackBar />
     </div>

@@ -1,20 +1,20 @@
-.formbuyer{
+.formperson{
     width: 40%;
 }
-.formbuyer__input{
+.formperson__input{
     margin-top: 10px;
 }
-.formbuyer__wrapper{
+.formperson__wrapper{
     display: flex;
 }
-.formbuyer__zipcode{
+.formperson__zipcode{
     margin-right: 10px;
     width: 30%;
 }
-.formbuyer__town{
+.formperson__town{
     width: 70%;
 }
 
-.formbuyer__nip{
+.formperson__nip{
     width: 100%;
 }

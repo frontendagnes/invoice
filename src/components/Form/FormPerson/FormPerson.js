@@ -1,60 +1,61 @@
 import React from "react";
-import "./FormBuyer.css";
+import "./FormPerson.css";
 import NumberFormat from "react-number-format";
 import { TextField } from "@mui/material";
 
-function FormBuyer({
-  nameBuyer,
-  setNameBuyer,
-  streetBuyer,
-  setStreetBuyer,
-  zipcodeBuyer,
-  setZipcodeBuyer,
-  townBuyer,
-  setTownBuyer,
+function FormPerson({
+  name,
+  street,
+  zipcode,
+  town,
   nip,
-  setNip,
+  handleChange,
+  title
 }) {
   return (
-    <div className="formbuyer">
-      <div className="createinvoice__text">Nabywca:</div>
-      <div className="formbuyer__input">
+    <div className="formperson">
+      <div className="createinvoice__text">{title}:</div>
+      <div className="formperson__input">
         <TextField
-          value={nameBuyer}
-          onChange={(e) => setNameBuyer(e.target.value)}
+          value={name}
+          name="name"
+          onChange={handleChange}
           id="outlined-basic"
           label="Imię i nazwisko"
           variant="outlined"
           fullWidth
         />
       </div>
-      <div className="formbuyer__input">
+      <div className="formperson__input">
         <TextField
-          value={streetBuyer}
-          onChange={(e) => setStreetBuyer(e.target.value)}
+          value={street}
+          name="street"
+          onChange={handleChange}
           id="outlined-basic"
           label="Ulica i numer domu"
           variant="outlined"
           fullWidth
         />
       </div>
-      <div className="formbuyer__wrapper">
-        <div className="formbuyer__input formbuyer__zipcode">
+      <div className="formperson__wrapper">
+        <div className="formperson__input formperson__zipcode">
           <NumberFormat
             customInput={TextField}
             format="##-###"
             mask="_"
             placeholder="__-___"
             label="Kod pocztowy"
-            value={zipcodeBuyer}
-            onChange={(e) => setZipcodeBuyer(e.target.value)}
+            name="ziopcode"
+            value={zipcode}
+            onChange={handleChange}
             fullWidth
           />
         </div>
-        <div className="formbuyer__input formbuyer__town">
+        <div className="formperson__input formperson__town">
           <TextField
-            value={townBuyer}
-            onChange={(e) => setTownBuyer(e.target.value)}
+            value={town}
+            name={town}
+            onChange={handleChange}
             id="outlined-basic"
             label="Miejscowość"
             variant="outlined"
@@ -62,20 +63,21 @@ function FormBuyer({
           />
         </div>
       </div>
-      <div className="formbuyer__input">
+      <div className="formperson__input">
         <NumberFormat
-          className="formbuyer__nip"
+          className="formperson__nip"
           customInput={TextField}
           format="###-###-##-##"
           mask="_"
           placeholder="___-___-__-__"
           label="NIP"
+          name="npi"
           value={nip}
-          onChange={(e) => setNip(e.target.value)}
+          onChange={handleChange}
         />
       </div>
     </div>
   );
 }
 
-export default FormBuyer;
+export default FormPerson;
