@@ -28,7 +28,7 @@ import Costs from "./components/Costs/Costs";
 import Footer from "./components/Footer/Footer";
 function App() {
   const [invoices, setInvoices] = useState([]);
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, salesman }, dispatch] = useStateValue();
 
   useEffect(() => {
     const authUser = onAuthStateChanged(auth, (authUser) => {
@@ -102,6 +102,25 @@ function App() {
       };
     }
   }, [dispatch, user]);
+
+  useEffect(() => {
+    if (user) {
+      const docRef = doc(db, "invoices", user?.uid);
+      const ref = collection(docRef, "seller");
+      const unsb = onSnapshot(ref, (snap) => {
+        dispatch({
+          type: "SET_SALESMAN",
+          item: snap.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          })),
+        });
+      });
+      return () => {
+        unsb();
+      };
+    }
+  }, [dispatch, user, salesman]);
   const renderLoader = () => (
     <div
       style={{

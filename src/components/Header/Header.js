@@ -38,6 +38,7 @@ function Header() {
       <div className="header__right">
         <div
           className="header__user"
+          onMouseEnter={() => setSettingsView(true)}
           onClick={() => setSettingsView(!settingsView)}
         >
           <div>
@@ -52,7 +53,7 @@ function Header() {
             transform: settingsView ? "scaleY(1)" : "scaleY(0)",
           }}
         >
-          <ul className="header__settingsUl">
+          <ul className="header__settingsUl" onMouseLeave={() => setSettingsView(false)}>
             <li onClick={logout}>Wyloguj</li>
           </ul>
         </div>

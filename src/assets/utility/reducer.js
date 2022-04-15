@@ -1,5 +1,6 @@
 export const initialState = {
   user: null,
+  salesman: null,
   alert: {
     open: false,
     message: "",
@@ -30,6 +31,17 @@ const reducer = (state, action) => {
         ...state,
         user: null,
       };
+    // SALESMAN
+    case "SET_SALESMAN":
+      return{
+        ...state,
+        salesman: action.item
+      }
+    case "DELETE_SALSEMAN":
+      return{
+        ...state,
+        salesman: null
+      }
     //Costs
     case "SET_COSTS":
       return {
@@ -115,6 +127,15 @@ const reducer = (state, action) => {
           type: "success",
         },
       };
+    case "ALERT_SUCCESS":
+      return{
+        ...state,
+        alert:{
+          open: true,
+          message: action.item,
+          type: "success",
+        }
+      }
     // Count
     case "COUNT_INCREMENT":
       return {

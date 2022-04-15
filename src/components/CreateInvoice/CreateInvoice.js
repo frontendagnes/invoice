@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./CreateInvoice.css";
-import Form from "../Form/Form";
-import FormTop from "../Form/FormTop/FormTop";
-import FormPerson from "../Form/FormPerson/FormPerson";
-import FormPayment from "../Form/FormPaymnet/FormPayment";
-import FormProducts from "../Form/FormProducts/FormProducts";
-import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
+
 import { useNavigate } from "react-router-dom";
 import { today } from "../../assets/functions";
 import { db } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { getTotal } from "../../assets/functions";
-import { validate } from "../Form/ValidateHomeForm";
+import { validate, validateSeller } from "../Form/ValidateHomeForm";
 import ValidationError from "../ValidationError/ValidationError";
 import {
   doc,
@@ -21,8 +16,19 @@ import {
   updateDoc,
   setDoc,
 } from "../../assets/utility/firebase";
+// mui
+import { Tooltip } from "@mui/material";
+//components
+import Form from "../Form/Form";
+import FormTop from "../Form/FormTop/FormTop";
+import FormPerson from "../Form/FormPerson/FormPerson";
+import FormPayment from "../Form/FormPaymnet/FormPayment";
+import FormProducts from "../Form/FormProducts/FormProducts";
+import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
 
 function CreateInvoice() {
+  const [{ salesman }] = useStateValue();
+  
   const [count, setCount] = useState(0);
   const [year, setYear] = useState(new Date().getFullYear());
   const [order, setOrder] = useState("");
@@ -83,6 +89,58 @@ function CreateInvoice() {
       [e.target.name]: value,
     });
   };
+
+  const saveSeller = async () => {
+    const msg = validateSeller(seller.name);
+    if (msg) {
+      dispatch({ type: "ALERT__ERROR", item: msg });
+      return;
+    }
+    const refSeller = doc(db, "invoices", user.uid, "seller", "item-seller123");
+    await setDoc(
+      refSeller,
+      {
+        seller: {
+          name: seller.name,
+          street: seller?.street,
+          zipcode: seller?.zipcode,
+          town: seller?.town,
+          nip: seller?.nip,
+        },
+      }
+    )
+      .then(() => {
+        dispatch({
+          type: "AALERT_SUCCESS",
+          item: "Dane zostały dodane prawidłowo",
+        });
+      })
+      .catch((error) => {
+        dispatch({ type: "ALERT__ERROR", item: error.message });
+      });
+  };
+
+  const updateSeller = async () => {
+    const refSeller = doc(db, "invoices", user.uid, "seller", "item-seller123");
+    await updateDoc(refSeller, {
+      seller: {
+        name: seller?.name,
+        street: seller?.street,
+        zipcode: seller?.zipcode,
+        town: seller?.town,
+        nip: seller?.nip,
+      },
+    })
+      .then(() => {
+        dispatch({
+          type: "ALERT_SUCCESS",
+          item: "Edycja sprzedawcy przebiegła poprawnie",
+        });
+      })
+      .catch((error) => {
+        dispatch({ type: "ALERT__ERROR", item: error.message });
+      });
+  };
   const addInvoice = async (e) => {
     e.preventDefault();
     const msg = validate(
@@ -122,16 +180,7 @@ function CreateInvoice() {
       .catch((error) => {
         dispatch({ type: "ALERT_ERROR", item: error.message });
       });
-    const refSeller = collection(docRef, "seller");
-    await setDoc(refSeller, {
-      seller: {
-        name: seller.name,
-        street: seller.street,
-        zipcode: seller.zipcode,
-        town: seller.town,
-        nip: seller.nip,
-      },
-    });
+
     // editing invoice number
     const updateRef = doc(
       db,
@@ -161,6 +210,23 @@ function CreateInvoice() {
           setOrder={setOrder}
           number={number}
         />
+        <div className="creativeinvoice__buttonWrapper">
+          {salesman?.length === 0 ? (
+            <button type="button" onClick={saveSeller}>
+              Dodaj sprzedawcę
+            </button>
+          ) : (
+            <Tooltip
+              title="UWAGA! Zmieniasz dane we wszystkich dotychczas wystawionych dokumentach"
+              placement="bottom"
+              followCursor={true}
+            >
+              <button type="button" onClick={updateSeller}>
+                Aktualizuj sprzedawcę
+              </button>
+            </Tooltip>
+          )}
+        </div>
         <div className="createinvoice__wrapper">
           <FormPerson
             title="Nabywca"
@@ -171,15 +237,30 @@ function CreateInvoice() {
             nip={buyer.nip}
             handleChange={handleChangeBuyer}
           />
-          <FormPerson
-            title="Sprzedawca"
-            name={seller.name}
-            street={seller.street}
-            zipcode={seller.zipcode}
-            town={seller.town}
-            nip={seller.nip}
-            handleChange={handleChangeSeller}
-          />
+          {salesman?.length === 0 ? (
+            <FormPerson
+              title="Sprzedawca"
+              name={seller.name}
+              street={seller.street}
+              zipcode={seller.zipcode}
+              town={seller.town}
+              nip={seller.nip}
+              handleChange={handleChangeSeller}
+            />
+          ) : (
+            salesman?.map((item) => (
+              <FormPerson
+                key={item.id}
+                title="Sprzedawca"
+                name={seller.name || item.data.seller.name}
+                street={seller.street || item.data.seller.street}
+                zipcode={seller.zipcode || item.data.seller.zipcode}
+                town={seller.town || item.data.seller.town}
+                nip={seller.nip || item.data.seller.nip}
+                handleChange={handleChangeSeller}
+              />
+            ))
+          )}
         </div>
         <FormPayment selected={selected} setSelected={setSelected} />
         <FormProducts

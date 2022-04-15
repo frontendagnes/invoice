@@ -1,43 +1,76 @@
-.createinvoice{
-    /* margin-bottom: calc(100vh - 90px); */
+.createinvoice__text {
+  font-size: 1.3rem;
+  padding: 20px 30px;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
-.createinvoice__text{
-    font-size: 1.3rem;
-    padding: 20px 30px;
-    font-weight: 600;
-    letter-spacing: 2px;
+.createinvoice__top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
-.createinvoice__wrapper{
-    display: flex;
-    justify-content: space-around;
+.creativeinvoice__buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  flex-wrap: wrap;
+}
+.creativeinvoice__buttonWrapper > button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: transparent;
+  border-radius: 10px;
+  background: #3f4d70;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.75s;
+}
+.creativeinvoice__buttonWrapper > button:hover {
+  background: #5a71aa;
+}
 
+.createinvoice__wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
-.creativeinvoice__summary{
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-} 
-.createinvoice__footer{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+.createinvoice__wrapper button {
+  align-self: flex-start;
+  justify-self: flex-end;
 }
-.createinvoice__button{
-    margin-left: 10px;
-    padding: 10px 20px;
-    border: transparent;
-    border-radius: 10px;
-    background: #3f4d70;
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: background 0.75s;
+.createinvoive__person {
+  width: 100%;
 }
-.createinvoice__button:hover{
-    background: #5a71aa;
+.creativeinvoice__summary {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
-.createinvoice__footer{
-    margin-right: 40px;
-    margin-top: 20px;
+.createinvoice__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.createinvoice__button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  border: transparent;
+  border-radius: 10px;
+  background: #3f4d70;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.75s;
+}
+.createinvoice__button:hover {
+  background: #5a71aa;
+}
+.createinvoice__footer {
+  margin-right: 40px;
+  margin-top: 20px;
 }

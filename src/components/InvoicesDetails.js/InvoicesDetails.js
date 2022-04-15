@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./InvoicesDetails.css";
 import { getTotal } from "../../assets/functions";
@@ -6,9 +6,15 @@ import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import { today } from "../../assets/functions";
 import Footer from "../Footer/Footer";
+import PrintSeller from "../PrintSeller/PrintSeller";
+import { useStateValue } from "../../assets/utility/StateProvider";
 
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();
+  const [{salesman}] =useStateValue()
+  // useEffect(() =>{
+  //   console.log(">>", salesman)
+  // }, [salesman])
   // const generatePDF = () => {
   //   const input = document.querySelector("#invoice");
   //   html2canvas(input).then((canvas) => {
@@ -28,12 +34,12 @@ function InvoicesDetails({ data }) {
       let pageHeight = doc.internal.pageSize.getHeight();
       const imgHeight = (canvas.height * width) / canvas.width;
       let heightLeft = imgHeight;
-  
+
       let position = 0;
-  
+
       doc.addImage(imgData, "WEBP", 0, position, width, imgHeight);
       heightLeft -= pageHeight;
-  
+
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
         doc.addPage();
@@ -94,7 +100,9 @@ function InvoicesDetails({ data }) {
                   </div>
                   <div className="invoicevdetail__seller">
                     <div className="invoicesdetail__headline">Sprzedawca:</div>
-                    <div>{item.data.seller}</div>
+                    <div>
+                          {item.data.seller ? item.data.seller : <PrintSeller />}
+                    </div>
                   </div>
                 </div>
                 <div>
@@ -121,8 +129,12 @@ function InvoicesDetails({ data }) {
                           <td>{index + 1}</td>
                           <td className="table__title">{item.title}</td>
                           <td>{item.quantity} szt.</td>
-                          <td className="table__price">{Number.parseFloat(item.price).toFixed(2)} zł</td>
-                          <td className="table__price">{Number.parseFloat(item.worth).toFixed(2)} zł</td>
+                          <td className="table__price">
+                            {Number.parseFloat(item.price).toFixed(2)} zł
+                          </td>
+                          <td className="table__price">
+                            {Number.parseFloat(item.worth).toFixed(2)} zł
+                          </td>
                           <td>{item.vat}</td>
                         </tr>
                       </tbody>
@@ -135,13 +147,19 @@ function InvoicesDetails({ data }) {
                   <span>
                     <b>Razem: </b>
                   </span>
-                  <span>{Number.parseFloat(getTotal(item.data.products)).toFixed(2)} PLN</span>
+                  <span>
+                    {Number.parseFloat(getTotal(item.data.products)).toFixed(2)}{" "}
+                    PLN
+                  </span>
                 </div>
                 <div>
                   <span>
                     <b>Zapłacono:</b>
                   </span>
-                  <span>{Number.parseFloat(getTotal(item.data.products)).toFixed(2)} PLN </span>
+                  <span>
+                    {Number.parseFloat(getTotal(item.data.products)).toFixed(2)}{" "}
+                    PLN{" "}
+                  </span>
                 </div>
                 <div>
                   <span>

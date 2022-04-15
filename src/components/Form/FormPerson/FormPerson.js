@@ -10,7 +10,7 @@ function FormPerson({
   town,
   nip,
   handleChange,
-  title
+  title,
 }) {
   return (
     <div className="formperson">
@@ -45,7 +45,7 @@ function FormPerson({
             mask="_"
             placeholder="__-___"
             label="Kod pocztowy"
-            name="ziopcode"
+            name="zipcode"
             value={zipcode}
             onChange={handleChange}
             fullWidth
@@ -54,7 +54,7 @@ function FormPerson({
         <div className="formperson__input formperson__town">
           <TextField
             value={town}
-            name={town}
+            name="town"
             onChange={handleChange}
             id="outlined-basic"
             label="Miejscowość"
@@ -71,7 +71,7 @@ function FormPerson({
           mask="_"
           placeholder="___-___-__-__"
           label="NIP"
-          name="npi"
+          name="nip"
           value={nip}
           onChange={handleChange}
         />
