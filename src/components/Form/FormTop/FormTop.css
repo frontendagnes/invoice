@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap-reverse;
 }
 .formtop__input{
     width: 40%;
@@ -21,7 +22,23 @@
 .formtop__wrapper{
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 .formtop__input_row{
     width: 25%;
 }
+
+
+@media screen and (max-width: 800px) {
+    .formtop__input_row{
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+  }
+
+  @media screen and (max-width: 500px) {
+    .formtop__input{
+        width: 90%;
+    }
+  }

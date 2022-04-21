@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./Login.css";
 import TextField from "@mui/material/TextField";
+import Form from "../../Form/Form";
 
 function Login({name, setName, password, setPassword, signIn}) {
   return (
     <div className="login">
-        <form>
+        <Form>
           <div className="authoryzation__inputs">
             <div className="authoryzation__row">
               <TextField
@@ -33,7 +34,7 @@ function Login({name, setName, password, setPassword, signIn}) {
               Zaloguj się
             </button>
           </div>
-        </form>
+        </Form>
       </div>
   );
 }

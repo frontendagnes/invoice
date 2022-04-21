@@ -1,5 +1,6 @@
 import { TextField } from "@mui/material";
 import React from "react";
+import Form from "../../Form/Form";
 import "./Registration.css";
 function Registration({
   name,
@@ -12,7 +13,7 @@ function Registration({
 }) {
   return (
     <div className="registration">
-      <form>
+      <Form>
         <div className="authoryzation__inputs">
           <div className="authoryzation__row">
             <TextField
@@ -49,7 +50,7 @@ function Registration({
             Zarejestruj się
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

@@ -3,15 +3,28 @@
   background: #ebebebfa;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   padding: 20px;
 }
 .cost__item {
-  width: 30%;
+  width: 16%;
 }
 .cost__item > span {
   font-weight: 600;
 }
 .cost__icons {
   cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .cost {
+    justify-content: center;
+  }
+  .cost__item {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+  }
 }

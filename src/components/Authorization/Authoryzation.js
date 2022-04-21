@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Authoryzation.css";
 import logo from "../../assets/pic/logo.webp";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -28,6 +28,7 @@ function Authoryzation() {
   const history = useNavigate();
   // filter antyspam
   const [test, setTest] = useState("");
+
   const signIn = (e) => {
     e.preventDefault();
 
@@ -73,56 +74,93 @@ function Authoryzation() {
   return (
     <div className="authoryzation">
       <div className="authoryzation__top">
-        <img src={logo} alt="Fakturka 2.0" />
+        <img src={logo} alt="Fakturka 2.0" title="Fakturka 2.0" />
       </div>
       <div className="authoryzation__middle">
-        <div className="authoryzation__wrapper">
-          <div className="authoryzation__descryption">
-            Lorem iNesciunt veritatis exercitationem ducimus non eveniet quis.
-            Vel ut voluptate voluptatem sed porro. Non itaque illum aut omnis
-            labore et iste quibusdam. Modi sunt sunt libero neque quis at omnis
-            dolor recusandae. Maiores ut pariatur quia saepe consequuntur
-            facere. Quisquam porro laborum dolor dignissimos sit ipsam vitae
-            voluptatibus. Et nisi quis veritatis in. Aliquid vel molestiae aut.
-            Dolorum ea quia molestias eius. Nesciunt ex optio. Optio ea aut
-            facere nobis iure sapiente. Magni asperiores deserunt possimus
-            pariatur sunt molestias quia. Veritatis dignissimos cupiditate vero
-            ab autem in eligendi aliquam. Eos voluptatum nostrum modi corporis
-            asperiores repudiandae voluptates. Deserunt eaque laboriosam sed ut
-            voluptas excepturi. Aut nobis harum et est. Excepturi perspiciatis
-            quod ut.
+        <div className="authoryzation__descryption">
+          <p>
+            Prowadzisz firmę bez rejestracji na podstawie{" "}
+            <b>art. 5 ust. 1 Prawa przedsiębiorców </b>
+            ta aplikacja jest dla Ciebie
+          </p>
+          <p>
+            Tutaj wystawisz faktury bez VAT a dodatkowo aplikacja za Ciebie
+            wykona wszystko co niezbędne:
+          </p>
+          <ul>
+            <li>Policzy przychód każdego miesiąca, także narastająco</li>
+            <li>Pomoże w wyszukaniu już wystwionych faktur i kosztów</li>
+            <li>Tutaj wprowdzisz równiwż koszty</li>
+            <li>
+              W aplikacji zobaczysz podsumowanie każdego miesiąca jak równiż
+              całego roku(to się przyda przy rozliczeniu rocznym)
+            </li>
+          </ul>
+          <p>
+            Wszystko to dzieje się automatycznie tylko po dodaniu faktury będź
+            kosztu
+          </p>
+          <p>
+            Żmudne tworzenie faktur i wyliczeń w arkuszu kalkulacyjnym to już
+            przeszłość, ten progam zrobi wszystko za Ciebie
+          </p>
+          <p>
+            <b style={{ color: "red" }}>UWAGA:</b> to jest wersja demonstracyjna
+            nie wporwadzaj prawdziwych danych, administrator może je usunąć w
+            każdej chwili
+          </p>
+          <p>
+            Chcesz skorzystać z aplikacji skontaktuj się z administratorem
+            którym jest{" "}
+            <a
+              href="https://frontend-agnes.pl"
+              alt="https://frontend-agnes.pl"
+              title="https://frontend-agnes.pl"
+            >
+              frontend-agnes
+            </a>
+          </p>
+          <p>
+            W celu przetestowania aplikacji możesz użyć następujących danych:
+          </p>
+          <p>
+            <span>
+              <b>login:</b> aga@kam.com
+            </span>
+            <br />
+            <span>
+              <b>hasło:</b> agakam
+            </span>
+          </p>
+        </div>
+        <div className="authoryzation__form">
+          <div className="authoryzation__validate">
+            {error ? <ValidationError text={error} /> : null}
           </div>
-          <div className="authoryzation__form">
-            <div className="authoryzation__validate">
-              {error ? <ValidationError text={error} /> : null}
-            </div>
-            <TabGenerator
-              component={
-                <Login
-                  error={error}
-                  name={name}
-                  setName={setName}
-                  password={password}
-                  setPassword={setPassword}
-                  signIn={signIn}
-                />
-              }
-              component1={
-                <Registration
-                  error={error}
-                  name={nameReg}
-                  setName={setNameReg}
-                  password={passwordReg}
-                  setPassword={setPasswordReg}
-                  repeatPassword={repeatPassword}
-                  setRepeatPassword={setRepeatPassword}
-                  register={register}
-                />
-              }
-              title="Login"
-              title1="Rejestracja"
-            />
-          </div>
+          <TabGenerator
+            component={
+              <Login
+                name={name}
+                setName={setName}
+                password={password}
+                setPassword={setPassword}
+                signIn={signIn}
+              />
+            }
+            component1={
+              <Registration
+                name={nameReg}
+                setName={setNameReg}
+                password={passwordReg}
+                setPassword={setPasswordReg}
+                repeatPassword={repeatPassword}
+                setRepeatPassword={setRepeatPassword}
+                register={register}
+              />
+            }
+            title="Login"
+            title1="Rejestracja"
+          />
         </div>
       </div>
       <AntySpam test={test} setTest={setTest} />

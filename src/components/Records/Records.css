@@ -15,11 +15,6 @@
   justify-content: center;
   flex-wrap: wrap;
 }
-.records button {
-  margin: 10px 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-}
 
 .records__buttons{
   display: flex;
@@ -87,9 +82,6 @@
   font-size: 1.3rem;
   letter-spacing: 2px;
 }
-#records__tableSummary{
-  width: 60%;
-}
 .records__revenue{
   font-size: 1.2rem;
   letter-spacing: 2px;
@@ -99,4 +91,15 @@
 .records__revenue > span{
   font-size: 1.5rem;
   font-weight: 600;
+}
+@media screen and (max-width: 800px) {
+  .records{
+    padding: 5px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .records{
+    font-size: 0.8rem;
+  }
 }

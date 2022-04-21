@@ -28,7 +28,7 @@ import Costs from "./components/Costs/Costs";
 import Footer from "./components/Footer/Footer";
 function App() {
   const [invoices, setInvoices] = useState([]);
-  const [{ user, salesman }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     const authUser = onAuthStateChanged(auth, (authUser) => {
@@ -54,6 +54,7 @@ function App() {
       const ref = collection(docRef, "invoice");
       const sortRef = query(ref, orderBy("date", "desc"));
       const unsb = onSnapshot(sortRef, (snap) => {
+        console.log("invoices");
         setInvoices(
           snap.docs.map((doc) => ({
             id: doc.id,
@@ -71,8 +72,8 @@ function App() {
     if (user) {
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "number");
-
       const unsb = onSnapshot(ref, (snap) => {
+        console.log("number");
         snap.docs.map((doc) =>
           dispatch({ type: "GET_COUNT", item: doc.data().count })
         );
@@ -81,14 +82,16 @@ function App() {
         unsb();
       };
     }
-  }, [dispatch, user]);
+  }, [user, dispatch]);
 
   useEffect(() => {
     if (user) {
+      
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "costs");
       const sortRef = query(ref, orderBy("date", "desc"));
       const unsb = onSnapshot(sortRef, (snap) => {
+        console.log("costs");
         dispatch({
           type: "SET_COSTS",
           item: snap.docs.map((doc) => ({
@@ -101,13 +104,15 @@ function App() {
         unsb();
       };
     }
-  }, [dispatch, user]);
+  }, [user, dispatch]);
 
   useEffect(() => {
     if (user) {
+      
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "seller");
       const unsb = onSnapshot(ref, (snap) => {
+        console.log("seller");
         dispatch({
           type: "SET_SALESMAN",
           item: snap.docs.map((doc) => ({
@@ -120,7 +125,7 @@ function App() {
         unsb();
       };
     }
-  }, [dispatch, user, salesman]);
+  }, [user, dispatch]);
   const renderLoader = () => (
     <div
       style={{

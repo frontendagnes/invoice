@@ -43,3 +43,10 @@
 .addcost button:hover {
   background: #a4b0cc;
 }
+
+
+@media screen and (max-width: 800px){
+  .addcost__item{
+    width: 90%;
+  }
+}

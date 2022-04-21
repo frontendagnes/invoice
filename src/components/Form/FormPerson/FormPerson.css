@@ -18,3 +18,9 @@
 .formperson__nip{
     width: 100%;
 }
+
+@media screen and (max-width: 800px) {
+    .formperson{
+        width: 90%;
+    }
+}

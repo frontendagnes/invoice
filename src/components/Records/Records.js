@@ -131,7 +131,6 @@ function Records({ data }) {
     return months.map((item, index) => (
       <div
         key={index + 1}
-        type="button"
         className="records__button"
         onClick={() => numberChange(index)}
         style={{ background: index === number - 1 ? "#3f4d70" : "#1976d2" }}
@@ -209,7 +208,7 @@ function Records({ data }) {
                 </caption>
                 <thead>
                   <tr>
-                    <td>Lp.</td>
+                    <td className="table__singular">Lp.</td>
                     <td>Numer Faktury</td>
                     <td>Kontrahent</td>
                     <td>Data wystawienia</td>
@@ -224,7 +223,7 @@ function Records({ data }) {
                     )
                     .map((item, index) => (
                       <tr key={item.id}>
-                        <td>{index + 1}</td>
+                        <td className="table__singular">{index + 1}</td>
                         <td>{item.data.number}</td>
                         <td>{item.data.contractor}</td>
                         <td>{item.data.date}</td>
@@ -250,7 +249,7 @@ function Records({ data }) {
         ) : (
           <div className="records__summaryyear">
             <div className="records__revenue">
-              Roczny Dochód (przychód - koszty):{" "}
+              Roczny Dochód (przychody - koszty):{" "}
               <span>{Number.parseFloat(yearEnd()).toFixed(2)}</span>
             </div>
             <table id="records__tableSummary">
@@ -262,7 +261,7 @@ function Records({ data }) {
               </caption>
               <thead>
                 <tr>
-                  <td>Lp.</td>
+                  <td className="table__singular">Lp.</td>
                   <td>Miesiąc</td>
                   <td>Przychody</td>
                   <td>Koszty</td>
@@ -273,7 +272,7 @@ function Records({ data }) {
                   .filter((_, index) => index !== summaryYearId)
                   .map((month, index) => (
                     <tr key={index}>
-                      <td>{index + 1}</td>
+                      <td className="table__singular">{index + 1}</td>
                       <td className="records__monthTd">{month}</td>
                       <td className="records__amount">
                         {Number.parseFloat(totalMnoth[index]).toFixed(2)} zł

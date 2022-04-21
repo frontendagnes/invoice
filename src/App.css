@@ -10,28 +10,25 @@
   height: 100%;
 }
 
-table,
-td {
+/* table */
+table, td{
   border: 1px solid #000000;
   border-collapse: collapse;
-  word-wrap: break-word;
+  word-wrap:break-word;
 }
 
-td {
+td{
   height: 30px;
   padding: 5px;
-  text-align: center;
+  text-align:center;
 }
-
-.table__title {
+.table__title{
   width: 350px;
   text-align: left;
 }
-
-.table__price {
+.table__price{
   width: 70px;
 }
-
 .app footer{
   text-align: center;
   font-size: 1.2rem;
@@ -40,4 +37,10 @@ td {
 .app footer > a{
   text-decoration: none;
   padding-bottom: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  table th{
+    font-size: .55em;
+  }
 }

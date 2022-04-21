@@ -13,13 +13,13 @@ function ViewProducts({ products, setProducts }) {
       <table>
         <thead>
           <tr>
-            <td>lp.</td>
+            <td>Lp.</td>
             <td className="table__title">Nazwa towaru:</td>
             <td>Ilość</td>
             <td className="table__price">Cena jedn. netto</td>
             <td className="table__price">Wartość</td>
             <td>Vat</td>
-            <td></td>
+            <td >Remove</td>
           </tr>
         </thead>
         {products.map((item, index) => (

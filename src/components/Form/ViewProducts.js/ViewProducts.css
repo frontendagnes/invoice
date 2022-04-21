@@ -6,3 +6,6 @@
 .vieproducts__button{
     cursor: pointer;
 }
+.viewproducts table{
+    width: 80%;
+}

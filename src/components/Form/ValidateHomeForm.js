@@ -30,9 +30,9 @@ export const validate = (
   if (!townBuyer) {
     return "Wpisz misato nabywcy";
   }
-  if (!seller) {
-    return "Wpisz sprzedawcę";
-  }
+  // if (!seller) {
+  //   return "Wpisz sprzedawcę";
+  // }
   return null;
 };
 export const validateSeller = (name) => {

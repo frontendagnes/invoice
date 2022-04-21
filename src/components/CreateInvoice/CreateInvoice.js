@@ -151,7 +151,6 @@ function CreateInvoice() {
       buyer.street,
       buyer.zipcode,
       buyer.town,
-      seller.name
     );
     if (msg) {
       setError(msg);
@@ -237,7 +236,7 @@ function CreateInvoice() {
             nip={buyer.nip}
             handleChange={handleChangeBuyer}
           />
-          {salesman?.length === 0 ? (
+          {(!salesman) ? (
             <FormPerson
               title="Sprzedawca"
               name={seller.name}

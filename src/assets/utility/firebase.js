@@ -2,11 +2,6 @@
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// import firebase from 'firebase/compat/app';
-// import "firebase/compat/database";
-// import "firebase/compat/firestore";
-// import "firebase/compat/auth";
-
 import {
   getAuth,
   onAuthStateChanged,
@@ -26,30 +21,40 @@ import {
   addDoc,
   increment,
   updateDoc,
-  deleteDoc
+  deleteDoc,
+  getDocs,
 } from "firebase/firestore";
 // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCTFvLXCKU5Sk3BfdqWHmvswXZE9ok2YIw",
-  authDomain: "invoice-939f8.firebaseapp.com",
-  projectId: "invoice-939f8",
-  storageBucket: "invoice-939f8.appspot.com",
-  messagingSenderId: "700239820793",
-  appId: "1:700239820793:web:290773277b948fa65f2f28",
-};
+import { firebaseConfig } from "./config";
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
 
-// const firebaseApp = firebase.initializeApp(firebaseConfig);
-// const db = firebaseApp.firestore();
-// const auth = firebase.auth();
+// export const getCosts = (dispatch, user) => {
+//   const docRef = doc(db, "invoices", user?.uid)
+//   const ref = collection(docRef, "costs")
+//   if (user) {
+//     try {
+//       getDocs(ref).then((snapshot) => {
+//         dispatch({
+//           type: "SET_COSTS",
+//           item: snapshot.docs.map((doc) => ({
+//             id: doc.id,
+//             data: doc.data(),
+//           })),
+//         });
+//       });
+//     } catch (error) {
+//       console.log("err>>", error);
+//     }
+//   }
+// };
 
 export {
-  auth,
   db,
+  auth,
   onSnapshot,
   collection,
   doc,
@@ -63,6 +68,6 @@ export {
   signOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  deleteDoc
+  deleteDoc,
+  getDocs,
 };
-// export default db;

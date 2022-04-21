@@ -12,7 +12,6 @@
     background-size: 100% 100%;
     color: #fafafafa;
     text-shadow: 2px 2px 2px #000000;
-    height: 80px;
     z-index: 999;
 }
 .header ul{
@@ -63,3 +62,12 @@
 .header__pulldownMenu ul li:hover {
     background: #1976d2;
 }
+
+@media screen and (max-width: 550px) {
+    .header{
+        justify-content: center;
+        flex-direction: column;
+        height: auto;
+        font-size: 1rem;
+    }
+  }

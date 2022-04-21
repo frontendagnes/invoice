@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Costs.css";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { deleteDoc, doc, db } from "../../assets/utility/firebase";
+import {
+  deleteDoc,
+  doc,
+  db,
+  getCosts,
+  getDocs,
+  collection,
+} from "../../assets/utility/firebase";
 //components
 import DateFilter from "../DateFilter/DateFilter";
 import NameFilter from "../NameFilter/NameFilter";
@@ -10,7 +17,9 @@ import AddCost from "../AddCost/AddCost";
 import TabGenerator from "../TabGenerator/TabGenerator";
 
 function Costs() {
-  const [{ costs, user }, dispatch] = useStateValue();
+  const [{ user, costs }, dispatch] = useStateValue();
+  // const [costs, setCosts] = useState([]);
+
 
   const deleteItem = async (itemId) => {
     await deleteDoc(doc(db, "invoices", user.uid, "costs", itemId))
@@ -27,7 +36,7 @@ function Costs() {
         component={
           <>
             <AddCost />
-            {costs.map((item) => (
+            {costs?.map((item) => (
               <Cost
                 key={item.id}
                 index={item.id}
