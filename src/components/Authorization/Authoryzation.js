@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Authoryzation.css";
 import logo from "../../assets/pic/logo.webp";
 import { useStateValue } from "../../assets/utility/StateProvider";
