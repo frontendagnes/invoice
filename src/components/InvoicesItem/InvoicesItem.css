@@ -1,11 +1,13 @@
 .invoicesitem {
   margin-bottom: 5px;
   background: #ebebebfa;
+  padding: 20px;
+}
+.invoicesitem__wrapper{
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  padding: 20px;
 }
 .invoicesitem__item {
   width: 30%;
@@ -21,9 +23,17 @@
   cursor: pointer;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 10%;
 }
-
+.invoicesitem__note{
+  display: flex;
+  justify-content: center;
+  margin-top:10px;
+  color: #ff0000;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
 @media screen and (max-width: 800px) {
   .invoicesitem {
     justify-content: center;

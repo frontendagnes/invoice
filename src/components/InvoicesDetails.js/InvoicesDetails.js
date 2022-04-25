@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./InvoicesDetails.css";
 import { getTotal } from "../../assets/functions";
@@ -8,10 +8,13 @@ import { today } from "../../assets/functions";
 import Footer from "../Footer/Footer";
 import PrintSeller from "../PrintSeller/PrintSeller";
 import { useStateValue } from "../../assets/utility/StateProvider";
+// import { Document, Page, Text, View } from "react-pdf";
+// import Printer, { print } from "react-pdf-print";
+import { useReactToPrint } from "react-to-print";
 
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();
-  const [{salesman}] =useStateValue()
+  const [{ salesman }] = useStateValue();
   // useEffect(() =>{
   //   console.log(">>", salesman)
   // }, [salesman])
@@ -25,45 +28,58 @@ function InvoicesDetails({ data }) {
   //     doc.addImage(imgData, "PNG", 0, 0, width, height);
   //     doc.save(`${today()}-`);
   //   });
-  const generatePDF = () => {
-    const input = document.querySelector(`#invoice`);
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL("image/webp");
-      const doc = new jsPDF("p", "mm", "a4");
-      let width = doc.internal.pageSize.getWidth();
-      let pageHeight = doc.internal.pageSize.getHeight();
-      const imgHeight = (canvas.height * width) / canvas.width;
-      let heightLeft = imgHeight;
+  let printPDFref = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => printPDFref.current,
+  });
+  // const generatePDF = () => {
+  //   const input = document.querySelector(`#invoice`);
+  //   html2canvas(input).then((canvas) => {
+  //     const imgData = canvas.toDataURL("image/webp");
+  //     const doc = new jsPDF("p", "mm", "a4");
+  //     let width = doc.internal.pageSize.getWidth();
+  //     let pageHeight = doc.internal.pageSize.getHeight();
+  //     const imgHeight = (canvas.height * width) / canvas.width;
+  //     let heightLeft = imgHeight;
 
-      let position = 0;
+  //     let position = 0;
 
-      doc.addImage(imgData, "WEBP", 0, position, width, imgHeight);
-      heightLeft -= pageHeight;
+  //     doc.addImage(imgData, "WEBP", 0, position, width, imgHeight);
+  //     heightLeft -= pageHeight;
 
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        doc.addPage();
-        doc.addImage(imgData, "WEBP", 0, position, width, imgHeight);
-        heightLeft -= pageHeight;
-      }
-      doc.save(`${today()}-`);
-    });
-  };
+  //     while (heightLeft >= 0) {
+  //       position = heightLeft - imgHeight;
+  //       doc.addPage();
+  //       doc.addImage(imgData, "WEBP", 0, position, width, imgHeight);
+  //       heightLeft -= pageHeight;
+  //     }
+  //     doc.save(`${today()}-`);
+  //   });
+  // };
 
   return (
     <div className="invoicesdetail">
-      <button
+      {/* <button
         className="invoicecdetail__button"
         type="button"
         onClick={generatePDF}
       >
         Generuj fakturę do PDF
+      </button> */}
+
+      <button
+        type="button"
+        className="invoicecdetail__button"
+        onClick={handlePrint}
+      >
+        Drukuj Fakturę
       </button>
+
       <div className="invoicesdetail__wrapper">
         {data
           .filter((item) => item.id === invoiceId)
           .map((item, index) => (
-            <div key={index} id="invoice">
+            <div key={index} id="invoice" ref={printPDFref}>
               <div className="invoicesdetail__top">
                 <div className="invoicesdetail__number">
                   <span className="invoicesdetail__text">Faktura nr:</span>
@@ -101,7 +117,7 @@ function InvoicesDetails({ data }) {
                   <div className="invoicevdetail__seller">
                     <div className="invoicesdetail__headline">Sprzedawca:</div>
                     <div>
-                          {item.data.seller ? item.data.seller : <PrintSeller />}
+                      {item.data.seller ? item.data.seller : <PrintSeller />}
                     </div>
                   </div>
                 </div>
@@ -111,36 +127,34 @@ function InvoicesDetails({ data }) {
                 </div>
               </div>
               <div className="invoicesdetails__products">
-                <div>
-                  <table>
-                    <thead>
+                <table>
+                  <thead>
+                    <tr>
+                      <td>Lp.</td>
+                      <td className="table__title">Nazwa towaru/usługi</td>
+                      <td>Ilość</td>
+                      <td className="table__price">Cena jedn. netto</td>
+                      <td className="table__price">Wartość brutto</td>
+                      <td>VAT</td>
+                    </tr>
+                  </thead>
+                  {item.data.products.map((item, index) => (
+                    <tbody key={index}>
                       <tr>
-                        <td>Lp.</td>
-                        <td className="table__title">Nazwa towaru/usługi</td>
-                        <td>Ilość</td>
-                        <td className="table__price">Cena jedn. netto</td>
-                        <td className="table__price">Wartość brutto</td>
-                        <td>VAT</td>
+                        <td>{index + 1}</td>
+                        <td className="table__title">{item.title}</td>
+                        <td>{item.quantity} szt.</td>
+                        <td className="table__price">
+                          {Number.parseFloat(item.price).toFixed(2)} zł
+                        </td>
+                        <td className="table__price">
+                          {Number.parseFloat(item.worth).toFixed(2)} zł
+                        </td>
+                        <td>{item.vat}</td>
                       </tr>
-                    </thead>
-                    {item.data.products.map((item, index) => (
-                      <tbody key={index}>
-                        <tr>
-                          <td>{index + 1}</td>
-                          <td className="table__title">{item.title}</td>
-                          <td>{item.quantity} szt.</td>
-                          <td className="table__price">
-                            {Number.parseFloat(item.price).toFixed(2)} zł
-                          </td>
-                          <td className="table__price">
-                            {Number.parseFloat(item.worth).toFixed(2)} zł
-                          </td>
-                          <td>{item.vat}</td>
-                        </tr>
-                      </tbody>
-                    ))}
-                  </table>
-                </div>
+                    </tbody>
+                  ))}
+                </table>
               </div>
               <div className="invoicesdetails__summary">
                 <div>
@@ -180,7 +194,9 @@ function InvoicesDetails({ data }) {
                     </div>
                     <div className="invoicesdetails__seller">
                       <div className="invoicesdetails__name">
-                        {item.data.seller}
+                        {salesman?.map((item) => (
+                          <div key={item.id}>{item.data.seller.name}</div>
+                        ))}
                       </div>
                       <div>
                         podpis osoby upoważnionej do wystawienia faktury

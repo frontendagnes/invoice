@@ -25,10 +25,12 @@ import FormPerson from "../Form/FormPerson/FormPerson";
 import FormPayment from "../Form/FormPaymnet/FormPayment";
 import FormProducts from "../Form/FormProducts/FormProducts";
 import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
+import Note from "../Form/Note/Note";
 
 function CreateInvoice() {
   const [{ salesman }] = useStateValue();
-  
+
+  const [check, setCheck] = useState(false);
   const [count, setCount] = useState(0);
   const [year, setYear] = useState(new Date().getFullYear());
   const [order, setOrder] = useState("");
@@ -54,6 +56,8 @@ function CreateInvoice() {
   const [price, setPrice] = useState(0);
   //ilość
   const [quantity, setQuantity] = useState(1);
+
+  const [note, setNote] = useState("");
   const [{ user, amount, numberInvoice }, dispatch] = useStateValue();
   //validation error
   const [error, setError] = useState("");
@@ -68,7 +72,7 @@ function CreateInvoice() {
   useEffect(() => {
     dispatch({
       type: "INVOICE_NUMBER",
-      count: amount || count,
+      count: count || amount,
       year: year,
       order: order,
     });
@@ -97,18 +101,15 @@ function CreateInvoice() {
       return;
     }
     const refSeller = doc(db, "invoices", user.uid, "seller", "item-seller123");
-    await setDoc(
-      refSeller,
-      {
-        seller: {
-          name: seller.name,
-          street: seller?.street,
-          zipcode: seller?.zipcode,
-          town: seller?.town,
-          nip: seller?.nip,
-        },
-      }
-    )
+    await setDoc(refSeller, {
+      seller: {
+        name: seller.name,
+        street: seller?.street,
+        zipcode: seller?.zipcode,
+        town: seller?.town,
+        nip: seller?.nip,
+      },
+    })
       .then(() => {
         dispatch({
           type: "AALERT_SUCCESS",
@@ -141,22 +142,28 @@ function CreateInvoice() {
         dispatch({ type: "ALERT__ERROR", item: error.message });
       });
   };
-  const addInvoice = async (e) => {
-    e.preventDefault();
-    const msg = validate(
-      count,
-      year,
-      date,
-      buyer.name,
-      buyer.street,
-      buyer.zipcode,
-      buyer.town,
-    );
-    if (msg) {
-      setError(msg);
-      return;
-    }
 
+  const changeNumber = async () => {
+    const updateRef = doc(
+      db,
+      `invoices/${user.uid}/number/YgYuBDoz5AisskTWslyB`
+    );
+    await updateDoc(updateRef, {
+      count: increment(1),
+    })
+      .then(() =>
+        dispatch({
+          type: "ALERT__SUCCESS",
+          item: "Numer został zaktualizowany pomyślnie",
+        })
+      )
+      .catch((error) => {
+        console.log(error.message);
+        dispatch({ type: "ALERT__ERROR", item: error.message });
+      });
+  };
+
+  const addData = async () => {
     const docRef = doc(db, "invoices", user.uid);
     const ref = collection(docRef, "invoice");
     await addDoc(ref, {
@@ -171,6 +178,7 @@ function CreateInvoice() {
         nip: buyer.nip,
       },
       products: products,
+      note: note,
     })
       .then(() => {
         dispatch({ type: "ALERT_ADD_INVOICE" });
@@ -179,22 +187,42 @@ function CreateInvoice() {
       .catch((error) => {
         dispatch({ type: "ALERT_ERROR", item: error.message });
       });
-
-    // editing invoice number
-    const updateRef = doc(
-      db,
-      `invoices/${user.uid}/number/YgYuBDoz5AisskTWslyB`
-    );
-    await updateDoc(updateRef, {
-      count: increment(1),
-    })
-      .then(() => console.log("Edytowano :)"))
-      .catch((error) => {
-        console.log(error.message);
-        dispatch({ type: "ALERT__ERROR", item: error.message });
-      });
   };
-
+  const addInvoice = (e) => {
+    e.preventDefault();
+    const msg = validate(
+      count,
+      year,
+      date,
+      buyer.name,
+      buyer.street,
+      buyer.zipcode,
+      buyer.town
+    );
+    if (msg) {
+      setError(msg);
+      return;
+    }
+    addData();
+  };
+  const addInvoiceWithNumber = (e) => {
+    e.preventDefault();
+    const msg = validate(
+      count,
+      year,
+      date,
+      buyer.name,
+      buyer.street,
+      buyer.zipcode,
+      buyer.town
+    );
+    if (msg) {
+      setError(msg);
+      return;
+    }
+    addData();
+    changeNumber();
+  };
   return (
     <div className="createinvoice">
       {error ? <ValidationError text={error} /> : null}
@@ -204,10 +232,13 @@ function CreateInvoice() {
           date={date}
           setDate={setDate}
           count={count}
+          setCount={setCount}
           year={year}
           order={order}
           setOrder={setOrder}
           number={number}
+          check={check}
+          setCheck={setCheck}
         />
         <div className="creativeinvoice__buttonWrapper">
           {salesman?.length === 0 ? (
@@ -236,7 +267,7 @@ function CreateInvoice() {
             nip={buyer.nip}
             handleChange={handleChangeBuyer}
           />
-          {(!salesman) ? (
+          {!salesman ? (
             <FormPerson
               title="Sprzedawca"
               name={seller.name}
@@ -281,7 +312,7 @@ function CreateInvoice() {
               </div>
               <button
                 type="button"
-                onClick={addInvoice}
+                onClick={check ? addInvoice : addInvoiceWithNumber}
                 className="createinvoice__button createinvoice__addInvoice"
               >
                 Dodaj fakturę
@@ -289,6 +320,7 @@ function CreateInvoice() {
             </div>
           </div>
         ) : null}
+        <Note note={note} setNote={setNote} />
       </Form>
     </div>
   );

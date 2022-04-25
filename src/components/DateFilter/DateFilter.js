@@ -51,6 +51,7 @@ function DateFilter({ data, openDetails, deleteItem, isCost }) {
                 number={item.data.number}
                 index={item.id}
                 date={item.data.date}
+                note={item.data.note}
                 openDetails={openDetails}
                 deleteItem={deleteItem}
               />

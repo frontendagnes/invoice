@@ -1,0 +1,11 @@
+.note{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+.note__row{
+    width: 90%;
+}

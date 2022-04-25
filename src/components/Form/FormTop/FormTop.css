@@ -8,6 +8,24 @@
     width: 40%;
 
 }
+.formtop__toggleButton{
+    padding: 0px 0px 20px 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.formtop__info{
+    line-height: 20px;
+    text-align: justify;
+    width: 70%;
+}
+.formtop__icon{
+    width: 20%;
+}
+.formtop__toggleButton span{
+    font-weight: 600;
+    letter-spacing: 2px;
+}
 .formtop__input > div{
     margin-bottom: 10px;
 }
