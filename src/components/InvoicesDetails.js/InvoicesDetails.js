@@ -14,7 +14,7 @@ import { useReactToPrint } from "react-to-print";
 
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();
-  const [{ salesman }] = useStateValue();
+  const [{ salesman, logo }] = useStateValue();
   // useEffect(() =>{
   //   console.log(">>", salesman)
   // }, [salesman])
@@ -81,19 +81,28 @@ function InvoicesDetails({ data }) {
           .map((item, index) => (
             <div key={index} id="invoice" ref={printPDFref}>
               <div className="invoicesdetail__top">
-                <div className="invoicesdetail__number">
-                  <span className="invoicesdetail__text">Faktura nr:</span>
-                  <span>{item.data.number}</span>
+                <img src={logo} title="logo" alt="logo" />
+                <div className="invoicedetail__date">
+                  <div className="invoicesdetail__number">
+                    <span className="invoicesdetail__text">Faktura nr:</span>
+                    <span>{item.data.number}</span>
+                  </div>
+                  <div className="invoicesdetail__date">
+                    <div>
+                      <span>Data faktury:</span>
+                      <span>{item.data.date}</span>
+                    </div>
+                    <div>
+                      <span>
+                        Data zakończenie dostawy lub wykonania usługi:
+                      </span>
+                      <span>{item.data.date}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="invoicesdetail__date">
-                  <div>
-                    <span>Data faktury:</span>
-                    <span>{item.data.date}</span>
-                  </div>
-                  <div>
-                    <span>Data zakończenie dostawy lub wykonania usługi:</span>
-                    <span>{item.data.date}</span>
-                  </div>
+                <div className="invoicesdetail__createDate">
+                  <div>Miejsce wystawienia:</div>
+                  <div className="invoicesdetail--bold">{item.data.place}</div>
                 </div>
               </div>
               <div className="invoicesdetail__middle">

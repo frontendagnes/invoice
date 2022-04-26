@@ -1,18 +1,32 @@
 #invoice {
   box-sizing: border-box;
-  /* width: 1595px; */
-  min-height: 842px; 
+  width: 794px;
+  /* min-height: 842px;  */
+  min-height: 1123px;
   height: 100%;
-  padding-top: 20px;
+  padding-top: 40px;
   background-color: #ffffff;
+  font-size: 1rem;
+  position: relative;
 }
-
+.invoicesdetail--bold{
+  font-weight: 600;
+}
 .invoicesdetail {
   padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #e7e7e7;
+}
+.invoicesdetail__top{
+  padding-right: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.invoicesdetail__top img{
+  width: 100px;
+  margin-left: 20px;
 }
 .invoicesdetail__wrapper {
   display: flex;
@@ -21,7 +35,7 @@
 .invoicesdetail__number {
   display: flex;
   justify-content: space-around;
-  font-size: 1.2rem;
+  font-size: 2rem;
 }
 .invoicesdetail__text {
   font-weight: 600;
@@ -36,6 +50,10 @@
 .invoicesdetail__date > div > span {
   padding-left: 10px;
   padding-right: 10px;
+}
+.invoicesdetail__createDate{
+  line-height: 20px;
+  text-align: center;
 }
 .invoicesdetail__middle > div {
   display: flex;
@@ -85,6 +103,11 @@
 }
 .invoicesdetails__bottom {
   text-align: center;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .invoicesdetails__siganture {
   display: flex;

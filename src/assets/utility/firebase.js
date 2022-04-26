@@ -24,11 +24,19 @@ import {
   deleteDoc,
   getDocs,
 } from "firebase/firestore";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+
 // Your web app's Firebase configuration
 import { firebaseConfig } from "./config";
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
+const storage = getStorage(firebaseApp);
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
 
@@ -55,6 +63,7 @@ const auth = getAuth(firebaseApp);
 export {
   db,
   auth,
+  storage,
   onSnapshot,
   collection,
   doc,
@@ -70,4 +79,7 @@ export {
   signInWithEmailAndPassword,
   deleteDoc,
   getDocs,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
 };

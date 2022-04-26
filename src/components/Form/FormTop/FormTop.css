@@ -45,8 +45,29 @@
 .formtop__input_row{
     width: 25%;
 }
-
-
+.formtop__right{
+    width: 40%;
+}
+.formtop__input--100{
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+}
+.formtop__right button{
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: transparent;
+    border-radius: 10px;
+    background: #3f4d70;
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background 0.75s;
+}
+.formtop__right button:hover{
+    background: #5a71aa;
+}
 @media screen and (max-width: 800px) {
     .formtop__input_row{
       width: 100%;

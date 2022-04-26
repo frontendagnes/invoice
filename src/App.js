@@ -71,6 +71,21 @@ function App() {
   useEffect(() => {
     if (user) {
       const docRef = doc(db, "invoices", user?.uid);
+      const ref = collection(docRef, "logo");
+      const unsb = onSnapshot(ref, (snap) => {
+        console.log("logo");
+        snap.docs.map((doc) =>
+          dispatch({ type: "SET_LOGO", item: doc.data().imageUrl })
+        );
+      });
+      return () => {
+        unsb();
+      };
+    }
+  }, [user, dispatch]);
+  useEffect(() => {
+    if(user){
+      const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "number");
       const unsb = onSnapshot(ref, (snap) => {
         console.log("number");
@@ -82,8 +97,7 @@ function App() {
         unsb();
       };
     }
-  }, [user, dispatch]);
-
+  }, [user])
   useEffect(() => {
     if (user) {
       
@@ -126,6 +140,7 @@ function App() {
       };
     }
   }, [user, dispatch]);
+
   const renderLoader = () => (
     <div
       style={{

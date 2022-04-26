@@ -11,11 +11,15 @@
 }
 .creativeinvoice__buttonWrapper {
   display: flex;
-  justify-content: flex-end;
+  flex-flow: column wrap;
+  align-items: flex-end;
   margin-right: 20px;
-  flex-wrap: wrap;
 }
-.creativeinvoice__buttonWrapper > button {
+.creativeinvoice__buttonWrapper button {
+  margin-top: 10px;
+}
+.creativeinvoice__buttonWrapper button,
+.creativeinvoice--span button {
   margin-left: 10px;
   padding: 10px 20px;
   border: transparent;
@@ -28,10 +32,15 @@
   cursor: pointer;
   transition: background 0.75s;
 }
-.creativeinvoice__buttonWrapper > button:hover {
+.creativeinvoice__buttonWrapper button:hover,
+.creativeinvoice--span button:hover{
   background: #5a71aa;
 }
-
+.creativeinvoice--span {
+  line-height: 30px;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
 .createinvoice__wrapper {
   display: flex;
   justify-content: space-around;
@@ -75,7 +84,7 @@
   margin-top: 20px;
 }
 @media screen and (max-width: 500px) {
-  .createinvoice__text{
+  .createinvoice__text {
     font-size: 1.1rem;
   }
 }

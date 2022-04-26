@@ -13,29 +13,33 @@ function FormTop({
   setCount,
   check,
   setCheck,
+  place,
+  setPlace,
+  handlePlace
 }) {
   return (
     <div className="formtop">
       <div className="formtop__input">
         <div className="formtop__toggleButton">
           <div className="formtop__info">
-            Zaznacz jeżeli chcesz użyć innego niż standardowy numer faktury np. wprowadzasz zwrot,
-            regularny numer nie ulegnie wtedy zmianie (domyślnie wyłączone).
+            Zaznacz jeżeli chcesz użyć innego niż standardowy numer faktury np.
+            wprowadzasz zwrot, regularny numer nie ulegnie wtedy zmianie
+            (domyślnie wyłączone).
           </div>
           <div className="formtop__icon">
-          <ToggleButton
-            value="check"
-            selected={check}
-            onChange={() => setCheck(!check)}
-            fullWidth
-          >
-            <CheckIcon color={!check ? "error" : "success"} />
-            {!check ? (
-              <span style={{ color: "#ff0000" }}>OFF</span>
-            ) : (
-              <span style={{ color: "#008000" }}>ON</span>
-            )}
-          </ToggleButton>
+            <ToggleButton
+              value="check"
+              selected={check}
+              onChange={() => setCheck(!check)}
+              fullWidth
+            >
+              <CheckIcon color={!check ? "error" : "success"} />
+              {!check ? (
+                <span style={{ color: "#ff0000" }}>OFF</span>
+              ) : (
+                <span style={{ color: "#008000" }}>ON</span>
+              )}
+            </ToggleButton>
           </div>
         </div>
         <div className="formtop__wrapper">
@@ -79,14 +83,27 @@ function FormTop({
           />
         </div>
       </div>
-      <div className="formtop__input">
-        <TextField
-          label="Data wystawienia faktury"
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          fullWidth
-        />
+      <div className="formtop__right">
+        <div className="formtop__input--100">
+          <TextField
+            label="Data wystawienia faktury"
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            fullWidth
+          />
+        </div>
+        <div className="formtop__input--100">
+          <TextField
+            label="Miejsce wystawienia"
+            type="text"
+            value={place}
+            onChange={(e) => setPlace(e.target.value)}
+            title="Wprowadzona wartość zostanie zapamiętana na tym komputerze!"
+            fullWidth
+          />
+          <button type="button" onClick={handlePlace}>Zapamiętaj (tylko na tym urządzeniu)</button>
+        </div>
       </div>
     </div>
   );

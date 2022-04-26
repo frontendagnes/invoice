@@ -8,6 +8,7 @@ export const initialState = {
   },
   amount: 0,
   numberInvoice: "",
+  logo: null,
   costs: [
     //   {
     //   number: "123/2022",
@@ -152,6 +153,12 @@ const reducer = (state, action) => {
         ...state,
         amount: action.item,
       };
+    // LOGO
+    case "SET_LOGO":
+      return{
+        ...state,
+        logo: action.item
+      }
     default:
       return state;
   }

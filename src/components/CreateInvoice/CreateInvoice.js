@@ -26,12 +26,18 @@ import FormPayment from "../Form/FormPaymnet/FormPayment";
 import FormProducts from "../Form/FormProducts/FormProducts";
 import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
 import Note from "../Form/Note/Note";
+import UploadImage from "../UploadImage/UploadImage";
 
 function CreateInvoice() {
   const [{ salesman }] = useStateValue();
 
   const [check, setCheck] = useState(false);
   const [count, setCount] = useState(0);
+  const [place, setPlace] = useState(() => {
+    const saved = localStorage.getItem("place");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "";
+  });
   const [year, setYear] = useState(new Date().getFullYear());
   const [order, setOrder] = useState("");
   const [number, setNumber] = useState("");
@@ -79,6 +85,12 @@ function CreateInvoice() {
     setNumber(numberInvoice);
   }, [dispatch, order, year, amount, numberInvoice, count]);
 
+  // useEffect(() => {
+    
+  // }, [place])
+  const handlePlace = () =>{
+    localStorage.setItem("place", JSON.stringify(place))
+  }
   const handleChangeSeller = (e) => {
     const value = e.target.value;
     setSeller({
@@ -178,6 +190,7 @@ function CreateInvoice() {
         nip: buyer.nip,
       },
       products: products,
+      place: place,
       note: note,
     })
       .then(() => {
@@ -239,23 +252,15 @@ function CreateInvoice() {
           number={number}
           check={check}
           setCheck={setCheck}
+          place={place}
+          setPlace={setPlace}
+          handlePlace={handlePlace}
         />
-        <div className="creativeinvoice__buttonWrapper">
-          {salesman?.length === 0 ? (
-            <button type="button" onClick={saveSeller}>
-              Dodaj sprzedawcę
-            </button>
-          ) : (
-            <Tooltip
-              title="UWAGA! Zmieniasz dane we wszystkich dotychczas wystawionych dokumentach"
-              placement="bottom"
-              followCursor={true}
-            >
-              <button type="button" onClick={updateSeller}>
-                Aktualizuj sprzedawcę
-              </button>
-            </Tooltip>
-          )}
+        <div className="creativeinvoice--span">
+          <h2 className="createinvoice__text">
+            Tutaj można dodać/zmienić Logo, które będzie wyświetlane na fakturze
+          </h2>
+          <UploadImage />
         </div>
         <div className="createinvoice__wrapper">
           <FormPerson
@@ -290,6 +295,23 @@ function CreateInvoice() {
                 handleChange={handleChangeSeller}
               />
             ))
+          )}
+        </div>
+        <div className="creativeinvoice__buttonWrapper">
+          {salesman?.length === 0 ? (
+            <button type="button" onClick={saveSeller}>
+              Dodaj sprzedawcę
+            </button>
+          ) : (
+            <Tooltip
+              title="UWAGA! Zmieniasz dane we wszystkich dotychczas wystawionych dokumentach"
+              placement="bottom"
+              followCursor={true}
+            >
+              <button type="button" onClick={updateSeller}>
+                Aktualizuj sprzedawcę
+              </button>
+            </Tooltip>
           )}
         </div>
         <FormPayment selected={selected} setSelected={setSelected} />
