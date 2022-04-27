@@ -1,5 +1,19 @@
 .records {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+.records__print{
+  width: 794px;
+  min-height: 1123px;
+  height: 100%;
+}
+.records__print table{
+  width: 90%;
+  margin: 0 auto;
 }
 .records__wrapper{
   display: flex;
@@ -45,7 +59,7 @@
 .records__total {
   padding-top: 20px;
   padding-bottom: 5px;
-  font-size: 2rem;
+  font-size: 1.2rem;
 }
 
 .records__wrapper table {

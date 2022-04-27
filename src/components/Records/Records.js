@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import "./Records.css";
-import { getTotal } from "../../assets/functions";
+import { getTotal, today } from "../../assets/functions";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import TabGenerator from "../TabGenerator/TabGenerator";
+import { useReactToPrint } from "react-to-print";
 function Records({ data }) {
   const [cumTotal, setCumTotal] = useState([]);
   const [totalMnoth, setTotalMonth] = useState([]);
@@ -27,6 +28,12 @@ function Records({ data }) {
 
   const [{ costs }] = useStateValue();
 
+  let printPDFref = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    content: () => printPDFref.current,
+    documentTitle: `${today()}-`,
+  });
   const sumMonth = useCallback(
     (num) => {
       let i = 0;
@@ -144,59 +151,71 @@ function Records({ data }) {
       <div className="records__buttons">{printButtons()}</div>
       <div className="records__wrapper">
         {number - 1 !== summaryYearId ? (
-            <TabGenerator 
-              component={
-              <table>
-                <caption>
-                  <div className="records__total">
-                    Przychody:
-                    {Number.parseFloat(sumMonth(number)).toFixed(2)} zł
-                  </div>
-                </caption>
-                <thead>
-                  <tr>
-                    <td>Lp.</td>
-                    <td>Numer Faktury</td>
-                    <td>Data Faktury</td>
-                    <td>Wartość Faktury</td>
-                    <td>Wartość narastająco</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data
-                    .filter(
-                      (item) =>
-                        new Date(item.data.date).getMonth() + 1 === number
-                    )
-                    .map((item, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{item.data.number}</td>
-                        <td>{item.data.date}</td>
-                        <td className="records__amount">
-                          {Number.parseFloat(
-                            getTotal(item.data.products)
-                          ).toFixed(2)}{" "}
-                          zł
+          <TabGenerator
+            component={
+              <>
+                <button type="button" onClick={handlePrint} className="records__printButton">
+                  Drukuj
+                </button>
+                <div className="records__print" ref={printPDFref}>
+                  <table>
+                    <caption>
+                      <div className="records__total">
+                        <div>Miesiąc: <b>{months[number - 1]}</b></div>
+                        <div>
+                          Przychód:
+                          <b> 
+                            {Number.parseFloat(sumMonth(number)).toFixed(2)} zł
+                          </b>
+                        </div>
+                      </div>
+                    </caption>
+                    <thead>
+                      <tr>
+                        <td>Lp.</td>
+                        <td>Numer Faktury</td>
+                        <td>Data Faktury</td>
+                        <td>Wartość Faktury</td>
+                        <td>Wartość narastająco</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data
+                        .filter(
+                          (item) =>
+                            new Date(item.data.date).getMonth() + 1 === number
+                        )
+                        .map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item.data.number}</td>
+                            <td>{item.data.date}</td>
+                            <td className="records__amount">
+                              {Number.parseFloat(
+                                getTotal(item.data.products)
+                              ).toFixed(2)}{" "}
+                              zł
+                            </td>
+                            <td className="records__amount">
+                              {Number.parseFloat(cumTotal[index]).toFixed(2)} zł
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td className="records__summary" colSpan={4}>
+                          Podsumowanie:
                         </td>
-                        <td className="records__amount">
-                          {Number.parseFloat(cumTotal[index]).toFixed(2)} zł
+                        <td className="records__summary">
+                          {Number.parseFloat(sumMonth(number)).toFixed(2)} zł
                         </td>
                       </tr>
-                    ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td className="records__summary" colSpan={4}>
-                      Podsumowanie:
-                    </td>
-                    <td className="records__summary">
-                      {Number.parseFloat(sumMonth(number)).toFixed(2)} zł
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
-              }
+                    </tfoot>
+                  </table>
+                </div>
+              </>
+            }
             title="Przychody"
             title1="Koszty"
             component1={
@@ -245,7 +264,7 @@ function Records({ data }) {
                 </tfoot>
               </table>
             }
-            />
+          />
         ) : (
           <div className="records__summaryyear">
             <div className="records__revenue">
