@@ -4,39 +4,28 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
-.records__print{
+.records__print {
+  padding-top: 20px;
   width: 794px;
-  min-height: 1123px;
   height: 100%;
 }
-.records__print table{
+.records__print table {
   width: 90%;
   margin: 0 auto;
 }
-.records__wrapper{
+.records__wrapper {
   display: flex;
   justify-content: center;
 }
 
-
-.records__summaryyear{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.records__buttons{
+.records__buttons {
   display: flex;
   justify-content: space-around;
   flex-flow: row wrap;
   cursor: pointer;
 }
-.records__button{
+.records__button {
   padding: 10px 20px;
   font-size: 1rem;
   margin-bottom: 10px;
@@ -56,16 +45,18 @@
   padding: 10px 20px;
 }
 
-.records__total {
+.records caption {
   padding-top: 20px;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
   font-size: 1.2rem;
 }
-
+.records caption div {
+  text-align: right;
+}
 .records__wrapper table {
   width: 100%;
 }
-.records table caption{
+.records table caption {
   text-align: left;
 }
 .records table thead {
@@ -73,7 +64,7 @@
   font-weight: 600;
 }
 
-.records table tbody tr:nth-child(even){
+.records table tbody tr:nth-child(even) {
   background: #e7e7e7;
 }
 .records__summary,
@@ -85,35 +76,32 @@
   font-weight: 600;
   font-size: 1.2rem;
 }
-.records__tableSummary{
+.records__tableSummary {
   font-size: 1.1rem;
   margin-top: 20px;
   width: 100%;
 }
-.records__monthTd{
+.records__monthTd {
   text-align: left;
   padding-left: 50px;
   font-size: 1.3rem;
   letter-spacing: 2px;
 }
-.records__revenue{
-  font-size: 1.2rem;
+.records__revenue {
   letter-spacing: 2px;
   margin-top: 20px;
   margin-bottom: 20px;
+  text-align: center;
 }
-.records__revenue > span{
-  font-size: 1.5rem;
-  font-weight: 600;
-}
+
 @media screen and (max-width: 800px) {
-  .records{
+  .records {
     padding: 5px;
   }
 }
 
 @media screen and (max-width: 600px) {
-  .records{
+  .records {
     font-size: 0.8rem;
   }
 }

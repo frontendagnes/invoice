@@ -4,6 +4,7 @@ import { getTotal, today } from "../../assets/functions";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import TabGenerator from "../TabGenerator/TabGenerator";
 import { useReactToPrint } from "react-to-print";
+import { Button } from "@mui/material";
 function Records({ data }) {
   const [cumTotal, setCumTotal] = useState([]);
   const [totalMnoth, setTotalMonth] = useState([]);
@@ -29,11 +30,23 @@ function Records({ data }) {
   const [{ costs }] = useStateValue();
 
   let printPDFref = useRef(null);
-
   const handlePrint = useReactToPrint({
     content: () => printPDFref.current,
     documentTitle: `${today()}-`,
   });
+
+  let printCostref = useRef(null);
+  const handlePrintCost = useReactToPrint({
+    content: () => printCostref.current,
+    documentTitle: `${today()}-`,
+  });
+
+  let printSummaryref = useRef(null);
+  const handlePrintSummary = useReactToPrint({
+    content: () => printSummaryref.current,
+    documentTitle: `${today()}-`,
+  });
+
   const sumMonth = useCallback(
     (num) => {
       let i = 0;
@@ -154,17 +167,23 @@ function Records({ data }) {
           <TabGenerator
             component={
               <>
-                <button type="button" onClick={handlePrint} className="records__printButton">
+                <Button
+                  type="button"
+                  onClick={handlePrint}
+                  className="records__printButton"
+                >
                   Drukuj
-                </button>
+                </Button>
                 <div className="records__print" ref={printPDFref}>
                   <table>
                     <caption>
                       <div className="records__total">
-                        <div>Miesiąc: <b>{months[number - 1]}</b></div>
                         <div>
-                          Przychód:
-                          <b> 
+                          Miesiąc: <b>{months[number - 1]}</b>
+                        </div>
+                        <div>
+                          Przychód:{" "}
+                          <b>
                             {Number.parseFloat(sumMonth(number)).toFixed(2)} zł
                           </b>
                         </div>
@@ -219,103 +238,132 @@ function Records({ data }) {
             title="Przychody"
             title1="Koszty"
             component1={
-              <table>
+              <>
+                <Button
+                  type="button"
+                  onClick={handlePrintCost}
+                  className="records__printButton"
+                >
+                  Drukuj
+                </Button>
+                <div className="records__print" ref={printCostref}>
+                  <table>
+                    <caption>
+                      <div className="records__total">
+                        <div>
+                          Miesiąc: <b>{months[number - 1]}</b>
+                        </div>
+                        <div>
+                          Koszty:{" "}
+                          <b>
+                            {Number.parseFloat(sumCosts(number)).toFixed(2)} zł
+                          </b>
+                        </div>
+                      </div>
+                    </caption>
+                    <thead>
+                      <tr>
+                        <td className="table__singular">Lp.</td>
+                        <td>Numer Faktury</td>
+                        <td>Kontrahent</td>
+                        <td>Data wystawienia</td>
+                        <td>Wartość brutto</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {costs
+                        .filter(
+                          (item) =>
+                            new Date(item.data.date).getMonth() + 1 === number
+                        )
+                        .map((item, index) => (
+                          <tr key={item.id}>
+                            <td className="table__singular">{index + 1}</td>
+                            <td>{item.data.number}</td>
+                            <td>{item.data.contractor}</td>
+                            <td>{item.data.date}</td>
+                            <td className="records__amount">
+                              {Number.parseFloat(item.data.amount).toFixed(2)}{" "}
+                              zł
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td className="records__summary" colSpan={4}>
+                          Podsumowanie:
+                        </td>
+                        <td className="records__summary">
+                          {Number.parseFloat(sumCosts(number)).toFixed(2)} zł
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </>
+            }
+          />
+        ) : (
+          <div>
+            <Button
+              type="button"
+              onClick={handlePrintSummary}
+              className="records__printButton"
+            >
+              Drukuj
+            </Button>
+            <div ref={printSummaryref} className="records__print">
+              <table id="records__tableSummary">
                 <caption>
-                  <div className="records__total">
-                    Koszty: {Number.parseFloat(sumCosts(number)).toFixed(2)} zł
+                  <div>
+                    Podsumowanie roku {new Date().getFullYear()}:{" "}
+                    <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
+                  </div>
+                  <div className="records__revenue">
+                    Roczny Dochód (przychody - koszty):{" "}
+                    <b>{Number.parseFloat(yearEnd()).toFixed(2)} zł</b>
                   </div>
                 </caption>
                 <thead>
                   <tr>
                     <td className="table__singular">Lp.</td>
-                    <td>Numer Faktury</td>
-                    <td>Kontrahent</td>
-                    <td>Data wystawienia</td>
-                    <td>Wartość brutto</td>
+                    <td>Miesiąc</td>
+                    <td>Przychody</td>
+                    <td>Koszty</td>
                   </tr>
                 </thead>
                 <tbody>
-                  {costs
-                    .filter(
-                      (item) =>
-                        new Date(item.data.date).getMonth() + 1 === number
-                    )
-                    .map((item, index) => (
-                      <tr key={item.id}>
+                  {months
+                    .filter((_, index) => index !== summaryYearId)
+                    .map((month, index) => (
+                      <tr key={index}>
                         <td className="table__singular">{index + 1}</td>
-                        <td>{item.data.number}</td>
-                        <td>{item.data.contractor}</td>
-                        <td>{item.data.date}</td>
+                        <td className="records__monthTd">{month}</td>
                         <td className="records__amount">
-                          {Number.parseFloat(item.data.amount).toFixed(2)} zł
+                          {Number.parseFloat(totalMnoth[index]).toFixed(2)} zł
+                        </td>
+                        <td className="records__amount">
+                          {Number.parseFloat(totalCosts[index]).toFixed(2)} zł
                         </td>
                       </tr>
                     ))}
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td className="records__summary" colSpan={4}>
-                      Podsumowanie:
+                    <td className="records__summary" colSpan={2}>
+                      Razem:
                     </td>
                     <td className="records__summary">
-                      {Number.parseFloat(sumCosts(number)).toFixed(2)} zł
+                      {Number.parseFloat(totalYear()).toFixed(2)} zł
+                    </td>
+                    <td className="records__summary">
+                      {Number.parseFloat(totalCost()).toFixed(2)}
                     </td>
                   </tr>
                 </tfoot>
               </table>
-            }
-          />
-        ) : (
-          <div className="records__summaryyear">
-            <div className="records__revenue">
-              Roczny Dochód (przychody - koszty):{" "}
-              <span>{Number.parseFloat(yearEnd()).toFixed(2)}</span>
             </div>
-            <table id="records__tableSummary">
-              <caption>
-                <div className="records__total">
-                  Podsumowanie roku: {Number.parseFloat(totalYear()).toFixed(2)}{" "}
-                  zł
-                </div>
-              </caption>
-              <thead>
-                <tr>
-                  <td className="table__singular">Lp.</td>
-                  <td>Miesiąc</td>
-                  <td>Przychody</td>
-                  <td>Koszty</td>
-                </tr>
-              </thead>
-              <tbody>
-                {months
-                  .filter((_, index) => index !== summaryYearId)
-                  .map((month, index) => (
-                    <tr key={index}>
-                      <td className="table__singular">{index + 1}</td>
-                      <td className="records__monthTd">{month}</td>
-                      <td className="records__amount">
-                        {Number.parseFloat(totalMnoth[index]).toFixed(2)} zł
-                      </td>
-                      <td className="records__amount">
-                        {Number.parseFloat(totalCosts[index]).toFixed(2)} zł
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td className="records__summary" colSpan={2}>
-                    Razem:
-                  </td>
-                  <td className="records__summary">
-                    {Number.parseFloat(totalYear()).toFixed(2)} zł
-                  </td>
-                  <td className="records__summary">
-                    {Number.parseFloat(totalCost()).toFixed(2)}
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
           </div>
         )}
       </div>
