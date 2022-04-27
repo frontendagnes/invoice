@@ -9,8 +9,15 @@
   align-items: center;
   flex-wrap: wrap;
 }
+.invoicesitem__content{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 90%;
+}
 .invoicesitem__item {
-  width: 30%;
+  width: 25%;
 }
 
 .invoicesitem__number {
@@ -19,12 +26,20 @@
 .invoicesitem__number a {
   margin-left: 5px;
 }
-.invoicesitem__icons {
+.invoicesitem__icons,
+.invoicesitem__iconsWrapper {
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   width: 10%;
+}
+.invoicesitem__iconsWrapper{
+  flex-direction: row;
+}
+.invoicesitem__iconsWrapper svg{
+  margin-left: 10px;
 }
 .invoicesitem__note{
   display: flex;

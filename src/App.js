@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import "./App.css";
+import { renderLoader } from "./assets/functions";
 import { auth } from "./assets/utility/firebase";
 import { useStateValue } from "./assets/utility/StateProvider";
 import {
@@ -12,8 +13,6 @@ import {
   query,
 } from "./assets/utility/firebase";
 import { Routes, Route } from "react-router-dom";
-//mui
-import { CircularProgress } from "@mui/material";
 //components
 import Header from "./components/Header/Header";
 import CreateInvoice from "./components/CreateInvoice/CreateInvoice";
@@ -100,7 +99,6 @@ function App() {
   }, [user])
   useEffect(() => {
     if (user) {
-      
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "costs");
       const sortRef = query(ref, orderBy("date", "desc"));
@@ -141,26 +139,6 @@ function App() {
     }
   }, [user, dispatch]);
 
-  const renderLoader = () => (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        padding: "20px",
-        alignItems: "center",
-      }}
-    >
-      <CircularProgress color="success" />
-      <span
-        style={{
-          marginLeft: "10px",
-          letterSpacing: "3px",
-        }}
-      >
-        Loading...
-      </span>
-    </div>
-  );
   return (
     <div className="app">
       <Suspense fallback={renderLoader()}>

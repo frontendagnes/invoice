@@ -17,7 +17,7 @@ import {
   setDoc,
 } from "../../assets/utility/firebase";
 // mui
-import { Tooltip } from "@mui/material";
+import { TextField, Tooltip } from "@mui/material";
 //components
 import Form from "../Form/Form";
 import FormTop from "../Form/FormTop/FormTop";
@@ -25,7 +25,6 @@ import FormPerson from "../Form/FormPerson/FormPerson";
 import FormPayment from "../Form/FormPaymnet/FormPayment";
 import FormProducts from "../Form/FormProducts/FormProducts";
 import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
-import Note from "../Form/Note/Note";
 import UploadImage from "../UploadImage/UploadImage";
 
 function CreateInvoice() {
@@ -86,11 +85,11 @@ function CreateInvoice() {
   }, [dispatch, order, year, amount, numberInvoice, count]);
 
   // useEffect(() => {
-    
+
   // }, [place])
-  const handlePlace = () =>{
-    localStorage.setItem("place", JSON.stringify(place))
-  }
+  const handlePlace = () => {
+    localStorage.setItem("place", JSON.stringify(place));
+  };
   const handleChangeSeller = (e) => {
     const value = e.target.value;
     setSeller({
@@ -342,7 +341,19 @@ function CreateInvoice() {
             </div>
           </div>
         ) : null}
-        <Note note={note} setNote={setNote} />
+        <div className="note">
+          <div className="note__row">
+            <TextField
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              id="outlined-basic"
+              label="Uwagi"
+              placeholder="np. informacja o zwrocie, terminie płatności itp."
+              variant="outlined"
+              fullWidth
+            />
+          </div>
+        </div>
       </Form>
     </div>
   );

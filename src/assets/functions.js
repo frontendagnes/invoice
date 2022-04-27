@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-
+import { CircularProgress } from "@mui/material";
 export const today = () => {
   let date = new Date();
   let year = date.getFullYear();
@@ -27,3 +27,23 @@ export const getTotal = (data) =>
 export const index = () => {
   return `item-${nanoid(8)}`;
 };
+export const renderLoader = () => (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      padding: "20px",
+      alignItems: "center",
+    }}
+  >
+    <CircularProgress color="success" />
+    <span
+      style={{
+        marginLeft: "10px",
+        letterSpacing: "3px",
+      }}
+    >
+      Loading...
+    </span>
+  </div>
+);

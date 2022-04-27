@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "./Costs.css";
 import { useStateValue } from "../../assets/utility/StateProvider";
+import { today } from "../../assets/functions";
 import {
   deleteDoc,
   doc,
   db,
-  getCosts,
-  getDocs,
-  collection,
 } from "../../assets/utility/firebase";
 //components
-import DateFilter from "../DateFilter/DateFilter";
-import NameFilter from "../NameFilter/NameFilter";
 import Cost from "../Cost/Cost";
 import AddCost from "../AddCost/AddCost";
 import TabGenerator from "../TabGenerator/TabGenerator";
-
+// mui
+import { TextField } from "@mui/material";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function Costs() {
   const [{ user, costs }, dispatch] = useStateValue();
-  // const [costs, setCosts] = useState([]);
 
-
+  const [text, setText] = useState("");
+  const [anyDate, setAnyDate] = useState(today());
+  const resetDate = () => {
+    setAnyDate(today());
+  };
   const deleteItem = async (itemId) => {
     await deleteDoc(doc(db, "invoices", user.uid, "costs", itemId))
       .then(() => {
@@ -53,9 +54,79 @@ function Costs() {
         title="Dodaj Koszt"
         component1={
           <>
-            <h5>Wyszukaj po dacie faktury</h5>
-            <DateFilter data={costs} deleteItem={deleteItem} isCost={true} />
-            <NameFilter data={costs} deleteItem={deleteItem} isCost={true} />
+            <div>
+              <h5>Wyszukaj po dacie faktury</h5>
+              <div className="datefilter">
+                <div className="datefilter__input">
+                  <div className="datefilter__input--width">
+                    <TextField
+                      type="date"
+                      value={anyDate}
+                      onChange={(e) => setAnyDate(e.target.value)}
+                      fullWidth
+                    />
+                  </div>
+                  <RemoveCircleIcon
+                    onClick={resetDate}
+                    color="error"
+                    fontSize="large"
+                    className="datefilter__button"
+                  />
+                </div>
+                {costs
+                  .filter((item) => item.data.date === anyDate)
+                  .map((item) => (
+                    <Cost
+                      key={item.id}
+                      index={item.id}
+                      number={item.data.number}
+                      contractor={item.data.contractor}
+                      date={item.data.date}
+                      amount={item.data.amount}
+                      deleteItem={deleteItem}
+                    />
+                  ))}
+              </div>
+            </div>
+            <div>
+              <h5>Zestawienie Kosztów</h5>
+              <div className="namefilter">
+                <div className="namefilter__input">
+                  <TextField
+                    type="text"
+                    vlaue={text}
+                    onChange={(e) => setText(e.target.value)}
+                    id="outlined-basic"
+                    label="Wyszukaj wpisując kontrahenta lub numer faktury"
+                    variant="outlined"
+                    autoComplete="off"
+                    fullWidth
+                  />
+                </div>
+
+                {costs
+                  .filter(
+                    (item) =>
+                      item.data.contractor
+                        .toLowerCase()
+                        .includes(text.toLowerCase()) ||
+                      item.data.number
+                        .toLowerCase()
+                        .includes(text.toLowerCase())
+                  )
+                  .map((item) => (
+                    <Cost
+                      key={item.id}
+                      index={item.id}
+                      number={item.data.number}
+                      contractor={item.data.contractor}
+                      date={item.data.date}
+                      amount={item.data.amount}
+                      deleteItem={deleteItem}
+                    />
+                  ))}
+              </div>
+            </div>
           </>
         }
         title1="Wyszukaj koszty"

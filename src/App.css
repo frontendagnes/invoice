@@ -38,6 +38,34 @@ td{
   text-decoration: none;
   padding-bottom: 10px;
 }
+.note{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+
+.note__row{
+  width: 90%;
+}
+
+.datefilter__input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+}
+.datefilter__input--width{
+  width: 60%;
+}
+.datefilter__button{
+  margin-left: 10px;
+  cursor: pointer;
+}
+.namefilter__input {
+  padding: 10px 20px;
+}
 
 @media screen and (max-width: 600px) {
   table th{

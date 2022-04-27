@@ -48,7 +48,7 @@ function UploadImage() {
     if (!image) {
       dispatch({
         type: "ALERT__ERROR",
-        item: "Kliknij zdjęcie i wybierz nowe zdjęcie, później wybierz przycisk zmień logo",
+        item: "Najpierw wybierz zdjęcie, później zapisz logo",
       });
     }
     uploadFiles(image);
@@ -159,9 +159,9 @@ function UploadImage() {
               alt="logo"
               onClick={handleClick}
             />
-            <button type="button" onClick={() => setPreview(null)}>
+            <span style={{color: "blue", cursor: "pointer"}} onClick={() => setImage(null)}>
               Wyczyść Podgląd
-            </button>
+            </span>
           </div>
         ) : (
           <div

@@ -31,7 +31,9 @@ function InvoicesDetails({ data }) {
   let printPDFref = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => printPDFref.current,
+    documentTitle: `${today()}-`,
   });
+
   // const generatePDF = () => {
   //   const input = document.querySelector(`#invoice`);
   //   html2canvas(input).then((canvas) => {
@@ -101,8 +103,10 @@ function InvoicesDetails({ data }) {
                   </div>
                 </div>
                 <div className="invoicesdetail__createDate">
-                  <div>Miejsce wystawienia:</div>
-                  <div className="invoicesdetail--bold">{item.data.place}</div>
+                  <div className="invoicesdetail--bold">
+                    Miejsce wystawienia
+                  </div>
+                  <div>{item.data.place}</div>
                 </div>
               </div>
               <div className="invoicesdetail__middle">
