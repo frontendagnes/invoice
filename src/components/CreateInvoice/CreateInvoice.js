@@ -17,7 +17,7 @@ import {
   setDoc,
 } from "../../assets/utility/firebase";
 // mui
-import { TextField, Tooltip } from "@mui/material";
+import { Button, TextField, Tooltip } from "@mui/material";
 //components
 import Form from "../Form/Form";
 import FormTop from "../Form/FormTop/FormTop";
@@ -213,6 +213,7 @@ function CreateInvoice() {
     );
     if (msg) {
       setError(msg);
+      dispatch({ type: "ALERT__ERROR", item: msg });
       return;
     }
     addData();
@@ -230,6 +231,7 @@ function CreateInvoice() {
     );
     if (msg) {
       setError(msg);
+      dispatch({ type: "ALERT__ERROR", item: msg });
       return;
     }
     addData();
@@ -237,7 +239,11 @@ function CreateInvoice() {
   };
   return (
     <div className="createinvoice">
-      {error ? <ValidationError text={error} /> : null}
+      {error ? (
+        <div className="createinvoice__error">
+          <ValidationError text={error} />
+        </div>
+      ) : null}
       <h2 className="createinvoice__text">Wprowadzanie danych</h2>
       <Form>
         <FormTop
@@ -307,9 +313,9 @@ function CreateInvoice() {
               placement="bottom"
               followCursor={true}
             >
-              <button type="button" onClick={updateSeller}>
+              <Button type="button" onClick={updateSeller}>
                 Aktualizuj sprzedawcę
-              </button>
+              </Button>
             </Tooltip>
           )}
         </div>
@@ -331,13 +337,13 @@ function CreateInvoice() {
               <div className="creativeinvoice__summary">
                 Razem: {Number.parseFloat(getTotal(products)).toFixed(2)} zł
               </div>
-              <button
+              <Button
                 type="button"
                 onClick={check ? addInvoice : addInvoiceWithNumber}
                 className="createinvoice__button createinvoice__addInvoice"
               >
                 Dodaj fakturę
-              </button>
+              </Button>
             </div>
           </div>
         ) : null}

@@ -9,7 +9,7 @@ import {
   uploadBytesResumable,
 } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { LinearProgress } from "@mui/material";
+import { Button, LinearProgress } from "@mui/material";
 
 function UploadImage() {
   const [progress, setProgress] = useState(0);
@@ -92,7 +92,7 @@ function UploadImage() {
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-around",
+        justifyContent: "center",
       }}
     >
       <div
@@ -102,9 +102,9 @@ function UploadImage() {
           alignItems: "center",
         }}
       >
-        <div style={{ letterSpacing: "0.5px" }}>
-          Kliknij zdjęcie aby wybrać nowe
-        </div>
+          <div style={{ letterSpacing: "0.5px" }}>
+            Kliknij aby wybrać nowe zdjęcie
+          </div>
         <LinearProgress
           color="success"
           variant="determinate"
@@ -135,7 +135,7 @@ function UploadImage() {
               onClick={handleClick}
             />
           ) : (
-            <button onClick={handleClick}>Wybierz Logo</button>
+            <Button onClick={handleClick}>Wybierz Logo</Button>
           )}
         </div>
       </div>
@@ -159,7 +159,10 @@ function UploadImage() {
               alt="logo"
               onClick={handleClick}
             />
-            <span style={{color: "blue", cursor: "pointer"}} onClick={() => setImage(null)}>
+            <span
+              style={{ color: "blue", cursor: "pointer" }}
+              onClick={() => setImage(null)}
+            >
               Wyczyść Podgląd
             </span>
           </div>
@@ -168,24 +171,21 @@ function UploadImage() {
             style={{
               width: "100px",
               height: "100px",
-              border: "1px solid grey",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              marginLeft: "10px",
+              marginRight: "10px",
               cursor: "pointer",
             }}
-            onClick={handleClick}
-          >
-            Tutaj zobaczysz podgląd
-          </div>
+          />
         )}
-        <button
-          type="button"
-          onClick={formHandler}
-          style={{ marginLeft: "10px" }}
-        >
-          Zapisz Logo
-        </button>
+        {preview ? (
+          <Button
+            type="button"
+            onClick={formHandler}
+            style={{ marginLeft: "10px" }}
+          >
+            Zapisz Logo
+          </Button>
+        ) : null}
       </div>
     </div>
   );

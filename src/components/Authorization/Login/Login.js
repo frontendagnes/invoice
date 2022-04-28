@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import TextField from "@mui/material/TextField";
 import Form from "../../Form/Form";
+import { Button } from "@mui/material";
 
 function Login({name, setName, password, setPassword, signIn}) {
   return (
@@ -30,9 +31,9 @@ function Login({name, setName, password, setPassword, signIn}) {
 
           </div>
           <div className="authoryzation__buttons">
-            <button type="button" onClick={signIn}>
+            <Button type="button" onClick={signIn}>
               Zaloguj się
-            </button>
+            </Button>
           </div>
         </Form>
       </div>

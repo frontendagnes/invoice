@@ -5,6 +5,19 @@ import { useStateValue } from "../../assets/utility/StateProvider";
 import TabGenerator from "../TabGenerator/TabGenerator";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@mui/material";
+import { styled } from '@mui/material/styles';
+
+const ButtonMonth = styled(Button)`
+  margin-left: 5px;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+  transition: all 0.75s ease;
+    :hover{
+    background: #ebebeb !important;
+  }
+`
+
 function Records({ data }) {
   const [cumTotal, setCumTotal] = useState([]);
   const [totalMnoth, setTotalMonth] = useState([]);
@@ -149,14 +162,14 @@ function Records({ data }) {
   };
   const printButtons = () => {
     return months.map((item, index) => (
-      <div
+      <ButtonMonth
         key={index + 1}
         className="records__button"
         onClick={() => numberChange(index)}
-        style={{ background: index === number - 1 ? "#3f4d70" : "#1976d2" }}
+        style={{ background: index === number - 1 ? "#ebebeb" : "#fafafafa" }}
       >
         {item}
-      </div>
+      </ButtonMonth>
     ));
   };
   return (

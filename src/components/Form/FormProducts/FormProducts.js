@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./FormProducts.css";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import ValidationError from "../../ValidationError/ValidationError";
 import NumberFormat from "react-number-format";
 const validate = (title, quantity, price) =>{
@@ -92,13 +92,13 @@ function FormProducts({
             fullWidth
           />
         </div>
-        <button
+        <Button
         type="button"
         onClick={addProduct}
         className="createinvoice__button"
       >
         Dodaj produkt
-      </button>
+      </Button>
       </div>
     </div>
   );

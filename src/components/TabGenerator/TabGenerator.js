@@ -14,14 +14,14 @@ const Tab = styled.div`
   font-weight: 600;
   font-size: 1.2rem;
   letter-spacing: 2px;
-  color: #ffffff;
+  background: #3f4d70;
   padding: 10px 30px;
   cursor: pointer;
   width: 50%;
   border-radius: 20px 20px 0 0;
-  transition: background 0.75s ease-in;
+  transition: color 0.6s ease-in;
   &:hover {
-    background: #3f4d70 !important;
+    color: #fafafafa !important;
   }
 `;
 
@@ -31,12 +31,10 @@ function TabGenerator({ component, component1, component2, title, title1 }) {
 
   const styles = {
     defaultStyle: {
-      background: "#3f4d70",
+      color:"#adadad",
     },
     activeStyle: {
-      background: "#5a71aa",
-      border: "3px ridge #3f4d70",
-      borderBottomColor: "transparent",
+      color: "#fafafafa",
     },
   };
 

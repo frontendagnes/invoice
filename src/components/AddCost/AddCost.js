@@ -3,7 +3,7 @@ import "./AddCost.css";
 import AntySpam from "../AntySpam/AntySpam";
 import { db, collection, doc, addDoc } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import NumberFormat from "react-number-format";
 import PropTypes from "prop-types";
 
@@ -118,9 +118,9 @@ function AddCost() {
           />
         </div>
       </div>
-      <button type="button" onClick={handleClick}>
+      <Button type="button" onClick={handleClick}>
         Dodaj Koszt
-      </button>
+      </Button>
     </form>
   );
 }

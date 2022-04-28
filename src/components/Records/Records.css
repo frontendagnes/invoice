@@ -24,13 +24,13 @@
   justify-content: space-around;
   flex-flow: row wrap;
   cursor: pointer;
+  margin-bottom: 30px;
 }
 .records__button {
-  padding: 10px 20px;
+  /* padding: 10px 20px;
   font-size: 1rem;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
-  color: #fafafafa;
+  margin-left: 5px;
+  letter-spacing: 2px; */
 }
 .records ul {
   margin: 0;

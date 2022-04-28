@@ -26,21 +26,17 @@
 .invoicesitem__number a {
   margin-left: 5px;
 }
-.invoicesitem__icons,
-.invoicesitem__iconsWrapper {
+.invoicesitem__icons{
   cursor: pointer;
   display: flex;
-  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   width: 10%;
 }
-.invoicesitem__iconsWrapper{
-  flex-direction: row;
+.invoicesitem__icons > div{
+  width: 33%;
 }
-.invoicesitem__iconsWrapper svg{
-  margin-left: 10px;
-}
+
 .invoicesitem__note{
   display: flex;
   justify-content: center;

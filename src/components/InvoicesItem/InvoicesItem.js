@@ -15,7 +15,7 @@ function InvoicesItem({
   deleteItem,
   amount,
   noteCnt,
-  optionalValue
+  optionalValue,
 }) {
   const [{ user }, dispatch] = useStateValue();
   const [isEdit, setIsEdit] = useState(false);
@@ -24,7 +24,7 @@ function InvoicesItem({
   const saveNote = async () => {
     const saveRef = doc(db, `invoices/${user.uid}/invoice/${index}`);
     await updateDoc(saveRef, {
-      note: note
+      note: note,
     })
       .then(() =>
         dispatch({
@@ -56,35 +56,31 @@ function InvoicesItem({
             Data wystawienie: <b>{date}</b>
           </div>
           <div className="invoicesitem__item">
-            Kwota Faktury:<b> {amount} zł</b>
+            Wartość:<b> {amount} zł</b>
           </div>
         </div>
         <div className="invoicesitem__icons">
-          <div className="invoicesitem__iconsWrapper">
-            <VisibilityIcon
-              onClick={() => openDetails(index)}
-              color="success"
-              fontSize="medium"
-              titleAccess="Podgląd Faktury"
-            />
-            <EditIcon
-              onClick={() => setIsEdit(!isEdit)}
-              color="primary"
-              fontSize="medium"
-              titleAccess="Edytuj notaktę"
-            />
-            <RemoveCircleIcon
-              onClick={() => deleteItem(index)}
-              color="error"
-              fontSize="medium"
-              titleAccess="Usuń Fakturę"
-            />
-          </div>
+          <VisibilityIcon
+            onClick={() => openDetails(index)}
+            color="success"
+            fontSize="medium"
+            titleAccess="Podgląd Faktury"
+          />
+          <EditIcon
+            onClick={() => setIsEdit(!isEdit)}
+            color="primary"
+            fontSize="medium"
+            titleAccess="Edytuj notaktę"
+          />
+          <RemoveCircleIcon
+            onClick={() => deleteItem(index)}
+            color="error"
+            fontSize="medium"
+            titleAccess="Usuń Fakturę"
+          />
         </div>
       </div>
-      <div className="invoicesitem__note">
-        {noteCnt}
-      </div>
+      <div className="invoicesitem__note">{noteCnt}</div>
       {isEdit ? (
         <div className="note">
           <div className="note__row">

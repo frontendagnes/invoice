@@ -4,6 +4,16 @@
   font-weight: 600;
   letter-spacing: 2px;
 }
+.createinvoice button{
+  margin-left: 10px;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  background: #fafafa;
+}
+.createinvoice__error{
+  display: flex;
+  justify-content: center;
+}
 .createinvoice__top {
   display: flex;
   justify-content: space-between;
@@ -18,24 +28,7 @@
 .creativeinvoice__buttonWrapper button {
   margin-top: 10px;
 }
-.creativeinvoice__buttonWrapper button,
-.creativeinvoice--span button {
-  margin-left: 10px;
-  padding: 10px 20px;
-  border: transparent;
-  border-radius: 10px;
-  background: #3f4d70;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: background 0.75s;
-}
-.creativeinvoice__buttonWrapper button:hover,
-.creativeinvoice--span button:hover{
-  background: #5a71aa;
-}
+
 .creativeinvoice--span {
   line-height: 30px;
   letter-spacing: 1.5px;

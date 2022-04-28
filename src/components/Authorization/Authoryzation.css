@@ -61,18 +61,9 @@
 }
 .authoryzation button{
     padding: 10px 20px;
-    border: transparent;
-    border-radius: 10px;
-    background: #3f4d70;
-    color: #ffffff;
-    font-size: 1rem;
+    background-color: #fafafafa;
     font-weight: 600;
     letter-spacing: 2px;
-    cursor: pointer;
-    transition: background 0.75s;
-}
-.authoryzation button:hover{
-    background: #5a71aa;
 }
 
 .login,

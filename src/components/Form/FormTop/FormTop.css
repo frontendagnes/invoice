@@ -54,7 +54,7 @@
     display: flex;
 }
 .formtop__right button{
-    margin-left: 10px;
+    /* margin-left: 10px;
     padding: 10px 20px;
     border: transparent;
     border-radius: 10px;
@@ -63,10 +63,14 @@
     font-weight: 600;
     letter-spacing: 2px;
     cursor: pointer;
-    transition: background 0.75s;
+    transition: background 0.75s; */
+    /* border: 1px solid grey;
+    font-size: 0.6rem;
+    margin-left: 10px; */
+    /* font-size: 0.7rem; */
 }
 .formtop__right button:hover{
-    background: #5a71aa;
+    /* background: #5a71aa; */
 }
 @media screen and (max-width: 800px) {
     .formtop__input_row{

@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import React from "react";
 import Form from "../../Form/Form";
 import "./Registration.css";
@@ -46,9 +46,9 @@ function Registration({
           </div>
         </div>
         <div className="authoryzation__buttons">
-          <button type="button" onClick={register}>
+          <Button type="button" onClick={register}>
             Zarejestruj się
-          </button>
+          </Button>
         </div>
       </Form>
     </div>

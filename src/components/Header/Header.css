@@ -42,6 +42,7 @@
     top: 60px;
     transition: transform 0.3s ease-in;
     transform-origin: 0 top;
+    z-index: 999;
 }
 
 .header__pulldownMenu ul {
