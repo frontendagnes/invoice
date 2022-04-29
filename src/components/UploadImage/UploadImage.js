@@ -36,7 +36,6 @@ function UploadImage() {
     fileImgRef.current.click();
   };
   const handleChange = (e) => {
-    // setImage(e.target.files[0]);
     const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
       setImage(file);
@@ -55,7 +54,6 @@ function UploadImage() {
   };
 
   const uploadFiles = (file) => {
-    //
     if (!file) return;
     const sotrageRef = ref(storage, `images/${file.name}`);
     const uploadTask = uploadBytesResumable(sotrageRef, file);

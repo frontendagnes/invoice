@@ -2,80 +2,45 @@ import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./InvoicesDetails.css";
 import { getTotal } from "../../assets/functions";
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
 import { today } from "../../assets/functions";
 import Footer from "../Footer/Footer";
 import PrintSeller from "../PrintSeller/PrintSeller";
 import { useStateValue } from "../../assets/utility/StateProvider";
-// import { Document, Page, Text, View } from "react-pdf";
-// import Printer, { print } from "react-pdf-print";
 import { useReactToPrint } from "react-to-print";
+import { Button } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
+const ButtonPrint = styled(Button)`
+  margin-left: 5px;
+  margin-bottom: 10px;
+  padding: 5px 20px;
+  letter-spacing: 2px;
+  transition: all 0.75s ease;
+  font-weight: 600;
+  background: #fafafafa;
+  :hover {
+    background: #adadad !important;
+    color: #ffffff !important;
+  }
+`;
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();
   const [{ salesman, logo }] = useStateValue();
-  // useEffect(() =>{
-  //   console.log(">>", salesman)
-  // }, [salesman])
-  // const generatePDF = () => {
-  //   const input = document.querySelector("#invoice");
-  //   html2canvas(input).then((canvas) => {
-  //     const imgData = canvas.toDataURL("image/png");
-  //     const doc = new jsPDF("p", "pt", "a4");
-  //     let width = doc.internal.pageSize.getWidth() - 5;
-  //     let height = doc.internal.pageSize.getHeight();
-  //     doc.addImage(imgData, "PNG", 0, 0, width, height);
-  //     doc.save(`${today()}-`);
-  //   });
   let printPDFref = useRef(null);
   const handlePrint = useReactToPrint({
     content: () => printPDFref.current,
     documentTitle: `${today()}-`,
   });
 
-  // const generatePDF = () => {
-  //   const input = document.querySelector(`#invoice`);
-  //   html2canvas(input).then((canvas) => {
-  //     const imgData = canvas.toDataURL("image/webp");
-  //     const doc = new jsPDF("p", "mm", "a4");
-  //     let width = doc.internal.pageSize.getWidth();
-  //     let pageHeight = doc.internal.pageSize.getHeight();
-  //     const imgHeight = (canvas.height * width) / canvas.width;
-  //     let heightLeft = imgHeight;
-
-  //     let position = 0;
-
-  //     doc.addImage(imgData, "WEBP", 0, position, width, imgHeight);
-  //     heightLeft -= pageHeight;
-
-  //     while (heightLeft >= 0) {
-  //       position = heightLeft - imgHeight;
-  //       doc.addPage();
-  //       doc.addImage(imgData, "WEBP", 0, position, width, imgHeight);
-  //       heightLeft -= pageHeight;
-  //     }
-  //     doc.save(`${today()}-`);
-  //   });
-  // };
-
   return (
     <div className="invoicesdetail">
-      {/* <button
-        className="invoicecdetail__button"
-        type="button"
-        onClick={generatePDF}
-      >
-        Generuj fakturę do PDF
-      </button> */}
-
-      <button
+      <ButtonPrint
         type="button"
         className="invoicecdetail__button"
         onClick={handlePrint}
       >
         Drukuj Fakturę
-      </button>
+      </ButtonPrint>
 
       <div className="invoicesdetail__wrapper">
         {data

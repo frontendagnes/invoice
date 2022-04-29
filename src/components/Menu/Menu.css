@@ -16,9 +16,6 @@
     border-top: 3px solid transparent;
     margin-left: 10px;
 }
-/* .menu__link{
-    border-top: 3px solid #a4b0cc;
-} */
 .menu__ul li::before {
     content: "";
     display: block;

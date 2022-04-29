@@ -84,9 +84,6 @@ function CreateInvoice() {
     setNumber(numberInvoice);
   }, [dispatch, order, year, amount, numberInvoice, count]);
 
-  // useEffect(() => {
-
-  // }, [place])
   const handlePlace = () => {
     localStorage.setItem("place", JSON.stringify(place));
   };

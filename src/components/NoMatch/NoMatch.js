@@ -1,6 +1,6 @@
 import React from "react";
 import "./NoMatch.css";
-
+import logo from "../../assets/pic/logo.webp"
 import { useLocation, useNavigate } from "react-router-dom";
 function NoMatch() {
   const location = useLocation();
@@ -11,6 +11,7 @@ function NoMatch() {
   }
   return (
     <div className="noMatch">
+      <img src={logo} alt="LOGO" />
       <div className="noMatch__top">
         Adres <span>{location.pathname}</span> nie istnieje
       </div>

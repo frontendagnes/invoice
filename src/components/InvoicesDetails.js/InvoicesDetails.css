@@ -1,7 +1,6 @@
 #invoice {
   box-sizing: border-box;
   width: 794px;
-  /* min-height: 842px;  */
   min-height: 1123px;
   height: 100%;
   padding-top: 40px;
@@ -66,22 +65,7 @@
   font-weight: 600;
   padding-bottom: 10px;
 }
-.invoicecdetail__button {
-  margin: 20px;
-  padding: 10px 20px;
-  border: transparent;
-  border-radius: 10px;
-  background: #3f4d70;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: background 0.75s;
-}
-.invoicecdetail__button:hover {
-  background: #5a71aa;
-}
+
 .invoicesdetails__products {
   padding: 10px;
   display: flex;

@@ -10,7 +10,7 @@ import { styled } from "@mui/material/styles";
 const ButtonMonth = styled(Button)`
   margin-left: 5px;
   margin-bottom: 10px;
-  padding: 5px 10px;
+  padding: 5px 20px;
   letter-spacing: 2px;
   transition: all 0.75s ease;
   font-weight: 600;
