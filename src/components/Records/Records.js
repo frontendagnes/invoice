@@ -227,7 +227,7 @@ function Records({ data }) {
                     </thead>
                     <tbody>
                       {data
-                        .filter(
+                       .filter(
                           (item) =>
                             new Date(item.data.date).getMonth() + 1 === number
                         )
