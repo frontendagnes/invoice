@@ -5,18 +5,20 @@ import { useStateValue } from "../../assets/utility/StateProvider";
 import TabGenerator from "../TabGenerator/TabGenerator";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 
 const ButtonMonth = styled(Button)`
   margin-left: 5px;
   margin-bottom: 10px;
   padding: 5px 10px;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   transition: all 0.75s ease;
-    :hover{
-    background: #ebebeb !important;
+  font-weight: 600;
+  :hover {
+    background: #adadad !important;
+    color: #ffffff !important;
   }
-`
+`;
 
 function Records({ data }) {
   const [cumTotal, setCumTotal] = useState([]);
@@ -162,14 +164,18 @@ function Records({ data }) {
   };
   const printButtons = () => {
     return months.map((item, index) => (
-      <ButtonMonth
-        key={index + 1}
-        className="records__button"
-        onClick={() => numberChange(index)}
-        style={{ background: index === number - 1 ? "#ebebeb" : "#fafafafa" }}
-      >
-        {item}
-      </ButtonMonth>
+      <div className="records__button" key={index + 1}>
+        <ButtonMonth
+          onClick={() => numberChange(index)}
+          style={{
+            background: index === number - 1 ? "#adadad" : "#fafafafa",
+            color: index === number - 1 && "#ffffff",
+          }}
+          fullWidth
+        >
+          {item}
+        </ButtonMonth>
+      </div>
     ));
   };
   return (
@@ -188,18 +194,26 @@ function Records({ data }) {
                   Drukuj
                 </Button>
                 <div className="records__print" ref={printPDFref}>
+                  <style type="text/css" media="print">
+                    {
+                      "\
+                  @page { size: landscape; }\
+                  "
+                    }
+                  </style>
+                  <h2>Zestawienie Przychodów</h2>
                   <table>
                     <caption>
                       <div className="records__total">
-                        <div>
+                        <span>
                           Miesiąc: <b>{months[number - 1]}</b>
-                        </div>
-                        <div>
-                          Przychód:{" "}
+                        </span>
+                        <span>
+                          Suma:{" "}
                           <b>
                             {Number.parseFloat(sumMonth(number)).toFixed(2)} zł
                           </b>
-                        </div>
+                        </span>
                       </div>
                     </caption>
                     <thead>
@@ -260,18 +274,26 @@ function Records({ data }) {
                   Drukuj
                 </Button>
                 <div className="records__print" ref={printCostref}>
+                  <style type="text/css" media="print">
+                    {
+                      "\
+                  @page { size: landscape; }\
+                  "
+                    }
+                  </style>
+                  <h2>Zestawienie kosztów</h2>
                   <table>
                     <caption>
                       <div className="records__total">
-                        <div>
+                        <span>
                           Miesiąc: <b>{months[number - 1]}</b>
-                        </div>
-                        <div>
-                          Koszty:{" "}
+                        </span>
+                        <span>
+                          Suma:{" "}
                           <b>
                             {Number.parseFloat(sumCosts(number)).toFixed(2)} zł
                           </b>
-                        </div>
+                        </span>
                       </div>
                     </caption>
                     <thead>
@@ -327,11 +349,18 @@ function Records({ data }) {
               Drukuj
             </Button>
             <div ref={printSummaryref} className="records__print">
+              <style type="text/css" media="print">
+                {
+                  "\
+                  @page { size: landscape; }\
+                  "
+                }
+              </style>
+              <h2>Podsumowanie roku .........</h2>
               <table id="records__tableSummary">
                 <caption>
                   <div>
-                    Podsumowanie roku {new Date().getFullYear()}:{" "}
-                    <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
+                    Suma: <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
                   </div>
                   <div className="records__revenue">
                     Roczny Dochód (przychody - koszty):{" "}
@@ -344,6 +373,7 @@ function Records({ data }) {
                     <td>Miesiąc</td>
                     <td>Przychody</td>
                     <td>Koszty</td>
+                    <td>Dochód</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -359,6 +389,13 @@ function Records({ data }) {
                         <td className="records__amount">
                           {Number.parseFloat(totalCosts[index]).toFixed(2)} zł
                         </td>
+                        <td className="records__amount records__profit">
+                          {Number.parseFloat(totalMnoth[index]).toFixed(2) -
+                            Number.parseFloat(totalCosts[index]).toFixed(
+                              2
+                            )}{" "}
+                          zł
+                        </td>
                       </tr>
                     ))}
                 </tbody>
@@ -372,6 +409,9 @@ function Records({ data }) {
                     </td>
                     <td className="records__summary">
                       {Number.parseFloat(totalCost()).toFixed(2)}
+                    </td>
+                    <td className="records__summary">
+                      {Number.parseFloat(yearEnd()).toFixed(2)} zł
                     </td>
                   </tr>
                 </tfoot>
