@@ -1,8 +1,14 @@
-# FAKTURA (INVOICE)
+# FAKTURKA 2.0 (INVOICE 2.0)
 
 Aplikacja pozwala wystawić faktury z 0 Vat , osobom któe na mocy art. 5 ust.1 Prawa przedsięborców nie mają zarejestrowajnej działalności gospodarczej.
 
 Aplikacja pozwala na wystawienie i wydrukowanie do pdf prostej fakrury, podgląd wystawionych faktur oraz wyszukiwanie wystawionej faktury po dacie wystawienie lub po naziwe kontrahenta jak również po numerze faktury.
+
+Można podejżeć zestawienia miesięczne oraz zobaczyć podsumowanie roczne.
+
+Jest to w pełni funkcjonalna aplikacja do pomocy w prowadzeniu księgowości dla prowadzących działalność na podstawie w/w ustawy.
+
+W opracowaniu (w bliżej nie określonej przyszłości :) ) możliwość wyboru roku do kontekstu, w tym momencie, żeby wystawić faktury w różnych latach i mieć osobne zestawienia należy założyć konto dla każdego roku osobno.
 
 dane do testowego logowanie:
 
@@ -18,21 +24,7 @@ Projekt został stworzone przez [create-react-app](https://github.com/facebook/c
 * [react-router-dom](https://reactrouter.com/web/guides/quick-start) - nawigacja na stronie
 * [nanoid](https://www.npmjs.com/package/nanoid) - za pomocą tej aplikacji tworzę identyfikator faktury
 * [react-number-format](https://www.npmjs.com/package/react-number-format) - obsługa inputów typu number oraz użycie maski dla tych inputów
-* [html2canvas](https://www.npmjs.com/package/html2canvas) oraz [jspdf](https://www.npmjs.com/package/jspdf) - użyte wspólnie do drukowanie faktury do pdf. W związku z tym, iż jspdf nie obsługuje UTF-8, użyłam html2canvas do stworzenia zrzutu png faktury a później za pomocą pdf została zapisana do pliku pdf
-  
-  ```javascript
-  const generatePDF = () => {
-      const input = document.querySelector("#invoice");
-      html2canvas(input).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const doc = new jsPDF("p", "pt", "a4");
-        let width = doc.internal.pageSize.getWidth() - 5;
-        let height = doc.internal.pageSize.getHeight();
-        doc.addImage(imgData, "PNG", 0, 0, width, height);
-        doc.save(`${today()}-`);
-      });
-    };
-  ```
+* [react-to-print](https://github.com/gregnb/react-to-print) - użyte do drukowanie faktury do pdf. 
 
 Wszystkie powyższe aplikacje zostały zainstalowane z poziomu `npm`, standardowym poleceniem
 
@@ -68,4 +60,4 @@ Wszystkie pozostałe niezbędne informację znajdują się tutaj: [create-react-
 
 ## Author
 
-Agnieszka Kamińska (agnieszka.kaminska@ksiegarnia.edu.pl)
+[forntend-agnes.pl](https://forntend-agnes.pl)
