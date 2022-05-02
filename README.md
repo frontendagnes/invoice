@@ -60,4 +60,4 @@ Wszystkie pozostałe niezbędne informację znajdują się tutaj: [create-react-
 
 ## Author
 
-[forntend-agnes.pl](https://forntend-agnes.pl)
+[frontend-agnes.pl/](https://frontend-agnes.pl/)
