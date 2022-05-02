@@ -1,14 +1,16 @@
 # FAKTURKA 2.0 (INVOICE 2.0)
 
-Aplikacja pozwala wystawić faktury z 0 Vat , osobom któe na mocy art. 5 ust.1 Prawa przedsięborców nie mają zarejestrowajnej działalności gospodarczej.
+Aplikacja pozwala wystawić faktury z 0 Vat , osobom które na mocy art. 5 ust.1 Prawa przedsięborców nie mają zarejestrowajnej działalności gospodarczej.
 
 Aplikacja pozwala na wystawienie i wydrukowanie do pdf prostej fakrury, podgląd wystawionych faktur oraz wyszukiwanie wystawionej faktury po dacie wystawienie lub po naziwe kontrahenta jak również po numerze faktury.
 
-Można podejżeć zestawienia miesięczne oraz zobaczyć podsumowanie roczne.
+W aplikacji można dodawac koszty poniesine na rzecz prowadzonej działlności, obliczony wtedy jest dochód dla każdego miesiąca osobno jak i dla całego roku można to podejrzeć wybierając z menu Podsumowanie i przechodząc do podsumowania roku.
+
+Można również podejrzeć zestawienia miesięczne dla kosztów i przychodów osobno.
 
 Jest to w pełni funkcjonalna aplikacja do pomocy w prowadzeniu księgowości dla prowadzących działalność na podstawie w/w ustawy.
 
-W opracowaniu (w bliżej nie określonej przyszłości :) ) możliwość wyboru roku do kontekstu, w tym momencie, żeby wystawić faktury w różnych latach i mieć osobne zestawienia należy założyć konto dla każdego roku osobno.
+W opracowaniu (w bliżej nie określonej przyszłości :) ) możliwość wyboru roku do kontekstu, w tym momencie, żeby wystawiać faktury w różnych latach i mieć osobne zestawienia należy założyć konto dla każdego roku osobno.
 
 dane do testowego logowanie:
 
@@ -60,4 +62,4 @@ Wszystkie pozostałe niezbędne informację znajdują się tutaj: [create-react-
 
 ## Author
 
-[frontend-agnes.pl/](https://frontend-agnes.pl/)
+[frontend-agnes.pl](https://frontend-agnes.pl/)
