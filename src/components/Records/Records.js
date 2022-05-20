@@ -356,15 +356,17 @@ function Records({ data }) {
                   "
                 }
               </style>
-              <h2>Podsumowanie roku .........</h2>
+              <h2>Podsumowanie roku</h2>
               <table id="records__tableSummary">
                 <caption>
                   <div>
-                    Suma: <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
+                    Przychód: <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
                   </div>
-                  <div className="records__revenue">
-                    Roczny Dochód (przychody - koszty):{" "}
-                    <b>{Number.parseFloat(yearEnd()).toFixed(2)} zł</b>
+                  <div>
+                    Koszty: <b>{Number.parseFloat(totalCost()).toFixed(2)} zł</b>
+                  </div>
+                  <div className="records__revenue" title="Przychód - Koszty">
+                    Dochód: <b>{Number.parseFloat(yearEnd()).toFixed(2)} zł</b>
                   </div>
                 </caption>
                 <thead>
@@ -390,11 +392,8 @@ function Records({ data }) {
                           {Number.parseFloat(totalCosts[index]).toFixed(2)} zł
                         </td>
                         <td className="records__amount records__profit">
-                          {Number.parseFloat(totalMnoth[index]).toFixed(2) -
-                            Number.parseFloat(totalCosts[index]).toFixed(
-                              2
-                            )}{" "}
-                          zł
+                          {Number.parseFloat(totalMnoth[index] - totalCosts[index]).toFixed(2)
+                          } zł
                         </td>
                       </tr>
                     ))}
@@ -408,7 +407,7 @@ function Records({ data }) {
                       {Number.parseFloat(totalYear()).toFixed(2)} zł
                     </td>
                     <td className="records__summary">
-                      {Number.parseFloat(totalCost()).toFixed(2)}
+                      {Number.parseFloat(totalCost()).toFixed(2)} zł
                     </td>
                     <td className="records__summary">
                       {Number.parseFloat(yearEnd()).toFixed(2)} zł
