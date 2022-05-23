@@ -31,6 +31,7 @@ import {
   ref,
   getDownloadURL,
   uploadBytesResumable,
+  deleteObject,
 } from "firebase/storage";
 
 // Your web app's Firebase configuration
@@ -86,4 +87,5 @@ export {
   ref,
   getDownloadURL,
   uploadBytesResumable,
+  deleteObject,
 };

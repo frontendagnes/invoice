@@ -7,6 +7,7 @@ import {
   ref,
   getDownloadURL,
   uploadBytesResumable,
+  deleteObject,
 } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { Button, LinearProgress } from "@mui/material";
@@ -50,6 +51,7 @@ function UploadImage() {
         item: "Najpierw wybierz zdjęcie, później zapisz logo",
       });
     }
+    removeLogo()
     uploadFiles(image);
   };
 
@@ -76,7 +78,17 @@ function UploadImage() {
                 timestamp: new Date(),
                 imageUrl: url,
               }
-            );
+            )
+              .then(() => {
+                dispatch({
+                  type: "ALERT_SUCCESS",
+                  item: "Logo zostało poprawnie dodane",
+                });
+              })
+              .catch((error) =>
+                dispatch({ type: "ALERT__ERROR", item: error.message })
+              );
+              
             setProgress(0);
             setImage(null);
           })
@@ -84,7 +96,31 @@ function UploadImage() {
       }
     );
   };
+  const removeLogo = async () => {
+    if (logo) {
+      const refImg = ref(storage, logo);
 
+      const docRef = doc(db, "invoices", user?.uid, "logo", "item-logo123");
+
+      await deleteObject(refImg)
+        .then(() => {
+          setDoc(docRef, {
+            imageUrl: "",
+            timestamp: new Date(),
+          }).catch((error) =>
+            dispatch({ type: "ALERT__ERROR", item: error.message })
+          );
+
+          dispatch({
+            type: "ALERT_SUCCESS",
+            item: "Logo zostało poprawnie usunięte",
+          });
+        })
+        .catch((error) =>
+          dispatch({ type: "ALERT__ERROR", item: error.message })
+        );
+    } else dispatch({ type: "ALERT__ERROR", item: "Nie ma nic do usunięcia" });
+  };
   return (
     <div
       style={{
@@ -100,9 +136,9 @@ function UploadImage() {
           alignItems: "center",
         }}
       >
-          <div style={{ letterSpacing: "0.5px" }}>
-            Kliknij aby wybrać nowe zdjęcie
-          </div>
+        <div style={{ letterSpacing: "1px" }}>
+          Kliknij na logo aby wybrać nowe zdjęcie
+        </div>
         <LinearProgress
           color="success"
           variant="determinate"
@@ -126,12 +162,26 @@ function UploadImage() {
           />
 
           {logo ? (
-            <img
-              style={{ width: "100px", cursor: "pointer" }}
-              src={logo}
-              alt="logo"
-              onClick={handleClick}
-            />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <img
+                style={{
+                  width: "100px",
+                  cursor: "pointer",
+                  marginBottom: "10px",
+                }}
+                src={logo}
+                alt="logo"
+                onClick={handleClick}
+              />
+              <Button onClick={removeLogo}>Usuń Logo</Button>
+            </div>
           ) : (
             <Button onClick={handleClick}>Wybierz Logo</Button>
           )}

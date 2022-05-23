@@ -360,7 +360,7 @@ function Records({ data }) {
               <table id="records__tableSummary">
                 <caption>
                   <div>
-                    Przychód: <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
+                    Przychody: <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
                   </div>
                   <div>
                     Koszty: <b>{Number.parseFloat(totalCost()).toFixed(2)} zł</b>

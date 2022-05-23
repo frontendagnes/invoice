@@ -96,7 +96,7 @@ function App() {
         unsb();
       };
     }
-  }, [user])
+  }, [user, dispatch])
   useEffect(() => {
     if (user) {
       const docRef = doc(db, "invoices", user?.uid);

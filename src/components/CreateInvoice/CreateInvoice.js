@@ -274,7 +274,7 @@ function CreateInvoice() {
             nip={buyer.nip}
             handleChange={handleChangeBuyer}
           />
-          {salesman.length === 0 || !salesman ? (
+          {!salesman || salesman.length === 0 ? (
             <FormPerson
               title="Sprzedawca"
               name={seller.name}

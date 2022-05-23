@@ -1,5 +1,3 @@
-import { startAfter } from "firebase/firestore";
-
 export const initialState = {
   user: null,
   salesman: null,
@@ -36,15 +34,15 @@ const reducer = (state, action) => {
       };
     // SALESMAN
     case "SET_SALESMAN":
-      return{
+      return {
         ...state,
-        salesman: action.item
-      }
+        salesman: action.item,
+      };
     case "DELETE_SALSEMAN":
-      return{
+      return {
         ...state,
-        salesman: null
-      }
+        salesman: null,
+      };
     //Costs
     case "SET_COSTS":
       return {
@@ -131,14 +129,14 @@ const reducer = (state, action) => {
         },
       };
     case "ALERT_SUCCESS":
-      return{
+      return {
         ...state,
-        alert:{
+        alert: {
           open: true,
           message: action.item,
           type: "success",
-        }
-      }
+        },
+      };
     // Count
     case "COUNT_INCREMENT":
       return {
@@ -157,10 +155,10 @@ const reducer = (state, action) => {
       };
     // LOGO
     case "SET_LOGO":
-      return{
+      return {
         ...state,
-        logo: action.item
-      }
+        logo: action.item,
+      };
     default:
       return state;
   }
