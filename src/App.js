@@ -46,11 +46,7 @@ function App() {
       authUser();
     };
   }, [dispatch]);
-  useEffect(() => {
-    if(user){
-      console.log("user>>", user)
-    }
-  }, user)
+
   useEffect(() => {
     if (user) {
       const docRef = doc(db, "invoices", user?.uid);
@@ -75,7 +71,7 @@ function App() {
     if (user) {
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "logo");
-      const unsb = onSnapshot(ref, (snap) => {
+     const unsb = onSnapshot(ref, (snap) => {
         console.log("logo");
         snap.docs.map((doc) =>
           dispatch({ type: "SET_LOGO", item: doc.data().imageUrl })

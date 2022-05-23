@@ -30,7 +30,7 @@ function Authoryzation() {
   const [error, setError] = useState("");
   const [{ user }, dispatch] = useStateValue();
   const history = useNavigate();
-  // filter antyspamcl
+  // filter antyspam
   const [test, setTest] = useState("");
 
   const signInGoogle = () => {

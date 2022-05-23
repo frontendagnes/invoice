@@ -274,7 +274,7 @@ function CreateInvoice() {
             nip={buyer.nip}
             handleChange={handleChangeBuyer}
           />
-          {salesman ? (
+          {salesman.length === 0 || !salesman ? (
             <FormPerson
               title="Sprzedawca"
               name={seller.name}
@@ -302,7 +302,7 @@ function CreateInvoice() {
         <div className="creativeinvoice__buttonWrapper">
           {salesman?.length === 0 ? (
             <Button type="button" onClick={saveSeller}>
-              Dodaj sprzedawcę
+              Zapamiętaj sprzedawcę
             </Button>
           ) : (
             <Tooltip

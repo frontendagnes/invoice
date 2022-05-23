@@ -20,6 +20,7 @@ function Header() {
       .then(() => {
         dispatch({ type: "ALERT_LOGOUT", item: user?.email });
         dispatch({ type: "GET_COUNT", item: null })
+        dispatch({ type: "SET_LOGO", item: null })
         history("/");
       })
       .catch((error) => {
