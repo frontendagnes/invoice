@@ -46,7 +46,11 @@ function App() {
       authUser();
     };
   }, [dispatch]);
-
+  useEffect(() => {
+    if(user){
+      console.log("user>>", user)
+    }
+  }, user)
   useEffect(() => {
     if (user) {
       const docRef = doc(db, "invoices", user?.uid);

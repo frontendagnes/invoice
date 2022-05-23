@@ -3,8 +3,9 @@ import "./Login.css";
 import TextField from "@mui/material/TextField";
 import Form from "../../Form/Form";
 import { Button } from "@mui/material";
+import GoogleButton from "react-google-button";
 
-function Login({name, setName, password, setPassword, signIn}) {
+function Login({name, setName, password, setPassword, signIn, loginGoogle}) {
   return (
     <div className="login">
         <Form>
@@ -36,6 +37,7 @@ function Login({name, setName, password, setPassword, signIn}) {
             </Button>
           </div>
         </Form>
+        
       </div>
   );
 }

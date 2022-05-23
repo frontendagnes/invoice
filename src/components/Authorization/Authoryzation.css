@@ -92,7 +92,11 @@
     justify-content: space-around;
     align-items: flex-end;
 }
-
+.authoryzation__loginWithGoogle{
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
 @media screen and (max-width: 850px) {
     .authoryzation__middle{
         height: auto;

@@ -8,6 +8,8 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import {
@@ -39,7 +41,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
-
+const provider = new GoogleAuthProvider(firebaseApp);
 // export const getCosts = (dispatch, user) => {
 //   const docRef = doc(db, "invoices", user?.uid)
 //   const ref = collection(docRef, "costs")
@@ -63,7 +65,9 @@ const auth = getAuth(firebaseApp);
 export {
   db,
   auth,
+  provider,
   storage,
+  signInWithPopup,
   onSnapshot,
   collection,
   doc,

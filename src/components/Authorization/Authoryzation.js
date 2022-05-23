@@ -7,8 +7,11 @@ import {
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  provider,
 } from "../../assets/utility/firebase.js";
 import { validateLogin, validateRegister } from "./validate";
+
 //components
 import ValidationError from "../ValidationError/ValidationError";
 import TabGenerator from "../TabGenerator/TabGenerator";
@@ -16,6 +19,7 @@ import Login from "./Login/Login";
 import Registration from "./Registaration/Registration";
 import AntySpam from "../AntySpam/AntySpam";
 import Footer from "../Footer/Footer";
+import GoogleButton from "react-google-button";
 
 function Authoryzation() {
   const [name, setName] = useState("");
@@ -26,8 +30,21 @@ function Authoryzation() {
   const [error, setError] = useState("");
   const [{ user }, dispatch] = useStateValue();
   const history = useNavigate();
-  // filter antyspam
+  // filter antyspamcl
   const [test, setTest] = useState("");
+
+  const signInGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        if (result) {
+          history("/");
+          dispatch({ type: "ALERT__OK", item: result.user.email });
+        }
+      })
+      .catch((error) =>
+        dispatch({ type: "ALERT__ERROR", item: error.message })
+      );
+  };
 
   const signIn = (e) => {
     e.preventDefault();
@@ -39,10 +56,10 @@ function Authoryzation() {
     }
 
     signInWithEmailAndPassword(auth, name, password)
-      .then((user) => {
-        if (user) {
+      .then((result) => {
+        if (result) {
           history("/");
-          dispatch({ type: "ALERT__OK", item: user.user.email });
+          dispatch({ type: "ALERT__OK", item: result.user.email });
         } else {
           dispatch({ type: "ALERT__ERROR" });
         }
@@ -63,11 +80,11 @@ function Authoryzation() {
 
     createUserWithEmailAndPassword(auth, nameReg, passwordReg)
       .then(() => {
-        history("/");
+        history("/authorization");
         dispatch({ type: "ALERT_REGISETER" });
       })
       .catch((error) => {
-        console.log("Error>>>", error);
+        console.log("Create user error>>>", error);
         dispatch({ type: "ALERT__ERROR", item: error.message });
       });
   };
@@ -145,6 +162,7 @@ function Authoryzation() {
                 password={password}
                 setPassword={setPassword}
                 signIn={signIn}
+                loginGoogle={signInGoogle}
               />
             }
             component1={
@@ -161,6 +179,9 @@ function Authoryzation() {
             title="Login"
             title1="Rejestracja"
           />
+          <div className="authoryzation__loginWithGoogle">
+            <GoogleButton onClick={signInGoogle} type="light" />
+          </div>
         </div>
       </div>
       <AntySpam test={test} setTest={setTest} />

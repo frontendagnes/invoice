@@ -99,7 +99,7 @@ const reducer = (state, action) => {
         ...state,
         alert: {
           open: true,
-          message: `Rejestracja przebiegła pomyślnie. Witaj!`,
+          message: `Rejestracja przebiegła pomyślnie. Teraz możesz się zalogować`,
           type: "success",
         },
       };

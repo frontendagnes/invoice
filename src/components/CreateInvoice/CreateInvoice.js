@@ -28,7 +28,7 @@ import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
 import UploadImage from "../UploadImage/UploadImage";
 
 function CreateInvoice() {
-  const [{ salesman }] = useStateValue();
+  const [{ user, amount, numberInvoice, salesman }, dispatch] = useStateValue();
 
   const [check, setCheck] = useState(false);
   const [count, setCount] = useState(0);
@@ -63,7 +63,7 @@ function CreateInvoice() {
   const [quantity, setQuantity] = useState(1);
 
   const [note, setNote] = useState("");
-  const [{ user, amount, numberInvoice }, dispatch] = useStateValue();
+
   //validation error
   const [error, setError] = useState("");
   const history = useNavigate();
@@ -274,7 +274,7 @@ function CreateInvoice() {
             nip={buyer.nip}
             handleChange={handleChangeBuyer}
           />
-          {!salesman ? (
+          {salesman ? (
             <FormPerson
               title="Sprzedawca"
               name={seller.name}
@@ -301,9 +301,9 @@ function CreateInvoice() {
         </div>
         <div className="creativeinvoice__buttonWrapper">
           {salesman?.length === 0 ? (
-            <button type="button" onClick={saveSeller}>
+            <Button type="button" onClick={saveSeller}>
               Dodaj sprzedawcę
-            </button>
+            </Button>
           ) : (
             <Tooltip
               title="UWAGA! Zmieniasz dane we wszystkich dotychczas wystawionych dokumentach"
