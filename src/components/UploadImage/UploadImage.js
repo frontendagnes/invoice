@@ -51,7 +51,10 @@ function UploadImage() {
         item: "Najpierw wybierz zdjęcie, później zapisz logo",
       });
     }
-    removeLogo()
+    if (logo) {
+      removeLogo();
+    }
+
     uploadFiles(image);
   };
 
@@ -88,7 +91,7 @@ function UploadImage() {
               .catch((error) =>
                 dispatch({ type: "ALERT__ERROR", item: error.message })
               );
-              
+
             setProgress(0);
             setImage(null);
           })
