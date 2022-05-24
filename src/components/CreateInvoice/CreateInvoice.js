@@ -55,6 +55,7 @@ function CreateInvoice() {
     town: "",
     nip: "",
   });
+
   const [selected, setSelected] = useState("przelew");
   const [products, setProducts] = useState([]);
   const [title, setTitle] = useState("");
@@ -131,15 +132,19 @@ function CreateInvoice() {
 
   const updateSeller = async () => {
     const refSeller = doc(db, "invoices", user.uid, "seller", "item-seller123");
-    await updateDoc(refSeller, {
-      seller: {
-        name: seller?.name,
-        street: seller?.street,
-        zipcode: seller?.zipcode,
-        town: seller?.town,
-        nip: seller?.nip,
+    await setDoc(
+      refSeller,
+      {
+        seller: {
+          name: seller?.name,
+          street: seller?.street,
+          zipcode: seller?.zipcode,
+          town: seller?.town,
+          nip: seller?.nip,
+        },
       },
-    })
+      { merge: true }
+    )
       .then(() => {
         dispatch({
           type: "ALERT_SUCCESS",
@@ -296,6 +301,7 @@ function CreateInvoice() {
                 nip={seller.nip || item.data.seller.nip}
                 handleChange={handleChangeSeller}
               />
+
             ))
           )}
         </div>

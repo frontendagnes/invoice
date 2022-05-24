@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import "./Invoices.css";
 import { useNavigate } from "react-router-dom";
 import { db, deleteDoc, doc } from "../../assets/utility/firebase";
@@ -9,10 +9,12 @@ import InvoicesItem from "../InvoicesItem/InvoicesItem";
 // mui
 import { TextField } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+
 function Invoices({ data }) {
   const [{ user }, dispatch] = useStateValue();
   const [text, setText] = useState("");
   const [anyDate, setAnyDate] = useState(today());
+
   const history = useNavigate();
 
   const resetDate = () => {
@@ -30,6 +32,7 @@ function Invoices({ data }) {
         dispatch({ type: "ALERT__ERROR", item: error.message })
       );
   };
+
   return (
     <div className="invoices">
       <div className="invoices__dataFilter">
@@ -50,6 +53,7 @@ function Invoices({ data }) {
             className="datefilter__button"
           />
         </div>
+
         {data
           .filter((item) => item.data.date === anyDate)
           .map((item) => (
@@ -82,6 +86,10 @@ function Invoices({ data }) {
           />
         </div>
         {data
+          .sort(
+            (a, b) =>
+              new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+          )
           .filter(
             (item) =>
               item.data.buyer.name.toLowerCase().includes(text.toLowerCase()) ||

@@ -25,6 +25,7 @@ function Records({ data }) {
   const [totalMnoth, setTotalMonth] = useState([]);
   const [totalCosts, setTotalCosts] = useState([]);
   const [number, setNumber] = useState(new Date().getMonth() + 1);
+
   const [months, setMonths] = useState([
     "Styczeń",
     "Luty",
@@ -227,7 +228,12 @@ function Records({ data }) {
                     </thead>
                     <tbody>
                       {data
-                       .filter(
+                        .sort(
+                          (a, b) =>
+                            new Date(a.data.date).getTime() -
+                            new Date(b.data.date).getTime()
+                        )
+                        .filter(
                           (item) =>
                             new Date(item.data.date).getMonth() + 1 === number
                         )
@@ -307,6 +313,11 @@ function Records({ data }) {
                     </thead>
                     <tbody>
                       {costs
+                        .sort(
+                          (a, b) =>
+                            new Date(a.data.date).getTime() -
+                            new Date(b.data.date).getTime()
+                        )
                         .filter(
                           (item) =>
                             new Date(item.data.date).getMonth() + 1 === number
@@ -360,10 +371,12 @@ function Records({ data }) {
               <table id="records__tableSummary">
                 <caption>
                   <div>
-                    Przychody: <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
+                    Przychody:{" "}
+                    <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
                   </div>
                   <div>
-                    Koszty: <b>{Number.parseFloat(totalCost()).toFixed(2)} zł</b>
+                    Koszty:{" "}
+                    <b>{Number.parseFloat(totalCost()).toFixed(2)} zł</b>
                   </div>
                   <div className="records__revenue" title="Przychód - Koszty">
                     Dochód: <b>{Number.parseFloat(yearEnd()).toFixed(2)} zł</b>
@@ -392,8 +405,10 @@ function Records({ data }) {
                           {Number.parseFloat(totalCosts[index]).toFixed(2)} zł
                         </td>
                         <td className="records__amount records__profit">
-                          {Number.parseFloat(totalMnoth[index] - totalCosts[index]).toFixed(2)
-                          } zł
+                          {Number.parseFloat(
+                            totalMnoth[index] - totalCosts[index]
+                          ).toFixed(2)}{" "}
+                          zł
                         </td>
                       </tr>
                     ))}
