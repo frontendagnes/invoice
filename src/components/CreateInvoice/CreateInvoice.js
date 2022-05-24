@@ -197,6 +197,7 @@ function CreateInvoice() {
       .then(() => {
         dispatch({ type: "ALERT_ADD_INVOICE" });
         history("/invoices");
+        window.scrollTo(0, 0);
       })
       .catch((error) => {
         dispatch({ type: "ALERT_ERROR", item: error.message });
@@ -301,7 +302,6 @@ function CreateInvoice() {
                 nip={seller.nip || item.data.seller.nip}
                 handleChange={handleChangeSeller}
               />
-
             ))
           )}
         </div>
