@@ -48,7 +48,7 @@ function InvoicesDetails({ data }) {
           .map((item, index) => (
             <div key={index} id="invoice" ref={printPDFref}>
               <div className="invoicesdetail__top">
-                <img src={logo} title="logo" alt="logo" />
+                {logo ? <img src={logo} title="logo" alt="logo" /> : null}
                 <div className="invoicedetail__date">
                   <div className="invoicesdetail__number">
                     <span className="invoicesdetail__text">Faktura nr:</span>
