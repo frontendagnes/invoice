@@ -5,6 +5,8 @@ export const initialState = {
     open: false,
     message: "",
     type: "success",
+    vertical: 'top',
+    horizontal: 'center',
   },
   amount: 0,
   numberInvoice: "",

@@ -11,12 +11,60 @@ import {
 } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { Button, LinearProgress } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import styled from "styled-components";
 
+const Close = styled.div`
+  cursor: pointer;
+  color: #808080;
+  position: absolute;
+  top: -5px;
+  left: -15px;
+  font-size: 18px;
+  font-weight: 600;
+  transition: color 0.75s ease;
+  &:hover {
+    color: red;
+  }
+`;
+const ButtonR = styled.button`
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.75s ease;
+  &:hover {
+    background: #bababa;
+  }
+`;
+const ButtonError = styled(ButtonR)`
+  color: #ff0000;
+`;
+const ButtonSuccess = styled(ButtonR)`
+  color: #008000;
+`;
+const Alert = styled.div`
+  width: 400px;
+  height: 100px;
+  background: #000000;
+  color: #ffffff;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  z-index: 999;
+`;
+
+const Text = styled.div`
+  letter-spacing: 2px;
+  font-size: 16px;
+`;
 function UploadImage() {
   const [progress, setProgress] = useState(0);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-
+  const [remove, setRemove] = useState(false);
   const [{ user, logo }, dispatch] = useStateValue();
 
   const fileImgRef = useRef();
@@ -99,7 +147,8 @@ function UploadImage() {
       }
     );
   };
-  const removeLogo = async () => {
+  const removeLogo = async (e) => {
+    e.preventDefault();
     if (logo) {
       const refImg = ref(storage, logo);
 
@@ -118,6 +167,8 @@ function UploadImage() {
             type: "ALERT_SUCCESS",
             item: "Logo zostało poprawnie usunięte",
           });
+
+          setRemove(false);
         })
         .catch((error) =>
           dispatch({ type: "ALERT__ERROR", item: error.message })
@@ -132,6 +183,19 @@ function UploadImage() {
         justifyContent: "center",
       }}
     >
+      {remove ? (
+        <Alert>
+          <Text>Czy jesteś pewień że chcesz trwale usunać Logo</Text>
+          <div>
+            <ButtonError type="button" onClick={removeLogo}>
+              Tak
+            </ButtonError>
+            <ButtonSuccess type="button" onClick={() => setRemove(false)}>
+              Nie
+            </ButtonSuccess>
+          </div>
+        </Alert>
+      ) : null}
       <div
         style={{
           display: "flex",
@@ -167,6 +231,7 @@ function UploadImage() {
           {logo ? (
             <div
               style={{
+                position: "relative",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -183,7 +248,9 @@ function UploadImage() {
                 alt="logo"
                 onClick={handleClick}
               />
-              <Button onClick={removeLogo}>Usuń Logo</Button>
+              <Close onClick={() => setRemove(true)} title="Usuń Logo">
+                <DeleteForeverIcon />
+              </Close>
             </div>
           ) : (
             <Button onClick={handleClick}>Wybierz Logo</Button>

@@ -53,7 +53,6 @@ function App() {
       const ref = collection(docRef, "invoice");
       const sortRef = query(ref, orderBy("date", "desc"));
       const unsb = onSnapshot(sortRef, (snap) => {
-        console.log("invoices");
         setInvoices(
           snap.docs.map((doc) => ({
             id: doc.id,
@@ -71,8 +70,7 @@ function App() {
     if (user) {
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "logo");
-     const unsb = onSnapshot(ref, (snap) => {
-        console.log("logo");
+      const unsb = onSnapshot(ref, (snap) => {
         snap.docs.map((doc) =>
           dispatch({ type: "SET_LOGO", item: doc.data().imageUrl })
         );
@@ -83,11 +81,10 @@ function App() {
     }
   }, [user, dispatch]);
   useEffect(() => {
-    if(user){
+    if (user) {
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "number");
       const unsb = onSnapshot(ref, (snap) => {
-        console.log("number");
         snap.docs.map((doc) =>
           dispatch({ type: "GET_COUNT", item: doc.data().count })
         );
@@ -96,14 +93,13 @@ function App() {
         unsb();
       };
     }
-  }, [user, dispatch])
+  }, [user, dispatch]);
   useEffect(() => {
     if (user) {
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "costs");
       const sortRef = query(ref, orderBy("date", "desc"));
       const unsb = onSnapshot(sortRef, (snap) => {
-        console.log("costs");
         dispatch({
           type: "SET_COSTS",
           item: snap.docs.map((doc) => ({
@@ -120,11 +116,9 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "seller");
       const unsb = onSnapshot(ref, (snap) => {
-        console.log("seller");
         dispatch({
           type: "SET_SALESMAN",
           item: snap.docs.map((doc) => ({

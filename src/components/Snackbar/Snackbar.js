@@ -19,6 +19,10 @@ function SnackBar() {
       autoHideDuration={6000}
       onClose={handleClose}
       message={alert.message}
+      anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
     >
       <Alert
         onClose={handleClose}
