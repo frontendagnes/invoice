@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Costs.css";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { today } from "../../assets/functions";
-import {
-  deleteDoc,
-  doc,
-  db,
-} from "../../assets/utility/firebase";
+import { deleteDoc, doc, db } from "../../assets/utility/firebase";
 //components
 import Cost from "../Cost/Cost";
 import AddCost from "../AddCost/AddCost";
@@ -37,18 +33,24 @@ function Costs() {
         component={
           <>
             <AddCost />
-            {costs?.map((item) => (
-              <Cost
-                key={item.id}
-                index={item.id}
-                number={item.data.number}
-                contractor={item.data.contractor}
-                date={item.data.date}
-                amount={item.data.amount}
-                nip={item.data.nip}
-                deleteItem={deleteItem}
-              />
-            ))}
+            {costs
+              .sort(
+                (a, b) =>
+                  new Date(b.data.date).getTime() -
+                  new Date(a.data.date).getTime()
+              )
+              .map((item) => (
+                <Cost
+                  key={item.id}
+                  index={item.id}
+                  number={item.data.number}
+                  contractor={item.data.contractor}
+                  date={item.data.date}
+                  amount={item.data.amount}
+                  nip={item.data.nip}
+                  deleteItem={deleteItem}
+                />
+              ))}
           </>
         }
         title="Dodaj Koszt"
@@ -105,6 +107,11 @@ function Costs() {
                 </div>
 
                 {costs
+                  .sort(
+                    (a, b) =>
+                      new Date(b.data.date).getTime() -
+                      new Date(a.data.date).getTime()
+                  )
                   .filter(
                     (item) =>
                       item.data.contractor
