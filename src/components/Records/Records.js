@@ -155,13 +155,11 @@ function Records({ data }) {
   }, [summaryYear, summaryCosts]);
 
   const totalYear = () => {
-    const total = totalMnoth.reduce((amount, item) => item + amount, 0);
-    return new Intl.NumberFormat("pl").format(total);
+    return totalMnoth.reduce((amount, item) => item + amount, 0);
   };
   const totalCost = () => {
     return totalCosts.reduce((amount, item) => item + amount, 0);
   };
-
   const yearEnd = () => {
     return totalYear() - totalCost();
   };
@@ -216,10 +214,9 @@ function Records({ data }) {
                           <b>
                             <NumberFormat
                               value={sumMonth(number)}
-                              type={"number"}
                               decimalScale={2}
                               fixedDecimalScale={true}
-                              displayType={"text"}
+                              displayType="text"
                               thousandSeparator={true}
                               renderText={(value) => <b>{value} zł</b>}
                             />
@@ -254,10 +251,9 @@ function Records({ data }) {
                             <td className="records__amount">
                               <NumberFormat
                                 value={getTotal(item.data.products)}
-                                type={"number"}
                                 decimalScale={2}
                                 fixedDecimalScale={true}
-                                displayType={"text"}
+                                displayType="text"
                                 thousandSeparator={true}
                                 renderText={(value) => <b>{value} zł</b>}
                               />
@@ -265,10 +261,9 @@ function Records({ data }) {
                             <td className="records__amount">
                               <NumberFormat
                                 value={cumTotal[index]}
-                                type={"number"}
                                 decimalScale={2}
                                 fixedDecimalScale={true}
-                                displayType={"text"}
+                                displayType="text"
                                 thousandSeparator={true}
                                 renderText={(value) => <b>{value} zł</b>}
                               />
@@ -284,10 +279,9 @@ function Records({ data }) {
                         <td className="records__summary">
                           <NumberFormat
                             value={sumMonth(number)}
-                            type={"number"}
                             decimalScale={2}
                             fixedDecimalScale={true}
-                            displayType={"text"}
+                            displayType="text"
                             thousandSeparator={true}
                             renderText={(value) => <b>{value} zł</b>}
                           />
@@ -329,10 +323,9 @@ function Records({ data }) {
                           <b>
                             <NumberFormat
                               value={sumCosts(number)}
-                              type={"number"}
                               decimalScale={2}
                               fixedDecimalScale={true}
-                              displayType={"text"}
+                              displayType="text"
                               thousandSeparator={true}
                               renderText={(value) => <b>{value} zł</b>}
                             />
@@ -369,10 +362,9 @@ function Records({ data }) {
                             <td className="records__amount">
                               <NumberFormat
                                 value={item.data.amount}
-                                type={"number"}
                                 decimalScale={2}
                                 fixedDecimalScale={true}
-                                displayType={"text"}
+                                displayType="text"
                                 thousandSeparator={true}
                                 renderText={(value) => <b>{value} zł</b>}
                               />
@@ -388,10 +380,9 @@ function Records({ data }) {
                         <td className="records__summary">
                           <NumberFormat
                             value={sumCosts(number)}
-                            type={"number"}
                             decimalScale={2}
                             fixedDecimalScale={true}
-                            displayType={"text"}
+                            displayType="text"
                             thousandSeparator={true}
                             renderText={(value) => <b>{value} zł</b>}
                           />
@@ -427,10 +418,9 @@ function Records({ data }) {
                     Przychody:{" "}
                     <NumberFormat
                       value={totalYear()}
-                      type={"number"}
                       decimalScale={2}
                       fixedDecimalScale={true}
-                      displayType={"text"}
+                      displayType="text"
                       thousandSeparator={true}
                       renderText={(value) => <b>{value} zł</b>}
                     />
@@ -439,10 +429,9 @@ function Records({ data }) {
                     Koszty:{" "}
                     <NumberFormat
                       value={totalCost()}
-                      type={"number"}
                       decimalScale={2}
                       fixedDecimalScale={true}
-                      displayType={"text"}
+                      displayType="text"
                       thousandSeparator={true}
                       renderText={(value) => <b>{value} zł</b>}
                     />
@@ -451,10 +440,9 @@ function Records({ data }) {
                     Dochód:{" "}
                     <NumberFormat
                       value={yearEnd()}
-                      type={"number"}
                       decimalScale={2}
                       fixedDecimalScale={true}
-                      displayType={"text"}
+                      displayType="text"
                       thousandSeparator={true}
                       renderText={(value) => <b>{value} zł</b>}
                     />
@@ -479,10 +467,9 @@ function Records({ data }) {
                         <td className="records__amount">
                           <NumberFormat
                             value={totalMnoth[index]}
-                            type={"number"}
                             decimalScale={2}
                             fixedDecimalScale={true}
-                            displayType={"text"}
+                            displayType="text"
                             thousandSeparator={true}
                             renderText={(value) => <span>{value} zł</span>}
                           />
@@ -490,10 +477,9 @@ function Records({ data }) {
                         <td className="records__amount">
                           <NumberFormat
                             value={totalCosts[index]}
-                            type={"number"}
                             decimalScale={2}
                             fixedDecimalScale={true}
-                            displayType={"text"}
+                            displayType="text"
                             thousandSeparator={true}
                             renderText={(value) => <span>{value} zł</span>}
                           />
@@ -501,10 +487,9 @@ function Records({ data }) {
                         <td className="records__amount records__profit">
                           <NumberFormat
                             value={totalMnoth[index] - totalCosts[index]}
-                            type={"number"}
                             decimalScale={2}
                             fixedDecimalScale={true}
-                            displayType={"text"}
+                            displayType="text"
                             thousandSeparator={true}
                             renderText={(value) => <b>{value} zł</b>}
                           />
@@ -520,10 +505,9 @@ function Records({ data }) {
                     <td className="records__summary">
                       <NumberFormat
                         value={totalYear()}
-                        type={"number"}
                         decimalScale={2}
                         fixedDecimalScale={true}
-                        displayType={"text"}
+                        displayType="text"
                         thousandSeparator={true}
                         renderText={(value) => <b>{value} zł</b>}
                       />
@@ -531,10 +515,9 @@ function Records({ data }) {
                     <td className="records__summary">
                       <NumberFormat
                         value={totalCost()}
-                        type={"number"}
                         decimalScale={2}
                         fixedDecimalScale={true}
-                        displayType={"text"}
+                        displayType="text"
                         thousandSeparator={true}
                         renderText={(value) => <b>{value} zł</b>}
                       />
@@ -542,10 +525,9 @@ function Records({ data }) {
                     <td className="records__summary">
                       <NumberFormat
                         value={yearEnd()}
-                        type={"number"}
                         decimalScale={2}
                         fixedDecimalScale={true}
-                        displayType={"text"}
+                        displayType="text"
                         thousandSeparator={true}
                         renderText={(value) => <b>{value} zł</b>}
                       />
