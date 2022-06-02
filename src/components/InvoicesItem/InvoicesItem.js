@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./InvoicesItem.css";
+import { useStateValue } from "../../assets/utility/StateProvider";
+import { doc, db, updateDoc } from "../../assets/utility/firebase";
+
+import NumberFormat from "react-number-format";
+//mui
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import EditIcon from "@mui/icons-material/Edit";
-import { useStateValue } from "../../assets/utility/StateProvider";
 import { Button, TextField } from "@mui/material";
-import { doc, db, updateDoc } from "../../assets/utility/firebase";
 function InvoicesItem({
   name,
   number,
@@ -56,7 +59,15 @@ function InvoicesItem({
             Data wystawienie: <b>{date}</b>
           </div>
           <div className="invoicesitem__item">
-            Wartość:<b> {amount} zł</b>
+            Wartość:{" "}
+            <NumberFormat
+              value={amount}
+              displayType={"text"}
+              thousandSeparator={true}
+              renderText={(value) => (
+                <b>{Number.parseFloat(value).toFixed(2)} zł</b>
+              )}
+            />
           </div>
         </div>
         <div className="invoicesitem__icons">

@@ -51,7 +51,7 @@ function App() {
     if (user) {
       const docRef = doc(db, "invoices", user?.uid);
       const ref = collection(docRef, "invoice");
-      const sortRef = query(ref, orderBy("date", "desc"));
+      const sortRef = query(ref, orderBy("number", "asc"));
       const unsb = onSnapshot(sortRef, (snap) => {
         setInvoices(
           snap.docs.map((doc) => ({

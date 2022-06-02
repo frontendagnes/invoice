@@ -6,6 +6,7 @@ import TabGenerator from "../TabGenerator/TabGenerator";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import NumberFormat from "react-number-format";
 
 const ButtonMonth = styled(Button)`
   margin-left: 5px;
@@ -154,7 +155,8 @@ function Records({ data }) {
   }, [summaryYear, summaryCosts]);
 
   const totalYear = () => {
-    return totalMnoth.reduce((amount, item) => item + amount, 0);
+    const total = totalMnoth.reduce((amount, item) => item + amount, 0);
+    return new Intl.NumberFormat("pl").format(total);
   };
   const totalCost = () => {
     return totalCosts.reduce((amount, item) => item + amount, 0);
@@ -212,7 +214,15 @@ function Records({ data }) {
                         <span>
                           Suma:{" "}
                           <b>
-                            {Number.parseFloat(sumMonth(number)).toFixed(2)} zł
+                            <NumberFormat
+                              value={sumMonth(number)}
+                              type={"number"}
+                              decimalScale={2}
+                              fixedDecimalScale={true}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              renderText={(value) => <b>{value} zł</b>}
+                            />
                           </b>
                         </span>
                       </div>
@@ -230,8 +240,7 @@ function Records({ data }) {
                       {data
                         .sort(
                           (a, b) =>
-                            new Date(a.data.date).getTime() -
-                            new Date(b.data.date).getTime()
+                            new Date(a.data.date) - new Date(b.data.date)
                         )
                         .filter(
                           (item) =>
@@ -243,13 +252,26 @@ function Records({ data }) {
                             <td>{item.data.number}</td>
                             <td>{item.data.date}</td>
                             <td className="records__amount">
-                              {Number.parseFloat(
-                                getTotal(item.data.products)
-                              ).toFixed(2)}{" "}
-                              zł
+                              <NumberFormat
+                                value={getTotal(item.data.products)}
+                                type={"number"}
+                                decimalScale={2}
+                                fixedDecimalScale={true}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                renderText={(value) => <b>{value} zł</b>}
+                              />
                             </td>
                             <td className="records__amount">
-                              {Number.parseFloat(cumTotal[index]).toFixed(2)} zł
+                              <NumberFormat
+                                value={cumTotal[index]}
+                                type={"number"}
+                                decimalScale={2}
+                                fixedDecimalScale={true}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                renderText={(value) => <b>{value} zł</b>}
+                              />
                             </td>
                           </tr>
                         ))}
@@ -260,7 +282,15 @@ function Records({ data }) {
                           Podsumowanie:
                         </td>
                         <td className="records__summary">
-                          {Number.parseFloat(sumMonth(number)).toFixed(2)} zł
+                          <NumberFormat
+                            value={sumMonth(number)}
+                            type={"number"}
+                            decimalScale={2}
+                            fixedDecimalScale={true}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            renderText={(value) => <b>{value} zł</b>}
+                          />
                         </td>
                       </tr>
                     </tfoot>
@@ -297,7 +327,15 @@ function Records({ data }) {
                         <span>
                           Suma:{" "}
                           <b>
-                            {Number.parseFloat(sumCosts(number)).toFixed(2)} zł
+                            <NumberFormat
+                              value={sumCosts(number)}
+                              type={"number"}
+                              decimalScale={2}
+                              fixedDecimalScale={true}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              renderText={(value) => <b>{value} zł</b>}
+                            />
                           </b>
                         </span>
                       </div>
@@ -329,8 +367,15 @@ function Records({ data }) {
                             <td>{item.data.contractor}</td>
                             <td>{item.data.date}</td>
                             <td className="records__amount">
-                              {Number.parseFloat(item.data.amount).toFixed(2)}{" "}
-                              zł
+                              <NumberFormat
+                                value={item.data.amount}
+                                type={"number"}
+                                decimalScale={2}
+                                fixedDecimalScale={true}
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                renderText={(value) => <b>{value} zł</b>}
+                              />
                             </td>
                           </tr>
                         ))}
@@ -341,7 +386,15 @@ function Records({ data }) {
                           Podsumowanie:
                         </td>
                         <td className="records__summary">
-                          {Number.parseFloat(sumCosts(number)).toFixed(2)} zł
+                          <NumberFormat
+                            value={sumCosts(number)}
+                            type={"number"}
+                            decimalScale={2}
+                            fixedDecimalScale={true}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            renderText={(value) => <b>{value} zł</b>}
+                          />
                         </td>
                       </tr>
                     </tfoot>
@@ -372,14 +425,39 @@ function Records({ data }) {
                 <caption>
                   <div>
                     Przychody:{" "}
-                    <b>{Number.parseFloat(totalYear()).toFixed(2)} zł</b>
+                    <NumberFormat
+                      value={totalYear()}
+                      type={"number"}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      renderText={(value) => <b>{value} zł</b>}
+                    />
                   </div>
                   <div>
                     Koszty:{" "}
-                    <b>{Number.parseFloat(totalCost()).toFixed(2)} zł</b>
+                    <NumberFormat
+                      value={totalCost()}
+                      type={"number"}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      renderText={(value) => <b>{value} zł</b>}
+                    />
                   </div>
                   <div className="records__revenue" title="Przychód - Koszty">
-                    Dochód: <b>{Number.parseFloat(yearEnd()).toFixed(2)} zł</b>
+                    Dochód:{" "}
+                    <NumberFormat
+                      value={yearEnd()}
+                      type={"number"}
+                      decimalScale={2}
+                      fixedDecimalScale={true}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      renderText={(value) => <b>{value} zł</b>}
+                    />
                   </div>
                 </caption>
                 <thead>
@@ -399,16 +477,37 @@ function Records({ data }) {
                         <td className="table__singular">{index + 1}</td>
                         <td className="records__monthTd">{month}</td>
                         <td className="records__amount">
-                          {Number.parseFloat(totalMnoth[index]).toFixed(2)} zł
+                          <NumberFormat
+                            value={totalMnoth[index]}
+                            type={"number"}
+                            decimalScale={2}
+                            fixedDecimalScale={true}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            renderText={(value) => <span>{value} zł</span>}
+                          />
                         </td>
                         <td className="records__amount">
-                          {Number.parseFloat(totalCosts[index]).toFixed(2)} zł
+                          <NumberFormat
+                            value={totalCosts[index]}
+                            type={"number"}
+                            decimalScale={2}
+                            fixedDecimalScale={true}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            renderText={(value) => <span>{value} zł</span>}
+                          />
                         </td>
                         <td className="records__amount records__profit">
-                          {Number.parseFloat(
-                            totalMnoth[index] - totalCosts[index]
-                          ).toFixed(2)}{" "}
-                          zł
+                          <NumberFormat
+                            value={totalMnoth[index] - totalCosts[index]}
+                            type={"number"}
+                            decimalScale={2}
+                            fixedDecimalScale={true}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            renderText={(value) => <b>{value} zł</b>}
+                          />
                         </td>
                       </tr>
                     ))}
@@ -419,13 +518,37 @@ function Records({ data }) {
                       Razem:
                     </td>
                     <td className="records__summary">
-                      {Number.parseFloat(totalYear()).toFixed(2)} zł
+                      <NumberFormat
+                        value={totalYear()}
+                        type={"number"}
+                        decimalScale={2}
+                        fixedDecimalScale={true}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        renderText={(value) => <b>{value} zł</b>}
+                      />
                     </td>
                     <td className="records__summary">
-                      {Number.parseFloat(totalCost()).toFixed(2)} zł
+                      <NumberFormat
+                        value={totalCost()}
+                        type={"number"}
+                        decimalScale={2}
+                        fixedDecimalScale={true}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        renderText={(value) => <b>{value} zł</b>}
+                      />
                     </td>
                     <td className="records__summary">
-                      {Number.parseFloat(yearEnd()).toFixed(2)} zł
+                      <NumberFormat
+                        value={yearEnd()}
+                        type={"number"}
+                        decimalScale={2}
+                        fixedDecimalScale={true}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                        renderText={(value) => <b>{value} zł</b>}
+                      />
                     </td>
                   </tr>
                 </tfoot>

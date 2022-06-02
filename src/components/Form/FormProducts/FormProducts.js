@@ -86,6 +86,8 @@ function FormProducts({
         <div className="formproducts__input">
           <NumberFormat 
             customInput={TextField}
+            allowedDecimalSeparators= {[",", "."]}
+            suffix= {" zł"}
             value={price}
             onChange={e => setPrice(e.target.value)}
             label="Cena jedn."
