@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Login.css";
 import TextField from "@mui/material/TextField";
 import Form from "../../Form/Form";
 import { Button } from "@mui/material";
-import GoogleButton from "react-google-button";
 
-function Login({name, setName, password, setPassword, signIn, loginGoogle}) {
+function Login({name, setName, password, setPassword, signIn }) {
   return (
     <div className="login">
         <Form>
