@@ -10,7 +10,7 @@ function AntySpam({ test, setTest }) {
         className="phone"
         value={test}
         onChange={(e) => setTest(e.target.value)}
-        autocomplete="off"
+        autoComplete="off"
       />
     </div>
   );

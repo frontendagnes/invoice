@@ -69,15 +69,6 @@ function AddCost() {
       <div className="addcost__wrapper">
         <div className="addcost__item">
           <TextField
-            label="Numer Faktury"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
-            fullWidth
-            helperText="Podaj numer faktury"
-          />
-        </div>
-        <div className="addcost__item">
-          <TextField
             label="Kontrahent"
             value={contractor}
             onChange={(e) => setContractor(e.target.value)}
@@ -100,6 +91,15 @@ function AddCost() {
         </div>
         <div className="addcost__item">
           <TextField
+            label="Numer Faktury"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            fullWidth
+            helperText="Podaj numer faktury"
+          />
+        </div>
+        <div className="addcost__item">
+          <TextField
             value={date}
             onChange={(e) => setDate(e.target.value)}
             type="date"
@@ -110,6 +110,7 @@ function AddCost() {
         <div className="addcost__item">
           <NumberFormat
             customInput={TextField}
+            allowedDecimalSeparators={[",", "."]}
             label="Kwota Faktury"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
