@@ -16,6 +16,7 @@ import {
   increment,
   updateDoc,
   setDoc,
+  getDoc,
 } from "../../assets/utility/firebase";
 // mui
 import { Button, FormControl, TextField, Tooltip } from "@mui/material";
@@ -202,24 +203,41 @@ function CreateInvoice() {
 
     setSelect("");
   };
+
   const changeNumber = async () => {
     const updateRef = doc(
       db,
-      `invoices/${user.uid}/number/YgYuBDoz5AisskTWslyB`
+      "invoices",
+      user.uid,
+      "number",
+      "YgYuBDoz5AisskTWslyB"
     );
-    await updateDoc(updateRef, {
-      count: increment(1),
-    })
-      .then(() =>
-        dispatch({
-          type: "ALERT__SUCCESS",
-          item: "Numer został zaktualizowany pomyślnie",
-        })
-      )
-      .catch((error) => {
-        console.log(error.message);
-        dispatch({ type: "ALERT__ERROR", item: error.message });
-      });
+
+    const docSnap = await getDoc(updateRef);
+    const docExist = docSnap.exists();
+
+    if (docExist) {
+      await updateDoc(updateRef, {
+        count: increment(1),
+      })
+        .then(() =>
+          dispatch({
+            type: "ALERT__SUCCESS",
+            item: "Numer został zaktualizowany pomyślnie",
+          })
+        )
+        .catch((error) => {
+          console.log(error.message);
+          dispatch({ type: "ALERT__ERROR", item: error.message });
+        });
+    } else {
+      await setDoc(updateRef, { count: 2 })
+        .then(() => console.log("Numer Dodany"))
+        .catch((error) => {
+          console.log(error.message);
+          dispatch({ type: "ALERT__ERROR", item: error.message });
+        });
+    }
   };
 
   const addData = async () => {
@@ -286,6 +304,7 @@ function CreateInvoice() {
     addData();
     changeNumber();
   };
+
   return (
     <div className="createinvoice">
       {error ? (
@@ -380,10 +399,7 @@ function CreateInvoice() {
                 placement="bottom"
                 followCursor={true}
               >
-                <Button
-                  type="button"
-                  onClick={updateSeller}
-                >
+                <Button type="button" onClick={updateSeller}>
                   Aktualizuj {selectName}
                 </Button>
               </Tooltip>

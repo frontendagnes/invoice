@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
 import {
   getAuth,
   onAuthStateChanged,
@@ -25,6 +24,7 @@ import {
   updateDoc,
   deleteDoc,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -88,4 +88,5 @@ export {
   getDownloadURL,
   uploadBytesResumable,
   deleteObject,
+  getDoc,
 };
