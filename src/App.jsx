@@ -1,8 +1,8 @@
 import React, { useEffect, useState, Suspense } from "react";
 import "./App.css";
-import { renderLoader } from "./assets/functions";
-import { auth } from "./assets/utility/firebase";
-import { useStateValue } from "./assets/utility/StateProvider";
+import { renderLoader } from "./assets/functions.jsx";
+import { auth } from "./assets/utility/firebase.jsx";
+import { useStateValue } from "./assets/utility/StateProvider.jsx";
 import {
   db,
   onSnapshot,
@@ -11,20 +11,20 @@ import {
   onAuthStateChanged,
   orderBy,
   query,
-} from "./assets/utility/firebase";
+} from "./assets/utility/firebase.jsx";
 import { Routes, Route } from "react-router-dom";
 //components
-import Header from "./components/Header/Header";
-import CreateInvoice from "./components/CreateInvoice/CreateInvoice";
-import Authorization from "./components/Authorization/Authoryzation.js";
-import Invoices from "./components/Invoices/Invoices";
-import Invoice from "./components/Invoice/Invoice";
-import InvoicesDetails from "./components/InvoicesDetails.js/InvoicesDetails";
-import SnackBar from "./components/Snackbar/Snackbar";
-import NoMatch from "./components/NoMatch/NoMatch";
-import Records from "./components/Records/Records";
-import Costs from "./components/Costs/Costs";
-import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header.jsx";
+import CreateInvoice from "./components/CreateInvoice/CreateInvoice.jsx";
+import Authorization from "./components/Authorization/Authoryzation.jsx";
+import Invoices from "./components/Invoices/Invoices.jsx";
+import Invoice from "./components/Invoice/Invoice.jsx";
+import InvoicesDetails from "./components/InvoicesDetails.js/InvoicesDetails.jsx";
+import SnackBar from "./components/Snackbar/Snackbar.jsx";
+import NoMatch from "./components/NoMatch/NoMatch.jsx";
+import Records from "./components/Records/Records.jsx";
+import Costs from "./components/Costs/Costs.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [{ user }, dispatch] = useStateValue();

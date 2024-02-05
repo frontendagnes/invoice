@@ -1,6 +1,7 @@
 import React from "react";
 import "./FormPerson.css";
-import NumberFormat from "react-number-format";
+// import {NumberFormat} from "react-number-format";
+import { NumericFormat } from "react-number-format";
 import { TextField } from "@mui/material";
 
 function FormPerson({
@@ -39,7 +40,7 @@ function FormPerson({
       </div>
       <div className="formperson__wrapper">
         <div className="formperson__input formperson__zipcode">
-          <NumberFormat
+          <NumericFormat
             customInput={TextField}
             format="##-###"
             mask="_"
@@ -64,7 +65,7 @@ function FormPerson({
         </div>
       </div>
       <div className="formperson__input">
-        <NumberFormat
+        <NumericFormat
           className="formperson__nip"
           customInput={TextField}
           format="###-###-##-##"

@@ -4,7 +4,7 @@ import AntySpam from "../AntySpam/AntySpam";
 import { db, collection, doc, addDoc } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { Button, TextField } from "@mui/material";
-import NumberFormat from "react-number-format";
+import {NumericFormat} from "react-number-format";
 import PropTypes from "prop-types";
 
 const validate = (number, contractor, date, amount, test) => {
@@ -77,7 +77,7 @@ function AddCost() {
           />
         </div>
         <div className="addcost__item">
-          <NumberFormat
+          <NumericFormat
             customInput={TextField}
             format="###-###-##-##"
             mask="_"
@@ -108,7 +108,7 @@ function AddCost() {
           />
         </div>
         <div className="addcost__item">
-          <NumberFormat
+          <NumericFormat
             customInput={TextField}
             allowedDecimalSeparators={[",", "."]}
             label="Kwota Faktury"

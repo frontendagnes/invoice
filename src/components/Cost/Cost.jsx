@@ -1,7 +1,7 @@
 import React from "react";
 import "./Cost.css";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import NumberFormat from "react-number-format";
+import { NumericFormat } from "react-number-format";
 function Cost({ number, contractor, date, amount, deleteItem, index, nip }) {
   return (
     <div className="cost">
@@ -26,7 +26,7 @@ function Cost({ number, contractor, date, amount, deleteItem, index, nip }) {
       </div>
       <div className="cost__item">
         Wartość:{" "}
-        <NumberFormat
+        <NumericFormat
           value={amount}
           displayType={"text"}
           thousandSeparator={true}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./FormProducts.css";
 import { Button, TextField } from "@mui/material";
 import ValidationError from "../../ValidationError/ValidationError";
-import NumberFormat from "react-number-format";
+import {NumericFormat} from "react-number-format";
 const validate = (title, quantity, price) =>{
   if(!title){
     return "Wpisz nazwę produktu"
@@ -84,7 +84,7 @@ function FormProducts({
           />
         </div>
         <div className="formproducts__input">
-          <NumberFormat 
+          <NumericFormat
             customInput={TextField}
             allowedDecimalSeparators= {[",", "."]}
             value={price}

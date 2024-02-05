@@ -1,4 +1,4 @@
-import { db, doc, setDoc } from "../../assets/utility/firebase";
+import { db, doc, setDoc } from "./firebase";
 
 export const updateSellerName = async (value, user, dispatch) => {
   const refSeller = doc(db, "invoices", user.uid, "seller", "item-seller123");

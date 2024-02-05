@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Authoryzation.css";
 import logo from "../../assets/pic/logo.webp";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { useStateValue } from "../../assets/utility/StateProvider.jsx";
 import { useNavigate } from "react-router-dom";
 import {
   auth,
@@ -9,16 +9,16 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   provider,
-} from "../../assets/utility/firebase.js";
-import { validateLogin, validateRegister } from "./validate";
+} from "../../assets/utility/firebase.jsx";
+import { validateLogin, validateRegister } from "./validate.js";
 
 //components
-import ValidationError from "../ValidationError/ValidationError";
-import TabGenerator from "../TabGenerator/TabGenerator";
-import Login from "./Login/Login";
-import Registration from "./Registaration/Registration";
-import AntySpam from "../AntySpam/AntySpam";
-import Footer from "../Footer/Footer";
+import ValidationError from "../ValidationError/ValidationError.jsx";
+import TabGenerator from "../TabGenerator/TabGenerator.jsx";
+import Login from "./Login/Login.jsx";
+import Registration from "./Registaration/Registration.jsx";
+import AntySpam from "../AntySpam/AntySpam.jsx";
+import Footer from "../Footer/Footer.jsx";
 import GoogleButton from "react-google-button";
 
 function Authoryzation() {

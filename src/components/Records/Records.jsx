@@ -6,7 +6,7 @@ import TabGenerator from "../TabGenerator/TabGenerator";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import NumberFormat from "react-number-format";
+import { NumericFormat } from "react-number-format";
 
 const ButtonMonth = styled(Button)`
   margin-left: 5px;
@@ -212,7 +212,7 @@ function Records({ data }) {
                         <span>
                           Suma:{" "}
                           <b>
-                            <NumberFormat
+                            <NumericFormat
                               value={sumMonth(number)}
                               decimalScale={2}
                               fixedDecimalScale={true}
@@ -249,7 +249,7 @@ function Records({ data }) {
                             <td>{item.data.number}</td>
                             <td>{item.data.date}</td>
                             <td className="records__amount">
-                              <NumberFormat
+                              <NumericFormat
                                 value={getTotal(item.data.products)}
                                 decimalScale={2}
                                 fixedDecimalScale={true}
@@ -259,7 +259,7 @@ function Records({ data }) {
                               />
                             </td>
                             <td className="records__amount">
-                              <NumberFormat
+                              <NumericFormat
                                 value={cumTotal[index]}
                                 decimalScale={2}
                                 fixedDecimalScale={true}
@@ -277,7 +277,7 @@ function Records({ data }) {
                           Podsumowanie:
                         </td>
                         <td className="records__summary">
-                          <NumberFormat
+                          <NumericFormat
                             value={sumMonth(number)}
                             decimalScale={2}
                             fixedDecimalScale={true}
@@ -321,7 +321,7 @@ function Records({ data }) {
                         <span>
                           Suma:{" "}
                           <b>
-                            <NumberFormat
+                            <NumericFormat
                               value={sumCosts(number)}
                               decimalScale={2}
                               fixedDecimalScale={true}
@@ -360,7 +360,7 @@ function Records({ data }) {
                             <td>{item.data.contractor}</td>
                             <td>{item.data.date}</td>
                             <td className="records__amount">
-                              <NumberFormat
+                              <NumericFormat
                                 value={item.data.amount}
                                 decimalScale={2}
                                 fixedDecimalScale={true}
@@ -378,7 +378,7 @@ function Records({ data }) {
                           Podsumowanie:
                         </td>
                         <td className="records__summary">
-                          <NumberFormat
+                          <NumericFormat
                             value={sumCosts(number)}
                             decimalScale={2}
                             fixedDecimalScale={true}
@@ -416,7 +416,7 @@ function Records({ data }) {
                 <caption>
                   <div>
                     Przychody:{" "}
-                    <NumberFormat
+                    <NumericFormat
                       value={totalYear()}
                       decimalScale={2}
                       fixedDecimalScale={true}
@@ -427,7 +427,7 @@ function Records({ data }) {
                   </div>
                   <div>
                     Koszty:{" "}
-                    <NumberFormat
+                    <NumericFormat
                       value={totalCost()}
                       decimalScale={2}
                       fixedDecimalScale={true}
@@ -438,7 +438,7 @@ function Records({ data }) {
                   </div>
                   <div className="records__revenue" title="Przychód - Koszty">
                     Dochód:{" "}
-                    <NumberFormat
+                    <NumericFormat
                       value={yearEnd()}
                       decimalScale={2}
                       fixedDecimalScale={true}
@@ -465,7 +465,7 @@ function Records({ data }) {
                         <td className="table__singular">{index + 1}</td>
                         <td className="records__monthTd">{month}</td>
                         <td className="records__amount">
-                          <NumberFormat
+                          <NumericFormat
                             value={totalMnoth[index]}
                             decimalScale={2}
                             fixedDecimalScale={true}
@@ -475,7 +475,7 @@ function Records({ data }) {
                           />
                         </td>
                         <td className="records__amount">
-                          <NumberFormat
+                          <NumericFormat
                             value={totalCosts[index]}
                             decimalScale={2}
                             fixedDecimalScale={true}
@@ -485,7 +485,7 @@ function Records({ data }) {
                           />
                         </td>
                         <td className="records__amount records__profit">
-                          <NumberFormat
+                          <NumericFormat
                             value={totalMnoth[index] - totalCosts[index]}
                             decimalScale={2}
                             fixedDecimalScale={true}
@@ -503,7 +503,7 @@ function Records({ data }) {
                       Razem:
                     </td>
                     <td className="records__summary">
-                      <NumberFormat
+                      <NumericFormat
                         value={totalYear()}
                         decimalScale={2}
                         fixedDecimalScale={true}
@@ -513,7 +513,7 @@ function Records({ data }) {
                       />
                     </td>
                     <td className="records__summary">
-                      <NumberFormat
+                      <NumericFormat
                         value={totalCost()}
                         decimalScale={2}
                         fixedDecimalScale={true}
@@ -523,7 +523,7 @@ function Records({ data }) {
                       />
                     </td>
                     <td className="records__summary">
-                      <NumberFormat
+                      <NumericFormat
                         value={yearEnd()}
                         decimalScale={2}
                         fixedDecimalScale={true}
