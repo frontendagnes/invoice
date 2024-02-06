@@ -9,7 +9,10 @@ export default defineConfig({
   server: {
     // this ensures that the browser opens upon server start
     open: true,
-    // this sets a default port to 3000
+    // this sets a default port to 3500
     port: 3500,
     },
+    build: {
+      outDir: "build"
+    }
 });
