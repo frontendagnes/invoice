@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { StateProvider } from "./assets/utility/StateProvider";
 import reducer, { initialState } from "./assets/utility/reducer";
-import { doc } from "firebase/firestore";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -19,17 +18,6 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <BrowserRouter>
-//       <StateProvider initialState={initialState} reducer={reducer}>
-//           <App  />
-//       </StateProvider>
-//     </BrowserRouter>
-//   </React.StrictMode>,
-//   document.getElementById("root")
-// );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

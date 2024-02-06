@@ -4,7 +4,7 @@ import AntySpam from "../AntySpam/AntySpam";
 import { db, collection, doc, addDoc } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { Button, TextField } from "@mui/material";
-import {NumericFormat} from "react-number-format";
+import NumericField from "../NumericField/NumericField";
 import PropTypes from "prop-types";
 
 const validate = (number, contractor, date, amount, test) => {
@@ -77,8 +77,7 @@ function AddCost() {
           />
         </div>
         <div className="addcost__item">
-          <NumericFormat
-            customInput={TextField}
+          <NumericField
             format="###-###-##-##"
             mask="_"
             placeholder="___-___-__-__"
@@ -86,7 +85,6 @@ function AddCost() {
             value={nip}
             onChange={(e) => setNip(e.target.value)}
             helperText="Podaj numer NIP"
-            fullWidth
           />
         </div>
         <div className="addcost__item">
@@ -108,14 +106,12 @@ function AddCost() {
           />
         </div>
         <div className="addcost__item">
-          <NumericFormat
-            customInput={TextField}
-            allowedDecimalSeparators={[",", "."]}
+          <NumericField
             label="Kwota Faktury"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            fullWidth
             helperText="Podaj kwotę brutto faktury"
+            numeric
           />
         </div>
       </div>

@@ -1,18 +1,10 @@
 import React from "react";
 import "./FormPerson.css";
-// import {NumberFormat} from "react-number-format";
-import { NumericFormat } from "react-number-format";
-import { TextField } from "@mui/material";
 
-function FormPerson({
-  name,
-  street,
-  zipcode,
-  town,
-  nip,
-  handleChange,
-  title,
-}) {
+import { TextField } from "@mui/material";
+import NumericField from "../../NumericField/NumericField.jsx";
+
+function FormPerson({ name, street, zipcode, town, nip, handleChange, title }) {
   return (
     <div className="formperson">
       <div className="createinvoice__text">{title}:</div>
@@ -40,16 +32,14 @@ function FormPerson({
       </div>
       <div className="formperson__wrapper">
         <div className="formperson__input formperson__zipcode">
-          <NumericFormat
-            customInput={TextField}
+          <NumericField
             format="##-###"
             mask="_"
+            value={zipcode}
+            onChange={handleChange}
             placeholder="__-___"
             label="Kod pocztowy"
             name="zipcode"
-            value={zipcode}
-            onChange={handleChange}
-            fullWidth
           />
         </div>
         <div className="formperson__input formperson__town">
@@ -65,7 +55,7 @@ function FormPerson({
         </div>
       </div>
       <div className="formperson__input">
-        <NumericFormat
+        <NumericField
           className="formperson__nip"
           customInput={TextField}
           format="###-###-##-##"

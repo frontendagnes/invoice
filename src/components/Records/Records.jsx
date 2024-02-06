@@ -6,7 +6,7 @@ import TabGenerator from "../TabGenerator/TabGenerator";
 import { useReactToPrint } from "react-to-print";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { NumericFormat } from "react-number-format";
+import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
 
 const ButtonMonth = styled(Button)`
   margin-left: 5px;
@@ -42,6 +42,7 @@ function Records({ data }) {
     "Grudzień",
     "Podsumowanie roku",
   ]);
+
   const summaryYearId = months.indexOf("Podsumowanie roku");
 
   const [{ costs }] = useStateValue();
@@ -212,12 +213,8 @@ function Records({ data }) {
                         <span>
                           Suma:{" "}
                           <b>
-                            <NumericFormat
+                            <DisplayingNumber
                               value={sumMonth(number)}
-                              decimalScale={2}
-                              fixedDecimalScale={true}
-                              displayType="text"
-                              thousandSeparator={true}
                               renderText={(value) => <b>{value} zł</b>}
                             />
                           </b>
@@ -249,22 +246,14 @@ function Records({ data }) {
                             <td>{item.data.number}</td>
                             <td>{item.data.date}</td>
                             <td className="records__amount">
-                              <NumericFormat
+                              <DisplayingNumber
                                 value={getTotal(item.data.products)}
-                                decimalScale={2}
-                                fixedDecimalScale={true}
-                                displayType="text"
-                                thousandSeparator={true}
                                 renderText={(value) => <b>{value} zł</b>}
                               />
                             </td>
                             <td className="records__amount">
-                              <NumericFormat
+                              <DisplayingNumber
                                 value={cumTotal[index]}
-                                decimalScale={2}
-                                fixedDecimalScale={true}
-                                displayType="text"
-                                thousandSeparator={true}
                                 renderText={(value) => <b>{value} zł</b>}
                               />
                             </td>
@@ -277,12 +266,8 @@ function Records({ data }) {
                           Podsumowanie:
                         </td>
                         <td className="records__summary">
-                          <NumericFormat
+                          <DisplayingNumber
                             value={sumMonth(number)}
-                            decimalScale={2}
-                            fixedDecimalScale={true}
-                            displayType="text"
-                            thousandSeparator={true}
                             renderText={(value) => <b>{value} zł</b>}
                           />
                         </td>
@@ -321,12 +306,8 @@ function Records({ data }) {
                         <span>
                           Suma:{" "}
                           <b>
-                            <NumericFormat
+                            <DisplayingNumber
                               value={sumCosts(number)}
-                              decimalScale={2}
-                              fixedDecimalScale={true}
-                              displayType="text"
-                              thousandSeparator={true}
                               renderText={(value) => <b>{value} zł</b>}
                             />
                           </b>
@@ -360,12 +341,8 @@ function Records({ data }) {
                             <td>{item.data.contractor}</td>
                             <td>{item.data.date}</td>
                             <td className="records__amount">
-                              <NumericFormat
+                              <DisplayingNumber
                                 value={item.data.amount}
-                                decimalScale={2}
-                                fixedDecimalScale={true}
-                                displayType="text"
-                                thousandSeparator={true}
                                 renderText={(value) => <b>{value} zł</b>}
                               />
                             </td>
@@ -378,12 +355,8 @@ function Records({ data }) {
                           Podsumowanie:
                         </td>
                         <td className="records__summary">
-                          <NumericFormat
+                          <DisplayingNumber
                             value={sumCosts(number)}
-                            decimalScale={2}
-                            fixedDecimalScale={true}
-                            displayType="text"
-                            thousandSeparator={true}
                             renderText={(value) => <b>{value} zł</b>}
                           />
                         </td>
@@ -416,34 +389,22 @@ function Records({ data }) {
                 <caption>
                   <div>
                     Przychody:{" "}
-                    <NumericFormat
+                    <DisplayingNumber
                       value={totalYear()}
-                      decimalScale={2}
-                      fixedDecimalScale={true}
-                      displayType="text"
-                      thousandSeparator={true}
                       renderText={(value) => <b>{value} zł</b>}
                     />
                   </div>
                   <div>
                     Koszty:{" "}
-                    <NumericFormat
+                    <DisplayingNumber
                       value={totalCost()}
-                      decimalScale={2}
-                      fixedDecimalScale={true}
-                      displayType="text"
-                      thousandSeparator={true}
                       renderText={(value) => <b>{value} zł</b>}
                     />
                   </div>
                   <div className="records__revenue" title="Przychód - Koszty">
                     Dochód:{" "}
-                    <NumericFormat
+                    <DisplayingNumber
                       value={yearEnd()}
-                      decimalScale={2}
-                      fixedDecimalScale={true}
-                      displayType="text"
-                      thousandSeparator={true}
                       renderText={(value) => <b>{value} zł</b>}
                     />
                   </div>
@@ -465,32 +426,20 @@ function Records({ data }) {
                         <td className="table__singular">{index + 1}</td>
                         <td className="records__monthTd">{month}</td>
                         <td className="records__amount">
-                          <NumericFormat
+                          <DisplayingNumber
                             value={totalMnoth[index]}
-                            decimalScale={2}
-                            fixedDecimalScale={true}
-                            displayType="text"
-                            thousandSeparator={true}
                             renderText={(value) => <span>{value} zł</span>}
                           />
                         </td>
                         <td className="records__amount">
-                          <NumericFormat
+                          <DisplayingNumber
                             value={totalCosts[index]}
-                            decimalScale={2}
-                            fixedDecimalScale={true}
-                            displayType="text"
-                            thousandSeparator={true}
                             renderText={(value) => <span>{value} zł</span>}
                           />
                         </td>
                         <td className="records__amount records__profit">
-                          <NumericFormat
+                          <DisplayingNumber
                             value={totalMnoth[index] - totalCosts[index]}
-                            decimalScale={2}
-                            fixedDecimalScale={true}
-                            displayType="text"
-                            thousandSeparator={true}
                             renderText={(value) => <b>{value} zł</b>}
                           />
                         </td>
@@ -503,32 +452,20 @@ function Records({ data }) {
                       Razem:
                     </td>
                     <td className="records__summary">
-                      <NumericFormat
+                      <DisplayingNumber
                         value={totalYear()}
-                        decimalScale={2}
-                        fixedDecimalScale={true}
-                        displayType="text"
-                        thousandSeparator={true}
                         renderText={(value) => <b>{value} zł</b>}
                       />
                     </td>
                     <td className="records__summary">
-                      <NumericFormat
+                      <DisplayingNumber
                         value={totalCost()}
-                        decimalScale={2}
-                        fixedDecimalScale={true}
-                        displayType="text"
-                        thousandSeparator={true}
                         renderText={(value) => <b>{value} zł</b>}
                       />
                     </td>
                     <td className="records__summary">
-                      <NumericFormat
+                      <DisplayingNumber
                         value={yearEnd()}
-                        decimalScale={2}
-                        fixedDecimalScale={true}
-                        displayType="text"
-                        thousandSeparator={true}
                         renderText={(value) => <b>{value} zł</b>}
                       />
                     </td>
