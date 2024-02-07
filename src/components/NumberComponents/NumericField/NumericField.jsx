@@ -17,7 +17,6 @@ function NumericField(props) {
     className,
     helperText,
     numeric,
-    fullWidth
   } = props;
   return (
     <div className="numericField">
@@ -36,7 +35,7 @@ function NumericField(props) {
           thousandSeparator={true}
           decimalScale={2}
           fixedDecimalScale={true}
-          fullWidth = {fullWidth}
+          fullWidth
         />
       ) : (
         <PatternFormat

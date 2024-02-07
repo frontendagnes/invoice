@@ -3,7 +3,7 @@ import "./InvoicesItem.css";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { doc, db, updateDoc } from "../../assets/utility/firebase";
 
-import {NumericFormat} from "react-number-format";
+import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
 //mui
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -60,10 +60,8 @@ function InvoicesItem({
           </div>
           <div className="invoicesitem__item">
             Wartość:{" "}
-            <NumericFormat
+            <DisplayingNumber
               value={amount}
-              displayType={"text"}
-              thousandSeparator={true}
               renderText={(value) => (
                 <b>{Number.parseFloat(value).toFixed(2)} zł</b>
               )}
