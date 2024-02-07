@@ -2,7 +2,7 @@ import React from "react";
 import "./FormPerson.css";
 
 import { TextField } from "@mui/material";
-import NumericField from "../../NumericField/NumericField.jsx";
+import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 
 function FormPerson({ name, street, zipcode, town, nip, handleChange, title }) {
   return (

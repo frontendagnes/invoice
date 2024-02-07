@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./FormProducts.css";
 import { Button, TextField } from "@mui/material";
 import ValidationError from "../../ValidationError/ValidationError";
-import NumericField from "../../NumericField/NumericField";
+import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 const validate = (title, quantity, price) =>{
   if(!title){
     return "Wpisz nazwę produktu"

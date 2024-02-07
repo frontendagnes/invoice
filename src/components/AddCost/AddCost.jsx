@@ -4,7 +4,7 @@ import AntySpam from "../AntySpam/AntySpam";
 import { db, collection, doc, addDoc } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { Button, TextField } from "@mui/material";
-import NumericField from "../NumericField/NumericField";
+import NumericField from "../NumberComponents/NumericField/NumericField.jsx";
 import PropTypes from "prop-types";
 
 const validate = (number, contractor, date, amount, test) => {
