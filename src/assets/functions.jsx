@@ -24,6 +24,9 @@ export const today = () => {
 export const getTotal = (data) =>
   data?.reduce((amount, item) => item.worth + amount, 0);
 
+export const getSum = (data) =>{
+  data.reduce((amount, item) => item + amount, 0)
+}
 export const index = () => {
   return `item-${nanoid(8)}`;
 };

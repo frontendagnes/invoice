@@ -1,13 +1,18 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import "./Records.css";
+import "./records.style.css";
 import { getTotal, today } from "../../assets/functions";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import TabGenerator from "../TabGenerator/TabGenerator";
+import { getSum } from "../../assets/functions";
 import { useReactToPrint } from "react-to-print";
+// mui
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
-
+// import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
+//components
+import TabGenerator from "../TabGenerator/TabGenerator";
+import IncomeSheets from "./IncomeSheets";
+import CostSheets from "./CostSheets";
+import YearSheets from "./YearSheets";
 const ButtonMonth = styled(Button)`
   margin-left: 5px;
   margin-bottom: 10px;
@@ -155,15 +160,19 @@ function Records({ data }) {
     summaryCosts();
   }, [summaryYear, summaryCosts]);
 
-  const totalYear = () => {
-    return totalMnoth.reduce((amount, item) => item + amount, 0);
-  };
-  const totalCost = () => {
-    return totalCosts.reduce((amount, item) => item + amount, 0);
-  };
-  const yearEnd = () => {
-    return totalYear() - totalCost();
-  };
+  // const totalYear = () => {
+  //   return totalMnoth.reduce((amount, item) => item + amount, 0);
+  // };
+  // const totalCost = () => {
+  //   return totalCosts.reduce((amount, item) => item + amount, 0);
+  // };
+  // const yearEnd = () => {
+  //   return totalYear() - totalCost();
+  // };
+
+  const yearEnd = () =>{
+    return getSum(totalMnoth) - getSum(totalCosts)
+  }
   const printButtons = () => {
     return months.map((item, index) => (
       <div className="records__button" key={index + 1}>
@@ -204,7 +213,13 @@ function Records({ data }) {
                     }
                   </style>
                   <h2>Zestawienie Przychodów</h2>
-                  <table>
+                  <IncomeSheets
+                    months={months}
+                    sumMonth={sumMonth}
+                    number={number}
+                    data={data}
+                  />
+                  {/* <table>
                     <caption>
                       <div className="records__total">
                         <span>
@@ -273,7 +288,7 @@ function Records({ data }) {
                         </td>
                       </tr>
                     </tfoot>
-                  </table>
+                  </table> */}
                 </div>
               </>
             }
@@ -297,7 +312,13 @@ function Records({ data }) {
                     }
                   </style>
                   <h2>Zestawienie kosztów</h2>
-                  <table>
+                  <CostSheets
+                    months={months}
+                    number={number}
+                    sumCosts={sumCosts}
+                    costs={costs}
+                  />
+                  {/* <table>
                     <caption>
                       <div className="records__total">
                         <span>
@@ -362,7 +383,7 @@ function Records({ data }) {
                         </td>
                       </tr>
                     </tfoot>
-                  </table>
+                  </table> */}
                 </div>
               </>
             }
@@ -385,7 +406,16 @@ function Records({ data }) {
                 }
               </style>
               <h2>Podsumowanie roku</h2>
-              <table id="records__tableSummary">
+              <YearSheets
+                totalYear={() => getSum(totalMnoth)}
+                totalCost={() => getSum(totalCosts)}
+                yearEnd={yearEnd}
+                months={months}
+                summaryYearId={summaryYearId}
+                totalMnoth={totalMnoth}
+                totalCosts={totalCosts}
+              />
+              {/* <table id="records__tableSummary">
                 <caption>
                   <div>
                     Przychody:{" "}
@@ -471,7 +501,7 @@ function Records({ data }) {
                     </td>
                   </tr>
                 </tfoot>
-              </table>
+              </table> */}
             </div>
           </div>
         )}
