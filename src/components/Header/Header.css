@@ -14,61 +14,29 @@
     text-shadow: 2px 2px 2px #000000;
     z-index: 999;
 }
-.header ul{
+
+.header ul {
     padding-inline-start: 0px;
 }
-.header__left img{
+
+.header__left img {
     width: 200px;
 }
 
 .header__right {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: relative;
+    padding-right: 20px;
 }
 
-.header__user {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+.header__logout:hover {
+    transform: scale(1.5);
 }
 
-.header__pulldownMenu {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.6);
-    color: #ffffff;
-    width: 100%;
-    top: 60px;
-    transition: transform 0.3s ease-in;
-    transform-origin: 0 top;
-    z-index: 999;
-}
-
-.header__pulldownMenu ul {
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.header__pulldownMenu ul li {
-    padding: 10px 20px;
-    width: 60%;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.4);
-    transition: background 0.75s ease-in-out;
-}
-
-.header__pulldownMenu ul li:hover {
-    background: #1976d2;
-}
 
 @media screen and (max-width: 550px) {
-    .header{
+    .header {
         justify-content: center;
         flex-direction: column;
         height: auto;
         font-size: 1rem;
     }
-  }
+}

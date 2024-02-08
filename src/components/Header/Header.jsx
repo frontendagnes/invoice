@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Header.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { auth, signOut } from "../../assets/utility/firebase";
-import logo from "../../assets/pic/logo.webp";
-// mui
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 //comonents
 import Menu from "../Menu/Menu";
-
-
+import HeaderRight from "./HeaderRight";
+import HeaderLeft from "./HeaderLeft";
 function Header() {
-  const [settingsView, setSettingsView] = useState(false);
   const [{ user }, dispatch] = useStateValue();
   const history = useNavigate();
 
@@ -19,8 +15,8 @@ function Header() {
     signOut(auth)
       .then(() => {
         dispatch({ type: "ALERT_LOGOUT", item: user?.email });
-        dispatch({ type: "GET_COUNT", item: null })
-        dispatch({ type: "SET_LOGO", item: null })
+        dispatch({ type: "GET_COUNT", item: null });
+        dispatch({ type: "SET_LOGO", item: null });
         history("/");
       })
       .catch((error) => {
@@ -30,35 +26,9 @@ function Header() {
 
   return (
     <header className="header">
-      <div className="header__left">
-        <Link to="/">
-          <img src={logo} title="Fakturka 2.0" alt="Logo.webp" />
-        </Link>
-      </div>
+      <HeaderLeft />
       <Menu />
-      <div className="header__right">
-        <div
-          className="header__user"
-          onMouseEnter={() => setSettingsView(true)}
-          onClick={() => setSettingsView(!settingsView)}
-        >
-          <div>
-            <div>Jestś zalogowany jako,</div>
-            <div>{user?.email}</div>
-          </div>
-          <ExpandMoreIcon fontSize="large" />
-        </div>
-        <div
-          className="header__pulldownMenu"
-          style={{
-            transform: settingsView ? "scaleY(1)" : "scaleY(0)",
-          }}
-        >
-          <ul className="header__settingsUl" onMouseLeave={() => setSettingsView(false)}>
-            <li onClick={logout}>Wyloguj</li>
-          </ul>
-        </div>
-      </div>
+      <HeaderRight user={user} logout={logout} />
     </header>
   );
 }
