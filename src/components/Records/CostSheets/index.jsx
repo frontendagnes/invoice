@@ -1,7 +1,7 @@
 import React from "react";
 import DisplayingNumber from "../../NumberComponents/DisplayingNumber/DisplayingNumber";
 function CostSheets(props) {
-  const { months, number, sumCosts, costs } = props;
+  const { months, number, sumCosts, costs, selectedYear } = props;
   return (
     <table>
       <caption>
@@ -31,6 +31,9 @@ function CostSheets(props) {
       </thead>
       <tbody>
         {costs
+          .filter(
+            (item) => new Date(item.data.date).getFullYear() === selectedYear
+          )
           .sort(
             (a, b) =>
               new Date(a.data.date).getTime() - new Date(b.data.date).getTime()

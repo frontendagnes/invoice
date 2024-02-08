@@ -5,8 +5,8 @@ export const initialState = {
     open: false,
     message: "",
     type: "success",
-    vertical: 'top',
-    horizontal: 'center',
+    vertical: "top",
+    horizontal: "center",
   },
   amount: 0,
   numberInvoice: "",
@@ -19,7 +19,7 @@ export const initialState = {
     //   amount: 123,
     // }
   ],
-  selectedYear: "2024"
+  selectedYear: 2023,
 };
 
 const reducer = (state, action) => {

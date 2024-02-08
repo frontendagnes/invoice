@@ -6,7 +6,6 @@ import { useReactToPrint } from "react-to-print";
 // mui
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-// import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
 //components
 import TabGenerator from "../TabGenerator/TabGenerator";
 import IncomeSheets from "./IncomeSheets";
@@ -49,7 +48,7 @@ function Records({ data }) {
 
   const summaryYearId = months.indexOf("Podsumowanie roku");
 
-  const [{ costs }] = useStateValue();
+  const [{ costs, selectedYear }] = useStateValue();
 
   let printPDFref = useRef(null);
   const handlePrint = useReactToPrint({
@@ -73,11 +72,13 @@ function Records({ data }) {
     (num) => {
       let i = 0;
       let arr = [];
-
-      while (i < data.length) {
-        let date = new Date(data[i].data.date).getMonth() + 1;
+      let dataF = data.filter(
+        (item) => new Date(item.data.date).getFullYear() === selectedYear
+      );
+      while (i < dataF.length) {
+        let date = new Date(dataF[i].data.date).getMonth() + 1;
         if (date === num) {
-          data[i].data.products.map((product) =>
+          dataF[i].data.products.map((product) =>
             arr.push({ worth: product.worth })
           );
         }
@@ -92,10 +93,13 @@ function Records({ data }) {
     (num) => {
       let i = 0;
       let arr = [];
-      while (i < costs.length) {
-        let date = new Date(costs[i].data.date).getMonth() + 1;
+      let costsF = costs.filter(
+        (item) => new Date(item.data.date).getFullYear() === selectedYear
+      );
+      while (i < costsF.length) {
+        let date = new Date(costsF[i].data.date).getMonth() + 1;
         if (date === num) {
-          arr.push(costs[i]);
+          arr.push(costsF[i]);
         }
         i++;
       }
@@ -107,11 +111,13 @@ function Records({ data }) {
   const cumulativeTotal = useCallback(() => {
     let i = 0;
     let arr = [];
-
-    while (i < data.length) {
-      let date = new Date(data[i].data.date).getMonth() + 1;
+    let dataF = data.filter(
+      (item) => new Date(item.data.date).getFullYear() === selectedYear
+    );
+    while (i < dataF.length) {
+      let date = new Date(dataF[i].data.date).getMonth() + 1;
       if (date === number) {
-        arr.push(getTotal(data[i].data.products));
+        arr.push(getTotal(dataF[i].data.products));
       }
       i++;
     }
@@ -215,6 +221,7 @@ function Records({ data }) {
                     data={data}
                     getTotal={getTotal}
                     cumTotal={cumTotal}
+                    selectedYear={selectedYear}
                   />
                 </div>
               </>
@@ -244,6 +251,7 @@ function Records({ data }) {
                     number={number}
                     sumCosts={sumCosts}
                     costs={costs}
+                    selectedYear={selectedYear}
                   />
                 </div>
               </>

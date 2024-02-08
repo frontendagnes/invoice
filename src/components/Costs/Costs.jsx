@@ -11,7 +11,7 @@ import TabGenerator from "../TabGenerator/TabGenerator";
 import { TextField } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function Costs() {
-  const [{ user, costs }, dispatch] = useStateValue();
+  const [{ user, costs, selectedYear }, dispatch] = useStateValue();
 
   const [text, setText] = useState("");
   const [anyDate, setAnyDate] = useState(today());
@@ -34,6 +34,10 @@ function Costs() {
           <>
             <AddCost />
             {costs
+              .filter(
+                (item) =>
+                  new Date(item.data.date).getFullYear() === selectedYear
+              )
               .sort(
                 (a, b) =>
                   new Date(b.data.date).getTime() -
@@ -76,6 +80,10 @@ function Costs() {
                   />
                 </div>
                 {costs
+                  .filter(
+                    (item) =>
+                      new Date(item.data.date).getFullYear() === selectedYear
+                  )
                   .filter((item) => item.data.date === anyDate)
                   .map((item) => (
                     <Cost
@@ -107,6 +115,10 @@ function Costs() {
                 </div>
 
                 {costs
+                  .filter(
+                    (item) =>
+                      new Date(item.data.date).getFullYear() === selectedYear
+                  )
                   .sort(
                     (a, b) =>
                       new Date(b.data.date).getTime() -

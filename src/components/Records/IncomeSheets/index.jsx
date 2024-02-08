@@ -1,7 +1,7 @@
 import React from "react";
 import DisplayingNumber from "../../NumberComponents/DisplayingNumber/DisplayingNumber";
 function IncomeSheets(props) {
-  const { months, sumMonth, number, data, getTotal, cumTotal } = props;
+  const { months, sumMonth, number, data, getTotal, cumTotal, selectedYear } = props;
   return (
     <table>
       <caption>
@@ -31,6 +31,9 @@ function IncomeSheets(props) {
       </thead>
       <tbody>
         {data
+          .filter(
+            (item) => new Date(item.data.date).getFullYear() === selectedYear
+          )
           .sort((a, b) => new Date(a.data.date) - new Date(b.data.date))
           .filter((item) => new Date(item.data.date).getMonth() + 1 === number)
           .map((item, index) => (

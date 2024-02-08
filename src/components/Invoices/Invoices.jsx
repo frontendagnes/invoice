@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import "./Invoices.css";
 import { useNavigate } from "react-router-dom";
 import { db, deleteDoc, doc } from "../../assets/utility/firebase";
@@ -11,7 +11,7 @@ import { TextField } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 function Invoices({ data }) {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, selectedYear }, dispatch] = useStateValue();
   const [text, setText] = useState("");
   const [anyDate, setAnyDate] = useState(today());
 
@@ -32,7 +32,6 @@ function Invoices({ data }) {
         dispatch({ type: "ALERT__ERROR", item: error.message })
       );
   };
-
   return (
     <div className="invoices">
       <div className="invoices__dataFilter">
@@ -55,6 +54,9 @@ function Invoices({ data }) {
         </div>
 
         {data
+          .filter(
+            (item) => new Date(item.data.date).getFullYear() === selectedYear
+          )
           .filter((item) => item.data.date === anyDate)
           .map((item) => (
             <InvoicesItem
@@ -89,6 +91,9 @@ function Invoices({ data }) {
           .sort(
             (a, b) =>
               new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+          )
+          .filter(
+            (item) => new Date(item.data.date).getFullYear() === selectedYear
           )
           .filter(
             (item) =>
