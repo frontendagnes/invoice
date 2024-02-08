@@ -1,7 +1,8 @@
 import React from "react";
 import DisplayingNumber from "../../NumberComponents/DisplayingNumber/DisplayingNumber";
 function IncomeSheets(props) {
-  const { months, sumMonth, number, data, getTotal, cumTotal, selectedYear } = props;
+  const { months, sumMonth, number, data, getTotal, cumTotal, selectedYear } =
+    props;
   return (
     <table>
       <caption>

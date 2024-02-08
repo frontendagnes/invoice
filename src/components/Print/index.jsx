@@ -8,7 +8,8 @@ import PrintIcon from "@mui/icons-material/Print";
 function Print({ onClick }) {
   return (
     <Button type="button" onClick={onClick}>
-      Drukuj <PrintIcon sx={{ marginLeft: "5px" }} />
+      <PrintIcon sx={{ marginRight: "5px" }} />
+      Drukuj
     </Button>
   );
 }

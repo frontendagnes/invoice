@@ -208,7 +208,7 @@ function Records({ data }) {
                   "
                     }
                   </style>
-                  <h2>Zestawienie Przychodów</h2>
+                  <h2>Zestawienie Przychodów {selectedYear}</h2>
                   <IncomeSheets
                     months={months}
                     sumMonth={sumMonth}
@@ -225,7 +225,7 @@ function Records({ data }) {
             title1="Koszty"
             component1={
               <>
-              <Print onClick={handlePrintCost} />
+                <Print onClick={handlePrintCost} />
                 <div className="records__print" ref={printCostref}>
                   <style type="text/css" media="print">
                     {
@@ -234,7 +234,7 @@ function Records({ data }) {
                   "
                     }
                   </style>
-                  <h2>Zestawienie kosztów</h2>
+                  <h2>Zestawienie kosztów {selectedYear}</h2>
                   <CostSheets
                     months={months}
                     number={number}
@@ -257,7 +257,7 @@ function Records({ data }) {
                   "
                 }
               </style>
-              <h2>Podsumowanie roku</h2>
+              <h2>Podsumowanie roku {selectedYear}</h2>
               <YearSheets
                 totalYear={totalYear}
                 totalCost={totalCost}
