@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import "./records.style.css";
 import { getTotal, today } from "../../assets/functions";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { getSum } from "../../assets/functions";
 import { useReactToPrint } from "react-to-print";
 // mui
 import { Button } from "@mui/material";
@@ -160,19 +159,15 @@ function Records({ data }) {
     summaryCosts();
   }, [summaryYear, summaryCosts]);
 
-  // const totalYear = () => {
-  //   return totalMnoth.reduce((amount, item) => item + amount, 0);
-  // };
-  // const totalCost = () => {
-  //   return totalCosts.reduce((amount, item) => item + amount, 0);
-  // };
-  // const yearEnd = () => {
-  //   return totalYear() - totalCost();
-  // };
-
-  const yearEnd = () =>{
-    return getSum(totalMnoth) - getSum(totalCosts)
-  }
+  const totalYear = () => {
+    return totalMnoth.reduce((amount, item) => item + amount, 0);
+  };
+  const totalCost = () => {
+    return totalCosts.reduce((amount, item) => item + amount, 0);
+  };
+  const yearEnd = () => {
+    return totalYear() - totalCost();
+  };
   const printButtons = () => {
     return months.map((item, index) => (
       <div className="records__button" key={index + 1}>
@@ -218,77 +213,9 @@ function Records({ data }) {
                     sumMonth={sumMonth}
                     number={number}
                     data={data}
+                    getTotal={getTotal}
+                    cumTotal={cumTotal}
                   />
-                  {/* <table>
-                    <caption>
-                      <div className="records__total">
-                        <span>
-                          Miesiąc: <b>{months[number - 1]}</b>
-                        </span>
-                        <span>
-                          Suma:{" "}
-                          <b>
-                            <DisplayingNumber
-                              value={sumMonth(number)}
-                              renderText={(value) => <b>{value} zł</b>}
-                            />
-                          </b>
-                        </span>
-                      </div>
-                    </caption>
-                    <thead>
-                      <tr>
-                        <td>Lp.</td>
-                        <td>Numer Faktury</td>
-                        <td>Data Faktury</td>
-                        <td>Wartość Faktury</td>
-                        <td>Wartość narastająco</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data
-                        .sort(
-                          (a, b) =>
-                            new Date(a.data.date) - new Date(b.data.date)
-                        )
-                        .filter(
-                          (item) =>
-                            new Date(item.data.date).getMonth() + 1 === number
-                        )
-                        .map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item.data.number}</td>
-                            <td>{item.data.date}</td>
-                            <td className="records__amount">
-                              <DisplayingNumber
-                                value={getTotal(item.data.products)}
-                                renderText={(value) => <b>{value} zł</b>}
-                              />
-                            </td>
-                            <td className="records__amount">
-                              <DisplayingNumber
-                                value={cumTotal[index]}
-                                renderText={(value) => <b>{value} zł</b>}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td className="records__summary" colSpan={4}>
-                          Podsumowanie:
-                        </td>
-                        <td className="records__summary">
-                          <DisplayingNumber
-                            value={sumMonth(number)}
-                            renderText={(value) => <b>{value} zł</b>}
-                          />
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table> */}
                 </div>
               </>
             }
@@ -318,72 +245,6 @@ function Records({ data }) {
                     sumCosts={sumCosts}
                     costs={costs}
                   />
-                  {/* <table>
-                    <caption>
-                      <div className="records__total">
-                        <span>
-                          Miesiąc: <b>{months[number - 1]}</b>
-                        </span>
-                        <span>
-                          Suma:{" "}
-                          <b>
-                            <DisplayingNumber
-                              value={sumCosts(number)}
-                              renderText={(value) => <b>{value} zł</b>}
-                            />
-                          </b>
-                        </span>
-                      </div>
-                    </caption>
-                    <thead>
-                      <tr>
-                        <td className="table__singular">Lp.</td>
-                        <td>Numer Faktury</td>
-                        <td>Kontrahent</td>
-                        <td>Data wystawienia</td>
-                        <td>Wartość brutto</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {costs
-                        .sort(
-                          (a, b) =>
-                            new Date(a.data.date).getTime() -
-                            new Date(b.data.date).getTime()
-                        )
-                        .filter(
-                          (item) =>
-                            new Date(item.data.date).getMonth() + 1 === number
-                        )
-                        .map((item, index) => (
-                          <tr key={item.id}>
-                            <td className="table__singular">{index + 1}</td>
-                            <td>{item.data.number}</td>
-                            <td>{item.data.contractor}</td>
-                            <td>{item.data.date}</td>
-                            <td className="records__amount">
-                              <DisplayingNumber
-                                value={item.data.amount}
-                                renderText={(value) => <b>{value} zł</b>}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td className="records__summary" colSpan={4}>
-                          Podsumowanie:
-                        </td>
-                        <td className="records__summary">
-                          <DisplayingNumber
-                            value={sumCosts(number)}
-                            renderText={(value) => <b>{value} zł</b>}
-                          />
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table> */}
                 </div>
               </>
             }
@@ -407,101 +268,14 @@ function Records({ data }) {
               </style>
               <h2>Podsumowanie roku</h2>
               <YearSheets
-                totalYear={() => getSum(totalMnoth)}
-                totalCost={() => getSum(totalCosts)}
+                totalYear={totalYear}
+                totalCost={totalCost}
                 yearEnd={yearEnd}
                 months={months}
                 summaryYearId={summaryYearId}
                 totalMnoth={totalMnoth}
                 totalCosts={totalCosts}
               />
-              {/* <table id="records__tableSummary">
-                <caption>
-                  <div>
-                    Przychody:{" "}
-                    <DisplayingNumber
-                      value={totalYear()}
-                      renderText={(value) => <b>{value} zł</b>}
-                    />
-                  </div>
-                  <div>
-                    Koszty:{" "}
-                    <DisplayingNumber
-                      value={totalCost()}
-                      renderText={(value) => <b>{value} zł</b>}
-                    />
-                  </div>
-                  <div className="records__revenue" title="Przychód - Koszty">
-                    Dochód:{" "}
-                    <DisplayingNumber
-                      value={yearEnd()}
-                      renderText={(value) => <b>{value} zł</b>}
-                    />
-                  </div>
-                </caption>
-                <thead>
-                  <tr>
-                    <td className="table__singular">Lp.</td>
-                    <td>Miesiąc</td>
-                    <td>Przychody</td>
-                    <td>Koszty</td>
-                    <td>Dochód</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {months
-                    .filter((_, index) => index !== summaryYearId)
-                    .map((month, index) => (
-                      <tr key={index}>
-                        <td className="table__singular">{index + 1}</td>
-                        <td className="records__monthTd">{month}</td>
-                        <td className="records__amount">
-                          <DisplayingNumber
-                            value={totalMnoth[index]}
-                            renderText={(value) => <span>{value} zł</span>}
-                          />
-                        </td>
-                        <td className="records__amount">
-                          <DisplayingNumber
-                            value={totalCosts[index]}
-                            renderText={(value) => <span>{value} zł</span>}
-                          />
-                        </td>
-                        <td className="records__amount records__profit">
-                          <DisplayingNumber
-                            value={totalMnoth[index] - totalCosts[index]}
-                            renderText={(value) => <b>{value} zł</b>}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td className="records__summary" colSpan={2}>
-                      Razem:
-                    </td>
-                    <td className="records__summary">
-                      <DisplayingNumber
-                        value={totalYear()}
-                        renderText={(value) => <b>{value} zł</b>}
-                      />
-                    </td>
-                    <td className="records__summary">
-                      <DisplayingNumber
-                        value={totalCost()}
-                        renderText={(value) => <b>{value} zł</b>}
-                      />
-                    </td>
-                    <td className="records__summary">
-                      <DisplayingNumber
-                        value={yearEnd()}
-                        renderText={(value) => <b>{value} zł</b>}
-                      />
-                    </td>
-                  </tr>
-                </tfoot>
-              </table> */}
             </div>
           </div>
         )}

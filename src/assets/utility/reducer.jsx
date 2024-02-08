@@ -19,7 +19,7 @@ export const initialState = {
     //   amount: 123,
     // }
   ],
-  selectesYear: "2024"
+  selectedYear: "2024"
 };
 
 const reducer = (state, action) => {
