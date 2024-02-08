@@ -19,7 +19,7 @@ export const initialState = {
     //   amount: 123,
     // }
   ],
-  selectedYear: 2023,
+  selectedYear: new Date().getFullYear(),
 };
 
 const reducer = (state, action) => {
@@ -155,6 +155,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         amount: action.item,
+      };
+    // selected Year
+    case "SELECTED_YEAR":
+      return {
+        ...state,
+        selectedYear: action.item,
       };
     // LOGO
     case "SET_LOGO":

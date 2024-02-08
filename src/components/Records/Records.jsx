@@ -11,6 +11,7 @@ import TabGenerator from "../TabGenerator/TabGenerator";
 import IncomeSheets from "./IncomeSheets";
 import CostSheets from "./CostSheets";
 import YearSheets from "./YearSheets";
+import Print from "../Print";
 const ButtonMonth = styled(Button)`
   margin-left: 5px;
   margin-bottom: 10px;
@@ -198,13 +199,7 @@ function Records({ data }) {
           <TabGenerator
             component={
               <>
-                <Button
-                  type="button"
-                  onClick={handlePrint}
-                  className="records__printButton"
-                >
-                  Drukuj
-                </Button>
+                <Print onClick={handlePrint} />
                 <div className="records__print" ref={printPDFref}>
                   <style type="text/css" media="print">
                     {
@@ -230,13 +225,7 @@ function Records({ data }) {
             title1="Koszty"
             component1={
               <>
-                <Button
-                  type="button"
-                  onClick={handlePrintCost}
-                  className="records__printButton"
-                >
-                  Drukuj
-                </Button>
+              <Print onClick={handlePrintCost} />
                 <div className="records__print" ref={printCostref}>
                   <style type="text/css" media="print">
                     {
@@ -259,13 +248,7 @@ function Records({ data }) {
           />
         ) : (
           <div>
-            <Button
-              type="button"
-              onClick={handlePrintSummary}
-              className="records__printButton"
-            >
-              Drukuj
-            </Button>
+            <Print onClick={handlePrintSummary} />
             <div ref={printSummaryref} className="records__print">
               <style type="text/css" media="print">
                 {
