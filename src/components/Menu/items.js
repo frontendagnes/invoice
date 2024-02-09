@@ -19,4 +19,9 @@ export const menuItems = [
     name: "Podsumowanie",
     href: "/records",
   },
+  {
+    id: 5,
+    name: "Wybierz Rok",
+    href: "/selected-year",
+  }
 ];

@@ -25,6 +25,7 @@ import NoMatch from "./components/NoMatch/NoMatch.jsx";
 import Records from "./components/Records/Records.jsx";
 import Costs from "./components/Costs/Costs.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+import SelectedYear from "./components/SelectedYear/index.jsx";
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [{ user }, dispatch] = useStateValue();
@@ -196,6 +197,7 @@ function App() {
               </div>
             }
           />
+          <Route path="/selected-year" element={<SelectedYear />} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </Suspense>
