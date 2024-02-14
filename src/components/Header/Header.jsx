@@ -1,12 +1,12 @@
 import React from "react";
-import "./Header.css";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { auth, signOut } from "../../assets/utility/firebase";
+import "./Header.css";
 //comonents
 import Menu from "../Menu/Menu";
-import HeaderRight from "./HeaderRight";
 import HeaderLeft from "./HeaderLeft";
+import HeaderRight from "./HeaderRight";
 function Header() {
   const [{ user }, dispatch] = useStateValue();
   const history = useNavigate();

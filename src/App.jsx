@@ -28,7 +28,7 @@ import Footer from "./components/Footer/Footer.jsx";
 import SelectedYear from "./components/SelectedYear/index.jsx";
 function App() {
   const [invoices, setInvoices] = useState([]);
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, yearArray }, dispatch] = useStateValue();
 
   useEffect(() => {
     const authUser = onAuthStateChanged(auth, (authUser) => {
@@ -66,6 +66,28 @@ function App() {
       };
     }
   }, [user]);
+
+  // useEffect(() => {
+  //   if (yearArray) {
+  //     const docRef = doc(db, "invoices", user?.uid);
+  //     const ref = collection(docRef, "years");
+  //     const unsb = onSnapshot(ref, (snap) => {
+  //       snap.docs.map((doc) => {
+  //         console.log("doc",doc);
+  //         dispatch({
+  //           type: "SET_YEAR",
+  //           item: {
+  //             id: doc.id(),
+  //             data: doc.data,
+  //           },
+  //         });
+  //       });
+  //     });
+  //     return () => {
+  //       unsb();
+  //     };
+  //   }
+  // }, [yearArray]);
 
   useEffect(() => {
     if (user) {
@@ -197,7 +219,16 @@ function App() {
               </div>
             }
           />
-          <Route path="/selected-year" element={<SelectedYear />} />
+          <Route
+            path="/selected-year"
+            element={
+              <>
+                <Header />
+                <SelectedYear />
+                <Footer />
+              </>
+            }
+          />
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </Suspense>

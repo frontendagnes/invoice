@@ -20,6 +20,7 @@ export const initialState = {
     // }
   ],
   selectedYear: new Date().getFullYear(),
+  yearArray: []
 };
 
 const reducer = (state, action) => {
@@ -162,6 +163,11 @@ const reducer = (state, action) => {
         ...state,
         selectedYear: action.item,
       };
+    case "SET_YEAR":
+      return{
+        ...state,
+        yearArray: [...state.yearArray, action.item]
+      }
     // LOGO
     case "SET_LOGO":
       return {
