@@ -67,27 +67,27 @@ function App() {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   if (yearArray) {
-  //     const docRef = doc(db, "invoices", user?.uid);
-  //     const ref = collection(docRef, "years");
-  //     const unsb = onSnapshot(ref, (snap) => {
-  //       snap.docs.map((doc) => {
-  //         console.log("doc",doc);
-  //         dispatch({
-  //           type: "SET_YEAR",
-  //           item: {
-  //             id: doc.id(),
-  //             data: doc.data,
-  //           },
-  //         });
-  //       });
-  //     });
-  //     return () => {
-  //       unsb();
-  //     };
-  //   }
-  // }, [yearArray]);
+  useEffect(() => {
+    if (user) {
+      const docRef = doc(db, "invoices", user?.uid);
+      const ref = collection(docRef, "years");
+      const unsb = onSnapshot(ref, (snap) => {
+        dispatch({ type: "CLEAR_YEAR" });
+        snap.docs.map((doc) => {
+          dispatch({
+            type: "SET_YEAR",
+            item: {
+              id: doc.id,
+              data: doc.data(),
+            },
+          });
+        });
+      });
+      return () => {
+        unsb();
+      };
+    }
+  }, [user, dispatch]);
 
   useEffect(() => {
     if (user) {

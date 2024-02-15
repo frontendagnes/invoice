@@ -29,8 +29,35 @@
     height: 30vh;
 }
 
-.selectedYear__select div {
+/* ul  */
+.selectedYear__items {
+    list-style-type: none;
+    padding: 10px 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* li */
+.selectedYear__item {
     display: flex;
     align-items: center;
+    gap: 10px;
+}
 
+.selectedYear__item>div {
+    font-size: 1.3rem;
+}
+
+.selectedYear__item>div,
+.selectedYear__item>svg {
+
+    cursor: pointer;
+    transition: transform 0.75s;
+}
+
+.selectedYear__item>div:hover,
+.selectedYear__item>svg:hover {
+    transform: scale(1.5);
 }

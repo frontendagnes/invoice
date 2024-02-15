@@ -1,40 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { useStateValue } from "../../../assets/utility/StateProvider";
-//mui
-import NativeSelect from "@mui/material/NativeSelect";
+import { db, deleteDoc, doc } from "../../../assets/utility/firebase";
 
-import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+//componets
+import SelectItem from "../SelectItem";
 function Select() {
-  const [{ yearArray }, dispatch] = useStateValue();
-  const [selected, setSelected] = useState("");
-  const changeYear = () => {
-    dispatch({ type: "SELECTED_YEAR", item: parseInt(selected) });
+  const [{ yearArray, user }, dispatch] = useStateValue();
+
+  const deleteItem = async (itemId) => {
+    await deleteDoc(doc(db, "invoices", user.uid, "years", itemId));
   };
   return (
-    <div>
-      <NativeSelect
-        name="selected-year"
-        value={selected}
-        onChange={(e) => setSelected(e.target.value)}
-        fullWidth
-      >
-        <option defaultValue={new Date().getFullYear()}>
-          {new Date().getFullYear()}
-        </option>
-        {yearArray.map((item, index) => (
-          <option key={index} value={item}>
-            {item}
-          </option>
+    <ul className="selectedYear__items">
+      {yearArray
+        .sort((a, b) => b.data.year - a.data.year)
+        .map((item) => (
+          <SelectItem
+            key={item.id}
+            year={item.data.year}
+            deleteItem={() => deleteItem(item.id)}
+          />
         ))}
-      </NativeSelect>
-      <ChangeCircleIcon
-        fontSize="large"
-        color="success"
-        titleAccess="Wypierz"
-        sx={{ cursor: "pointer" }}
-        onClick={changeYear}
-      />
-    </div>
+    </ul>
   );
 }
 

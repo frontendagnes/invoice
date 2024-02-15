@@ -14,7 +14,7 @@ function SelectedYear() {
           <AddYear />
         </div>
         <div className="selectedYear__select">
-          <h3>Wybierz Rok który chcesz sprawdzić</h3>
+          <h3>Wybierz Rok który chcesz przejrzeć:</h3>
           <Select />
         </div>
       </div>

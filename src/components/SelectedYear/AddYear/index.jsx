@@ -19,6 +19,7 @@ function AddYear() {
   const [{ yearArray, user }, dispatch] = useStateValue();
 
   const addData = async () => {
+    dispatch({ type: "CLEAR_YEAR" });
     const docRef = doc(db, "invoices", user.uid);
     const ref = collection(docRef, "years");
     await addDoc(ref, {
@@ -33,9 +34,6 @@ function AddYear() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (value) {
-      //   updateYearsArray();
-      dispatch({ type: "SET_YEAR", item: value });
-      console.log(yearArray);
       addData();
     } else {
       console.log("Value jest puste");
