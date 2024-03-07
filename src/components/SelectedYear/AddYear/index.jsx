@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 import { useStateValue } from "../../../assets/utility/StateProvider";
 // mui
-import { TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-import {
-  db,
-  doc,
-  collection,
-  addDoc,
-  increment,
-  updateDoc,
-  setDoc,
-  getDoc,
-} from "../../../assets/utility/firebase";
+import { db, doc, collection, addDoc } from "../../../assets/utility/firebase";
+//componets
+import ValidationError from "../../ValidationError/ValidationError.jsx";
+import { validate } from "./validete.jsx";
+import { TextField } from "@mui/material";
 function AddYear() {
   const [value, setValue] = useState("");
-  const [{ yearArray, user }, dispatch] = useStateValue();
+  const [error, setError] = useState(null);
+  const [{ user, yearArray }, dispatch] = useStateValue();
 
   const addData = async () => {
     dispatch({ type: "CLEAR_YEAR" });
@@ -25,7 +20,13 @@ function AddYear() {
     await addDoc(ref, {
       year: parseInt(value),
     })
-      .then(() => console.log("Rok Dodany"))
+      .then(() => {
+        dispatch({
+          type: "ALERT_SUCCESS",
+          item: "Rok został dodany prawidłowo",
+        });
+        setValue("");
+      })
       .catch((error) => {
         console.log("Errorr Add Year", error);
       });
@@ -33,33 +34,37 @@ function AddYear() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (value) {
-      addData();
-    } else {
-      console.log("Value jest puste");
+
+    const msg = validate(value, yearArray);
+    if (msg) {
+      setError(msg);
       return;
     }
+    setError(null);
+    // addData();
+    console.log("Dodano", value.length, value);
   };
   return (
-    <form>
-      <div className="selectedYear__input">
-        <TextField
-          variant="outlined"
-          type="text"
-          name="year"
-          placeholder="Wpisz rok"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          fullWidth
+    <>
+      <form>
+        <div className="selectedYear__input">
+          <TextField
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            label="Wpisz Rok"
+            placeholder="np. 2024"
+            fullWidth
+          />
+        </div>
+        <AddIcon
+          onClick={handleSubmit}
+          sx={{ cursor: "pointer" }}
+          fontSize="large"
+          color="success"
         />
-      </div>
-      <AddIcon
-        onClick={handleSubmit}
-        sx={{ cursor: "pointer" }}
-        fontSize="large"
-        color="success"
-      />
-    </form>
+      </form>
+      {error ? <ValidationError text={error} /> : null}
+    </>
   );
 }
 
