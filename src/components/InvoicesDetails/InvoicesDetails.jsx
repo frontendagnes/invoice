@@ -1,47 +1,29 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./InvoicesDetails.css";
-import { getTotal } from "../../assets/functions";
-import { today } from "../../assets/functions";
+import { getTotal } from "@/assets/functions";
+import { today } from "@/assets/functions";
+import { useStateValue } from "@/assets/utility/StateProvider";
+import { ReactToPrint } from "react-to-print";
+
+//compontents
 import Footer from "../Footer/Footer";
 import PrintSeller from "../PrintSeller/PrintSeller";
-import { useStateValue } from "../../assets/utility/StateProvider";
-import { useReactToPrint } from "react-to-print";
-import { Button } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import Print from "../Print";
 
-const ButtonPrint = styled(Button)`
-  margin-left: 5px;
-  margin-bottom: 10px;
-  padding: 5px 20px;
-  letter-spacing: 2px;
-  transition: all 0.75s ease;
-  font-weight: 600;
-  background: #fafafafa;
-  :hover {
-    background: #adadad !important;
-    color: #ffffff !important;
-  }
-`;
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();
   const [{ salesman, logo }] = useStateValue();
+
   let printPDFref = useRef(null);
-  const handlePrint = useReactToPrint({
-    content: () => printPDFref.current,
-    documentTitle: `${today()}-`,
-  });
 
   return (
     <div className="invoicesdetail">
-      <ButtonPrint
-        type="button"
-        className="invoicecdetail__button"
-        onClick={handlePrint}
-      >
-        Drukuj Fakturę
-      </ButtonPrint>
-
+      <ReactToPrint
+        content={() => printPDFref.current}
+        trigger={() => <Print />}
+        documentTitle={`${today()}-`}
+      />
       <div className="invoicesdetail__wrapper">
         {data
           .filter((item) => item.id === invoiceId)

@@ -9,7 +9,7 @@ import MenuMobile from "./MenuMobile";
 function Menu() {
   return (
     <div className="menu">
-      {/* <ViewSelectedYear /> */}
+      <ViewSelectedYear />
       <MenuDeskopt />
       <MenuMobile />
     </div>

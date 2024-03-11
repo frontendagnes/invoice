@@ -19,7 +19,7 @@ import CreateInvoice from "./components/CreateInvoice/CreateInvoice.jsx";
 import Authorization from "./components/Authorization/Authoryzation.jsx";
 import Invoices from "./components/Invoices/Invoices.jsx";
 import Invoice from "./components/Invoice/Invoice.jsx";
-import InvoicesDetails from "./components/InvoicesDetails.js/InvoicesDetails.jsx";
+import InvoicesDetails from "./components/InvoicesDetails/InvoicesDetails.jsx";
 import SnackBar from "./components/Snackbar/Snackbar.jsx";
 import NoMatch from "./components/NoMatch/NoMatch.jsx";
 import Records from "./components/Records/Records.jsx";

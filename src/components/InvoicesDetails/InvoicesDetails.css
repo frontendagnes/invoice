@@ -8,10 +8,12 @@
   font-size: 1rem;
   position: relative;
 }
-.invoicesdetail--bold{
+
+.invoicesdetail--bold {
   font-weight: 600;
   font-size: 0.8rem;
 }
+
 .invoicesdetail {
   padding-top: 20px;
   display: flex;
@@ -19,48 +21,60 @@
   align-items: center;
   background-color: #e7e7e7;
 }
-.invoicesdetail__top{
+
+
+.invoicesdetail__top {
   padding-right: 10px;
   display: flex;
   justify-content: space-between;
 }
-.invoicesdetail__top img{
+
+.invoicesdetail__top img {
   width: 100px;
   margin-left: 20px;
 }
+
 .invoicesdetail__wrapper {
   display: flex;
   justify-content: center;
 }
+
 .invoicesdetail__number {
   display: flex;
   justify-content: space-around;
   font-size: 2rem;
 }
+
 .invoicesdetail__text {
   font-weight: 600;
 }
+
 .invoicesdetail__date {
   padding: 20px;
 }
-.invoicesdetail__date > div {
+
+.invoicesdetail__date>div {
   display: flex;
   justify-content: space-between;
 }
-.invoicesdetail__date > div > span {
+
+.invoicesdetail__date>div>span {
   padding-left: 10px;
   padding-right: 10px;
 }
-.invoicesdetail__createDate{
+
+.invoicesdetail__createDate {
   line-height: 20px;
   text-align: center;
 }
-.invoicesdetail__middle > div {
+
+.invoicesdetail__middle>div {
   display: flex;
   justify-content: space-between;
   /* padding: top right bottom left; */
   padding: 30px 20px 0px 20px;
 }
+
 .invoicesdetail__headline {
   font-weight: 600;
   padding-bottom: 10px;
@@ -71,21 +85,26 @@
   display: flex;
   justify-content: center;
 }
-.invoicesdetails__products table{
+
+.invoicesdetails__products table {
   width: 100%;
 }
+
 .invoicesdetails__summary {
   margin-top: 50px;
 }
-.invoicesdetails__summary > div {
+
+.invoicesdetails__summary>div {
   margin-left: 100px;
   margin-right: 100px;
 }
-.invoicesdetails__summary > div {
+
+.invoicesdetails__summary>div {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
 }
+
 .invoicesdetails__bottom {
   text-align: center;
   position: absolute;
@@ -94,6 +113,7 @@
   display: flex;
   justify-content: center;
 }
+
 .invoicesdetails__siganture {
   display: flex;
   justify-content: space-around;
@@ -101,9 +121,11 @@
   margin: 30px;
   margin-top: 50px;
 }
-.invoicesdetails__siganture > div {
+
+.invoicesdetails__siganture>div {
   width: 200px;
 }
+
 .invoicesdetails__name {
   border-bottom: 1px solid #000000;
 }
