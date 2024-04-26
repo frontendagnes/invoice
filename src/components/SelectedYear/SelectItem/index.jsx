@@ -5,6 +5,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 function SelectItem({ year, deleteItem }) {
   const [value, setValue] = useState();
+  const [isClicked, setIsClicked] = useState(false);
   const [{ selectedYear }, dispatch] = useStateValue();
   useEffect(() => {
     setValue(year);
@@ -12,17 +13,20 @@ function SelectItem({ year, deleteItem }) {
 
   const changeYear = () => {
     dispatch({ type: "SELECTED_YEAR", item: parseInt(value) });
+    setIsClicked(true);
+
+    setTimeout(() => setIsClicked(false), 300);
   };
   return (
     <li className="selectedYear__item">
-      <div value={value} onClick={changeYear}>
+      <div
+        style={{ color: isClicked ? "#ff0000" : "#000000" }}
+        value={value}
+        onClick={changeYear}
+      >
         {year}
       </div>
-      <RemoveCircleIcon
-        onClick={deleteItem}
-        color="error"
-        titleAccess="Usuń"
-      />
+      <RemoveCircleIcon onClick={deleteItem} color="error" titleAccess="Usuń" />
     </li>
   );
 }

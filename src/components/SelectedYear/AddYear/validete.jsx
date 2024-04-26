@@ -23,12 +23,12 @@ export const validate = (value, yearArray) => {
   if (arr.length > 0) {
     return "Podany rok już istnieje";
   }
-
   if (!regex.test(value)) {
     return "Nie wpisałeś roku";
   }
   if (reg.test(value)) {
     return "Nie wpisałeś roku!";
   }
+
   return null;
 };

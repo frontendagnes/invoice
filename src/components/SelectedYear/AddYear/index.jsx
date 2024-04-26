@@ -38,6 +38,7 @@ function AddYear() {
     const msg = validate(value, yearArray);
     if (msg) {
       setError(msg);
+      console.log("Dodano", value.length, value);
       return;
     }
     setError(null);
