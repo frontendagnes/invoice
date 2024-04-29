@@ -1,22 +1,21 @@
 import React from "react";
 import "./SelectedYear.css";
+import { useStateValue } from "../../assets/utility/StateProvider";
 
 //components
 import Select from "./Select";
 import AddYear from "./AddYear";
 
 function SelectedYear() {
+  const [{ yearArray }, dispatch] = useStateValue();
   return (
     <>
       <div className="selectedYear">
-        <div className="selectedYear__addYear">
-          <h3>Dodaj Nowy Rok</h3>
-          <AddYear />
-        </div>
-        <div className="selectedYear__select">
-          <h3>Wybierz Rok który chcesz przejrzeć:</h3>
-          <Select />
-        </div>
+        {/* {yearArray.map((item) => {
+          item === 2023 ? <AddYear /> : null;
+        })} */}
+        <AddYear />
+        <Select />
       </div>
     </>
   );

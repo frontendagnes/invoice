@@ -12,17 +12,20 @@ function Select() {
     await deleteDoc(doc(db, "invoices", user.uid, "years", itemId));
   };
   return (
-    <ul className="selectedYear__items">
-      {yearArray
-        .sort((a, b) => b.data.year - a.data.year)
-        .map((item) => (
-          <SelectItem
-            key={item.id}
-            year={item.data.year}
-            deleteItem={() => deleteItem(item.id)}
-          />
-        ))}
-    </ul>
+    <>
+      <h3>Wybierz Rok który chcesz przejrzeć:</h3>
+      <ul className="selectedYear__items">
+        {yearArray
+          .sort((a, b) => b.data.year - a.data.year)
+          .map((item) => (
+            <SelectItem
+              key={item.id}
+              year={item.data.year}
+              deleteItem={() => deleteItem(item.id)}
+            />
+          ))}
+      </ul>
+    </>
   );
 }
 

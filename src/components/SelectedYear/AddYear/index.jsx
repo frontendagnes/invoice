@@ -3,7 +3,13 @@ import { useStateValue } from "../../../assets/utility/StateProvider";
 // mui
 import AddIcon from "@mui/icons-material/Add";
 
-import { db, doc, collection, addDoc } from "../../../assets/utility/firebase";
+import {
+  db,
+  doc,
+  collection,
+  addDoc,
+  setDoc,
+} from "../../../assets/utility/firebase";
 //componets
 import ValidationError from "../../ValidationError/ValidationError.jsx";
 import { validate } from "./validete.jsx";
@@ -32,6 +38,27 @@ function AddYear() {
       });
   };
 
+  const updateNumber = async () => {
+    const updateRef = doc(
+      db,
+      "invoices",
+      user.uid,
+      "number",
+      "YgYuBDoz5AisskTWslyB"
+    );
+    await setDoc(updateRef, { count: 1 })
+      .then(() =>
+        dispatch({
+          type: "ALERT_SUCCESS",
+          item: "Numer faktury został zresetowany",
+        })
+      )
+      .catch((error) => {
+        console.log(error.message);
+        dispatch({ type: "ALERT__ERROR", item: error.message });
+      });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -43,30 +70,34 @@ function AddYear() {
     }
     setError(null);
     // addData();
+    // updateNumber();
     console.log("Dodano", value.length, value);
   };
-  return (
-    <>
-      <form>
-        <div className="selectedYear__input">
-          <TextField
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            label="Wpisz Rok"
-            placeholder="np. 2024"
-            fullWidth
-          />
-        </div>
-        <AddIcon
-          onClick={handleSubmit}
-          sx={{ cursor: "pointer" }}
-          fontSize="large"
-          color="success"
-        />
-      </form>
-      {error ? <ValidationError text={error} /> : null}
-    </>
-  );
+
+
+      return (
+        <>
+          <h3>Dodaj Nowy Rok</h3>
+          <form>
+            <div className="selectedYear__input">
+              <TextField
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                label="Wpisz Rok"
+                placeholder="np. 2024"
+                fullWidth
+              />
+            </div>
+            <AddIcon
+              onClick={handleSubmit}
+              sx={{ cursor: "pointer" }}
+              fontSize="large"
+              color="success"
+            />
+          </form>
+          {error ? <ValidationError text={error} /> : null}
+        </>
+      )
 }
 
 export default AddYear;
