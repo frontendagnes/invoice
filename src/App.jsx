@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import "./App.css";
-import { renderLoader } from "./assets/functions.jsx";
+import { renderLoader, index } from "./assets/functions.jsx";
 import { auth } from "./assets/utility/firebase.jsx";
 import { useStateValue } from "./assets/utility/StateProvider.jsx";
 import {
@@ -26,9 +26,11 @@ import Records from "./components/Records/Records.jsx";
 import Costs from "./components/Costs/Costs.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import SelectedYear from "./components/SelectedYear/index.jsx";
+import InfoYear from "@/components/InfoYear/index.jsx";
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [{ user, yearArray }, dispatch] = useStateValue();
+  const nextYear = new Date().getFullYear();
 
   useEffect(() => {
     const authUser = onAuthStateChanged(auth, (authUser) => {
@@ -171,6 +173,7 @@ function App() {
                     <Header />
                     <CreateInvoice />
                     <Footer />
+                    <InfoYear />
                   </>
                 ) : (
                   <Authorization />

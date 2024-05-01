@@ -1,0 +1,64 @@
+.infoyear {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+}
+
+.infoyear__content {
+    margin: 20px;
+    border: #ffffff 1px solid;
+    padding: 20px;
+}
+
+.infoyear__content--text {
+    font-size: 1.5rem;
+    padding-bottom: 20px;
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.infoyear__content--buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infoyear__content--buttons button {
+    padding: 10px 20px;
+    border: transparent;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    transition: background 0.75s ease-in;
+    cursor: pointer;
+}
+
+.infoyear__buttonNo {
+    margin-right: 50px;
+    background: #ff4500;
+}
+
+.infoyear__buttonNo:hover {
+    background: #ff9068;
+}
+
+.infoyear__buttonYes {
+    background: rgb(71, 212, 71);
+}
+
+.infoyear__buttonYes:hover {
+    background: rgb(136, 245, 136);
+}
+
+.approve {
+    position: absolute;
+    border: #ffffff 1px solid;
+    padding: 10px 20px;
+}
