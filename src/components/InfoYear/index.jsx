@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 
 import { useStateValue } from "@/assets/utility/StateProvider";
+import { db, doc, setDoc, collection, addDoc } from "@/assets/utility/firebase";
 
 //components
 import Content from "./Content.jsx";
@@ -9,7 +10,7 @@ import Content from "./Content.jsx";
 function InfoYear() {
   const [isYes, setIsYes] = useState(false);
   const [isInfo, setIsInfo] = useState(false);
-  const [{ yearArray }, dispatch] = useStateValue();
+  const [{ yearArray, user }, dispatch] = useStateValue();
   const nextYear = new Date().getFullYear();
 
   useEffect(() => {
@@ -23,13 +24,56 @@ function InfoYear() {
     setIsInfo(false);
   }, [yearArray]);
 
-  const updateNumber = () => {};
-  const addData = () => {};
+  const updateNumber = async () => {
+    const updateRef = doc(
+      db,
+      "invoices",
+      user?.uid,
+      "number",
+      "YgYuBDoz5AisskTWslyB"
+    );
+    await setDoc(updateRef, { count: 1 })
+      .then(() =>
+        dispatch({
+          type: "ALERT_SUCCESS",
+          item: "Numer faktury został zresetowany",
+        })
+      )
+      .catch((error) => {
+        console.log(error.message);
+        dispatch({ type: "ALERT__ERROR", item: error.message });
+      });
+  };
+  const addData = async () => {
+    dispatch({ type: "CLEAR_YEAR" });
+    const docRef = doc(db, "invoices", user?.uid);
+    const ref = collection(docRef, "years");
+
+    try {
+      await addDoc(ref, {
+        year: nextYear,
+      });
+
+      dispatch({
+        type: "ALERT_SUCCESS",
+        item: "Rok został dodany prawidłowo",
+      });
+    } catch (error) {
+      console.log("Błąd dodawania roku", error);
+    }
+  };
 
   const addCurrentYear = () => {
-    addData();
+    if (yearArray.some((item) => item.data.year === nextYear)) {
+      dispatch({
+        type: "ALERT__ERROR",
+        item: "Taki Rok już znajduje się na liście odśwież stronę i spróbuj jeszcze raz",
+      });
+      return;
+    }
+
     updateNumber();
-    console.log("Dodałam rok");
+    addData();
   };
 
   if (isInfo) {
