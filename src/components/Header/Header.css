@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
     padding: 10px 20px;
     border-bottom: 1px solid #808080;
     border-radius: 0px 0px 5px 5px;
@@ -11,7 +12,7 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     color: #fafafafa;
-    text-shadow: 2px 2px 2px #000000;
+    text-shadow: 2px 2px 2px #00000070;
     z-index: 999;
 }
 

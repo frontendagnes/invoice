@@ -1,40 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./SelectedYear.css";
 import { useStateValue } from "../../assets/utility/StateProvider";
 
 //components
-import Select from "./Select";
-import AddYear from "./AddYear";
+import SelectItem from "./SelectItem";
 
 function SelectedYear() {
-  const [{ yearArray }, dispatch] = useStateValue();
-  const [years, setYears] = useState([]);
+   const [{ yearArray, user }, dispatch] = useStateValue();
 
-  // const isYear = () => {
-  //   setYears([]);
-  //   yearArray.map((item) =>
-  //     item.data.year === new Date().getFullYear()
-  //       ? setYears([item.data.year])
-  //       : null
-  //   );
-  // };
-
-  // useEffect(() => {
-  //   isYear();
-  //   console.log(">>", years);
-  // }, []);
-  return (
-    <>
-      <div className="selectedYear">
-        {/* {yearArray.map((item) => (
-          !(item.data.year === new Date().getFullYear()) ? <AddYear /> : null
-        ))} */}
-        {/* <AddYear /> */}
-        {/* {years.length === 0 ? <AddYear /> : null} */}
-        <Select />
-      </div>
-    </>
-  );
+   const deleteItem = async (itemId) => {
+     await deleteDoc(doc(db, "invoices", user.uid, "years", itemId));
+   };
+   return (
+     <div className="selectedYear">
+       <h3>Wybierz Rok który chcesz przejrzeć:</h3>
+       <ul className="selectedYear__items">
+         {yearArray
+           .sort((a, b) => b.data.year - a.data.year)
+           .map((item) => (
+             <SelectItem
+               key={item.id}
+               year={item.data.year}
+               deleteItem={() => deleteItem(item.id)}
+             />
+           ))}
+       </ul>
+     </div>
+   );
 }
 
 export default SelectedYear;

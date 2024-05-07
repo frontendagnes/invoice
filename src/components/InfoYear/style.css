@@ -56,9 +56,3 @@
 .infoyear__buttonYes:hover {
     background: rgb(136, 245, 136);
 }
-
-.approve {
-    position: absolute;
-    border: #ffffff 1px solid;
-    padding: 10px 20px;
-}

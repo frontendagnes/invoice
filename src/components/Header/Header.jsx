@@ -7,6 +7,7 @@ import "./Header.css";
 import Menu from "../Menu/Menu";
 import HeaderLeft from "./HeaderLeft";
 import HeaderRight from "./HeaderRight";
+import ViewSelectedYear from "@/components/ViewSelectedYear";
 function Header() {
   const [{ user }, dispatch] = useStateValue();
   const history = useNavigate();
@@ -26,6 +27,7 @@ function Header() {
 
   return (
     <header className="header">
+      <ViewSelectedYear />
       <HeaderLeft />
       <Menu />
       <HeaderRight user={user} logout={logout} />

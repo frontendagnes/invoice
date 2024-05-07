@@ -222,16 +222,20 @@ function App() {
               </div>
             }
           />
+          {/*
+          tymczasowo wyłączona - komponet istnieje
+          czy potrzbnie skoro rok zmienia się w selekcie?
+          Do przemyślenia!!
           <Route
             path="/selected-year"
             element={
               <>
                 <Header />
-                <SelectedYear />
+                <SelectedYear /> // url - @/components/SelectedYear
                 <Footer />
               </>
             }
-          />
+          /> */}
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </Suspense>

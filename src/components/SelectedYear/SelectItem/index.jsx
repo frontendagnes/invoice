@@ -26,7 +26,7 @@ function SelectItem({ year, deleteItem }) {
       >
         {year}
       </div>
-      <RemoveCircleIcon onClick={deleteItem} color="error" titleAccess="Usuń" />
+      {/* <RemoveCircleIcon onClick={deleteItem} color="error" titleAccess="Usuń" /> */}
     </li>
   );
 }
