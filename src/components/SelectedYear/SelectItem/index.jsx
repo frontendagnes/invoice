@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useStateValue } from "../../../assets/utility/StateProvider";
 //mui
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+// import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 function SelectItem({ year, deleteItem }) {
   const [value, setValue] = useState();
@@ -26,7 +26,7 @@ function SelectItem({ year, deleteItem }) {
       >
         {year}
       </div>
-      <RemoveCircleIcon onClick={deleteItem} color="error" titleAccess="Usuń" />
+      {/* <RemoveCircleIcon onClick={deleteItem} color="error" titleAccess="Usuń" /> */}
     </li>
   );
 }
