@@ -4,6 +4,8 @@ import { useStateValue } from "../../assets/utility/StateProvider";
 
 //mui
 import NativeSelect from "@mui/material/NativeSelect";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Link } from "react-router-dom";
 
 function ViewSelectedYear() {
   const [{ selectedYear, yearArray }, dispatch] = useStateValue();
@@ -32,13 +34,13 @@ function ViewSelectedYear() {
       {/*
         tymczasowo wyłączona - komponet istnieje
         czy potrzbnie skoro rok zmienia się w selekcie?
-        Do przemyślenia!!
+        Do przemyślenia!! */}
       <Link to="/selected-year">
         <SettingsIcon
           sx={{ color: "#808080", cursor: "pointer" }}
           titleAccess="Ustawienia"
         />
-      </Link> */}
+      </Link>
     </div>
   );
 }

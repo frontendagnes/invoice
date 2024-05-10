@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 
 import { useStateValue } from "@/assets/utility/StateProvider";
-import { db, doc, setDoc, collection, addDoc } from "@/assets/utility/firebase";
+import {
+  db,
+  doc,
+  setDoc,
+  collection,
+  addDoc,
+} from "@/assets/utility/firebase";
 
 //components
 import Content from "./Content.jsx";
@@ -15,8 +21,9 @@ function InfoYear() {
 
   useEffect(() => {
     if (
-      yearArray.length > 0 &&
-      !yearArray.some((item) => item.data.year === nextYear)
+      !yearArray.length ||
+      (yearArray.length > 0 &&
+      !yearArray.some((item) => item.data.year === nextYear))
     ) {
       setIsInfo(true);
       return;

@@ -225,17 +225,17 @@ function App() {
           {/*
           tymczasowo wyłączona - komponet istnieje
           czy potrzbnie skoro rok zmienia się w selekcie?
-          Do przemyślenia!!
+          Do przemyślenia!!*/}
           <Route
             path="/selected-year"
             element={
               <>
                 <Header />
-                <SelectedYear /> // url - @/components/SelectedYear
+                <SelectedYear /> {/* url - @/components/SelectedYear */}
                 <Footer />
               </>
             }
-          /> */}
+          />
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </Suspense>

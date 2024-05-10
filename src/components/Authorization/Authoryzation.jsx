@@ -28,7 +28,7 @@ function Authoryzation() {
   const [passwordReg, setPasswordReg] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState("");
-  const [{ user }, dispatch] = useStateValue();
+  const [{ yearArray, user }, dispatch] = useStateValue();
   const history = useNavigate();
   // filter antyspam
   const [test, setTest] = useState("");
@@ -46,9 +46,7 @@ function Authoryzation() {
       );
   };
 
-  const signIn = (e) => {
-    e.preventDefault();
-
+  const signIn = () => {
     const msg = validateLogin(name, password, test);
     if (msg) {
       setError(msg);
