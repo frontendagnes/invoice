@@ -87,7 +87,7 @@ function Records({ data }) {
       }
       return getTotal(arr);
     },
-    [data]
+    [data, selectedYear]
   );
 
   const sumCosts = useCallback(
@@ -106,7 +106,7 @@ function Records({ data }) {
       }
       return arr.reduce((amount, item) => item.data.amount + amount, 0);
     },
-    [costs]
+    [costs, selectedYear]
   );
 
   const cumulativeTotal = useCallback(() => {
@@ -130,7 +130,7 @@ function Records({ data }) {
       next.push(num);
     }
     setCumTotal(next);
-  }, [data, number]);
+  }, [data, number, selectedYear]);
 
   useEffect(() => {
     cumulativeTotal();
