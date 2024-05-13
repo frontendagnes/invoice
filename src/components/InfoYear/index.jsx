@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./style.css";
 
 import { useStateValue } from "@/assets/utility/StateProvider";
-import {
-  db,
-  doc,
-  setDoc,
-  collection,
-  addDoc,
-} from "@/assets/utility/firebase";
+import { db, doc, setDoc, collection, addDoc } from "@/assets/utility/firebase";
 
 //components
 import Content from "./Content.jsx";
@@ -23,7 +17,7 @@ function InfoYear() {
     if (
       !yearArray.length ||
       (yearArray.length > 0 &&
-      !yearArray.some((item) => item.data.year === nextYear))
+        !yearArray.some((item) => item.data.year === nextYear))
     ) {
       setIsInfo(true);
       return;
@@ -83,29 +77,27 @@ function InfoYear() {
     addData();
   };
 
-  if (isInfo) {
-    return (
-      <div className="infoyear">
-        {isYes ? (
-          <Content
-            text="Operacja spowoduje reset numeru faktury i dodanie nowego roku do bazy. Jesteś pewien że chcesz kontynuować"
-            handleClick={addCurrentYear}
-            handleClickNo={() => setIsYes(false)}
-            buttonYesTxt="Pewnie, dodaj rok"
-          />
-        ) : (
-          <Content
-            text="Cześć, to ja Fakturka 2.0, wykryłam, że nie dodałeś/aś jeszcze aktualnego roku czy chcesz zrobić to teraz?"
-            handleClick={() => setIsYes(true)}
-            handleClickNo={() => {
-              setIsInfo(false);
-            }}
-            buttonYesTxt="Dodaj Rok"
-          />
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className="infoyear" style={{ display: isInfo ? "block" : "none" }}>
+      {isYes ? (
+        <Content
+          text="Operacja spowoduje reset numeru faktury i dodanie nowego roku do bazy. Jesteś pewien że chcesz kontynuować"
+          handleClick={addCurrentYear}
+          handleClickNo={() => setIsYes(false)}
+          buttonYesTxt="Pewnie, dodaj rok"
+        />
+      ) : (
+        <Content
+          text="Cześć, to ja Fakturka 2.0, wykryłam, że nie dodałeś/aś jeszcze aktualnego roku czy chcesz zrobić to teraz?"
+          handleClick={() => setIsYes(true)}
+          handleClickNo={() => {
+            setIsInfo(false);
+          }}
+          buttonYesTxt="Dodaj Rok"
+        />
+      )}
+    </div>
+  );
 }
 
 export default InfoYear;
