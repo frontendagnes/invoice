@@ -5,16 +5,18 @@
   justify-content: center;
   align-items: center;
 }
+
 .addcost h2 {
-    margin: 0 auto;
-    width: 80%;
-    text-align: center;
-    border-bottom: 1px solid #d3d3d3;
-    border-top: 1px solid #d3d3d3;
-    padding: 10px 20px;
-    margin-bottom:20px;
-    margin-top: 5px;
+  margin: 0 auto;
+  width: 80%;
+  text-align: center;
+  border-bottom: 1px solid #d3d3d3;
+  border-top: 1px solid #d3d3d3;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  margin-top: 5px;
 }
+
 .addcost__wrapper {
   display: flex;
   justify-content: space-around;
@@ -23,8 +25,29 @@
 }
 
 .addcost__item {
+  position: relative;
   width: 40%;
   margin-bottom: 10px;
+}
+
+.addcost__icon {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+.addcost__icon span{
+  font-size: 0.8rem;
+  color: #808080;
+}
+.addcost__icon svg {
+  transition: all 0.6s ease;
+}
+
+.addcost__icon svg:hover {
+  color: #055f05;
 }
 
 .addcost button {
@@ -35,8 +58,8 @@
 
 
 
-@media screen and (max-width: 800px){
-  .addcost__item{
+@media screen and (max-width: 800px) {
+  .addcost__item {
     width: 90%;
   }
 }

@@ -21,6 +21,20 @@ export const initialState = {
   ],
   selectedYear: new Date().getFullYear(),
   yearArray: [],
+  costHints: [
+    {
+      id: 1,
+      data: { counterparty: "Zuzia sprzedaje konie i psy także", nip: "123-985-58-54" },
+    },
+    {
+      id: 2,
+      data: { counterparty: "Ala", nip: "965-365-65-65" },
+    },
+    {
+      id: 3,
+      data: { counterparty: "Miko", nip: "896-289-28-54" },
+    },
+  ],
 };
 
 const reducer = (state, action) => {
@@ -173,12 +187,20 @@ const reducer = (state, action) => {
         ...state,
         yearArray: [],
       };
+
+    //costHints
+    case "SET_COSTHINTS":
+      return {
+        ...state,
+        costHints: [...state.costHints, action.item],
+      };
     // LOGO
     case "SET_LOGO":
       return {
         ...state,
         logo: action.item,
       };
+
     default:
       return state;
   }

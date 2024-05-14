@@ -1,0 +1,44 @@
+.costHinst {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 56px;
+    left: 0;
+    padding: 10px;
+    width: 93%;
+    font-size: 1rem;
+    background: #ffffff;
+    border: 1px solid #808080;
+    border-radius: 10px;
+    z-index: 999;
+    cursor: pointer;
+
+}
+
+.costHinst__item,
+.costHinst__no-results {
+    padding-top: 20px;
+    color: #808080;
+    transition: color 0.75s ease;
+}
+
+.costHinst__item:hover {
+    color: #000000;
+}
+
+.costHints__close {
+    position: absolute;
+    align-self: flex-end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    color: #ff0000;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    transition: border 0.75s ease;
+}
+
+.costHints__close:hover {
+    border-color: #000000;
+}

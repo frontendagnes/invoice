@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import "./AddCost.css";
-import AntySpam from "../AntySpam/AntySpam";
+
 import { db, collection, doc, addDoc } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { Button, TextField } from "@mui/material";
-import NumericField from "../NumberComponents/NumericField/NumericField.jsx";
 import PropTypes from "prop-types";
+//mui
+import { Button, TextField } from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+//components
+import AntySpam from "../AntySpam/AntySpam";
+import NumericField from "../NumberComponents/NumericField/NumericField.jsx";
+import CostHinsts from "../CostHints/index.jsx";
 
 const validate = (number, contractor, date, amount, test) => {
   if (test) {
@@ -25,7 +30,7 @@ const validate = (number, contractor, date, amount, test) => {
   }
 };
 function AddCost() {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, costHints }, dispatch] = useStateValue();
 
   const [number, setNumber] = useState("");
   const [contractor, setContractor] = useState("");
@@ -33,6 +38,8 @@ function AddCost() {
   const [amount, setAmount] = useState(0);
   const [nip, setNip] = useState("");
   const [test, setTest] = useState("");
+  const [isViewTips, setIsViewTips] = useState(false);
+  const [tip, setTip] = useState("");
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -62,10 +69,34 @@ function AddCost() {
     setAmount("");
     setNip("");
   };
+
+  const handleChangeTip = (e) => {
+    setTip(e.target.value);
+    setIsViewTips(true);
+  };
   return (
-    <form className="addcost">
+    <form className="addcost" onClick={() => setIsViewTips(false)}>
       <AntySpam test={test} setTest={setTest} />
       <h2>Dodaj Koszt</h2>
+      <div className="addcost__item">
+        <TextField
+          label="Wpisz nazwę kontrahenta lub jego NIP"
+          value={tip}
+          onChange={handleChangeTip}
+          fullWidth
+          helperText="Wyszukaj kontahenta w bazie danych"
+        />
+        {isViewTips ? (
+          <CostHinsts
+            data={costHints}
+            value={tip}
+            setConstractor={setContractor}
+            setNip={setNip}
+            setIsViewTips={setIsViewTips}
+            setValue={setTip}
+          />
+        ) : null}
+      </div>
       <div className="addcost__wrapper">
         <div className="addcost__item">
           <TextField
@@ -86,6 +117,14 @@ function AddCost() {
             onChange={(e) => setNip(e.target.value)}
             helperText="Podaj numer NIP"
           />
+        </div>
+        <div className="addcost__item addcost__icon">
+          <PersonAddIcon
+            fontSize="large"
+            color="success"
+            titleAccess="Dodaj Kontrahenta do bazy"
+          />
+          <span>Dodaj kontrahenta do bazy danych (nie wymagane)</span>
         </div>
         <div className="addcost__item">
           <TextField
