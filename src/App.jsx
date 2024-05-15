@@ -29,8 +29,7 @@ import SelectedYear from "./components/SelectedYear/index.jsx";
 import InfoYear from "@/components/InfoYear/index.jsx";
 function App() {
   const [invoices, setInvoices] = useState([]);
-  const [{ user, yearArray }, dispatch] = useStateValue();
-  const nextYear = new Date().getFullYear();
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     const authUser = onAuthStateChanged(auth, (authUser) => {

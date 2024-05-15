@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./AddCost.css";
 
-import { db, collection, doc, addDoc } from "../../assets/utility/firebase";
+import {
+  db,
+  collection,
+  doc,
+  addDoc,
+  onSnapshot,
+} from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import PropTypes from "prop-types";
 //mui
@@ -29,6 +35,15 @@ const validate = (number, contractor, date, amount, test) => {
     return "Pole 'Kwota Faktury' musi zostać wypełnione";
   }
 };
+
+const validateContractor = (contractor, test) => {
+  if (test) {
+    return "Nie przeszedłeś filtra antyspamowego odśwież stronę i spróbuj ponownie";
+  }
+  if (!contractor) {
+    return "Pole 'Kontrahent' musi zostać wypełnione";
+  }
+};
 function AddCost() {
   const [{ user, costHints }, dispatch] = useStateValue();
 
@@ -40,6 +55,25 @@ function AddCost() {
   const [test, setTest] = useState("");
   const [isViewTips, setIsViewTips] = useState(false);
   const [tip, setTip] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      const docRef = doc(db, "invoices", user?.uid);
+      const ref = collection(docRef, "contractors");
+      const unsb = onSnapshot(ref, (snap) => {
+        dispatch({
+          type: "SET_COSTHINTS",
+          item: snap.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          })),
+        });
+      });
+      return () => {
+        unsb();
+      };
+    }
+  }, [user, dispatch]);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -69,7 +103,31 @@ function AddCost() {
     setAmount("");
     setNip("");
   };
+  const addContractor = async (e) => {
+    e.preventDefault();
 
+    const msg = validateContractor(contractor, test);
+
+    if (msg) {
+      dispatch({ type: "ALERT__ERROR", item: msg });
+      return;
+    }
+
+    const docRef = doc(db, "invoices", user.uid);
+    const ref = collection(docRef, "contractors");
+
+    await addDoc(ref, {
+      contractor: contractor,
+      nip: nip,
+    })
+      .then(() =>
+        dispatch({
+          type: "ALERT_SUCCESS",
+          item: "Kontrachent został dodany poprawnie",
+        })
+      )
+      .catch((error) => console.error("ERROR>>", error.massage));
+  };
   const handleChangeTip = (e) => {
     setTip(e.target.value);
     setIsViewTips(true);
@@ -123,8 +181,11 @@ function AddCost() {
             fontSize="large"
             color="success"
             titleAccess="Dodaj Kontrahenta do bazy"
+            onClick={addContractor}
           />
-          <span>Dodaj kontrahenta do bazy danych (nie wymagane)</span>
+          <span title="Dodaje Nazwę oraz NIP">
+            Dodaj kontrahenta do bazy danych (nie wymagane)
+          </span>
         </div>
         <div className="addcost__item">
           <TextField

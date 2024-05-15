@@ -24,15 +24,18 @@ export const initialState = {
   costHints: [
     {
       id: 1,
-      data: { counterparty: "Zuzia sprzedaje konie i psy także", nip: "123-985-58-54" },
+      data: {
+        contractor: "Zuzia sprzedaje konie i psy także",
+        nip: "123-985-58-54",
+      },
     },
     {
       id: 2,
-      data: { counterparty: "Ala", nip: "965-365-65-65" },
+      data: { contractor: "Ala", nip: "965-365-65-65" },
     },
     {
       id: 3,
-      data: { counterparty: "Miko", nip: "896-289-28-54" },
+      data: { contractor: "Miko", nip: "896-289-28-54" },
     },
   ],
 };
@@ -72,7 +75,12 @@ const reducer = (state, action) => {
         ...state,
         costs: [...state.costs, action.item],
       };
-
+    //costHints
+    case "SET_COSTHINTS":
+      return {
+        ...state,
+        costHints: action.item,
+      };
     //Snackbar
     case "ALLERT_DEFAULT":
       return {
@@ -188,12 +196,6 @@ const reducer = (state, action) => {
         yearArray: [],
       };
 
-    //costHints
-    case "SET_COSTHINTS":
-      return {
-        ...state,
-        costHints: [...state.costHints, action.item],
-      };
     // LOGO
     case "SET_LOGO":
       return {

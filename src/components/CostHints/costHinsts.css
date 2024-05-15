@@ -14,10 +14,12 @@
     cursor: pointer;
 
 }
-
+.costHinst:last-child{
+    padding-bottom: 0px;
+}
 .costHinst__item,
 .costHinst__no-results {
-    padding-top: 20px;
+    padding-bottom: 20px;
     color: #808080;
     transition: color 0.75s ease;
 }
