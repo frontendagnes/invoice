@@ -1,6 +1,6 @@
 import React from "react";
 import "./FormTop.css";
-import { Button, TextField, ToggleButton } from "@mui/material";
+import { TextField, ToggleButton } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 function FormTop({
   date,
@@ -15,7 +15,6 @@ function FormTop({
   setCheck,
   place,
   setPlace,
-  handlePlace
 }) {
   return (
     <div className="formtop">
@@ -102,7 +101,6 @@ function FormTop({
             title="Wprowadzona wartość zostanie zapamiętana na tym komputerze!"
             fullWidth
           />
-          <Button type="button" onClick={handlePlace} title="Zapisuje tylko na aktualnym urządzeniu">Zapamiętaj</Button>
         </div>
       </div>
     </div>

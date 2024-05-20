@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import "./FormProducts.css";
+
+//mui
 import { Button, TextField } from "@mui/material";
+//components
 import ValidationError from "../../ValidationError/ValidationError";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
-const validate = (title, quantity, price) =>{
-  if(!title){
-    return "Wpisz nazwę produktu"
+const validate = (title, quantity, price) => {
+  if (!title) {
+    return "Wpisz nazwę produktu";
   }
-  if(!quantity){
-    return "Podaj ilość produktów"
-  } else if (quantity < 1){
-    return "Ilość musi być większa od 0"
+  if (!quantity) {
+    return "Podaj ilość produktów";
+  } else if (quantity < 1) {
+    return "Ilość musi być większa od 0";
   }
-  if(!price){
-    return "Podaj cenę jednostkową"
+  if (!price) {
+    return "Podaj cenę jednostkową";
   }
-  return null
-}
+  return null;
+};
 
 function FormProducts({
   title,
@@ -24,36 +27,33 @@ function FormProducts({
   quantity,
   price,
   setPrice,
-  setProducts,
-  products,
   setQuantity,
+  productsStorage,
+  setProductsStorage
 }) {
-  const [error, setError] = useState("")
-
+  const [error, setError] = useState("");
   const endValue = () => {
     return quantity * price;
   };
 
   const addProduct = () => {
-    const msg = validate(title, quantity, price)
-    if(msg){
-      setError(msg)
-      return
+    const msg = validate(title, quantity, price);
+    if (msg) {
+      setError(msg);
+      return;
     }
-    setProducts([
-      ...products,
-      {
-        title: title,
-        quantity: quantity,
-        price: price,
-        worth: endValue(),
-        vat: 0,
-      },
-    ]);
+    const objStorage = {
+      title: title,
+      quantity: quantity,
+      price: price,
+      worth: endValue(),
+      vat: 0,
+    };
+    setProductsStorage([...productsStorage, objStorage]);
     setTitle("");
     setQuantity(1);
     setPrice(0);
-    setError("")
+    setError("");
   };
   return (
     <div className="formproducts">

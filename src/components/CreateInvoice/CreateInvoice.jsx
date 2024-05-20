@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./CreateInvoice.css";
 
+import { useLocalStorage } from "../../assets/utility/storage";
 import { useNavigate } from "react-router-dom";
 import { today } from "../../assets/functions";
 import { db } from "../../assets/utility/firebase";
@@ -43,15 +44,12 @@ import {
 
 function CreateInvoice() {
   const [{ user, amount, numberInvoice, salesman }, dispatch] = useStateValue();
+  const [productsStorage, setProductsStorage] = useLocalStorage("products", []);
+  const [place, setPlace] = useLocalStorage("place", "")
   const [selectName, setSelectName] = useState("");
   const [select, setSelect] = useState("");
   const [check, setCheck] = useState(false);
   const [count, setCount] = useState(0);
-  const [place, setPlace] = useState(() => {
-    const saved = localStorage.getItem("place");
-    const initialValue = JSON.parse(saved);
-    return initialValue || "";
-  });
   const [year, setYear] = useState(new Date().getFullYear());
   const [order, setOrder] = useState("");
   const [number, setNumber] = useState("");
@@ -72,7 +70,6 @@ function CreateInvoice() {
   });
 
   const [selected, setSelected] = useState("przelew");
-  const [products, setProducts] = useState([]);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(0);
   //ilość
@@ -125,9 +122,6 @@ function CreateInvoice() {
     setNumber(numberInvoice);
   }, [dispatch, order, year, amount, numberInvoice, count]);
 
-  const handlePlace = () => {
-    localStorage.setItem("place", JSON.stringify(place));
-  };
   const handleChangeSeller = (e) => {
     const value = e.target.value;
     setSeller({
@@ -254,7 +248,7 @@ function CreateInvoice() {
         town: buyer.town,
         nip: buyer.nip,
       },
-      products: products,
+      products: productsStorage,
       place: place,
       note: note,
     })
@@ -284,6 +278,7 @@ function CreateInvoice() {
       return;
     }
     addData();
+    window.localStorage.removeItem("products");
   };
   const addInvoiceWithNumber = (e) => {
     e.preventDefault();
@@ -303,6 +298,7 @@ function CreateInvoice() {
     }
     addData();
     changeNumber();
+    window.localStorage.removeItem("products");
   };
 
   return (
@@ -327,7 +323,6 @@ function CreateInvoice() {
           setCheck={setCheck}
           place={place}
           setPlace={setPlace}
-          handlePlace={handlePlace}
         />
         <div className="creativeinvoice--span">
           <h2 className="createinvoice__text">
@@ -413,16 +408,19 @@ function CreateInvoice() {
           quantity={quantity}
           price={price}
           setPrice={setPrice}
-          setProducts={setProducts}
-          products={products}
           setQuantity={setQuantity}
+          productsStorage={productsStorage}
+          setProductsStorage={setProductsStorage}
         />
-        {products.length !== 0 ? (
+        {productsStorage.length !== 0 ? (
           <div>
-            <ViewProducts products={products} setProducts={setProducts} />
+            <ViewProducts
+              productsStorage={productsStorage}
+              setProductsStorage={setProductsStorage}
+            />
             <div className="createinvoice__footer">
               <div className="creativeinvoice__summary">
-                Razem: {Number.parseFloat(getTotal(products)).toFixed(2)} zł
+                Razem: {Number.parseFloat(getTotal(productsStorage)).toFixed(2)} zł
               </div>
               <Button
                 type="button"

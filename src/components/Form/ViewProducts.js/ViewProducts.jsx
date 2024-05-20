@@ -1,12 +1,12 @@
 import React from "react";
 import "./ViewProducts.css";
+
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-function ViewProducts({ products, setProducts }) {
- 
+function ViewProducts({ productsStorage, setProductsStorage }) {
   const removeProduct = (index) => {
-    const newProducts = [...products];
+    const newProducts = [...productsStorage];
     newProducts.splice(index, 1);
-    setProducts(newProducts);
+    setProductsStorage(newProducts);
   };
   return (
     <div className="viewproducts">
@@ -19,12 +19,12 @@ function ViewProducts({ products, setProducts }) {
             <td className="table__price">Cena jedn. netto</td>
             <td className="table__price">Wartość</td>
             <td>Vat</td>
-            <td >Remove</td>
+            <td>Remove</td>
           </tr>
         </thead>
-        {products.map((item, index) => (
-          <tbody key={index}>
-            <tr>
+        <tbody>
+          {productsStorage.map((item, index) => (
+            <tr key={index}>
               <td>{index + 1}</td>
               <td>{item.title}</td>
               <td>{item.quantity} szt.</td>
@@ -39,8 +39,8 @@ function ViewProducts({ products, setProducts }) {
                 />
               </td>
             </tr>
-          </tbody>
-        ))}
+          ))}
+        </tbody>
       </table>
     </div>
   );
