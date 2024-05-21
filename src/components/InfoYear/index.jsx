@@ -10,19 +10,23 @@ import Content from "./Content.jsx";
 function InfoYear() {
   const [isYes, setIsYes] = useState(false);
   const [isInfo, setIsInfo] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [{ yearArray, user }, dispatch] = useStateValue();
   const nextYear = new Date().getFullYear();
 
   useEffect(() => {
-    setIsInfo(false);
     if (
-      !yearArray.length ||
-      (yearArray.length > 0 &&
-        !yearArray.some((item) => item.data.year === nextYear))
+      yearArray.length &&
+      yearArray.some((item) => item.data.year === nextYear)
     ) {
-      setIsInfo(true);
-      return;
-    }
+      setIsInfo(false);
+    } else setIsInfo(true);
+
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [yearArray]);
 
   const updateNumber = async () => {
@@ -76,6 +80,9 @@ function InfoYear() {
     updateNumber();
     addData();
   };
+  if (isLoading) {
+    return null;
+  }
   if (isInfo) {
     return (
       <div className="infoyear">
@@ -99,6 +106,8 @@ function InfoYear() {
       </div>
     );
   }
+
+  return null;
 }
 
 export default InfoYear;
