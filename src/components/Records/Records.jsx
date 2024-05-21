@@ -112,9 +112,11 @@ function Records({ data }) {
   const cumulativeTotal = useCallback(() => {
     let i = 0;
     let arr = [];
-    let dataF = data.filter(
-      (item) => new Date(item.data.date).getFullYear() === selectedYear
-    );
+    let dataF = data
+      .sort((a, b) => new Date(a.data.date) - new Date(b.data.date))
+      .filter(
+        (item) => new Date(item.data.date).getFullYear() === selectedYear
+      );
     while (i < dataF.length) {
       let date = new Date(dataF[i].data.date).getMonth() + 1;
       if (date === number) {
