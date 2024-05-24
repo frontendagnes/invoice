@@ -26,7 +26,7 @@ Projekt został stworzone przez [create-react-app](https://github.com/facebook/c
 * [react-router-dom](https://reactrouter.com/web/guides/quick-start) - nawigacja na stronie
 * [nanoid](https://www.npmjs.com/package/nanoid) - za pomocą tej aplikacji tworzę identyfikator faktury
 * [react-number-format](https://www.npmjs.com/package/react-number-format) - obsługa inputów typu number oraz użycie maski dla tych inputów
-* [react-to-print](https://github.com/gregnb/react-to-print) - użyte do drukowanie faktury do pdf. 
+* [react-to-print](https://github.com/gregnb/react-to-print) - użyte do drukowanie faktury do pdf.
 
 Wszystkie powyższe aplikacje zostały zainstalowane z poziomu `npm`, standardowym poleceniem
 
@@ -59,6 +59,10 @@ Wszystkie pozostałe niezbędne informację znajdują się tutaj: [create-react-
 * Source Code:  [https://github.com/frontendagnes/invoice](https://github.com/zabula81/invoice)
 * Issue Tracker:  [https://github.com/frontendagnes/invoice/issues](https://github.com/zabula81/invoice/issues)
 * View: [invoice-939f8.web.app](https://invoice-939f8.web.app/)
+
+## License
+
+This project is licensed under the Apache 2.0 License
 
 ## Author
 
