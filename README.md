@@ -96,6 +96,10 @@ The production-ready files will be in the `build/` directory.
 * Issue Tracker:  [https://github.com/frontendagnes/invoice/issues](https://github.com/zabula81/invoice/issues)
 * View: [invoice-939f8.web.app](https://invoice-939f8.web.app/)
 
+## License
+
+This project is licensed under the Apache 2.0 License
+
 ## Author
 
 [frontend-agnes.pl](https://frontend-agnes.pl/)
