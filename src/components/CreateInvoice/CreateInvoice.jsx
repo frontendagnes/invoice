@@ -34,18 +34,14 @@ import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
 import UploadImage from "../UploadImage/UploadImage";
 // update seller
 import {
-  updateSellerName,
-  updateSellerNip,
-  updateSellerStreet,
-  updateSellerTown,
-  updateSellerZipcode,
   updateSellerAll,
+  updateSellerField,
 } from "../../assets/utility/updateSeller";
 
 function CreateInvoice() {
   const [{ user, amount, numberInvoice, salesman }, dispatch] = useStateValue();
   const [productsStorage, setProductsStorage] = useLocalStorage("products", []);
-  const [place, setPlace] = useLocalStorage("place", "")
+  const [place, setPlace] = useLocalStorage("place", "");
   const [selectName, setSelectName] = useState("");
   const [select, setSelect] = useState("");
   const [check, setCheck] = useState(false);
@@ -80,31 +76,6 @@ function CreateInvoice() {
   //validation error
   const [error, setError] = useState("");
   const history = useNavigate();
-
-  useEffect(() => {
-    switch (select) {
-      case "name":
-        setSelectName("NAZWĘ");
-        break;
-      case "street":
-        setSelectName("ULICĘ");
-        break;
-      case "zipcode":
-        setSelectName("KOD POCZTOWY");
-        break;
-      case "town":
-        setSelectName("MIEJSCOWOŚć");
-        break;
-      case "nip":
-        setSelectName("NIP");
-        break;
-      case "":
-        setSelectName("");
-        break;
-      default:
-        return "";
-    }
-  }, [select]);
 
   useEffect(() => {
     if (amount) {
@@ -171,30 +142,18 @@ function CreateInvoice() {
         item: "Nie wybrałeś/aś co chcesz aktualizować",
       });
     }
+    const updateFunctions = {
+      name: () => updateSellerField(select, seller.name, user, dispatch),
+      street: () => updateSellerField(select, seller.street, user, dispatch),
+      zipcode: () => updateSellerField(select, seller.zipcode, user, dispatch),
+      town: () => updateSellerField(select, seller.town, user, dispatch),
+      nip: () => updateSellerField(select, seller.nip, user, dispatch),
+      all: () => updateSellerAll(seller, user, dispatch),
+    };
 
-    switch (select) {
-      case "name":
-        updateSellerName(seller.name, user, dispatch);
-        break;
-      case "street":
-        updateSellerStreet(seller.street, user, dispatch);
-        break;
-      case "zipcode":
-        updateSellerZipcode(seller.zipcode, user, dispatch);
-        break;
-      case "town":
-        updateSellerTown(seller.town, user, dispatch);
-        break;
-      case "nip":
-        updateSellerNip(seller.nip, user, dispatch);
-        break;
-      case "all":
-        updateSellerAll(seller, user, dispatch);
-        break;
-      default:
-        return "";
+    if (updateFunctions[select]) {
+      updateFunctions[select]();
     }
-
     setSelect("");
   };
 
@@ -300,7 +259,19 @@ function CreateInvoice() {
     changeNumber();
     window.localStorage.removeItem("products");
   };
-
+  const selectChange = (e) => {
+    const valueMap = {
+      name: "NAZWĘ",
+      street: "ULICĘ",
+      zipcode: "KOD POCZTOWY",
+      town: "MIEJSCOWOŚĆ",
+      nip: "NIP",
+      "": "",
+    };
+    const newValue = e.target.value;
+    setSelect(newValue);
+    setSelectName(valueMap[newValue] || "");
+  };
   return (
     <div className="createinvoice">
       {error ? (
@@ -377,7 +348,7 @@ function CreateInvoice() {
                 <Select
                   name="seller-option"
                   value={select}
-                  onChange={(e) => setSelect(e.target.value)}
+                  onChange={selectChange}
                   label="Wybierz co chcesz aktualizować"
                 >
                   <MenuItem value="">None</MenuItem>
@@ -420,7 +391,8 @@ function CreateInvoice() {
             />
             <div className="createinvoice__footer">
               <div className="creativeinvoice__summary">
-                Razem: {Number.parseFloat(getTotal(productsStorage)).toFixed(2)} zł
+                Razem: {Number.parseFloat(getTotal(productsStorage)).toFixed(2)}{" "}
+                zł
               </div>
               <Button
                 type="button"
