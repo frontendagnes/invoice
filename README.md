@@ -102,4 +102,4 @@ This project is licensed under the Apache 2.0 License
 
 ## Author
 
-[frontend-agnes.pl](https://frontend-agnes.pl/)
+[frontend-agnes](https://frontend-agnes.web.app/)
