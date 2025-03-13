@@ -5,9 +5,9 @@ function Footer() {
     <footer className="footer">
       &copy;{" "}
       <a
-        href="https://frontend-agnes.web.app/"
-        title="frontend-agnes.web.app"
-        alt="frontend-agnes.web.app"
+        href={import.meta.env.VITE_APP_MY_URL}
+        title={import.meta.env.VITE_APP_MY_URL}
+        alt={import.meta.env.VITE_APP_MY_URL}
       >
         frontend-agnes
       </a>
