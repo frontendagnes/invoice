@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Authoryzation.css";
 import logo from "../../assets/pic/logo.webp";
 import { useStateValue } from "../../assets/utility/StateProvider.jsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -124,6 +124,9 @@ function Authoryzation() {
             title="Login"
             title1="Rejestracja"
           />
+          <div className="authoryzation__forgotPassword">
+            <Link to="/password-recovery">Zapomniałeś hasła?</Link>
+          </div>
           <div className="authoryzation__loginWithGoogle">
             <GoogleButton onClick={signInGoogle} type="light" />
           </div>

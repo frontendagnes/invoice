@@ -27,6 +27,8 @@ import Costs from "./components/Costs/Costs.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import SelectedYear from "./components/SelectedYear/index.jsx";
 import InfoYear from "@/components/InfoYear/index.jsx";
+import PasswordRecovery from "@/components/Authorization/PasswordRecovery/PasswordRecovery.jsx";
+
 function App() {
   const [invoices, setInvoices] = useState([]);
   const [{ user }, dispatch] = useStateValue();
@@ -221,6 +223,7 @@ function App() {
               </div>
             }
           />
+          <Route path="/password-recovery" element={<PasswordRecovery />} />
           {/*
           tymczasowo wyłączona - komponet istnieje
           czy potrzbnie skoro rok zmienia się w selekcie?
