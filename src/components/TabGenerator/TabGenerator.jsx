@@ -1,74 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import styled from "styled-components";
 
-const TabsWrapper = styled.div`
-  width: 100%;
-`;
 const Tabs = styled.div`
   display: flex;
-  justify-content: space-around;
+  background-color: ${(props) => props.bgColor || ""};
   width: 100%;
 `;
-const Tab = styled.div`
+
+const Tab = React.memo(styled.div`
   text-align: center;
   font-weight: 600;
   font-size: 1.2rem;
   letter-spacing: 2px;
-  background: #3f4d70;
-  padding: 10px 30px;
-  cursor: pointer;
-  width: 50%;
+  color: ${(props) => props.textColor || "#ffffff"};
   border-radius: 20px 20px 0 0;
-  transition: color 0.6s ease-in;
+  padding: 15px 30px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+  transition: background 0.3s ease-in-out;
+  background: ${(props) =>
+    props.active
+      ? props.activeBgColor || "#5a71aa"
+      : props.defaultBgColor || "#3f4d70"};
+
   &:hover {
-    color: #fafafafa !important;
+    background: ${(props) => props.hoverBgColor || "#5a71aa"} !important;
   }
-`;
+`);
 
-function TabGenerator({ component, component1, component2, title, title1 }) {
-  const [tab, setTab] = useState(true);
-  const [tab1, setTab1] = useState(false);
+function TabGenerator({ tabs, styles = {} }) {
+  const [activeTab, setActiveTab] = useState(0);
 
-  const styles = {
-    defaultStyle: {
-      color:"#adadad",
-    },
-    activeStyle: {
-      color: "#fafafafa",
-    },
-  };
+  // Zapobiega tworzeniu nowej funkcji przy każdym renderze
+  const handleTabClick = useCallback((index) => setActiveTab(index), []);
 
-  const switchTab = () => {
-    setTab(true);
-    setTab1(false);
-  };
-  const switchTab1 = () => {
-    setTab(false);
-    setTab1(true);
-  };
+  // Zapamiętuje obiekt stylów, by nie generować nowego przy każdym renderze
+  const mergedStyles = useMemo(
+    () => ({
+      textColor: styles.textColor || "#ffffff",
+      activeBgColor: styles.activeBgColor || "#5a71aa",
+      defaultBgColor: styles.defaultBgColor || "#3f4d70",
+      hoverBgColor: styles.hoverBgColor || "#5a71aa",
+    }),
+    [styles]
+  );
 
   return (
-    <TabsWrapper>
-      <Tabs>
-        <Tab
-          style={tab ? styles.activeStyle : styles.defaultStyle}
-          onClick={switchTab}
-        >
-          {title}
-        </Tab>
-        <Tab
-          style={tab1 ? styles.activeStyle : styles.defaultStyle}
-          onClick={switchTab1}
-        >
-          {title1}
-        </Tab>
+    <div className="tabgenerator">
+      <Tabs bgColor={styles.tabsBgColor}>
+        {tabs.map((tab, index) => (
+          <Tab
+            key={index}
+            active={activeTab === index}
+            {...mergedStyles}
+            onClick={() => handleTabClick(index)}
+          >
+            {tab.label}
+          </Tab>
+        ))}
       </Tabs>
-      <div className="tabgenrator__content">
-        {tab ? <div>{component}</div> : null}
-        {tab1 ? <div>{component1}</div> : null}
-      </div>
-    </TabsWrapper>
+      <div className="tabgenerator__content">{tabs[activeTab]?.content}</div>
+    </div>
   );
 }
 
-export default TabGenerator;
+export default React.memo(TabGenerator);
