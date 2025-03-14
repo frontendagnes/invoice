@@ -1,6 +1,7 @@
 .validationError{
     display: flex;
     align-items: center;
+    transition: opacity 0.3s ease-in-out;
 }
 .validationError > p{
     margin-left: 10px;
