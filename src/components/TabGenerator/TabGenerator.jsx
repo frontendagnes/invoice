@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Tabs = styled.div`
   display: flex;
-  background-color: ${(props) => props.bgColor || ""};
+  background-color: ${(props) => props.tabsBgColor || ""};
   width: 100%;
 `;
 
