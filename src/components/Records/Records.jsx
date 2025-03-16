@@ -12,6 +12,7 @@ import IncomeSheets from "./IncomeSheets";
 import CostSheets from "./CostSheets";
 import YearSheets from "./YearSheets";
 import Print from "../Print";
+import { Label } from "@mui/icons-material";
 const ButtonMonth = styled(Button)`
   margin-left: 5px;
   margin-bottom: 10px;
@@ -199,54 +200,60 @@ function Records({ data }) {
       <div className="records__wrapper">
         {number - 1 !== summaryYearId ? (
           <TabGenerator
-            component={
-              <>
-                <Print onClick={handlePrint} />
-                <div className="records__print" ref={printPDFref}>
-                  <style type="text/css" media="print">
-                    {
-                      "\
+            tabs={[
+              {
+                label: "Przychody",
+                content: (
+                  <>
+                    <Print onClick={handlePrint} />
+                    <div className="records__print" ref={printPDFref}>
+                      <style type="text/css" media="print">
+                        {
+                          "\
                   @page { size: landscape; }\
                   "
-                    }
-                  </style>
-                  <h2>Zestawienie Przychodów {selectedYear}</h2>
-                  <IncomeSheets
-                    months={months}
-                    sumMonth={sumMonth}
-                    number={number}
-                    data={data}
-                    getTotal={getTotal}
-                    cumTotal={cumTotal}
-                    selectedYear={selectedYear}
-                  />
-                </div>
-              </>
-            }
-            title="Przychody"
-            title1="Koszty"
-            component1={
-              <>
-                <Print onClick={handlePrintCost} />
-                <div className="records__print" ref={printCostref}>
-                  <style type="text/css" media="print">
-                    {
-                      "\
+                        }
+                      </style>
+                      <h2>Zestawienie Przychodów {selectedYear}</h2>
+                      <IncomeSheets
+                        months={months}
+                        sumMonth={sumMonth}
+                        number={number}
+                        data={data}
+                        getTotal={getTotal}
+                        cumTotal={cumTotal}
+                        selectedYear={selectedYear}
+                      />
+                    </div>
+                  </>
+                ),
+              },
+              {
+                label: "Koszty",
+                content: (
+                  <>
+                    <Print onClick={handlePrintCost} />
+                    <div className="records__print" ref={printCostref}>
+                      <style type="text/css" media="print">
+                        {
+                          "\
                   @page { size: landscape; }\
                   "
-                    }
-                  </style>
-                  <h2>Zestawienie kosztów {selectedYear}</h2>
-                  <CostSheets
-                    months={months}
-                    number={number}
-                    sumCosts={sumCosts}
-                    costs={costs}
-                    selectedYear={selectedYear}
-                  />
-                </div>
-              </>
-            }
+                        }
+                      </style>
+                      <h2>Zestawienie Kosztów {selectedYear}</h2>
+                      <CostSheets
+                        months={months}
+                        sumCosts={sumCosts}
+                        number={number}
+                        costs={costs}
+                        selectedYear={selectedYear}
+                      />
+                    </div>
+                  </>
+                ),
+              },
+            ]}
           />
         ) : (
           <div>

@@ -20,7 +20,7 @@ const Tab = React.memo(styled.div`
   min-width: 0;
   transition: background 0.3s ease-in-out;
   background: ${(props) =>
-    props.active
+    props.$active
       ? props.activeBgColor || "#5a71aa"
       : props.defaultBgColor || "#3f4d70"};
 
@@ -38,10 +38,10 @@ function TabGenerator({ tabs, styles = {} }) {
   // Zapamiętuje obiekt stylów, by nie generować nowego przy każdym renderze
   const mergedStyles = useMemo(
     () => ({
-      textColor: styles.textColor || "#ffffff",
-      activeBgColor: styles.activeBgColor || "#5a71aa",
-      defaultBgColor: styles.defaultBgColor || "#3f4d70",
-      hoverBgColor: styles.hoverBgColor || "#5a71aa",
+      $textColor: styles.textColor || "#ffffff",
+      $activeBgColor: styles.activeBgColor || "#5a71aa",
+      $defaultBgColor: styles.defaultBgColor || "#3f4d70",
+      $hoverBgColor: styles.hoverBgColor || "#5a71aa",
     }),
     [styles]
   );
@@ -52,7 +52,7 @@ function TabGenerator({ tabs, styles = {} }) {
         {tabs.map((tab, index) => (
           <Tab
             key={index}
-            active={activeTab === index}
+            $active={activeTab === index}
             {...mergedStyles}
             onClick={() => handleTabClick(index)}
           >
