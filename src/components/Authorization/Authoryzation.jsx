@@ -6,26 +6,21 @@ import { useNavigate, Link } from "react-router-dom";
 import {
   auth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   signInWithPopup,
   provider,
 } from "../../assets/utility/firebase.jsx";
-import { validateLogin, validateRegister } from "./validate.js";
+import { validateRegister } from "./validate.js";
 
 //components
-import ValidationError from "../ValidationError/ValidationError.jsx";
 import TabGenerator from "../TabGenerator/TabGenerator.jsx";
 import Login from "./Login/Login.jsx";
 import Registration from "./Registaration/Registration.jsx";
-import AntySpam from "../AntySpam/AntySpam.jsx";
 import Footer from "../Footer/Footer.jsx";
 import AuthDescription from "./AuthDescription.jsx";
 
-import GoogleButton from "react-google-button";
+// import GoogleButton from "react-google-button";
 
 function Authoryzation() {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
   const [nameReg, setNameReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
@@ -47,28 +42,6 @@ function Authoryzation() {
         dispatch({ type: "ALERT__ERROR", item: error.message })
       );
   };
-
-  const signIn = () => {
-    const msg = validateLogin(name, password, test);
-    if (msg) {
-      setError(msg);
-      return;
-    }
-
-    signInWithEmailAndPassword(auth, name, password)
-      .then((result) => {
-        if (result) {
-          history("/");
-          dispatch({ type: "ALERT__OK", item: result.user.email });
-        } else {
-          dispatch({ type: "ALERT__ERROR" });
-        }
-      })
-      .catch((error) =>
-        dispatch({ type: "ALERT__ERROR", item: error.message })
-      );
-  };
-
   const register = (e) => {
     e.preventDefault();
 
@@ -88,6 +61,26 @@ function Authoryzation() {
         dispatch({ type: "ALERT__ERROR", item: error.message });
       });
   };
+  const tabs = [
+    {
+      label: "Login",
+      content: <Login />,
+    },
+    {
+      label: "Rejestracja",
+      content: (
+        <Registration
+          name={nameReg}
+          setName={setNameReg}
+          password={passwordReg}
+          setPassword={setPasswordReg}
+          repeatPassword={repeatPassword}
+          setRepeatPassword={setRepeatPassword}
+          register={register}
+        />
+      ),
+    },
+  ];
   return (
     <div className="authoryzation">
       <div className="authoryzation__top">
@@ -96,43 +89,15 @@ function Authoryzation() {
       <div className="authoryzation__middle">
         <AuthDescription />
         <div className="authoryzation__form">
-          <div className="authoryzation__validate">
-            {error ? <ValidationError text={error} /> : null}
-          </div>
-          <TabGenerator
-            component={
-              <Login
-                name={name}
-                setName={setName}
-                password={password}
-                setPassword={setPassword}
-                signIn={signIn}
-                loginGoogle={signInGoogle}
-              />
-            }
-            component1={
-              <Registration
-                name={nameReg}
-                setName={setNameReg}
-                password={passwordReg}
-                setPassword={setPasswordReg}
-                repeatPassword={repeatPassword}
-                setRepeatPassword={setRepeatPassword}
-                register={register}
-              />
-            }
-            title="Login"
-            title1="Rejestracja"
-          />
+          <TabGenerator tabs={tabs} />
           <div className="authoryzation__forgotPassword">
             <Link to="/password-recovery">Zapomniałeś hasła?</Link>
           </div>
           <div className="authoryzation__loginWithGoogle">
-            <GoogleButton onClick={signInGoogle} type="light" />
+            {/* <GoogleButton onClick={signInGoogle} type="light" /> */}
           </div>
         </div>
       </div>
-      <AntySpam test={test} setTest={setTest} />
       <Footer />
     </div>
   );

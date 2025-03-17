@@ -68,7 +68,7 @@ function PasswordRecovery() {
       </Button>
       <h1>Resetowanie hasła</h1>
       <form onSubmit={handlePasswordRecovery}>
-        <label for="email">
+        <label htmlFor="email">
           Wpisz zarejestrowany adres email na który zostanie wysłany link do zmiany hasła.
         </label>
         <TextField

@@ -1,73 +1,82 @@
-.authoryzation{
+.authoryzation {
     height: 100%;
 }
-.authoryzation form{
+
+.authoryzation form {
     display: flex;
     flex-direction: column;
     height: 240px;
     justify-content: space-around;
 
 }
-.authoryzation__forms{
+
+.authoryzation__forms {
     transition: transform 0.3s ease-in;
     transform-origin: 0 top;
 }
-.authoryzation__top{
+
+.authoryzation__top {
     height: 15%;
 }
-.authoryzation__top img{
+
+.authoryzation__top img {
     width: 50%;
 }
-.authoryzation__middle{
+
+.authoryzation__middle {
     height: 80%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
 }
-.authoryzation__validate{
+
+.authoryzation__validate {
     height: 60px;
 }
-.authoryzation__wrapper{
+
+.authoryzation__wrapper {
 
     height: 100%;
 }
-.authoryzation__descryption{
+
+.authoryzation__descryption {
     width: 30%;
 }
-.authoryzation__descryption a{
+
+.authoryzation__descryption a {
     text-decoration: none;
     transition: all 0.75s ease;
 }
-.authoryzation__descryption a:hover{
+
+.authoryzation__descryption a:hover {
     color: #9c1a8b;
 }
-.authoryzation__descryption p{
+
+.authoryzation__descryption p {
     line-height: 1.3rem;
     text-align: justify;
 }
-.authoryzation__descryption ul{
+
+.authoryzation__descryption ul {
     list-style-type: circle;
 }
-.authoryzation__descryption ul li::marker{
+
+.authoryzation__descryption ul li::marker {
     width: 10px;
     font-size: 1.5rem;
     color: #3f4d70;
 }
-.authoryzation__form{
+
+.authoryzation__form {
     width: 40%;
     padding: 20px 30px;
     border-left: 2px solid #3f4d70;
 }
-.authoryzation button{
-    padding: 10px 20px;
-    background-color: #fafafafa;
-    font-weight: 600;
-    letter-spacing: 2px;
-}
+
 
 .login,
-.registration{
+.registration {
     border: 1px solid #808080;
     padding: 40px 60px;
     justify-content: center;
@@ -75,53 +84,71 @@
     height: 210px;
 }
 
-.authoryzation__row{
+.authoryzation__row {
     margin-bottom: 10px;
     width: 100%;
 }
-.authoryzation__inputs, .authoryzation__buttons{
+
+.authoryzation__inputs,
+.authoryzation__buttons {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.authoryzation__inputs{
+
+.authoryzation__inputs {
     flex-flow: column wrap;
 }
-.authoryzation__buttons{
+
+.authoryzation__buttons {
     flex-flow: row wrap;
     justify-content: space-around;
     align-items: flex-end;
 }
-.authoryzation__loginWithGoogle{
+
+.authoryzation button {
+    padding: 10px 20px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.authoryzation__loginWithGoogle {
     display: flex;
     justify-content: center;
     padding-top: 20px;
 }
 
-.authoryzation__forgotPassword{
+.authoryzation__forgotPassword {
     text-align: right;
     font-size: 0.9rem;
     letter-spacing: 1px;
     cursor: pointer;
     padding: 5px 5px 0px 5px;
 }
-.authoryzation__forgotPassword a{
+
+.authoryzation__forgotPassword a {
     text-decoration: none;
     color: #3f4d70;
     transition: color 0.4s ease;
 }
-.authoryzation__forgotPassword a:hover{
+
+.authoryzation__forgotPassword a:hover {
     color: #9c1a8b;
 }
+
+
+
 @media screen and (max-width: 850px) {
-    .authoryzation__middle{
+    .authoryzation__middle {
         height: auto;
     }
+
     .authoryzation__descryption,
-    .authoryzation__form{
+    .authoryzation__form {
         width: 90%;
     }
-    .authoryzation__form{
+
+    .authoryzation__form {
         border-left: none;
     }
 }
