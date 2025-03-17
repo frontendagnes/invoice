@@ -6,7 +6,7 @@ export const valideateTest = (test) => {
   return null;
 };
 
-export const validateLogin = (formData, test) => {
+export const validateLogin = (formData) => {
   let errors = {};
 
   if (!formData.email) {
@@ -24,52 +24,24 @@ export const validateLogin = (formData, test) => {
   return Object.keys(errors).length ? errors : null;
 };
 
-// export const validateLogin = (email, password, test) => {
-//   let errors = {};
-
-//   if (!email) {
-//     errors.email = "E-mail jest wymagany";
-//   } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
-//     errors.email = "Zły format e-mail";
-//   }
-
-//   if (!password) {
-//     errors.password = "Hasło jest wymagane";
-//   } else if (password.length < 6) {
-//     errors.password = "Hasło powinno mieć conajmniej 6 znaków";
-//   }
-
-//   if (test) {
-//     errors.test =
-//       "Nie przeszedłeś filtra antyspamowego. Odśwież stronę i spróbuj jeszcze raz";
-//   }
-
-//   return Object.keys(errors).length ? errors : null; // Jeśli są błędy, zwracamy je, inaczej null
-// };
-
-export const validateRegister = (email, password, test, repeatPassword) => {
+export const validateRegister = (formData) => {
   let errors = {};
 
-  if (!email) {
+  if (!formData.email) {
     errors.email = "E-mail jest wymagany";
-  } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
+  } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(formData.email)) {
     errors.email = "Zły format e-mail";
   }
 
-  if (!password) {
+  if (!formData.password) {
     errors.password = "Hasło jest wymagane";
-  } else if (password.length < 6) {
+  } else if (formData.password.length < 6) {
     errors.password = "Hasło powinno mieć conajmniej 6 znaków";
   }
 
-  if (test) {
-    errors.test =
-      "Nie przeszedłeś filtra antyspamowego. Odśwież stronę i spróbuj jeszcze raz";
-  }
-
-  if (!repeatPassword) {
+  if (!formData.repeatPassword) {
     errors.repeatPassword = "Musisz powtórzyć hasło";
-  } else if (password !== repeatPassword) {
+  } else if (formData.password !== formData.repeatPassword) {
     errors.repeatPassword = "Podane hasła nie są takie same";
   }
 

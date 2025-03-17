@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import "./Login.css";
 
-import { useStateValue } from "@/assets/utility/StateProvider";
-import { login } from "@/assets/utility/apiAuthoryzation";
-
-import { useNavigate } from "react-router-dom";
+import useAuth from "@/api/useAuth/useAuth";
 import { validateLogin, valideateTest } from "../validate";
+
 //mui
 import { Button } from "@mui/material";
 // components
@@ -19,14 +17,13 @@ function Login() {
     email: "",
     password: "",
   });
+  const { login, loading, error } = useAuth();
+
   const [test, setTest] = useState("");
   const [testError, setTestError] = useState("");
   const [errors, setErrors] = useState({});
 
-  const [{ alert }, dispatch] = useStateValue();
-  const navigate = useNavigate();
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const msgTestError = valideateTest(test);
     if (msgTestError) {
@@ -39,7 +36,7 @@ function Login() {
       setErrors(msg);
       return;
     }
-    login(formData, navigate, dispatch);
+    await login(formData.email, formData.password);
   };
 
   const handleChange = (e) => {
@@ -62,7 +59,7 @@ function Login() {
   };
   return (
     <div className="login">
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <div className="authoryzation__inputs">
           <div className="authoryzation__row">
             <InputField
@@ -89,14 +86,15 @@ function Login() {
         </div>
         <div className="authoryzation__buttons">
           <Button
-            type="button"
-            onClick={handleSubmit}
+            type="submit"
             variant="contained"
             color="primary"
+            disabled={loading}
           >
-            Zaloguj się
+            {loading ? "Logowanie..." : "Zaloguj się"}
           </Button>
         </div>
+        <ValidationError text={error} />
         <ValidationError text={testError} />
       </Form>
     </div>

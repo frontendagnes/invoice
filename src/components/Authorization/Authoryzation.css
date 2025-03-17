@@ -5,7 +5,6 @@
 .authoryzation form {
     display: flex;
     flex-direction: column;
-    height: 240px;
     justify-content: space-around;
 
 }
@@ -32,7 +31,7 @@
 }
 
 .authoryzation__validate {
-    height: 60px;
+    height: 100px;
 }
 
 .authoryzation__wrapper {
@@ -79,9 +78,8 @@
 .registration {
     border: 1px solid #808080;
     padding: 40px 60px;
-    justify-content: center;
     border-radius: 0 0 10px 10px;
-    height: 210px;
+    min-height: 210px;
 }
 
 .authoryzation__row {
@@ -114,7 +112,9 @@
 
 .authoryzation__loginWithGoogle {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    gap: 30px;
     padding-top: 20px;
 }
 
