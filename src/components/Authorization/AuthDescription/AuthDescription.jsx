@@ -1,4 +1,5 @@
-import React from 'react'
+import React from "react";
+import "./AuthDescription.css";
 
 function AuthDescription() {
   return (
@@ -59,4 +60,4 @@ function AuthDescription() {
   );
 }
 
-export default AuthDescription
+export default AuthDescription;

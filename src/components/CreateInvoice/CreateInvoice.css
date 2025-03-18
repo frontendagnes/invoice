@@ -10,6 +10,7 @@
   letter-spacing: 1px;
   padding: 10px 20px;
   background: #fafafa;
+  width: 50%;
 }
 
 .createinvoice__error {

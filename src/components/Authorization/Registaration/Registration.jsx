@@ -7,10 +7,10 @@ import { validateRegister, valideateTest } from "../validate";
 //mui
 import { Button } from "@mui/material";
 //components
-import Form from "../../Form/Form";
-import InputField from "../InputField";
-import ValidationError from "../../ValidationError/ValidationError";
 import AntySpam from "../../AntySpam/AntySpam";
+import Form from "../../Form/Form";
+import ValidationError from "../../ValidationError/ValidationError";
+import InputField from "../InputField";
 
 function Registration() {
   const [formData, setFormData] = useState({
@@ -61,6 +61,10 @@ function Registration() {
   };
   return (
     <div className="registration">
+      <div className="authoryzation__validate">
+        <ValidationError text={error} />
+        <ValidationError text={testError} />
+      </div>
       <Form onSubmit={handleSubmit}>
         <div className="authoryzation__inputs">
           <div className="authoryzation__row">
@@ -98,12 +102,22 @@ function Registration() {
           <AntySpam test={test} setTest={setTest} />
         </div>
         <div className="authoryzation__buttons">
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={loading}
+            sx={{
+              "&:disabled": {
+                opacity: 0.6,
+                cursor: "not-allowed",
+                color: "#80808080",
+              },
+            }}
+          >
             {loading ? "Rejestracja...." : "Zarejestruj się"}
           </Button>
         </div>
-        <ValidationError text={error} />
-        <ValidationError text={testError} />
       </Form>
     </div>
   );

@@ -59,6 +59,10 @@ function Login() {
   };
   return (
     <div className="login">
+      <div className="authoryzation__validate">
+        <ValidationError text={error} />
+        <ValidationError text={testError} />
+      </div>
       <Form onSubmit={handleSubmit}>
         <div className="authoryzation__inputs">
           <div className="authoryzation__row">
@@ -90,12 +94,17 @@ function Login() {
             variant="contained"
             color="primary"
             disabled={loading}
+            sx={{
+              "&:disabled": {
+                opacity: 0.6,
+                cursor: "not-allowed",
+                color: "#80808080",
+              },
+            }}
           >
             {loading ? "Logowanie..." : "Zaloguj się"}
           </Button>
         </div>
-        <ValidationError text={error} />
-        <ValidationError text={testError} />
       </Form>
     </div>
   );

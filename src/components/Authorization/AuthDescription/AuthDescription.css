@@ -1,0 +1,36 @@
+.authoryzation__descryption {
+    width: 30%;
+}
+
+.authoryzation__descryption a {
+    text-decoration: none;
+    transition: all 0.75s ease;
+}
+
+.authoryzation__descryption a:hover {
+    color: #9c1a8b;
+}
+
+.authoryzation__descryption p {
+    line-height: 1.3rem;
+    text-align: justify;
+}
+
+.authoryzation__descryption ul {
+    list-style-type: circle;
+}
+
+.authoryzation__descryption ul li::marker {
+    width: 10px;
+    font-size: 1.5rem;
+    color: #3f4d70;
+}
+
+@media screen and (max-width: 850px) {
+
+
+    .authoryzation__descryption {
+        width: 90%;
+    }
+
+}
