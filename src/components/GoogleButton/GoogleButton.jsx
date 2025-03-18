@@ -48,7 +48,7 @@ export const GoogleButton = ({ onClick, loading, size = "medium" }) => {
         fontFamily: "Roboto, arial, sans-serif",
         fontSize,
         color: "rgba(0, 0, 0, 0.54)",
-        backgroundColor: "#fff",
+        backgroundColor: "#ffffff",
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 2px 4px 0px",
         "&:hover": {
           boxShadow: "rgba(66, 133,244, 0.3) 0px 0px 3px 3px",

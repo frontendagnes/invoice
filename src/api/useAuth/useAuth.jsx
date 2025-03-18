@@ -50,15 +50,6 @@ function useAuth() {
     } finally {
       setLoading(false);
     }
-    // createUserWithEmailAndPassword(auth, formData.email, formData.password)
-    //   .then(() => {
-    //     navigate("/authorization");
-    //     dispatch({ type: "ALERT_REGISETER" });
-    //   })
-    //   .catch((error) => {
-    //     console.log("Create user error>>>", error);
-    //     dispatch({ type: "ALERT__ERROR", item: error.message });
-    //   });
   };
 
   const signInGoogle = async () => {
