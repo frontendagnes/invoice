@@ -6,6 +6,8 @@ import {
   provider,
   signInWithPopup,
   createUserWithEmailAndPassword,
+  signOut,
+  sendPasswordResetEmail,
 } from "@/assets/utility/firebase";
 import { useStateValue } from "@/assets/utility/StateProvider";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +16,7 @@ function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const [{ alert }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   const navigate = useNavigate();
 
   const login = async (email, password) => {
@@ -68,7 +70,49 @@ function useAuth() {
       setLoading(false);
     }
   };
-  return { login, register, signInGoogle, loading, error };
+
+  const logout = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await signOut(auth);
+      dispatch({ type: "ALERT_LOGOUT", item: user?.email });
+      dispatch({ type: "GET_COUNT", item: null });
+      dispatch({ type: "SET_LOGO", item: null });
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+      dispatch({ type: "ALERT__ERROR", item: err.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+  const resetPassword = async (email) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      dispatch({
+        type: "ALERT_SUCCESS",
+        item: "Jeśli e-mail jest poprawny, instrukcje resetowania hasła zostały wysłane.",
+      });
+      setEmail("");
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    login,
+    register,
+    signInGoogle,
+    logout,
+    resetPassword,
+    loading,
+    error,
+  };
 }
 
 export default useAuth;

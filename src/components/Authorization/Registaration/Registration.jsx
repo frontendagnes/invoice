@@ -6,6 +6,8 @@ import { validateRegister, valideateTest } from "../validate";
 
 //mui
 import { Button } from "@mui/material";
+import EmailIcon from "@mui/icons-material/Email";
+import KeyIcon from "@mui/icons-material/Key";
 //components
 import AntySpam from "../../AntySpam/AntySpam";
 import Form from "../../Form/Form";
@@ -73,6 +75,7 @@ function Registration() {
               error={errors.email}
               helperText={errors.email}
               value={formData.email}
+              icon={<EmailIcon />}
               onChange={handleChange}
               label="Wpisz e-mail"
             />
@@ -84,6 +87,7 @@ function Registration() {
               helperText={errors.password}
               value={formData.password}
               type="password"
+              icon={<KeyIcon />}
               onChange={handleChange}
               label="Wpisz hasło"
             />
@@ -95,6 +99,7 @@ function Registration() {
               helperText={errors.repeatPassword}
               value={formData.repeatPassword}
               type="password"
+              icon={<KeyIcon />}
               onChange={handleChange}
               label="Powtórz hasło"
             />

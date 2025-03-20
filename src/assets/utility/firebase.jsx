@@ -36,7 +36,7 @@ import {
 } from "firebase/storage";
 
 // Your web app's Firebase configuration
-import { firebaseConfig, firebaseConfigTest } from "./config";
+import { firebaseConfig, firebaseConfigTest } from "@/assets/utility/config";
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfigTest);

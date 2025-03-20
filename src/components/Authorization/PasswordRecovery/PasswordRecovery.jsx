@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import "./PasswordRecovery.css";
-import { auth, sendPasswordResetEmail } from "@/assets/utility/firebase.jsx";
+
 import { useNavigate } from "react-router-dom";
-import { useStateValue } from "@/assets/utility/StateProvider";
 import ValidationError from "@/components/ValidationError/ValidationError.jsx";
 import logo from "@/assets/pic/logo.webp";
+import useAuth from "../../../api/useAuth/useAuth";
 
 //mui
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import EmailIcon from "@mui/icons-material/Email";
+import { InputAdornment } from "@mui/material";
 
 const validateEmail = (email) => {
   if (!email) return "E-mail jest wymagany";
@@ -20,32 +22,19 @@ const validateEmail = (email) => {
 
 function PasswordRecovery() {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [{ alert }, dispatch] = useStateValue();
-  const navigate = useNavigate();
+  const [errorTest, setErrorTest] = useState("");
 
-  const resetPassword = async () => {
-    setError("");
-    try {
-      await sendPasswordResetEmail(auth, email);
-      dispatch({
-        type: "ALERT_SUCCESS",
-        item: "Jeśli e-mail jest poprawny, instrukcje resetowania hasła zostały wysłane.",
-      });
-      setEmail("");
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+  const navigate = useNavigate();
+  const { resetPassword, loading, error } = useAuth();
 
   const handlePasswordRecovery = (e) => {
     e.preventDefault();
     const validationMessage = validateEmail(email);
     if (validationMessage) {
-      setError(validationMessage);
+      setErrorTest(validationMessage);
       return;
     }
-    resetPassword();
+    resetPassword(email);
   };
 
   return (
@@ -69,26 +58,45 @@ function PasswordRecovery() {
       <h1>Resetowanie hasła</h1>
       <form onSubmit={handlePasswordRecovery}>
         <label htmlFor="email">
-          Wpisz zarejestrowany adres email na który zostanie wysłany link do zmiany hasła.
+          Wpisz zarejestrowany adres email na który zostanie wysłany link do
+          zmiany hasła.
         </label>
         <TextField
-          error={error ? true : false}
+          error={errorTest ? true : false}
           id="email"
           type="email"
-          placeholder="Tutaj wpisz adres email"
+          placeholder="Tutaj wpisz adres email" 
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
-            setError(validateEmail(e.target.value));
+            setErrorTest(validateEmail(e.target.value));
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">{<EmailIcon />}</InputAdornment>
+            ),
           }}
           fullWidth
           autoFocus
         />
-        <Button type="submit" variant="contained" color="primary">
-          Wyślij
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={loading}
+          sx={{
+            "&:disabled": {
+              opacity: 0.6,
+              cursor: "not-allowed",
+              color: "#80808080",
+            },
+          }}
+        >
+          {loading ? "Wysyłanie ..." : "Wyślij"}
         </Button>
       </form>
       <div className="passwordRecovery__error">
+        <ValidationError text={errorTest} />
         <ValidationError text={error} />
       </div>
     </div>

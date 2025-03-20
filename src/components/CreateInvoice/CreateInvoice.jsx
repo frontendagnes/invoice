@@ -25,6 +25,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 //components
+import FormMultiStage from "@/components/FormMultistage";
+
 import Form from "../Form/Form";
 import FormTop from "../Form/FormTop/FormTop";
 import FormPerson from "../Form/FormPerson/FormPerson";
@@ -280,6 +282,8 @@ function CreateInvoice() {
         </div>
       ) : null}
       <h2 className="createinvoice__text">Wprowadzanie danych</h2>
+      {/* <FormMultiStage /> */}
+
       <Form>
         <FormTop
           date={date}

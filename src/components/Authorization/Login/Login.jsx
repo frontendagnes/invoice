@@ -6,6 +6,8 @@ import { validateLogin, valideateTest } from "../validate";
 
 //mui
 import { Button } from "@mui/material";
+import EmailIcon from "@mui/icons-material/Email";
+import KeyIcon from "@mui/icons-material/Key";
 // components
 import Form from "@/components/Form/Form";
 import InputField from "../InputField";
@@ -71,6 +73,7 @@ function Login() {
               error={errors.email}
               helperText={errors.email}
               value={formData.email}
+              icon={<EmailIcon />}
               onChange={handleChange}
               label="Wpisz e-mail"
             />
@@ -82,6 +85,7 @@ function Login() {
               helperText={errors.password}
               value={formData.password}
               type="password"
+              icon={<KeyIcon />}
               onChange={handleChange}
               label="Wpisz hasło"
             />

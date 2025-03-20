@@ -1,185 +1,176 @@
-### useAuth Hook Documentation
+# useAuth Hook
 
-#### English
+## Opis | Description
 
-#### Description
+Hook `useAuth` zapewnia funkcje do zarządzania uwierzytelnianiem użytkownika w aplikacji React przy użyciu Firebase. Obsługuje logowanie, rejestrację, logowanie za pomocą Google, wylogowanie oraz resetowanie hasła.
 
-The `useAuth` custom React hook provides authentication functionality using Firebase. It allows users to log in, register, and sign in with Google. It manages the loading state, errors, and dispatches alerts using a context from `StateProvider`. It also uses `react-router-dom` for navigation.
+The `useAuth` hook provides functions for managing user authentication in a React application using Firebase. It supports login, registration, Google sign-in, logout, and password reset.
 
-#### Functions
+---
 
-- **login(email, password)**: Logs in a user with the provided email and password.
-  
-  - Parameters:
-    - `email` (string): The user's email address.
-    - `password` (string): The user's password.
-  - Example:
-    
-    ```javascript
-    const { login } = useAuth();
-    login("user@example.com", "password123");
-    ```
-
-- **register(email, password)**: Registers a new user with the provided email and password.
-  
-  - Parameters:
-    - `email` (string): The user's email address.
-    - `password` (string): The user's password.
-  - Example:
-    
-    ```javascript
-    const { register } = useAuth();
-    register("newuser@example.com", "password123");
-    ```
-
-- **signInGoogle()**: Signs in a user using Google authentication.
-  
-  - Example:
-    
-    ```javascript
-    const { signInGoogle } = useAuth();
-    signInGoogle();
-    ```
-
-#### State
-
-- **loading**: A boolean indicating if an authentication process is in progress.
-  
-  - Example:
-    
-    ```javascript
-    const { loading } = useAuth();
-    console.log(loading); // true or false
-    ```
-
-- **error**: A string containing the error message if an authentication process fails.
-  
-  - Example:
-    
-    ```javascript
-    const { error } = useAuth();
-    console.log(error); // Error message or null
-    ```
-
-#### Usage
+## Użycie | Usage
 
 ```javascript
-import React from "react";
-import useAuth from "./useAuth";
+import useAuth from "@/path/to/useAuth";
 
-const AuthComponent = () => {
-  const { login, register, signInGoogle, loading, error } = useAuth();
+const { login, register, signInGoogle, logout, resetPassword, loading, error } = useAuth();
+```
 
-  return(
+Przykładowe użycie w komponencie:
+
+Example usage in a component:
+
+```javascript
+function LoginComponent() {
+  const { login, register, signInGoogle, logout, resetPassword, loading, error } = useAuth();
+
+  const handleLogin = () => {
+    login("user@example.com", "password123");
+  };
+
+  return (
     <div>
-      <button onClick={() => login("user@example.com", "password123")}>
-        Login
-      </button>
-      <button onClick={() => register("newuser@example.com", "password123")}>
-        Register
-      </button>
-      <button onClick={signInGoogle}>Sign in with Google</button>
-      {loading && <p>Loading...</p>}
+      <button onClick={handleLogin} disabled={loading}>Log in</button>
       {error && <p>Error: {error}</p>}
     </div>
   );
-};
-
-export default AuthComponent;
-
-
+}
 ```
 
 ---
 
-#### Polski
+## Zwracane wartości | Returned Values
 
-#### Opis
+| Nazwa           | Typ               | Opis                                                 | Name            | Type              | Description                                                   |
+| --------------- | ----------------- | ---------------------------------------------------- | --------------- | ----------------- | ------------------------------------------------------------- |
+| `login`         | `Function`        | Logowanie użytkownika za pomocą e-maila i hasła.     | `login`         | `Function`        | Logs in a user with email and password.                       |
+| `register`      | `Function`        | Rejestracja nowego użytkownika.                      | `register`      | `Function`        | Registers a new user.                                         |
+| `signInGoogle`  | `Function`        | Logowanie za pomocą konta Google.                    | `signInGoogle`  | `Function`        | Logs in using a Google account.                               |
+| `logout`        | `Function`        | Wylogowanie użytkownika.                             | `logout`        | `Function`        | Logs out the user.                                            |
+| `resetPassword` | `Function`        | Resetowanie hasła użytkownika.                       | `resetPassword` | `Function`        | Resets the user's password.                                   |
+| `loading`       | `Boolean`         | Wskazuje, czy operacja uwierzytelniania jest w toku. | `loading`       | `Boolean`         | Indicates whether an authentication operation is in progress. |
+| `error`         | `String` / `null` | Przechowuje komunikat błędu, jeśli wystąpił.         | `error`         | `String` / `null` | Holds an error message if one occurs.                         |
 
-Niestandardowy hook React `useAuth` zapewnia funkcjonalność uwierzytelniania za pomocą Firebase. Umożliwia użytkownikom logowanie, rejestrację i logowanie za pomocą Google. Zarządza stanem ładowania, błędami i wysyła alerty za pomocą kontekstu z `StateProvider`. Używa również `react-router-dom` do nawigacji.
+---
 
-#### Funkcje
+## Funkcje | Functions
 
-- **login(email, password)**: Loguje użytkownika za pomocą podanego adresu e-mail i hasła.
+### `login(email: string, password: string): Promise<void>`
+
+- **Parametry | Parameters:**
   
-  - Parametry:
-    - `email` (string): Adres e-mail użytkownika.
-    - `password` (string): Hasło użytkownika.
-  - Przykład:
-    
-    ```javascript
-    const { login } = useAuth();
-    login("user@example.com", "password123");
-    ```
+  - `email` (string): Adres e-mail użytkownika | The user's email address.
+  - `password` (string): Hasło użytkownika | The user's password.
 
-- **register(email, password)**: Rejestruje nowego użytkownika za pomocą podanego adresu e-mail i hasła.
-  
-  - Parametry:
-    - `email` (string): Adres e-mail użytkownika.
-    - `password` (string): Hasło użytkownika.
-  - Przykład:
-    
-    ```javascript
-    const { register } = useAuth();
-    register("newuser@example.com", "password123");
-    ```
-
-- **signInGoogle()**: Loguje użytkownika za pomocą uwierzytelniania Google.
-  
-  - Przykład:
-    
-    ```javascript
-    const { signInGoogle } = useAuth();
-    signInGoogle();
-    ```
-
-#### Stan
-
-- **loading**: Wartość boolean wskazująca, czy proces uwierzytelniania jest w toku.
-  
-  - Przykład:
-    
-    ```javascript
-    const { loading } = useAuth();
-    console.log(loading); // true lub false
-    ```
-
-- **error**: String zawierający komunikat o błędzie, jeśli proces uwierzytelniania się nie powiedzie.
-  
-  - Przykład:
-    
-    ```javascript
-    const { error } = useAuth();
-    console.log(error); // Komunikat o błędzie lub null
-    ```
-
-#### Użycie
+- **Przykład | Example:**
 
 ```javascript
-import React from "react";
-import useAuth from "./useAuth";
-
-const AuthComponent = () => {
-  const { login, register, signInGoogle, loading, error } = useAuth();
-
-  return (
-    <div>
-      <button onClick={() => login("user@example.com", "password123")}>
-        Zaloguj się
-      </button>
-      <button onClick={() => register("newuser@example.com", "password123")}>
-        Zarejestruj się
-      </button>
-      <button onClick={signInGoogle}>Zaloguj się przez Google</button>
-      {loading && <p>Ładowanie...</p>}
-      {error && <p>Błąd: {error}</p>}
-    </div>
-  );
-};
-
-export default AuthComponent;
+const { login } = useAuth();
+login("user@example.com", "password123");
 ```
 
+---
+
+### `register(email: string, password: string): Promise<void>`
+
+- **Parametry | Parameters:**
+  
+  - `email` (string): Adres e-mail użytkownika | The user's email address.
+  - `password` (string): Hasło użytkownika | The user's password.
+
+- **Przykład | Example:**
+
+```javascript
+const { register } = useAuth();
+register("newuser@example.com", "securePassword");
 ```
 
+---
+
+### `signInGoogle(): Promise<void>`
+
+- **Przykład | Example:**
+
+```javascript
+const { signInGoogle } = useAuth();
+signInGoogle();
 ```
+
+---
+
+### `logout(): Promise<void>`
+
+- **Przykład | Example:**
+
+```javascript
+const { logout } = useAuth();
+logout();
+```
+
+---
+
+### `resetPassword(email: string): Promise<void>`
+
+- **Parametry | Parameters:**
+  
+  - `email` (string): Adres e-mail użytkownika | The user's email address.
+
+- **Przykład | Example:**
+
+```javascript
+const { resetPassword } = useAuth();
+resetPassword("user@example.com");
+```
+
+---
+
+## Stan | State
+
+### `loading: boolean`
+
+- Wskazuje, czy operacja uwierzytelniania jest w toku. | Indicates whether an authentication process is in progress.
+
+- **Przykład | Example:**
+
+```javascript
+const { loading } = useAuth();
+console.log(loading); // true or false
+```
+
+---
+
+### `error: string | null`
+
+- Przechowuje komunikat błędu, jeśli operacja się nie powiedzie. | Holds an error message if an authentication process fails.
+
+- **Przykład | Example:**
+
+```javascript
+const { error } = useAuth();
+console.log(error); // Error message or null
+```
+
+---
+
+## Obsługa błędów | Error Handling
+
+- W przypadku błędów autoryzacji, komunikat o błędzie zostaje zapisany w `error`.
+- Można go użyć do wyświetlenia użytkownikowi komunikatu:
+
+If an authentication error occurs, the error message is stored in `error` and can be displayed to the user:
+
+```javascript
+if (error) {
+  console.error("Authentication Error:", error);
+}
+```
+
+---
+
+## Autor | Author
+
+Ten hook został stworzony do obsługi autoryzacji Firebase w aplikacji React.
+
+This hook was created to handle Firebase authentication in a React application.
+
+[frontend-agnes](https://frontend-agnes.web.app/)

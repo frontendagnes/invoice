@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Button } from "@mui/material";
 
-function HeaderRight({user, logout}) {
+function HeaderRight({ user, logout, loading }) {
   return (
     <div className="header__right">
       <div>Wiatj,</div>
@@ -11,11 +11,13 @@ function HeaderRight({user, logout}) {
         className="header__logout"
         sx={{ color: "#ffffff", transition: "all 0.75s" }}
         onClick={logout}
+        disabled={loading}
       >
-        <LogoutIcon fontSize="medium" sx={{ marginRight: "5px" }} /> Wyloguj się
+        <LogoutIcon fontSize="medium" sx={{ marginRight: "5px" }} />
+        {loading ? "Wylogowywanie" : "Wyloguj się"}
       </Button>
     </div>
   );
 }
 
-export default HeaderRight
+export default HeaderRight;
