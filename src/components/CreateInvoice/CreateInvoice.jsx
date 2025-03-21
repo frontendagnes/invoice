@@ -25,7 +25,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 //components
-import FormMultiStage from "@/components/FormMultistage";
+import FormMultiStage from "@/components/FormMultistage/FormMultistage";
 
 import Form from "../Form/Form";
 import FormTop from "../Form/FormTop/FormTop";
@@ -128,7 +128,7 @@ function CreateInvoice() {
     })
       .then(() => {
         dispatch({
-          type: "AALERT_SUCCESS",
+          type: "ALERT_SUCCESS",
           item: "Dane zostały dodane prawidłowo",
         });
       })

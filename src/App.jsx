@@ -28,6 +28,7 @@ import Footer from "./components/Footer/Footer.jsx";
 import SelectedYear from "./components/SelectedYear/index.jsx";
 import InfoYear from "@/components/InfoYear/index.jsx";
 import PasswordRecovery from "@/components/Authorization/PasswordRecovery/PasswordRecovery.jsx";
+import ErrorBoundary from "./assets/utility/ErrorBoundary.jsx";
 
 function App() {
   const [invoices, setInvoices] = useState([]);
@@ -192,17 +193,19 @@ function App() {
               </>
             }
           />
-          <Route path="/invoice" element={<Invoice />}>
-            <Route
-              path=":invoiceId"
-              element={
-                <>
-                  <Header />
+          <Route path="/invoice" element={<Invoice />} />
+          <Route
+            path="/invoice/:invoiceId"
+            element={
+              <>
+                <Header />
+                {/* <ErrorBoundary> */}
                   <InvoicesDetails data={invoices} />
-                </>
-              }
-            />
-          </Route>
+                {/* </ErrorBoundary> */}
+              </>
+            }
+          />
+          {/* </Route> */}
           <Route
             path="/costs"
             element={

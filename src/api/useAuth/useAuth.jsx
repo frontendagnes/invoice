@@ -12,7 +12,7 @@ import {
 import { useStateValue } from "@/assets/utility/StateProvider";
 import { useNavigate } from "react-router-dom";
 
-function useAuth() {
+const useAuth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -113,6 +113,6 @@ function useAuth() {
     loading,
     error,
   };
-}
+};
 
 export default useAuth;

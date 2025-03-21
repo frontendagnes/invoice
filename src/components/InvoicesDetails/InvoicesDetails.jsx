@@ -1,15 +1,15 @@
 import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./InvoicesDetails.css";
-import { getTotal } from "@/assets/functions";
-import { today } from "@/assets/functions";
-import { useStateValue } from "@/assets/utility/StateProvider";
-import { ReactToPrint } from "react-to-print";
+
+import { getTotal, today } from "../../assets/functions";
+import { useStateValue } from "../../assets/utility/StateProvider";
+import ReactToPrint from "react-to-print";
 
 //compontents
 import Footer from "../Footer/Footer";
 import PrintSeller from "../PrintSeller/PrintSeller";
-import Print from "../Print";
+import Print from "../Print/index";
 
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();
@@ -28,6 +28,7 @@ function InvoicesDetails({ data }) {
         {data
           .filter((item) => item.id === invoiceId)
           .map((item, index) => (
+            //do wydrukowania
             <div key={index} id="invoice" ref={printPDFref}>
               <div className="invoicesdetail__top">
                 {logo ? <img src={logo} title="logo" alt="logo" /> : null}
