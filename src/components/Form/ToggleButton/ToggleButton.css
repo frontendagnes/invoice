@@ -1,0 +1,19 @@
+.buttonToggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+     width: 50%;
+}
+
+.buttonToggle__info {
+    line-height: 20px;
+    text-align: justify;
+    width: 70%;
+}
+
+@media screen and (max-width: 800px) {
+    .buttonToggle {
+        width: 100%;
+    }
+}

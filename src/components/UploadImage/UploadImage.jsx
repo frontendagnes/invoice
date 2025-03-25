@@ -1,4 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Button, LinearProgress, IconButton } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
+import { styled } from "styled-components";
 import {
   db,
   storage,
@@ -10,22 +15,43 @@ import {
   deleteObject,
 } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { Button, LinearProgress } from "@mui/material";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import styled from "styled-components";
 
-const Close = styled.div`
-  cursor: pointer;
-  color: #808080;
+const VisuallyHiddenInput = styled.input`
+  opacity: 0;
   position: absolute;
-  top: -5px;
-  left: -15px;
-  font-size: 18px;
-  font-weight: 600;
-  transition: color 0.75s ease;
-  &:hover {
-    color: red;
-  }
+  width: 0;
+  height: 0;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-grow: 1;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-top: 10px;
+`;
+
+const UploadedImage = styled.img`
+  width: 150px;
+  height: auto;
+  cursor: pointer;
+`;
+
+const ActionButtons = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  position: absolute;
+  top: -100px;
 `;
 const ButtonR = styled.button`
   font-weight: 600;
@@ -43,11 +69,14 @@ const ButtonSuccess = styled(ButtonR)`
   color: #008000;
 `;
 const Alert = styled.div`
-  width: 400px;
+  width: 70%;
   height: 100px;
   background: #000000;
   color: #ffffff;
-  padding: 10px;
+  padding: 20px 40px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,102 +85,71 @@ const Alert = styled.div`
   z-index: 999;
 `;
 
-const Text = styled.div`
-  letter-spacing: 2px;
-  font-size: 16px;
-`;
-function UploadImage() {
-  const [progress, setProgress] = useState(0);
-  const [image, setImage] = useState(null);
+function UploadLogo() {
   const [preview, setPreview] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [imageUrl, setImageUrl] = useState(null);
   const [remove, setRemove] = useState(false);
   const [{ user, logo }, dispatch] = useStateValue();
+  const fileInputRef = useRef();
 
-  const fileImgRef = useRef();
   useEffect(() => {
-    if (image) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-      };
-      reader.readAsDataURL(image);
-    } else {
-      setPreview(null);
-    }
-  }, [image]);
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    fileImgRef.current.click();
-  };
-  const handleChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.substr(0, 5) === "image") {
-      setImage(file);
-    } else {
-      setImage(null);
-    }
-  };
-  const formHandler = () => {
-    if (!image) {
-      dispatch({
-        type: "ALERT__ERROR",
-        item: "Najpierw wybierz zdjęcie, później zapisz logo",
-      });
-    }
     if (logo) {
-      removeLogo();
+      setImageUrl(logo);
     }
+  }, [logo]);
 
-    uploadFiles(image);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => setPreview(reader.result);
+      reader.readAsDataURL(file);
+    }
   };
 
-  const uploadFiles = (file) => {
-    if (!file) return;
-    const sotrageRef = ref(storage, `images/${file.name}`);
-    const uploadTask = uploadBytesResumable(sotrageRef, file);
+  const handleUpload = () => {
+    if (!imageFile) return;
+
+    const storageRef = ref(storage, `images/${imageFile.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
 
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const prog = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgress(prog);
+        setProgress((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
       },
-      (error) => console.log(error),
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref)
-          .then(async (url) => {
-            await setDoc(
-              doc(db, "invoices", user?.uid, "logo", "item-logo123"),
-              {
-                timestamp: new Date(),
-                imageUrl: url,
-              }
-            )
-              .then(() => {
-                dispatch({
-                  type: "ALERT_SUCCESS",
-                  item: "Logo zostało poprawnie dodane",
-                });
-              })
-              .catch((error) =>
-                dispatch({ type: "ALERT__ERROR", item: error.message })
-              );
+      (error) => dispatch({ type: "ALERT__ERROR", item: error.message }),
+      async () => {
+        const url = await getDownloadURL(uploadTask.snapshot.ref);
+        await setDoc(doc(db, "invoices", user?.uid, "logo", "item-logo123"), {
+          timestamp: new Date(),
+          imageUrl: url,
+        });
 
-            setProgress(0);
-            setImage(null);
-          })
-          .catch((error) => console.log("err>>", error.message));
+        dispatch({ type: "ALERT_SUCCESS", item: "Logo przesłane pomyślnie!" });
+        setImageUrl(url);
+        setProgress(0);
+        setPreview(null);
+        setImageFile(null);
       }
     );
   };
-  const removeLogo = async (e) => {
-    e.preventDefault();
+
+  const handleRemovePreview = () => {
+    setPreview(null);
+    setImageFile(null);
+  };
+
+  const confirmRemove = () => {
+    setRemove(true);
+  };
+
+  const handleDelete = async () => {
     if (logo) {
       const refImg = ref(storage, logo);
-
       const docRef = doc(db, "invoices", user?.uid, "logo", "item-logo123");
 
       await deleteObject(refImg)
@@ -159,154 +157,92 @@ function UploadImage() {
           setDoc(docRef, {
             imageUrl: "",
             timestamp: new Date(),
-          }).catch((error) =>
-            dispatch({ type: "ALERT__ERROR", item: error.message })
-          );
-
-          dispatch({
-            type: "ALERT_SUCCESS",
-            item: "Logo zostało poprawnie usunięte",
           });
 
+          dispatch({ type: "ALERT_SUCCESS", item: "Logo usunięte pomyślnie!" });
+          setImageUrl(null);
           setRemove(false);
         })
         .catch((error) =>
           dispatch({ type: "ALERT__ERROR", item: error.message })
         );
-    } else dispatch({ type: "ALERT__ERROR", item: "Nie ma nic do usunięcia" });
+    } else {
+      dispatch({ type: "ALERT__ERROR", item: "Nie ma nic do usunięcia" });
+    }
   };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <Container>
       {remove ? (
         <Alert>
-          <Text>Czy jesteś pewień że chcesz trwale usunać Logo</Text>
-          <div>
-            <ButtonError type="button" onClick={removeLogo}>
-              Tak
-            </ButtonError>
-            <ButtonSuccess type="button" onClick={() => setRemove(false)}>
-              Nie
-            </ButtonSuccess>
+          <p>Czy na pewno chcesz trwale usunąć logo?</p>
+          <div style={{ display: "flex" }}>
+            <ButtonError onClick={handleDelete}>Tak</ButtonError>
+            <ButtonSuccess onClick={() => setRemove(false)}>Nie</ButtonSuccess>
           </div>
         </Alert>
       ) : null}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ letterSpacing: "1px" }}>
-          Kliknij na logo aby wybrać nowe zdjęcie
-        </div>
+
+      {preview ? (
+        <ImageContainer>
+          <UploadedImage src={preview} alt="Podgląd" />
+          <ActionButtons>
+            <Button
+              variant="outlined"
+              color="success"
+              startIcon={<CheckIcon />}
+              onClick={handleUpload}
+            >
+              Zapisz
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={handleRemovePreview}
+            >
+              Usuń podgląd
+            </Button>
+          </ActionButtons>
+        </ImageContainer>
+      ) : imageUrl ? (
+        <ImageContainer>
+          <UploadedImage src={imageUrl} alt="Logo" />
+          <IconButton
+            onClick={confirmRemove}
+            color="error"
+            sx={{
+              position: "absolute",
+              right: "-50px",
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </ImageContainer>
+      ) : (
+        <Button
+          component="label"
+          variant="contained"
+          startIcon={<CloudUploadIcon />}
+        >
+          Upload Logo
+          <VisuallyHiddenInput
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+          />
+        </Button>
+      )}
+
+      {progress > 0 && (
         <LinearProgress
-          color="success"
           variant="determinate"
           value={progress}
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{ width: "100%", marginTop: "10px" }}
         />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <input
-            type="file"
-            className="input"
-            onChange={handleChange}
-            accept="image/*"
-            ref={fileImgRef}
-            style={{ display: "none" }}
-          />
-
-          {logo ? (
-            <div
-              style={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-              }}
-            >
-              <img
-                style={{
-                  width: "100px",
-                  cursor: "pointer",
-                  marginBottom: "10px",
-                }}
-                src={logo}
-                alt="logo"
-                onClick={handleClick}
-              />
-              <Close onClick={() => setRemove(true)} title="Usuń Logo">
-                <DeleteForeverIcon />
-              </Close>
-            </div>
-          ) : (
-            <Button onClick={handleClick}>Wybierz Logo</Button>
-          )}
-        </div>
-      </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        {preview ? (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img
-              style={{
-                width: "100px",
-                cursor: "pointer",
-                marginBottom: "10px",
-              }}
-              src={preview}
-              alt="logo"
-              onClick={handleClick}
-            />
-            <span
-              style={{ color: "blue", cursor: "pointer" }}
-              onClick={() => setImage(null)}
-            >
-              Wyczyść Podgląd
-            </span>
-          </div>
-        ) : (
-          <div
-            style={{
-              width: "100px",
-              height: "100px",
-              marginLeft: "10px",
-              marginRight: "10px",
-              cursor: "pointer",
-            }}
-          />
-        )}
-        {preview ? (
-          <Button
-            type="button"
-            onClick={formHandler}
-            style={{ marginLeft: "10px" }}
-          >
-            Zapisz Logo
-          </Button>
-        ) : null}
-      </div>
-    </div>
+      )}
+    </Container>
   );
 }
 
-export default UploadImage;
+export default UploadLogo;

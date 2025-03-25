@@ -34,6 +34,7 @@ import FormPayment from "../Form/FormPaymnet/FormPayment";
 import FormProducts from "../Form/FormProducts/FormProducts";
 import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
 import UploadImage from "../UploadImage/UploadImage";
+import ButtonToggle from "../Form/ToggleButton/ToggleButton";
 // update seller
 import {
   updateSellerAll,
@@ -283,7 +284,10 @@ function CreateInvoice() {
       ) : null}
       <h2 className="createinvoice__text">Wprowadzanie danych</h2>
       {/* <FormMultiStage /> */}
-
+      <div className="createinvoice__prev">
+        <ButtonToggle check={check} setCheck={setCheck} />
+        <UploadImage />
+      </div>
       <Form>
         <FormTop
           date={date}
@@ -294,17 +298,12 @@ function CreateInvoice() {
           order={order}
           setOrder={setOrder}
           number={number}
-          check={check}
-          setCheck={setCheck}
+          // check={check}
+          // setCheck={setCheck}
           place={place}
           setPlace={setPlace}
         />
-        <div className="creativeinvoice--span">
-          <h2 className="createinvoice__text">
-            Tutaj można dodać/zmienić Logo, które będzie wyświetlane na fakturze
-          </h2>
-          <UploadImage />
-        </div>
+
         <div className="createinvoice__wrapper">
           <FormPerson
             title="Nabywca"
