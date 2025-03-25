@@ -20,27 +20,29 @@ import {
   getDoc,
 } from "../../assets/utility/firebase";
 // mui
-import { Button, FormControl, TextField, Tooltip } from "@mui/material";
+import { FormControl, TextField, Tooltip } from "@mui/material";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-//components
-import FormMultiStage from "@/components/FormMultistage/FormMultistage";
-
-import Form from "../Form/Form";
-import FormTop from "../Form/FormTop/FormTop";
-import FormPerson from "../Form/FormPerson/FormPerson";
-import FormPayment from "../Form/FormPaymnet/FormPayment";
-import FormProducts from "../Form/FormProducts/FormProducts";
-import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
-import UploadImage from "../UploadImage/UploadImage";
-import ButtonToggle from "../Form/ToggleButton/ToggleButton";
+import Button from "@mui/material/Button";
 // update seller
 import {
   updateSellerAll,
   updateSellerField,
 } from "../../assets/utility/updateSeller";
 
+//components
+import Form from "../Form/Form";
+import FormPerson from "../Form/FormPerson/FormPerson";
+import FormPayment from "../Form/FormPaymnet/FormPayment";
+import FormProducts from "../Form/FormProducts/FormProducts";
+import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
+import UploadImage from "../UploadImage/UploadImage";
+import ButtonToggle from "../Form/ToggleButton/ToggleButton";
+import DataPlace from "../Form/FormTop/Right/DataPlace";
+import Number from "../Form/FormTop/Left/Number";
+import FormButton from "../Form/FormButton/FormButton";
+import { Margin } from "@mui/icons-material";
 function CreateInvoice() {
   const [{ user, amount, numberInvoice, salesman }, dispatch] = useStateValue();
   const [productsStorage, setProductsStorage] = useLocalStorage("products", []);
@@ -282,28 +284,28 @@ function CreateInvoice() {
           <ValidationError text={error} />
         </div>
       ) : null}
-      <h2 className="createinvoice__text">Wprowadzanie danych</h2>
-      {/* <FormMultiStage /> */}
+      {/* <h2>Wprowadzanie danych</h2> */}
       <div className="createinvoice__prev">
         <ButtonToggle check={check} setCheck={setCheck} />
         <UploadImage />
       </div>
       <Form>
-        <FormTop
-          date={date}
-          setDate={setDate}
-          count={count}
-          setCount={setCount}
-          year={year}
-          order={order}
-          setOrder={setOrder}
-          number={number}
-          // check={check}
-          // setCheck={setCheck}
-          place={place}
-          setPlace={setPlace}
-        />
-
+        <div className="createinvoice__formtop">
+          <Number
+            count={count}
+            setCount={setCount}
+            year={year}
+            order={order}
+            setOrder={setOrder}
+            number={number}
+          />
+          <DataPlace
+            date={date}
+            setDate={setDate}
+            place={place}
+            setPlace={setPlace}
+          />
+        </div>
         <div className="createinvoice__wrapper">
           <FormPerson
             title="Nabywca"
@@ -341,9 +343,13 @@ function CreateInvoice() {
         </div>
         <div className="creativeinvoice__buttonWrapper">
           {salesman?.length === 0 ? (
-            <Button type="button" onClick={saveSeller} fullWidth>
-              Zapamiętaj sprzedawcę
-            </Button>
+            <FormButton
+              text="Zapamiętaj sprzedawcę"
+              styles={{
+                marginTop: "20px",
+              }}
+              onClick={saveSeller}
+            />
           ) : (
             <div className="createinvoice__selectSeller">
               <FormControl fullWidth>
@@ -368,9 +374,13 @@ function CreateInvoice() {
                 placement="bottom"
                 followCursor={true}
               >
-                <Button type="button" onClick={updateSeller}>
-                  Aktualizuj {selectName}
-                </Button>
+                <FormButton
+                  text={`Aktualizuj ${selectName}`}
+                  styles={{
+                    marginTop: "20px",
+                  }}
+                  onClick={updateSeller}
+                />
               </Tooltip>
             </div>
           )}
@@ -394,32 +404,32 @@ function CreateInvoice() {
             />
             <div className="createinvoice__footer">
               <div className="creativeinvoice__summary">
-                Razem: {Number.parseFloat(getTotal(productsStorage)).toFixed(2)}{" "}
-                zł
+                Razem: {parseFloat(getTotal(productsStorage)).toFixed(2)} zł
               </div>
-              <Button
-                type="button"
-                onClick={check ? addInvoice : addInvoiceWithNumber}
-                className="createinvoice__button createinvoice__addInvoice"
-              >
-                Dodaj fakturę
-              </Button>
+              <div className="createinvoice__end">
+                <div className="note__row">
+                  <TextField
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    id="outlined-basic"
+                    label="Uwagi (opcjonalne)"
+                    placeholder="np. informacja o zwrocie, terminie płatności itp."
+                    variant="outlined"
+                    fullWidth
+                  />
+                </div>
+                <FormButton
+                  text="Dodaj fakturę"
+                  styles={{
+                    width: "90%",
+                  }}
+                  onClick={check ? addInvoice : addInvoiceWithNumber}
+                />
+              </div>
+              {/* </FormButton> */}
             </div>
           </div>
         ) : null}
-        <div className="note">
-          <div className="note__row">
-            <TextField
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              id="outlined-basic"
-              label="Uwagi"
-              placeholder="np. informacja o zwrocie, terminie płatności itp."
-              variant="outlined"
-              fullWidth
-            />
-          </div>
-        </div>
       </Form>
     </div>
   );

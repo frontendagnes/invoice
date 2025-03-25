@@ -1,24 +1,49 @@
-.createinvoice__prev{
+.createinvoice{
+  padding: 20px 40px;
+}
+.createinvoice__prev {
   display: flex;
   padding: 20px 30px;
 }
 
+.createinvoice__formtop {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap-reverse;
+}
+
+/* .createinvoice */
+.formtop__input {
+  width: 40%;
+
+}
+
+.formtop__input>div {
+  margin-bottom: 20px;
+}
+
+.formtop__wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.formtop__input_row {
+  width: 33%;
+}
 
 .createinvoice__text {
-  font-size: 1.3rem;
-  padding: 20px 30px;
+  font-size: 1rem;
+  padding: 20px 0px 10px 0px;
   font-weight: 600;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
 }
+.createinvoice h2{
+ text-align: center;
+ letter-spacing: 3px;
 
-.createinvoice button {
-  margin-left: 10px;
-  letter-spacing: 1px;
-  padding: 10px 20px;
-  background: #fafafa;
-  width: 50%;
 }
-
 .createinvoice__error {
   display: flex;
   justify-content: center;
@@ -38,10 +63,6 @@
 
 }
 
-.creativeinvoice__buttonWrapper button {
-  margin-top: 10px;
-}
-
 .creativeinvoice--span {
   line-height: 30px;
   letter-spacing: 1.5px;
@@ -52,11 +73,6 @@
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-}
-
-.createinvoice__wrapper button {
-  align-self: flex-start;
-  justify-self: flex-end;
 }
 
 .createinvoive__person {
@@ -84,36 +100,34 @@
   flex-wrap: wrap;
 }
 
-.createinvoice__button {
-  margin-left: 10px;
-  padding: 10px 20px;
-  border: transparent;
-  border-radius: 10px;
-  background: #3f4d70;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: background 0.75s;
-}
-
-.createinvoice__button:hover {
-  background: #5a71aa;
-}
-
 .createinvoice__footer {
   margin-right: 40px;
   margin-top: 20px;
 }
 
+.note__row {
+  margin: 20px 0px 20px 0px;
+}
+.createinvoice__end{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 @media screen and (max-width: 800px) {
-    .createinvoice__prev {
-      flex-direction: column;
-      align-items: center;
-      padding: 10px;
-      gap: 30px;
-    }
+  .createinvoice__prev {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    gap: 30px;
+  }
+
+  .formtop__input_row {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
   .creativeinvoice__buttonWrapper {
     width: 100%;
     align-items: center;
@@ -127,5 +141,9 @@
 @media screen and (max-width: 500px) {
   .createinvoice__text {
     font-size: 1.1rem;
+  }
+
+  .formtop__input {
+    width: 90%;
   }
 }

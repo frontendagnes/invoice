@@ -2,7 +2,6 @@ import React from "react";
 import "./ToggleButton.css"
 import { ToggleButton } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
-
 function ButtonToggle({ check, setCheck }) {
   return (
     <div className="buttonToggle">
@@ -15,7 +14,6 @@ function ButtonToggle({ check, setCheck }) {
         value="check"
         selected={check}
         onChange={() => setCheck(!check)}
-        fullWidth
       >
         <CheckIcon color={!check ? "error" : "success"} />
         {!check ? (

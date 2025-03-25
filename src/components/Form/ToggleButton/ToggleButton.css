@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
      width: 50%;
+     gap:20px;
 }
 
 .buttonToggle__info {

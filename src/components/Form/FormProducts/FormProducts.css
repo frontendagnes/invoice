@@ -1,12 +1,18 @@
+
 .formproducts__wrapper{
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    padding-bottom: 20px;
 }
 .formproducts__input{
     width:25%;
 }
-
+.formproducts__button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 @media screen and (max-width: 800px) {
     .formproducts{
         width: 100%;

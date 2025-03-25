@@ -38,6 +38,7 @@ const ImageContainer = styled.div`
   align-items: center;
   position: relative;
   margin-top: 10px;
+  z-index:1000;
 `;
 
 const UploadedImage = styled.img`
@@ -54,6 +55,9 @@ const ActionButtons = styled.div`
   top: -100px;
 `;
 const ButtonR = styled.button`
+  margin-left: 10px;
+  letter-spacing: 2px;
+  padding: 10px 20px;
   font-weight: 600;
   border-radius: 5px;
   cursor: pointer;
@@ -71,9 +75,10 @@ const ButtonSuccess = styled(ButtonR)`
 const Alert = styled.div`
   width: 70%;
   height: 100px;
-  background: #000000;
-  color: #ffffff;
+  background:rgba(0, 0, 0, 0.68);
+  color:rgb(255, 255, 255);
   padding: 20px 40px;
+  border-radius: 5px ;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -82,7 +87,7 @@ const Alert = styled.div`
   align-items: center;
   justify-content: space-around;
   position: absolute;
-  z-index: 999;
+  z-index: 1001;
 `;
 
 function UploadLogo() {

@@ -3,5 +3,6 @@
     align-items: center;
 }
 .formpayment__selected{
-    width: 60%;
+    width: 70%;
+    margin-left: 20px;
 }

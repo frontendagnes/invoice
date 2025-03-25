@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import "./FormProducts.css";
 
 //mui
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 //components
 import ValidationError from "../../ValidationError/ValidationError";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
+import FormButton from "../FormButton/FormButton.jsx";
+import { Add } from "@mui/icons-material";
 const validate = (title, quantity, price) => {
   if (!title) {
     return "Wpisz nazwę produktu";
@@ -29,7 +32,7 @@ function FormProducts({
   setPrice,
   setQuantity,
   productsStorage,
-  setProductsStorage
+  setProductsStorage,
 }) {
   const [error, setError] = useState("");
   const endValue = () => {
@@ -91,13 +94,9 @@ function FormProducts({
             numeric
           />
         </div>
-        <Button
-          type="button"
-          onClick={addProduct}
-          className="createinvoice__button"
-        >
-          Dodaj produkt
-        </Button>
+        <div className="formproducts__button">
+          <FormButton text="Dodaj produkt" onClick={addProduct} />
+        </div>
       </div>
     </div>
   );
