@@ -96,7 +96,6 @@ const useAuth = () => {
         type: "ALERT_SUCCESS",
         item: "Jeśli e-mail jest poprawny, instrukcje resetowania hasła zostały wysłane.",
       });
-      setEmail("");
     } catch (error) {
       setError(error.message);
     } finally {

@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./InvoicesDetails.css";
 
 import { getTotal, today } from "../../assets/functions";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import ReactToPrint from "react-to-print";
+import { useReactToPrint } from "react-to-print";
 
 //compontents
 import Footer from "../Footer/Footer";
@@ -17,13 +17,13 @@ function InvoicesDetails({ data }) {
 
   let printPDFref = useRef(null);
 
+  const handlePrint = useReactToPrint({
+    contentRef: printPDFref,
+    documentTitle: `${today()}-`,
+  });
   return (
     <div className="invoicesdetail">
-      <ReactToPrint
-        content={() => printPDFref.current}
-        trigger={() => <Print />}
-        documentTitle={`${today()}-`}
-      />
+      <Print onClick={() => handlePrint()} />
       <div className="invoicesdetail__wrapper">
         {data
           .filter((item) => item.id === invoiceId)

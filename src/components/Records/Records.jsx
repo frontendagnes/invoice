@@ -3,6 +3,7 @@ import "./records.style.css";
 import { getTotal, today } from "../../assets/functions";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { useReactToPrint } from "react-to-print";
+
 // mui
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -12,7 +13,7 @@ import IncomeSheets from "./IncomeSheets";
 import CostSheets from "./CostSheets";
 import YearSheets from "./YearSheets";
 import Print from "../Print";
-import { Label } from "@mui/icons-material";
+
 const ButtonMonth = styled(Button)`
   margin-left: 5px;
   margin-bottom: 10px;
@@ -48,25 +49,40 @@ function Records({ data }) {
     "Podsumowanie roku",
   ]);
 
+  // const months = [
+  //   "Styczeń",
+  //   "Luty",
+  //   "Marzec",
+  //   "Kwiecień",
+  //   "Maj",
+  //   "Czerwiec",
+  //   "Lipiec",
+  //   "Sierpień",
+  //   "Wrzesień",
+  //   "Październik",
+  //   "Listopad",
+  //   "Grudzień",
+  //   "Podsumowanie roku",
+  // ];
   const summaryYearId = months.indexOf("Podsumowanie roku");
 
   const [{ costs, selectedYear }] = useStateValue();
 
   let printPDFref = useRef(null);
   const handlePrint = useReactToPrint({
-    content: () => printPDFref.current,
+    contentRef: printPDFref,
     documentTitle: `${today()}-`,
   });
 
   let printCostref = useRef(null);
   const handlePrintCost = useReactToPrint({
-    content: () => printCostref.current,
+    contentRef: printCostref,
     documentTitle: `${today()}-`,
   });
 
   let printSummaryref = useRef(null);
   const handlePrintSummary = useReactToPrint({
-    content: () => printSummaryref.current,
+    contentRef: printSummaryref,
     documentTitle: `${today()}-`,
   });
 
@@ -205,7 +221,7 @@ function Records({ data }) {
                 label: "Przychody",
                 content: (
                   <>
-                    <Print onClick={handlePrint} />
+                    <Print onClick={() => handlePrint()} />
                     <div className="records__print" ref={printPDFref}>
                       <style type="text/css" media="print">
                         {
@@ -232,7 +248,7 @@ function Records({ data }) {
                 label: "Koszty",
                 content: (
                   <>
-                    <Print onClick={handlePrintCost} />
+                    <Print onClick={() => handlePrintCost()} />
                     <div className="records__print" ref={printCostref}>
                       <style type="text/css" media="print">
                         {
@@ -257,7 +273,7 @@ function Records({ data }) {
           />
         ) : (
           <div>
-            <Print onClick={handlePrintSummary} />
+            <Print onClick={() => handlePrintSummary()} />
             <div ref={printSummaryref} className="records__print">
               <style type="text/css" media="print">
                 {
