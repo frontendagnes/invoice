@@ -1,14 +1,17 @@
 import React from "react";
 import { TextField } from "@mui/material";
 
-function Number({ count, setCount, year, order, setOrder, number }) {
+function Number({ count, dispatch, year, order, number }) {
   return (
     <div className="formtop__input">
       <div className="formtop__wrapper">
         <div className="formtop__input_row">
           <TextField
             value={count}
-            onChange={(e) => setCount(e.target.value)}
+            // onChange={(e) => setCount(e.target.value)}
+            onChange={(e) =>
+              dispatch({ type: "SET_COUNT", count: e.target.value })
+            }
             id="outlined-basic"
             label="Lp."
             variant="outlined"
@@ -27,7 +30,10 @@ function Number({ count, setCount, year, order, setOrder, number }) {
         <div className="formtop__input_row">
           <TextField
             value={order}
-            onChange={(e) => setOrder(e.target.value)}
+            // onChange={(e) => setOrder(e.target.value)}
+            onChange={(e) =>
+              dispatch({ type: "SET_ORDER", order: e.target.value })
+            }
             id="outlined-basic"
             label="Numer"
             variant="outlined"

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import "./CreateInvoice.css";
 
 import { useLocalStorage } from "../../assets/utility/storage";
 import { useNavigate } from "react-router-dom";
-import { today } from "../../assets/functions";
 import { db } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { getTotal } from "../../assets/functions";
 import { validate, validateSeller } from "../Form/ValidateHomeForm";
 import ValidationError from "../ValidationError/ValidationError";
+
+import useFirestore from "../../api/useFirestore/useFirestore";
 
 import {
   doc,
@@ -24,13 +25,17 @@ import { FormControl, TextField, Tooltip } from "@mui/material";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import Button from "@mui/material/Button";
+
 // update seller
 import {
   updateSellerAll,
   updateSellerField,
 } from "../../assets/utility/updateSeller";
 
+import {
+  initialState,
+  invoiceReducer,
+} from "../../api/reducers/invoiceReducer";
 //components
 import Form from "../Form/Form";
 import FormPerson from "../Form/FormPerson/FormPerson";
@@ -42,50 +47,51 @@ import ButtonToggle from "../Form/ToggleButton/ToggleButton";
 import DataPlace from "../Form/FormTop/Right/DataPlace";
 import Number from "../Form/FormTop/Left/Number";
 import FormButton from "../Form/FormButton/FormButton";
-import { Margin } from "@mui/icons-material";
+
 function CreateInvoice() {
   const [{ user, amount, numberInvoice, salesman }, dispatch] = useStateValue();
+  const { getDocuments, updateDocuments, addDocuments } =
+    useFirestore("invoices");
+
   const [productsStorage, setProductsStorage] = useLocalStorage("products", []);
   const [place, setPlace] = useLocalStorage("place", "");
+
   const [selectName, setSelectName] = useState("");
   const [select, setSelect] = useState("");
   const [check, setCheck] = useState(false);
-  const [count, setCount] = useState(0);
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [order, setOrder] = useState("");
-  const [number, setNumber] = useState("");
-  const [date, setDate] = useState(today());
-  const [buyer, setBuyer] = useState({
-    name: "",
-    street: "",
-    zipcode: "",
-    town: "",
-    nip: "",
-  });
-  const [seller, setSeller] = useState({
-    name: "",
-    street: "",
-    zipcode: "",
-    town: "",
-    nip: "",
-  });
-
-  const [selected, setSelected] = useState("przelew");
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(0);
-  //ilość
   const [quantity, setQuantity] = useState(1);
 
-  const [note, setNote] = useState("");
+  const [state, localDispatch] = useReducer(invoiceReducer, initialState);
+  const {
+    buyer,
+    seller,
+    count,
+    year,
+    order,
+    number,
+    date,
+    selected,
+    note,
+    error,
+  } = state;
 
-  //validation error
-  const [error, setError] = useState("");
   const history = useNavigate();
 
   useEffect(() => {
+    if (salesman?.length > 0) {
+      localDispatch({
+        type: "LOAD_SELLER_FROM_DB",
+        payload: salesman[0].data.seller,
+      });
+    }
+  }, [salesman]);
+
+  useEffect(() => {
     if (amount) {
-      setCount(amount);
-    } else setCount(1);
+      localDispatch({ type: "SET_COUNT", count: amount });
+    } else localDispatch({ type: "SET_COUNT", count: 1 });
   }, [amount]);
 
   useEffect(() => {
@@ -95,22 +101,11 @@ function CreateInvoice() {
       year: year,
       order: order,
     });
-    setNumber(numberInvoice);
+    localDispatch({ type: "SET_NUMBER", number: numberInvoice });
   }, [dispatch, order, year, amount, numberInvoice, count]);
 
-  const handleChangeSeller = (e) => {
-    const value = e.target.value;
-    setSeller({
-      ...seller,
-      [e.target.name]: value,
-    });
-  };
-  const handleChangeBuyer = (e) => {
-    const value = e.target.value;
-    setBuyer({
-      ...buyer,
-      [e.target.name]: value,
-    });
+  const handleChange = (type) => (e) => {
+    localDispatch({ type: type, payload: { [e.target.name]: e.target.value } });
   };
 
   const saveSeller = async () => {
@@ -293,15 +288,14 @@ function CreateInvoice() {
         <div className="createinvoice__formtop">
           <Number
             count={count}
-            setCount={setCount}
+            dispatch={localDispatch}
             year={year}
             order={order}
-            setOrder={setOrder}
             number={number}
           />
           <DataPlace
             date={date}
-            setDate={setDate}
+            dispatch={localDispatch}
             place={place}
             setPlace={setPlace}
           />
@@ -309,37 +303,15 @@ function CreateInvoice() {
         <div className="createinvoice__wrapper">
           <FormPerson
             title="Nabywca"
-            name={buyer.name}
-            street={buyer.street}
-            zipcode={buyer.zipcode}
-            town={buyer.town}
-            nip={buyer.nip}
-            handleChange={handleChangeBuyer}
+            data={state.buyer}
+            handleChange={handleChange("SET_BUYER")}
           />
-          {!salesman || salesman.length === 0 ? (
-            <FormPerson
-              title="Sprzedawca"
-              name={seller.name}
-              street={seller.street}
-              zipcode={seller.zipcode}
-              town={seller.town}
-              nip={seller.nip}
-              handleChange={handleChangeSeller}
-            />
-          ) : (
-            salesman?.map((item) => (
-              <FormPerson
-                key={item.id}
-                title="Sprzedawca"
-                name={seller.name || item.data.seller.name}
-                street={seller.street || item.data.seller.street}
-                zipcode={seller.zipcode || item.data.seller.zipcode}
-                town={seller.town || item.data.seller.town}
-                nip={seller.nip || item.data.seller.nip}
-                handleChange={handleChangeSeller}
-              />
-            ))
-          )}
+
+          <FormPerson
+            title="Sprzedawca"
+            data={state.seller}
+            handleChange={handleChange("SET_SELLER")}
+          />
         </div>
         <div className="creativeinvoice__buttonWrapper">
           {salesman?.length === 0 ? (
@@ -385,7 +357,7 @@ function CreateInvoice() {
             </div>
           )}
         </div>
-        <FormPayment selected={selected} setSelected={setSelected} />
+        <FormPayment selected={selected} dispatch={localDispatch} />
         <FormProducts
           title={title}
           setTitle={setTitle}
@@ -410,7 +382,9 @@ function CreateInvoice() {
                 <div className="note__row">
                   <TextField
                     value={note}
-                    onChange={(e) => setNote(e.target.value)}
+                    onChange={(e) =>
+                      localDispatch({ type: "SET_NOTE", note: e.target.value })
+                    }
                     id="outlined-basic"
                     label="Uwagi (opcjonalne)"
                     placeholder="np. informacja o zwrocie, terminie płatności itp."
@@ -426,7 +400,6 @@ function CreateInvoice() {
                   onClick={check ? addInvoice : addInvoiceWithNumber}
                 />
               </div>
-              {/* </FormButton> */}
             </div>
           </div>
         ) : null}

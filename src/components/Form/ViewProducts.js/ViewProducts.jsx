@@ -7,6 +7,8 @@ function ViewProducts({ productsStorage, setProductsStorage }) {
     const newProducts = [...productsStorage];
     newProducts.splice(index, 1);
     setProductsStorage(newProducts);
+    // dispatch({ type: "SET_PRODUCTS", products: e.target.value });
+
   };
   return (
     <div className="viewproducts">

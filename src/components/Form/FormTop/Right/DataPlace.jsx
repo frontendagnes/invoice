@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField } from "@mui/material";
 
-function DataPlace({ date, setDate, place, setPlace }) {
+function DataPlace({ date, dispatch, place, setPlace }) {
   return (
     <div className="formtop__input">
       <div>
@@ -9,7 +9,7 @@ function DataPlace({ date, setDate, place, setPlace }) {
           label="Data wystawienia faktury"
           type="date"
           value={date}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={(e) => dispatch({ type: "SET_DATE", date: e.target.value })}
           fullWidth
         />
       </div>

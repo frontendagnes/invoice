@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 function HeaderRight({ user, logout, loading }) {
   return (
     <div className="header__right">
-      <div>Wiatj,</div>
+      <div>Witaj,</div>
       <div>{user?.email}</div>
       <Button
         className="header__logout"

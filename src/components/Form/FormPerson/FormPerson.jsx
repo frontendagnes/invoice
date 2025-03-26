@@ -4,7 +4,8 @@ import "./FormPerson.css";
 import { TextField } from "@mui/material";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 
-function FormPerson({ name, street, zipcode, town, nip, handleChange, title }) {
+function FormPerson({ data, handleChange, title }) {
+  const {name, street, zipcode, town, nip} = data
   return (
     <div className="formperson">
       <div className="createinvoice__text">{title}:</div>
