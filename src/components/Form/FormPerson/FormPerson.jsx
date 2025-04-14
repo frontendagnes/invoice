@@ -4,8 +4,16 @@ import "./FormPerson.css";
 import { TextField } from "@mui/material";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 
-function FormPerson({ data, handleChange, title }) {
-  const {name, street, zipcode, town, nip} = data
+function FormPerson({ data, title, dispatch, type }) {
+  const { name, street, zipcode, town, nip } = data;
+
+  const handleChange = (type) => (e) => {
+    dispatch({
+      type: type,
+      payload: { [e.target.name]: e.target.value },
+    });
+  };
+
   return (
     <div className="formperson">
       <div className="createinvoice__text">{title}:</div>
@@ -13,7 +21,7 @@ function FormPerson({ data, handleChange, title }) {
         <TextField
           value={name}
           name="name"
-          onChange={handleChange}
+          onChange={handleChange(type)}
           id="outlined-basic"
           label="Imię i nazwisko"
           variant="outlined"
@@ -24,7 +32,7 @@ function FormPerson({ data, handleChange, title }) {
         <TextField
           value={street}
           name="street"
-          onChange={handleChange}
+          onChange={handleChange(type)}
           id="outlined-basic"
           label="Ulica i numer domu"
           variant="outlined"
@@ -37,7 +45,7 @@ function FormPerson({ data, handleChange, title }) {
             format="##-###"
             mask="_"
             value={zipcode}
-            onChange={handleChange}
+            onChange={handleChange(type)}
             placeholder="__-___"
             label="Kod pocztowy"
             name="zipcode"
@@ -47,7 +55,7 @@ function FormPerson({ data, handleChange, title }) {
           <TextField
             value={town}
             name="town"
-            onChange={handleChange}
+            onChange={handleChange(type)}
             id="outlined-basic"
             label="Miejscowość"
             variant="outlined"
@@ -65,7 +73,7 @@ function FormPerson({ data, handleChange, title }) {
           label="NIP"
           name="nip"
           value={nip}
-          onChange={handleChange}
+          onChange={handleChange(type)}
         />
       </div>
     </div>

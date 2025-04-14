@@ -1,8 +1,7 @@
 import { today } from "../../assets/functions";
-import { useLocalStorage } from "../../assets/utility/storage";
 
 export const initialState = {
-  count: 1,
+  count: 0,
   year: new Date().getFullYear(),
   order: "",
   number: "",
@@ -12,6 +11,10 @@ export const initialState = {
   selected: "przelew",
   note: "",
   error: "",
+  check: false,
+  title: "",
+  price: 0,
+  quantity: 1,
 };
 
 export const invoiceReducer = (state, action) => {
@@ -39,6 +42,14 @@ export const invoiceReducer = (state, action) => {
       return { ...state, order: action.order };
     case "SET_NUMBER":
       return { ...state, number: action.number };
+    case "SET_CHECK":
+      return { ...state, check: action.check };
+    case "SET_TITLE":
+      return { ...state, title: action.title };
+    case "SET_PRICE":
+      return { ...state, price: action.price };
+    case "SET_QUANTITY":
+      return { ...state, quantity: action.quantity };
     default:
       return state;
   }

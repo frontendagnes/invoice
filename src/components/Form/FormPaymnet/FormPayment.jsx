@@ -2,6 +2,10 @@ import React from "react";
 import "./FormPayment.css";
 import NativeSelect from "@mui/material/NativeSelect";
 function FormPayment({ selected, dispatch }) {
+  const handleChange = (e) => {
+    dispatch({ type: "SET_SELECTED", selected: e.target.value });
+  };
+
   return (
     <div className="formpayment">
       <div className="createinvoice__text">Forma płatności:</div>
@@ -9,10 +13,7 @@ function FormPayment({ selected, dispatch }) {
         <NativeSelect
           name="method-shipping"
           value={selected}
-          // onChange={(e) => setSelected(e.target.value)}
-          onChange={(e) =>
-            dispatch({ type: "SET_SELECTED", selected: e.target.value })
-          }
+          onChange={handleChange}
           fullWidth
         >
           <option value="przelew">przelew</option>

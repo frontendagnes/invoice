@@ -104,7 +104,7 @@ function InvoicesItem({
             />
           </div>
           <Button type="button" onClick={() => saveNote(index)}>
-            Edytuj notaktę
+            Edytuj notatkę
           </Button>
         </div>
       ) : null}

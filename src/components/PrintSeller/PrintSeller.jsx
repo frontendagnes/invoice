@@ -1,11 +1,9 @@
 import React from "react";
-import { useStateValue } from "../../assets/utility/StateProvider";
-import "./PrintSeller.css";
-function PrintSeller() {
-  const [{ salesman }] = useStateValue();
+
+export function PrintSellerList({ data }) {
   return (
     <div className="prinseller">
-      {salesman?.map((item) => (
+      {data?.map((item) => (
         <div key={item.id}>
           <div>{item.data.seller.name}</div>
           <div>{item.data.seller.street}</div>
@@ -20,4 +18,16 @@ function PrintSeller() {
   );
 }
 
-export default PrintSeller;
+export function PrintSeller({ data }) {
+  return (
+    <div className="prinseller">
+      <div>{data.name}</div>
+      <div>{data.street}</div>
+      <div className="printseller__wrapper">
+        <span>{data.zipcode}</span>
+        <span>{data.town}</span>
+      </div>
+      <div>{data.nip}</div>
+    </div>
+  );
+}

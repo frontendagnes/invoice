@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import "./FormProducts.css";
-
+import { v4 as uuidv4 } from "uuid";
 //mui
 import { TextField } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 //components
 import ValidationError from "../../ValidationError/ValidationError";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 import FormButton from "../FormButton/FormButton.jsx";
-import { Add } from "@mui/icons-material";
+
 const validate = (title, quantity, price) => {
   if (!title) {
     return "Wpisz nazwę produktu";
@@ -21,20 +20,22 @@ const validate = (title, quantity, price) => {
   if (!price) {
     return "Podaj cenę jednostkową";
   }
+  if (price < 0){
+    return "Cena nie może być ujemna"
+  }
   return null;
 };
 
 function FormProducts({
   title,
-  setTitle,
   quantity,
   price,
-  setPrice,
-  setQuantity,
   productsStorage,
   setProductsStorage,
+  dispatch,
 }) {
   const [error, setError] = useState("");
+
   const endValue = () => {
     return quantity * price;
   };
@@ -46,6 +47,7 @@ function FormProducts({
       return;
     }
     const objStorage = {
+      id: uuidv4(),
       title: title,
       quantity: quantity,
       price: price,
@@ -53,10 +55,21 @@ function FormProducts({
       vat: 0,
     };
     setProductsStorage([...productsStorage, objStorage]);
-    setTitle("");
-    setQuantity(1);
-    setPrice(0);
+    dispatch({ type: "SET_TITLE", title: "" });
+    dispatch({ type: "SET_QUANTITY", quantity: 1 });
+    dispatch({ type: "SET_PRICE", price: 0 });
     setError("");
+  };
+  const handleTitleChange = (e) => {
+    dispatch({ type: "SET_TITLE", title: e.target.value });
+  };
+
+  const handleQuantityChange = (e) => {
+    dispatch({ type: "SET_QUANTITY", quantity: e.target.value });
+  };
+
+  const handlePriceChange = (e) => {
+    dispatch({ type: "SET_PRICE", price: e.target.value });
   };
   return (
     <div className="formproducts">
@@ -66,7 +79,7 @@ function FormProducts({
         <div className="formproducts__input">
           <TextField
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={handleTitleChange}
             id="outlined-basic"
             label="Nazwa produktu"
             variant="outlined"
@@ -79,7 +92,7 @@ function FormProducts({
             max="999"
             value={quantity}
             type="number"
-            onChange={(e) => setQuantity(e.target.value)}
+            onChange={handleQuantityChange}
             id="outlined-basic"
             label="Ilość"
             variant="outlined"
@@ -89,7 +102,7 @@ function FormProducts({
         <div className="formproducts__input">
           <NumericField
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={handlePriceChange}
             label="Cena jedn."
             numeric
           />

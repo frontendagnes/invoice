@@ -32,27 +32,17 @@
 .formtop__input_row {
   width: 33%;
 }
-
+/* is found in children's components*/
 .createinvoice__text {
   font-size: 1rem;
   padding: 20px 0px 10px 0px;
   font-weight: 600;
   letter-spacing: 3px;
 }
-.createinvoice h2{
- text-align: center;
- letter-spacing: 3px;
 
-}
 .createinvoice__error {
   display: flex;
   justify-content: center;
-}
-
-.createinvoice__top {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
 }
 
 .creativeinvoice__buttonWrapper {
@@ -63,29 +53,10 @@
 
 }
 
-.creativeinvoice--span {
-  line-height: 30px;
-  letter-spacing: 1.5px;
-  text-align: center;
-}
-
 .createinvoice__wrapper {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-}
-
-.createinvoive__person {
-  width: 100%;
-}
-
-.createinvoice__selectSeller {
-  width: 50%;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .creativeinvoice__summary {
@@ -93,28 +64,14 @@
   margin-bottom: 10px;
 }
 
-.createinvoice__footer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex-wrap: wrap;
-}
-
-.createinvoice__footer {
-  margin-right: 40px;
-  margin-top: 20px;
-}
-
-.note__row {
-  margin: 20px 0px 20px 0px;
-}
-.createinvoice__end{
+.creativeinvoice__buttonAdd{
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
 @media screen and (max-width: 800px) {
   .createinvoice__prev {
     flex-direction: column;
@@ -131,10 +88,6 @@
   .creativeinvoice__buttonWrapper {
     width: 100%;
     align-items: center;
-  }
-
-  .createinvoice__selectSeller {
-    width: 90%;
   }
 }
 

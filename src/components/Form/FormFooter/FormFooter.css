@@ -1,0 +1,18 @@
+.footer__summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.footer__summary {
+    margin-right: 40px;
+    margin-top: 20px;
+    letter-spacing: 2px;
+    font-size: 1.2rem;
+}
+
+.note__row {
+    margin: 20px 0px 20px 0px;
+    width: 100%;
+}

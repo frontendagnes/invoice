@@ -1,11 +1,8 @@
 .viewproducts{
     margin-top: 10px;
     display: flex;
-    justify-content: center;
+    align-items: center;
 }
 .vieproducts__button{
     cursor: pointer;
-}
-.viewproducts table{
-    width: 80%;
 }

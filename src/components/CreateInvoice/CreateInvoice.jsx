@@ -1,41 +1,21 @@
-import React, { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import "./CreateInvoice.css";
 
 import { useLocalStorage } from "../../assets/utility/storage";
+import useFirestore from "../../api/useFirestore/useFirestore";
+
 import { useNavigate } from "react-router-dom";
-import { db } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { getTotal } from "../../assets/functions";
 import { validate, validateSeller } from "../Form/ValidateHomeForm";
-import ValidationError from "../ValidationError/ValidationError";
 
-import useFirestore from "../../api/useFirestore/useFirestore";
-
-import {
-  doc,
-  collection,
-  addDoc,
-  increment,
-  updateDoc,
-  setDoc,
-  getDoc,
-} from "../../assets/utility/firebase";
-// mui
-import { FormControl, TextField, Tooltip } from "@mui/material";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
-
-// update seller
-import {
-  updateSellerAll,
-  updateSellerField,
-} from "../../assets/utility/updateSeller";
+import { increment } from "../../assets/utility/firebase";
 
 import {
   initialState,
   invoiceReducer,
 } from "../../api/reducers/invoiceReducer";
+
 //components
 import Form from "../Form/Form";
 import FormPerson from "../Form/FormPerson/FormPerson";
@@ -47,39 +27,29 @@ import ButtonToggle from "../Form/ToggleButton/ToggleButton";
 import DataPlace from "../Form/FormTop/Right/DataPlace";
 import Number from "../Form/FormTop/Left/Number";
 import FormButton from "../Form/FormButton/FormButton";
+import ValidationError from "../ValidationError/ValidationError";
+import FormSelect from "../Form/FormSelect/FormSelect";
+import { FooterNote, FooterSummary } from "../Form/FormFooter/FormFooter";
 
 function CreateInvoice() {
-  const [{ user, amount, numberInvoice, salesman }, dispatch] = useStateValue();
-  const { getDocuments, updateDocuments, addDocuments } =
-    useFirestore("invoices");
+  const {
+    loading,
+    loadingAdd,
+    errorFirestore,
+    setDocumentField,
+    updateDocument,
+    addDocument,
+  } = useFirestore("invoices");
 
   const [productsStorage, setProductsStorage] = useLocalStorage("products", []);
   const [place, setPlace] = useLocalStorage("place", "");
-
-  const [selectName, setSelectName] = useState("");
-  const [select, setSelect] = useState("");
-  const [check, setCheck] = useState(false);
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-
+  const [{ amount, numberInvoice, salesman }, dispatch] = useStateValue();
   const [state, localDispatch] = useReducer(invoiceReducer, initialState);
-  const {
-    buyer,
-    seller,
-    count,
-    year,
-    order,
-    number,
-    date,
-    selected,
-    note,
-    error,
-  } = state;
 
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // loads the seller
     if (salesman?.length > 0) {
       localDispatch({
         type: "LOAD_SELLER_FROM_DB",
@@ -89,212 +59,136 @@ function CreateInvoice() {
   }, [salesman]);
 
   useEffect(() => {
+    // checks if there is already an invoice number if yes displays the number taken from the database if not inserts 1
     if (amount) {
       localDispatch({ type: "SET_COUNT", count: amount });
     } else localDispatch({ type: "SET_COUNT", count: 1 });
   }, [amount]);
 
+  // sets the appropriate invoice number
   useEffect(() => {
     dispatch({
       type: "INVOICE_NUMBER",
-      count: count || amount,
-      year: year,
-      order: order,
+      count: state.count || amount,
+      year: state.year,
+      order: state.order,
     });
     localDispatch({ type: "SET_NUMBER", number: numberInvoice });
-  }, [dispatch, order, year, amount, numberInvoice, count]);
+  }, [dispatch, state.order, state.year, amount, numberInvoice, state.count]);
 
-  const handleChange = (type) => (e) => {
-    localDispatch({ type: type, payload: { [e.target.name]: e.target.value } });
-  };
-
+  //  Remembers the vendor if not already added
   const saveSeller = async () => {
-    const msg = validateSeller(seller.name);
+    const msg = validateSeller(state.seller.name);
     if (msg) {
       dispatch({ type: "ALERT__ERROR", item: msg });
       return;
     }
-    const refSeller = doc(db, "invoices", user.uid, "seller", "item-seller123");
-    await setDoc(refSeller, {
-      seller: {
-        name: seller.name,
-        street: seller?.street,
-        zipcode: seller?.zipcode,
-        town: seller?.town,
-        nip: seller?.nip,
-      },
-    })
-      .then(() => {
-        dispatch({
-          type: "ALERT_SUCCESS",
-          item: "Dane zostały dodane prawidłowo",
-        });
-      })
-      .catch((error) => {
-        dispatch({ type: "ALERT__ERROR", item: error.message });
-      });
-  };
-
-  const updateSeller = () => {
-    if (!select) {
-      dispatch({
-        type: "ALERT__ERROR",
-        item: "Nie wybrałeś/aś co chcesz aktualizować",
-      });
-    }
-    const updateFunctions = {
-      name: () => updateSellerField(select, seller.name, user, dispatch),
-      street: () => updateSellerField(select, seller.street, user, dispatch),
-      zipcode: () => updateSellerField(select, seller.zipcode, user, dispatch),
-      town: () => updateSellerField(select, seller.town, user, dispatch),
-      nip: () => updateSellerField(select, seller.nip, user, dispatch),
-      all: () => updateSellerAll(seller, user, dispatch),
+    const data = {
+      name: state.seller.name,
+      street: state.seller?.street,
+      zipcode: state.seller?.zipcode,
+      town: state.seller?.town,
+      nip: state.seller?.nip,
     };
-
-    if (updateFunctions[select]) {
-      updateFunctions[select]();
-    }
-    setSelect("");
+    setDocumentField("seller", "item-seller123", data, "seller");
+    // const refSeller = doc(db, "invoices", user.uid, "seller", "item-seller123");
   };
-
+  // Changes the invoice number to the next
   const changeNumber = async () => {
-    const updateRef = doc(
-      db,
-      "invoices",
-      user.uid,
-      "number",
-      "YgYuBDoz5AisskTWslyB"
-    );
-
-    const docSnap = await getDoc(updateRef);
-    const docExist = docSnap.exists();
-
-    if (docExist) {
-      await updateDoc(updateRef, {
-        count: increment(1),
-      })
-        .then(() =>
-          dispatch({
-            type: "ALERT__SUCCESS",
-            item: "Numer został zaktualizowany pomyślnie",
-          })
-        )
-        .catch((error) => {
-          console.log(error.message);
-          dispatch({ type: "ALERT__ERROR", item: error.message });
-        });
-    } else {
-      await setDoc(updateRef, { count: 2 })
-        .then(() => console.log("Numer Dodany"))
-        .catch((error) => {
-          console.log(error.message);
-          dispatch({ type: "ALERT__ERROR", item: error.message });
-        });
+    try {
+      await updateDocument(
+        "number",
+        "YgYuBDoz5AisskTWslyB",
+        { count: increment(1) },
+        { count: 2 }
+      );
+      console.log("Dokument zaktualizowany pomyślnie!");
+    } catch (error) {
+      console.error("Błąd aktualizacji dokumentu:", error);
+      dispatch({ type: "ALERT__ERROR", item: error.message });
     }
   };
-
+  // Sends invoice data to firebase firestore
   const addData = async () => {
-    const docRef = doc(db, "invoices", user.uid);
-    const ref = collection(docRef, "invoice");
-    await addDoc(ref, {
-      date: date,
-      number: number,
-      payment: selected,
+    const data = {
+      date: state.date,
+      number: state.number,
+      payment: state.selected,
       buyer: {
-        name: buyer.name,
-        street: buyer.street,
-        zipcode: buyer.zipcode,
-        town: buyer.town,
-        nip: buyer.nip,
+        name: state.buyer.name,
+        street: state.buyer.street,
+        zipcode: state.buyer.zipcode,
+        town: state.buyer.town,
+        nip: state.buyer.nip,
+      },
+      seller: {
+        name: state.seller.name,
+        street: state.seller.street,
+        zipcode: state.seller.zipcode,
+        town: state.seller.town,
+        nip: state.seller.nip,
       },
       products: productsStorage,
       place: place,
-      note: note,
-    })
-      .then(() => {
-        dispatch({ type: "ALERT_ADD_INVOICE" });
-        history("/invoices");
-        window.scrollTo(0, 0);
-      })
-      .catch((error) => {
-        dispatch({ type: "ALERT_ERROR", item: error.message });
-      });
-  };
-  const addInvoice = (e) => {
-    e.preventDefault();
-    const msg = validate(
-      count,
-      year,
-      date,
-      buyer.name,
-      buyer.street,
-      buyer.zipcode,
-      buyer.town
-    );
-    if (msg) {
-      setError(msg);
-      dispatch({ type: "ALERT__ERROR", item: msg });
-      return;
-    }
-    addData();
-    window.localStorage.removeItem("products");
-  };
-  const addInvoiceWithNumber = (e) => {
-    e.preventDefault();
-    const msg = validate(
-      count,
-      year,
-      date,
-      buyer.name,
-      buyer.street,
-      buyer.zipcode,
-      buyer.town
-    );
-    if (msg) {
-      setError(msg);
-      dispatch({ type: "ALERT__ERROR", item: msg });
-      return;
-    }
-    addData();
-    changeNumber();
-    window.localStorage.removeItem("products");
-  };
-  const selectChange = (e) => {
-    const valueMap = {
-      name: "NAZWĘ",
-      street: "ULICĘ",
-      zipcode: "KOD POCZTOWY",
-      town: "MIEJSCOWOŚĆ",
-      nip: "NIP",
-      "": "",
+      note: state.note,
     };
-    const newValue = e.target.value;
-    setSelect(newValue);
-    setSelectName(valueMap[newValue] || "");
+    try {
+      await addDocument(data, "invoice");
+      dispatch({ type: "ALERT_ADD_INVOICE" });
+      navigate("/invoices");
+      window.scrollTo(0, 0);
+    } catch (err) {
+      console.log("Błąd dodawania dokumentu", err);
+    }
+  };
+  // Responsible for adding the invoice
+  const addInvoice = async (event, updateNumber = false) => {
+    event.preventDefault();
+    const msg = validate(
+      state.count,
+      state.year,
+      state.date,
+      state.buyer.name,
+      state.buyer.street,
+      state.buyer.zipcode,
+      state.buyer.town
+    );
+    if (msg) {
+      localDispatch({ type: "SET_ERROR", error: msg });
+      dispatch({ type: "ALERT__ERROR", item: msg });
+      return;
+    }
+    try {
+      await addData();
+      if (!updateNumber) await changeNumber();
+      window.localStorage.removeItem("products");
+    } catch (err) {
+      console.log("Błąd dodawania faktury", err.message);
+    }
   };
   return (
     <div className="createinvoice">
-      {error ? (
+      {state.error ? (
         <div className="createinvoice__error">
-          <ValidationError text={error} />
+          <ValidationError text={state.error} />
+          <ValidationError text={errorFirestore} />
         </div>
       ) : null}
-      {/* <h2>Wprowadzanie danych</h2> */}
       <div className="createinvoice__prev">
-        <ButtonToggle check={check} setCheck={setCheck} />
+        <ButtonToggle check={state.check} dispach={localDispatch} />
         <UploadImage />
       </div>
       <Form>
         <div className="createinvoice__formtop">
           <Number
-            count={count}
+            count={state.count}
             dispatch={localDispatch}
-            year={year}
-            order={order}
-            number={number}
+            year={state.year}
+            order={state.order}
+            number={state.number}
           />
           <DataPlace
-            date={date}
+            date={state.date}
             dispatch={localDispatch}
             place={place}
             setPlace={setPlace}
@@ -304,105 +198,61 @@ function CreateInvoice() {
           <FormPerson
             title="Nabywca"
             data={state.buyer}
-            handleChange={handleChange("SET_BUYER")}
+            type="SET_BUYER"
+            dispatch={localDispatch}
           />
-
           <FormPerson
             title="Sprzedawca"
             data={state.seller}
-            handleChange={handleChange("SET_SELLER")}
+            type="SET_SELLER"
+            dispatch={localDispatch}
           />
         </div>
         <div className="creativeinvoice__buttonWrapper">
           {salesman?.length === 0 ? (
             <FormButton
-              text="Zapamiętaj sprzedawcę"
+              text={loading ? "Zapamiętuje..." : "Zapamiętaj sprzedawcę"}
               styles={{
                 marginTop: "20px",
               }}
+              disabled={loading}
               onClick={saveSeller}
             />
           ) : (
-            <div className="createinvoice__selectSeller">
-              <FormControl fullWidth>
-                <InputLabel>Wybierz co chcesz aktualizować</InputLabel>
-                <Select
-                  name="seller-option"
-                  value={select}
-                  onChange={selectChange}
-                  label="Wybierz co chcesz aktualizować"
-                >
-                  <MenuItem value="">None</MenuItem>
-                  <MenuItem value="name">Aktualizacja Nazwy</MenuItem>
-                  <MenuItem value="street">Aktualizacja Ulicy</MenuItem>
-                  <MenuItem value="zipcode">Aktualizacja Kodu</MenuItem>
-                  <MenuItem value="town">Aktualizacja Miejscowości</MenuItem>
-                  <MenuItem value="nip">Aktualizacja Nip-u</MenuItem>
-                  <MenuItem value="all">Aktualizuj Wszytkie Pola</MenuItem>
-                </Select>
-              </FormControl>
-              <Tooltip
-                title="UWAGA! Zmieniasz dane we wszystkich dotychczas wystawionych dokumentach"
-                placement="bottom"
-                followCursor={true}
-              >
-                <FormButton
-                  text={`Aktualizuj ${selectName}`}
-                  styles={{
-                    marginTop: "20px",
-                  }}
-                  onClick={updateSeller}
-                />
-              </Tooltip>
-            </div>
+            <FormSelect seller={state.seller} />
           )}
         </div>
-        <FormPayment selected={selected} dispatch={localDispatch} />
+        <FormPayment selected={state.selected} dispatch={localDispatch} />
         <FormProducts
-          title={title}
-          setTitle={setTitle}
-          quantity={quantity}
-          price={price}
-          setPrice={setPrice}
-          setQuantity={setQuantity}
+          title={state.title}
+          quantity={state.quantity}
+          price={state.price}
+          dispatch={localDispatch}
           productsStorage={productsStorage}
           setProductsStorage={setProductsStorage}
         />
-        {productsStorage.length !== 0 ? (
-          <div>
-            <ViewProducts
-              productsStorage={productsStorage}
-              setProductsStorage={setProductsStorage}
-            />
-            <div className="createinvoice__footer">
-              <div className="creativeinvoice__summary">
-                Razem: {parseFloat(getTotal(productsStorage)).toFixed(2)} zł
-              </div>
-              <div className="createinvoice__end">
-                <div className="note__row">
-                  <TextField
-                    value={note}
-                    onChange={(e) =>
-                      localDispatch({ type: "SET_NOTE", note: e.target.value })
-                    }
-                    id="outlined-basic"
-                    label="Uwagi (opcjonalne)"
-                    placeholder="np. informacja o zwrocie, terminie płatności itp."
-                    variant="outlined"
-                    fullWidth
-                  />
-                </div>
-                <FormButton
-                  text="Dodaj fakturę"
-                  styles={{
-                    width: "90%",
-                  }}
-                  onClick={check ? addInvoice : addInvoiceWithNumber}
-                />
-              </div>
-            </div>
-          </div>
-        ) : null}
+        <ViewProducts
+          productsStorage={productsStorage}
+          setProductsStorage={setProductsStorage}
+        />
+
+        <div className="createinvoice__footer">
+          <FooterSummary
+            getTotal={getTotal}
+            productsStorage={productsStorage}
+          />
+        </div>
+        <FooterNote note={state.note} dispatch={localDispatch} />
+        <div className="creativeinvoice__buttonAdd">
+          <FormButton
+            text={loading ? "Dodawanie..." : "Dodaj fakturę"}
+            styles={{
+              width: "90%",
+            }}
+            disabled={loadingAdd || productsStorage.length === 0}
+            onClick={(e) => addInvoice(e, state.check)}
+          />
+        </div>
       </Form>
     </div>
   );

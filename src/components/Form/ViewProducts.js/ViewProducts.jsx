@@ -7,7 +7,6 @@ function ViewProducts({ productsStorage, setProductsStorage }) {
     const newProducts = [...productsStorage];
     newProducts.splice(index, 1);
     setProductsStorage(newProducts);
-    // dispatch({ type: "SET_PRODUCTS", products: e.target.value });
 
   };
   return (
@@ -26,7 +25,7 @@ function ViewProducts({ productsStorage, setProductsStorage }) {
         </thead>
         <tbody>
           {productsStorage.map((item, index) => (
-            <tr key={index}>
+            <tr key={item.id}>
               <td>{index + 1}</td>
               <td>{item.title}</td>
               <td>{item.quantity} szt.</td>

@@ -1,8 +1,11 @@
 import React from "react";
-import "./ToggleButton.css"
+import "./ToggleButton.css";
 import { ToggleButton } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
-function ButtonToggle({ check, setCheck }) {
+function ButtonToggle({ check, dispach }) {
+  const handleChange = () => {
+    dispach({ type: "SET_CHECK", check: !check});
+  };
   return (
     <div className="buttonToggle">
       <div className="buttonToggle__info">
@@ -10,11 +13,7 @@ function ButtonToggle({ check, setCheck }) {
         wprowadzasz zwrot, regularny numer nie ulegnie wtedy zmianie (domyślnie
         wyłączone).
       </div>
-      <ToggleButton
-        value="check"
-        selected={check}
-        onChange={() => setCheck(!check)}
-      >
+      <ToggleButton value="check" selected={check} onChange={handleChange}>
         <CheckIcon color={!check ? "error" : "success"} />
         {!check ? (
           <span style={{ color: "#ff0000" }}>OFF</span>

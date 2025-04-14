@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./InvoicesDetails.css";
 
@@ -8,7 +8,7 @@ import { useReactToPrint } from "react-to-print";
 
 //compontents
 import Footer from "../Footer/Footer";
-import PrintSeller from "../PrintSeller/PrintSeller";
+import {PrintSeller, PrintSellerList} from "../PrintSeller/PrintSeller";
 import Print from "../Print/index";
 
 function InvoicesDetails({ data }) {
@@ -78,7 +78,11 @@ function InvoicesDetails({ data }) {
                   <div className="invoicevdetail__seller">
                     <div className="invoicesdetail__headline">Sprzedawca:</div>
                     <div>
-                      {item.data.seller ? item.data.seller : <PrintSeller />}
+                      {item.data.seller ? (
+                        <PrintSeller data={item.data.seller} />
+                      ) : (
+                        <PrintSellerList data={salesman} />
+                      )}
                     </div>
                   </div>
                 </div>
