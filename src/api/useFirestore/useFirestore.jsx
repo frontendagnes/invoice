@@ -14,7 +14,7 @@ import { useStateValue } from "../../assets/utility/StateProvider";
 
 const useFirestore = (collectionName) => {
   const [loading, setLoading] = useState(false);
-  const [loadinAdd, setLoadingAdd] = useState(false);
+  const [loadingAdd, setLoadingAdd] = useState(false);
   const [errorFirestore, setErrorFirestore] = useState(null);
   const [{ user }, dispatch] = useStateValue();
 
@@ -239,6 +239,7 @@ const useFirestore = (collectionName) => {
 
   return {
     loading,
+    loadingAdd,
     errorFirestore,
     setDocumentField,
     setDocument,
