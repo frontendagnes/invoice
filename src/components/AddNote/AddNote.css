@@ -1,0 +1,12 @@
+.note {
+    display: flex;
+    flex-direction: column;
+}
+
+.note__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}

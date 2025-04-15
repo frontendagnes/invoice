@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import "./InvoicesItem.css";
-import { useStateValue } from "../../assets/utility/StateProvider";
-import { doc, db, updateDoc } from "../../assets/utility/firebase";
 
-import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
 //mui
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import EditIcon from "@mui/icons-material/Edit";
-import { Button, TextField } from "@mui/material";
+
+//components
+import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
+import AddNote from "../AddNote/AddNote";
+
 function InvoicesItem({
   name,
   number,
@@ -20,28 +21,7 @@ function InvoicesItem({
   noteCnt,
   optionalValue,
 }) {
-  const [{ user }, dispatch] = useStateValue();
   const [isEdit, setIsEdit] = useState(false);
-  const [note, setNote] = useState("");
-
-  const saveNote = async () => {
-    const saveRef = doc(db, `invoices/${user.uid}/invoice/${index}`);
-    await updateDoc(saveRef, {
-      note: note,
-    })
-      .then(() =>
-        dispatch({
-          type: "ALERT_SUCCESS",
-          item: "Notatka została pomyślnie zapisana",
-        })
-      )
-      .catch((error) => {
-        console.log(error.message);
-        dispatch({ type: "ALERT__ERROR", item: error.message });
-      });
-    setNote("");
-    setIsEdit(false);
-  };
 
   return (
     <div className="invoicesitem">
@@ -91,22 +71,11 @@ function InvoicesItem({
       </div>
       <div className="invoicesitem__note">{noteCnt}</div>
       {isEdit ? (
-        <div className="note">
-          <div className="note__row">
-            <TextField
-              value={note || optionalValue}
-              onChange={(e) => setNote(e.target.value)}
-              id="outlined-basic"
-              label="Edytuj Notatkę"
-              placeholder="np. informacja o zwrocie, terminie płatności itp."
-              variant="outlined"
-              fullWidth
-            />
-          </div>
-          <Button type="button" onClick={() => saveNote(index)}>
-            Edytuj notatkę
-          </Button>
-        </div>
+        <AddNote
+          optionalValue={optionalValue}
+          setIsEdit={setIsEdit}
+          index={index}
+        />
       ) : null}
     </div>
   );

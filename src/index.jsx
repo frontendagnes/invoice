@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { StateProvider } from "./assets/utility/StateProvider";
 import reducer, { initialState } from "./assets/utility/reducer";
 
@@ -11,7 +11,7 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
-    <BrowserRouter
+    <HashRouter
       future={{
         v7_startTransition: true,
         v7_relativeSplatPath: true,
@@ -24,7 +24,7 @@ root.render(
       <StateProvider initialState={initialState} reducer={reducer}>
         <App />
       </StateProvider>
-    </BrowserRouter>
+    </HashRouter>
    </React.StrictMode>
 );
 
