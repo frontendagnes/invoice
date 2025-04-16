@@ -186,17 +186,18 @@ const useFirestore = (collectionName) => {
     }
   };
 
-  // const deleteDocument = async (id) => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     await deleteDoc(doc(db, collectionName, id));
-  //   } catch (err) {
-  //     setError(err.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const deleteDocument = async (table, id) => {
+    setLoading(true);
+    setErrorFirestore(null);
+    try {
+      await deleteDoc(doc(db, collectionName, user.uid,table, id));
+    } catch (err) {
+      setErrorFirestore(err.message);
+      handleFirestoreError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // const getDocuments = async () => {
   //   setLoading(true);
@@ -247,7 +248,7 @@ const useFirestore = (collectionName) => {
     updateSellerAll,
     addDocument,
     updateDocument,
-    // deleteDocument,
+    deleteDocument,
     // getDocuments,
     // getDocument,
   };

@@ -11,7 +11,7 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
-    <HashRouter
+    <BrowserRouter
       future={{
         v7_startTransition: true,
         v7_relativeSplatPath: true,
@@ -24,7 +24,7 @@ root.render(
       <StateProvider initialState={initialState} reducer={reducer}>
         <App />
       </StateProvider>
-    </HashRouter>
+    </BrowserRouter>
    </React.StrictMode>
 );
 
