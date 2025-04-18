@@ -1,35 +1,52 @@
 .costHinst {
+    box-sizing: border-box;
     position: absolute;
     display: flex;
     flex-direction: column;
     top: 56px;
     left: 0;
     padding: 10px;
-    width: 93%;
+    width: 100%;
     font-size: 1rem;
     background: #ffffff;
     border: 1px solid #808080;
-    border-radius: 10px;
+    border-radius: 0px 0px 10px 10px;
     z-index: 999;
     cursor: pointer;
 
 }
-.costHinst:last-child{
+
+.costHinst:last-child {
     padding-bottom: 0px;
 }
+
 .costHinst__item,
 .costHinst__no-results {
-    padding-bottom: 20px;
-    color: #808080;
-    transition: color 0.75s ease;
+    box-sizing: border-box;
+    padding: 10px;
+    min-height: 40px;
+    color: #000000;
+    background-color: #ffffff;
+    transition: color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
-.costHinst__item:hover {
-    color: #000000;
+.costHinst__item:not(:last-child),
+.costHinst__no-results:not(:last-child) {
+    border-bottom: 1px solid #000000;
+}
+
+.costHinst__item:hover,
+.costHinst__item.active {
+    color: #ffffff;
+    background-color: #007bff;
 }
 
 .costHints__close {
     position: absolute;
+    top: -30px;
     align-self: flex-end;
     display: flex;
     justify-content: center;

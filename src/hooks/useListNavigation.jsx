@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useListNavigation = (list) => {
+const useListNavigation = (list, onClose, onSelectItem) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -20,7 +20,14 @@ const useListNavigation = (list) => {
         prevIndex > 0 ? prevIndex - 1 : prevIndex
       );
     } else if (event.key === "Enter") {
-      setSelectedItem(list[selectedIndex] || null);
+      const selected = list[selectedIndex];
+      setSelectedItem(selected || null);
+      if (selected && onSelectItem) {
+        onSelectItem(selected);
+      }
+      if (selected && onClose) {
+        onClose(false);
+      }
     }
   };
 
