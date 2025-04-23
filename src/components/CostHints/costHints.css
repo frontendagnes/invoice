@@ -12,6 +12,8 @@
     border: 1px solid #808080;
     border-radius: 0px 0px 10px 10px;
     z-index: 999;
+    max-height: 300px;
+    overflow: scroll;
     cursor: pointer;
 
 }
@@ -30,6 +32,7 @@
     transition: color 0.3s ease-in-out;
     display: flex;
     align-items: center;
+    overflow: scroll;
     cursor: pointer;
 }
 
@@ -56,6 +59,7 @@
     border: 1px solid transparent;
     border-radius: 50%;
     transition: border 0.75s ease;
+    z-index: 9999;
 }
 
 .costHints__close:hover {

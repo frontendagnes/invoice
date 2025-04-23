@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import "./costHints.css";
 
 //mui
@@ -7,19 +7,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import useListNavigation from "../../hooks/useListNavigation";
 
 function CostHints(props) {
-  const { data, setConstractor, setNip, value, setValue, setIsViewTips } =
-    props;
+  const { data, setContractor, setNip, value, setValue, setIsViewTips } = props;
+  const listContainerRef = useRef(null);
+  // const activeItemRef = useRef(null);
 
   const handleItemSelected = useCallback(
     (item) => {
       if (item?.data) {
-        setConstractor(item.data.contractor);
+        setContractor(item.data.contractor);
         setNip(item.data.nip);
         setValue(item.data.contractor);
         setIsViewTips(false);
       }
     },
-    [setConstractor, setNip, setValue, setIsViewTips]
+    [setContractor, setNip, setValue, setIsViewTips]
   );
   const { selectedIndex, changeIndex } = useListNavigation(
     data,
@@ -33,6 +34,20 @@ function CostHints(props) {
     },
     [changeIndex, handleItemSelected]
   );
+
+  useEffect(() => {
+    if (listContainerRef.current && selectedIndex !== null && data.length > 0) {
+      const activeElement = listContainerRef.current.querySelector(
+        `.costHinst__item.active`
+      );
+      if (activeElement) {
+        activeElement.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+    }
+  }, [selectedIndex, data]);
 
   const filtredData = useMemo(() => {
     const filter = data.filter(
@@ -52,6 +67,7 @@ function CostHints(props) {
     return filter.map((item, index) => (
       <div
         key={item.id}
+        // ref={index === selectedIndex ? activeItemRef : null}
         className={`costHinst__item ${index === selectedIndex ? "active" : ""}`}
         onClick={() => handleClick(item, index)}
       >
@@ -64,7 +80,9 @@ function CostHints(props) {
       <span className="costHints__close" onClick={() => setIsViewTips(false)}>
         <CloseIcon />
       </span>
-      {filtredData}
+      <div className="costHints__container" ref={listContainerRef}>
+        {filtredData}
+      </div>
     </div>
   );
 }

@@ -30,13 +30,12 @@
   margin-bottom: 10px;
 }
 
-.addcost__icon {
-  width: 100%;
+.addContractor__button {
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;;
-  padding-bottom: 20px;
   cursor: pointer;
 }
 
@@ -52,14 +51,6 @@
 .addcost__icon svg:hover {
   color: #055f05;
 }
-
-.addcost button {
-  padding: 10px 20px;
-  background-color: #fafafafa;
-  letter-spacing: 2px;
-}
-
-
 
 @media screen and (max-width: 800px) {
   .addcost__item {

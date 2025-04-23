@@ -22,21 +22,21 @@ export const initialState = {
   selectedYear: new Date().getFullYear(),
   yearArray: [],
   costHints: [
-    {
-      id: 1,
-      data: {
-        contractor: "Zuzia sprzedaje konie i psy także",
-        nip: "123-985-58-54",
-      },
-    },
-    {
-      id: 2,
-      data: { contractor: "Ala", nip: "965-365-65-65" },
-    },
-    {
-      id: 3,
-      data: { contractor: "Miko", nip: "896-289-28-54" },
-    },
+    // {
+    //   id: 1,
+    //   data: {
+    //     contractor: "Zuzia sprzedaje konie i psy także",
+    //     nip: "123-985-58-54",
+    //   },
+    // },
+    // {
+    //   id: 2,
+    //   data: { contractor: "Ala", nip: "965-365-65-65" },
+    // },
+    // {
+    //   id: 3,
+    //   data: { contractor: "Miko", nip: "896-289-28-54" },
+    // },
   ],
 };
 

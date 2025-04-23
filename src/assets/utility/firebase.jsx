@@ -26,6 +26,7 @@ import {
   deleteDoc,
   getDocs,
   getDoc,
+  where
 } from "firebase/firestore";
 import {
   getStorage,
@@ -90,5 +91,6 @@ export {
   uploadBytesResumable,
   deleteObject,
   getDoc,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  where
 };

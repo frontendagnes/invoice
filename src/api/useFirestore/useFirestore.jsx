@@ -9,6 +9,9 @@ import {
   getDocs,
   getDoc,
   setDoc,
+  onSnapshot,
+  query,
+  where
 } from "@/assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 
@@ -22,6 +25,28 @@ const useFirestore = (collectionName) => {
     dispatch({ type: "ALERT__ERROR", item: error.message });
   };
 
+  const getData = async (table, type) => {
+    setLoading(true);
+    setErrorFirestore(null);
+    try {
+      const docRef = doc(db, collectionName, user?.uid);
+      const ref = collection(docRef, table);
+      onSnapshot(ref, (snap) => {
+        dispatch({
+          type: type,
+          item: snap.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          })),
+        });
+      });
+    } catch (error) {
+      setErrorFirestore(error.message);
+      handleFirestoreError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   const setDocumentField = async (table, id, data, name) => {
     setLoading(true);
     setErrorFirestore(null);
@@ -190,7 +215,7 @@ const useFirestore = (collectionName) => {
     setLoading(true);
     setErrorFirestore(null);
     try {
-      await deleteDoc(doc(db, collectionName, user.uid,table, id));
+      await deleteDoc(doc(db, collectionName, user.uid, table, id));
     } catch (err) {
       setErrorFirestore(err.message);
       handleFirestoreError(err.message);
@@ -199,6 +224,29 @@ const useFirestore = (collectionName) => {
     }
   };
 
+  const findDocumentByField = async (field, value, table) => {
+    setLoading(true);
+    setErrorFirestore(null);
+    try {
+      // Utwórz referencję do dokumentu użytkownika
+      const userDocRef = doc(db, collectionName, user.uid);
+      // Utwórz referencję do subkolekcji 'contractors' w tym dokumencie
+      const contractorsCollectionRef = collection(userDocRef, table);
+      // Wykonaj zapytanie w subkolekcji 'contractors'
+      const snapshot = await getDocs(
+        query(contractorsCollectionRef, where(field, "==", value))
+      );
+      console.log(">>>>", snapshot.docs);
+
+      return !snapshot.empty; // Zwraca true, jeśli dokument istnieje
+    } catch (error) {
+      console.error("Błąd wyszukiwania dokumentu:", error);
+      setErrorFirestore(error.message);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
   // const getDocuments = async () => {
   //   setLoading(true);
   //   setError(null);
@@ -242,6 +290,7 @@ const useFirestore = (collectionName) => {
     loading,
     loadingAdd,
     errorFirestore,
+    getData,
     setDocumentField,
     setDocument,
     updateSellerField,
@@ -249,6 +298,7 @@ const useFirestore = (collectionName) => {
     addDocument,
     updateDocument,
     deleteDocument,
+    findDocumentByField,
     // getDocuments,
     // getDocument,
   };

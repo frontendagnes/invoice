@@ -1,151 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./AddCost.css";
 
-import {
-  db,
-  collection,
-  doc,
-  addDoc,
-  onSnapshot,
-} from "../../assets/utility/firebase";
-import { useStateValue } from "../../assets/utility/StateProvider";
-import PropTypes from "prop-types";
+import useAddCostForm from "./useAddCostForm.jsx";
+import useDebouncedEffect from "../../hooks/useDebouncedEffect.jsx"
+
 //mui
-import { Button, TextField } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { TextField } from "@mui/material";
+
 //components
 import AntySpam from "../AntySpam/AntySpam";
 import NumericField from "../NumberComponents/NumericField/NumericField.jsx";
 import CostHints from "../CostHints/index.jsx";
+import FormButton from "../Form/FormButton/FormButton.jsx";
+import AddContractor from "./AddContractor.jsx";
+import ValidationError from "../ValidationError/ValidationError.jsx";
 
-const validate = (number, contractor, date, amount, test) => {
-  if (test) {
-    return "Nie przeszedłeś filtra antyspamowego odśwież stronę i spróbuj ponownie";
-  }
-  if (!number) {
-    return "Pole 'Numer Faktury' musi zostać wypełnione";
-  }
-  if (!contractor) {
-    return "Pole 'Kontrahent' musi zostać wypełnione";
-  }
-  if (!date) {
-    return "Pole 'Data' musi zostać wypełnione";
-  }
-  if (!amount) {
-    return "Pole 'Kwota Faktury' musi zostać wypełnione";
-  }
-};
-
-const validateContractor = (contractor, test) => {
-  if (test) {
-    return "Nie przeszedłeś filtra antyspamowego odśwież stronę i spróbuj ponownie";
-  }
-  if (!contractor) {
-    return "Pole 'Kontrahent' musi zostać wypełnione";
-  }
-};
 function AddCost() {
-  const [{ user, costHints }, dispatch] = useStateValue();
 
-  const [number, setNumber] = useState("");
-  const [contractor, setContractor] = useState("");
-  const [date, setDate] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [nip, setNip] = useState("");
-  const [test, setTest] = useState("");
-  const [isViewTips, setIsViewTips] = useState(false);
+    const {
+      number,
+      contractor,
+      date,
+      amount,
+      nip,
+      test,
+      isViewTips,
+      loading,
+      errorFirestore,
+      costHints,
+      setNumber,
+      setContractor,
+      setDate,
+      setAmount,
+      setNip,
+      setTest,
+      setIsViewTips,
+      handleClick,
+      addContractor,
+      getHints: fetchHints,
+    } = useAddCostForm();
 
-  useEffect(() => {
-    if (user) {
-      const docRef = doc(db, "invoices", user?.uid);
-      const ref = collection(docRef, "contractors");
-      const unsb = onSnapshot(ref, (snap) => {
-        dispatch({
-          type: "SET_COSTHINTS",
-          item: snap.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          })),
-        });
-      });
-      return () => {
-        unsb();
-      };
-    }
-  }, [user, dispatch]);
+    useDebouncedEffect(
+      () => {
+        if (contractor && contractor.length >= 2) {
+          fetchHints();
+        }
+      },
+      [contractor],
+      400
+    );
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-
-    const msg = validate(number, contractor, date, amount, test);
-
-    if (msg) {
-      dispatch({ type: "ALERT__ERROR", item: msg });
-      return;
-    }
-
-    const docRef = doc(db, "invoices", user.uid);
-    const ref = collection(docRef, "costs");
-    await addDoc(ref, {
-      number: number,
-      contractor: contractor,
-      date: date,
-      amount: parseFloat(amount, 10),
-      nip: nip,
-    })
-      .then(() => dispatch({ type: "ALERT__COSTSOK" }))
-      .catch((error) => console.error("ERROR>>", error.massage));
-
-    setNumber("");
-    setContractor("");
-    setDate("");
-    setAmount("");
-    setNip("");
-  };
-  const addContractor = async (e) => {
-    e.preventDefault();
-
-    const msg = validateContractor(contractor, test);
-
-    if (msg) {
-      dispatch({ type: "ALERT__ERROR", item: msg });
-      return;
-    }
-
-    const docRef = doc(db, "invoices", user.uid);
-    const ref = collection(docRef, "contractors");
-
-    await addDoc(ref, {
-      contractor: contractor,
-      nip: nip,
-    })
-      .then(() =>
-        dispatch({
-          type: "ALERT_SUCCESS",
-          item: "Kontrachent został dodany poprawnie",
-        })
-      )
-      .catch((error) => console.error("ERROR>>", error.massage));
-  };
   const handleChangeTip = (e) => {
-    // setTip(e.target.value);
     setContractor(e.target.value);
     setIsViewTips(true);
   };
   return (
     <form className="addcost" onClick={() => setIsViewTips(false)}>
       <AntySpam test={test} setTest={setTest} />
+      <ValidationError text={errorFirestore} />
       <h2>Dodaj Koszt</h2>
-      <div className="addcost__icon" onClick={addContractor}>
-        <PersonAddIcon
-          fontSize="large"
-          color="success"
-          titleAccess="Dodaj Kontrahenta do bazy"
-        />
-        <span title="Dodaje Nazwę oraz NIP">
-          Dodaj kontrahenta do bazy danych (nie wymagane)
-        </span>
-      </div>
+      <AddContractor addContractor={addContractor} loading={loading} />
       <div className="addcost__wrapper">
         <div className="addcost__item">
           <TextField
@@ -159,7 +73,7 @@ function AddCost() {
             <CostHints
               data={costHints}
               value={contractor}
-              setConstractor={setContractor}
+              setContractor={setContractor}
               setNip={setNip}
               setIsViewTips={setIsViewTips}
               setValue={setContractor}
@@ -205,18 +119,13 @@ function AddCost() {
           />
         </div>
       </div>
-      <Button type="button" onClick={handleClick}>
-        Dodaj Koszt
-      </Button>
+      <FormButton
+        text={loading ? "Dodaje" : "Dodaj Koszt"}
+        onClick={handleClick}
+        disabled={loading}
+      />
     </form>
   );
 }
 
-AddCost.propTypes = {
-  amount: PropTypes.number,
-  date: PropTypes.string,
-  contractor: PropTypes.string,
-  number: PropTypes.string,
-};
-
-export default AddCost;
+ export default AddCost
