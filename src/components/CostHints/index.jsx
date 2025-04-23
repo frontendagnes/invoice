@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useEffect } from "react";
+import React, { useCallback, useMemo, useRef, useEffect} from "react";
 import "./costHints.css";
 
 //mui
@@ -9,7 +9,6 @@ import useListNavigation from "../../hooks/useListNavigation";
 function CostHints(props) {
   const { data, setContractor, setNip, value, setValue, setIsViewTips } = props;
   const listContainerRef = useRef(null);
-  // const activeItemRef = useRef(null);
 
   const handleItemSelected = useCallback(
     (item) => {
@@ -49,6 +48,7 @@ function CostHints(props) {
     }
   }, [selectedIndex, data]);
 
+
   const filtredData = useMemo(() => {
     const filter = data.filter(
       (item) =>
@@ -76,11 +76,18 @@ function CostHints(props) {
     ));
   }, [data, value, selectedIndex, handleClick]);
   return (
-    <div className="costHinst">
-      <span className="costHints__close" onClick={() => setIsViewTips(false)}>
+    <div
+      className="costHinst"
+      ref={listContainerRef}
+    >
+      <span
+        className="costHints__close"
+        onClick={() => setIsViewTips(false)}
+        // ref={closeIconRef}
+      >
         <CloseIcon />
       </span>
-      <div className="costHints__container" ref={listContainerRef}>
+      <div className="costHinst__constainer" ref={listContainerRef}>
         {filtredData}
       </div>
     </div>

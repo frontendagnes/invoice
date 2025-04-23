@@ -1,3 +1,8 @@
+:root{
+    --sticky-top: 5px;
+    --sticky-top-margin: -30px
+}
+
 .costHinst {
     box-sizing: border-box;
     position: absolute;
@@ -5,23 +10,23 @@
     flex-direction: column;
     top: 56px;
     left: 0;
-    padding: 10px;
+    padding: 0px;
     width: 100%;
     font-size: 1rem;
     background: #ffffff;
     border: 1px solid #808080;
-    border-radius: 0px 0px 10px 10px;
+    border-radius: 1px 1px 10px 10px;
     z-index: 999;
     max-height: 300px;
     overflow: scroll;
     cursor: pointer;
-
 }
-
-.costHinst:last-child {
-    padding-bottom: 0px;
+.costHinst::before{
+    content: '';
+    display: block;
+    height: var(--sticky-top);
+    margin-top: var(--sticky-top-margin);
 }
-
 .costHinst__item,
 .costHinst__no-results {
     box-sizing: border-box;
@@ -48,20 +53,22 @@
 }
 
 .costHints__close {
-    position: absolute;
-    top: -30px;
+    position: sticky;
+    top: var(--sticky-top);
+    right: 10px;
     align-self: flex-end;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 30px;
-    color: #ff0000;
+    height: 30px;
+    background: #ff0000;
     border: 1px solid transparent;
-    border-radius: 50%;
-    transition: border 0.75s ease;
-    z-index: 9999;
+    border-radius: 999px;
+    transition: background 0.75s ease;
+    z-index: 99999;
 }
 
 .costHints__close:hover {
-    border-color: #000000;
+    background: rgb(240, 157, 127);
 }

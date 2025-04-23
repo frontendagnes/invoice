@@ -15,7 +15,7 @@ function useAddCostForm() {
   const [amount, setAmount] = useState(0);
   const [nip, setNip] = useState("");
   const [test, setTest] = useState("");
-  const [isViewTips, setIsViewTips] = useState(true);
+  const [isViewTips, setIsViewTips] = useState(false);
 
   useEffect(() => {
     getHints();
@@ -57,7 +57,11 @@ function useAddCostForm() {
       dispatch({ type: "ALERT__ERROR", item: msg });
       return;
     }
-    const existingContractor = await findDocumentByField("nip", nip, "contractors");
+    const existingContractor = await findDocumentByField(
+      "nip",
+      nip,
+      "contractors"
+    );
 
     if (existingContractor) {
       dispatch({
@@ -95,7 +99,7 @@ function useAddCostForm() {
     setIsViewTips,
     handleClick,
     addContractor,
-    getHints
+    getHints,
   };
 }
 
