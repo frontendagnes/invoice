@@ -8,6 +8,11 @@ export default defineConfig({
   // depending on your application, base can also be "/"
   base: "/",
   plugins: [react()],
+  test: {
+    environment: "jsdom",
+    globals: true,
+    // setupFiles: "./src/setupTests.js", // jeśli potrzebujesz
+  },
   server: {
     // this ensures that the browser opens upon server start
     open: true,

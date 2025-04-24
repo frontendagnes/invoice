@@ -10,7 +10,7 @@ import { TextField } from "@mui/material";
 //components
 import AntySpam from "../AntySpam/AntySpam";
 import NumericField from "../NumberComponents/NumericField/NumericField.jsx";
-import CostHints from "../CostHints/index.jsx";
+import CostHints from "../CostHints/CostHints.jsx";
 import FormButton from "../Form/FormButton/FormButton.jsx";
 import AddContractor from "./AddContractor.jsx";
 import ValidationError from "../ValidationError/ValidationError.jsx";

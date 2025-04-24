@@ -52,15 +52,13 @@ function useAddCostForm() {
 
   const addContractor = async (e) => {
     e.preventDefault();
-    const msg = validateContractor(contractor, test);
+    const msg = validateContractor(contractor, nip, test);
     if (msg) {
       dispatch({ type: "ALERT__ERROR", item: msg });
       return;
     }
-    const existingContractor = await findDocumentByField(
-      "nip",
-      nip,
-      "contractors"
+    const existingContractor = costHints.some(
+      (item) => String(item.data.nip) === String(nip)
     );
 
     if (existingContractor) {
@@ -70,7 +68,6 @@ function useAddCostForm() {
       });
       return;
     }
-
     const data = { contractor, nip };
     await addDocument(data, "contractors");
     dispatch({

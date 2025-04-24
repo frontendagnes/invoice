@@ -14,13 +14,18 @@ export const validate = (number, contractor, date, amount, test) => {
   if (!amount) {
     return "Pole 'Kwota Faktury' musi zostać wypełnione";
   }
+  return null;
 };
 
-export const validateContractor = (contractor, test) => {
+export const validateContractor = (contractor,nip, test) => {
   if (test) {
     return "Nie przeszedłeś filtra antyspamowego odśwież stronę i spróbuj ponownie";
   }
   if (!contractor) {
     return "Pole 'Kontrahent' musi zostać wypełnione";
   }
+  if (!nip){
+    return "Pole 'NIP' musi zostać wypełnione";
+  }
+  return null
 };
