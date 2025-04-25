@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "./Cost.css";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
-function Cost({ number, contractor, date, amount, deleteItem, index, nip }) {
+import Tooltip from "../Tooltip/Tooltip";
+function Cost({ number, contractor, date, amount, deleteItem, id, nip }) {
+  const formattedDate = useMemo(
+    () => new Date(date).toLocaleDateString(),
+    [date]
+  );
   return (
     <div className="cost">
       <div className="cost__item">
@@ -22,23 +27,25 @@ function Cost({ number, contractor, date, amount, deleteItem, index, nip }) {
         )}
       </div>
       <div className="cost__item">
-        Data wystawienia: <span>{new Date(date).toLocaleDateString()}</span>
+        Data wystawienia: <span>{formattedDate}</span>
       </div>
       <div className="cost__item">
         Wartość:{" "}
         <DisplayingNumber
           value={amount}
           renderText={(value) => (
-            <b>{Number.parseFloat(value).toFixed(2)} zł</b>
+            <b>{Number.parseFloat(value || 0).toFixed(2)} zł</b>
           )}
         />
       </div>
       <div className="cost__icons">
-        <RemoveCircleIcon
-          onClick={() => deleteItem(index)}
-          color="error"
-          fontSize="medium"
-        />
+        <Tooltip text="Usuń koszt">
+          <RemoveCircleIcon
+            onClick={() => deleteItem(id)}
+            color="error"
+            fontSize="medium"
+          />
+        </Tooltip>
       </div>
     </div>
   );

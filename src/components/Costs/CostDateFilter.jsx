@@ -5,12 +5,12 @@ import { useStateValue } from "../../assets/utility/StateProvider";
 import useDateFilter from "../../hooks/useDateFilter.jsx";
 import usePagination from "../../hooks/usePagination.jsx";
 import Tooltip from "../Tooltip/Tooltip.jsx";
-const ITEMS_PER_PAGE = 3;
+const ITEMS_PER_PAGE = 10;
 
-const InvoiceDateFilter = ({ data, onFilterChange }) => {
+const CostDateFilter = ({ data, onFilterChange }) => {
   const [{ selectedYear }] = useStateValue();
   const { filterDate, setFilterDate, resetDate, filteredDataByDateAndYear } =
-    useDateFilter(data, selectedYear);
+    useDateFilter(data, selectedYear, "contractor");
   const {
     currentPage,
     currentPageData: paginatedDataByDate,
@@ -36,28 +36,25 @@ const InvoiceDateFilter = ({ data, onFilterChange }) => {
     onFilterChange,
   ]);
   return (
-    <div className="invoices__dataFilter">
-      <h2>Wyszukaj faktury wg daty</h2>
-      <div className="datefilter__input">
-        <div className="datefilter__input--width">
-          <TextField
-            type="date"
-            value={filterDate}
-            onChange={(e) => setFilterDate(e.target.value)}
-            fullWidth
-          />
-        </div>
-        <Tooltip text="Resetuj datę">
-          <RemoveCircleIcon
-            onClick={resetDate}
-            color="error"
-            fontSize="large"
-            className="datefilter__button"
-          />
-        </Tooltip>
+    <div className="datefilter__input">
+      <div className="datefilter__input--width">
+        <TextField
+          type="date"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}
+          fullWidth
+        />
       </div>
+      <Tooltip text="Resetuj datę">
+        <RemoveCircleIcon
+          onClick={resetDate}
+          color="error"
+          fontSize="large"
+          className="datefilter__button"
+        />
+      </Tooltip>
     </div>
   );
 };
 
-export default memo(InvoiceDateFilter);
+export default memo(CostDateFilter);

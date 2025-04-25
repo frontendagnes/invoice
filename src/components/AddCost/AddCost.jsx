@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./AddCost.css";
 
 import useAddCostForm from "./useAddCostForm.jsx";
-import useDebouncedEffect from "../../hooks/useDebouncedEffect.jsx"
+import useDebouncedValue from "../../hooks/useDebounceValue.jsx";
 
 //mui
 import { TextField } from "@mui/material";
@@ -16,39 +16,36 @@ import AddContractor from "./AddContractor.jsx";
 import ValidationError from "../ValidationError/ValidationError.jsx";
 
 function AddCost() {
+  const {
+    number,
+    contractor,
+    date,
+    amount,
+    nip,
+    test,
+    isViewTips,
+    loading,
+    errorFirestore,
+    costHints,
+    setNumber,
+    setContractor,
+    setDate,
+    setAmount,
+    setNip,
+    setTest,
+    setIsViewTips,
+    handleClick,
+    addContractor,
+    getHints: fetchHints,
+  } = useAddCostForm();
 
-    const {
-      number,
-      contractor,
-      date,
-      amount,
-      nip,
-      test,
-      isViewTips,
-      loading,
-      errorFirestore,
-      costHints,
-      setNumber,
-      setContractor,
-      setDate,
-      setAmount,
-      setNip,
-      setTest,
-      setIsViewTips,
-      handleClick,
-      addContractor,
-      getHints: fetchHints,
-    } = useAddCostForm();
+  const debouncedContractor = useDebouncedValue(contractor, 400);
 
-    useDebouncedEffect(
-      () => {
-        if (contractor && contractor.length >= 2) {
-          fetchHints();
-        }
-      },
-      [contractor],
-      400
-    );
+  useEffect(() => {
+    if (debouncedContractor && debouncedContractor.length >= 2) {
+      fetchHints();
+    }
+  }, [debouncedContractor]);
 
   const handleChangeTip = (e) => {
     setContractor(e.target.value);
@@ -128,4 +125,4 @@ function AddCost() {
   );
 }
 
- export default AddCost
+export default AddCost;

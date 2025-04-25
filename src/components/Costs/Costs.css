@@ -1,8 +1,9 @@
 .costs,
-.costs__input--date{
+.costs__input--date {
     padding: 20px 5px;
 }
-.costs h5{
+
+.costs h5 {
     margin: 0 auto;
     width: 80%;
     text-align: center;
@@ -12,19 +13,38 @@
     margin-top: 5px;
     font-size: 1rem;
 }
-.costs__input{
+
+.costs__input {
     padding: 10px 20px;
 }
-.costs__input--date{
+
+.costs__input--date {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.costs__input--width{
+
+.costs__input--width {
     width: 60%;
 }
 
-.costs__button{
+.costs__button {
     cursor: pointer;
     margin-left: 10px;
+}
+
+.costs__filter h2 {
+    text-align: center;
+    border-top: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
+    padding: 10px 20px;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.costs__emptyList{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -16,6 +16,7 @@ import {
 } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 
+import Tooltip from "../Tooltip/Tooltip";
 const VisuallyHiddenInput = styled.input`
   opacity: 0;
   position: absolute;
@@ -38,7 +39,7 @@ const ImageContainer = styled.div`
   align-items: center;
   position: relative;
   margin-top: 10px;
-  z-index:1000;
+  z-index: 1000;
 `;
 
 const UploadedImage = styled.img`
@@ -75,10 +76,10 @@ const ButtonSuccess = styled(ButtonR)`
 const Alert = styled.div`
   width: 70%;
   height: 100px;
-  background:rgba(0, 0, 0, 0.68);
-  color:rgb(255, 255, 255);
+  background: rgba(0, 0, 0, 0.68);
+  color: rgb(255, 255, 255);
   padding: 20px 40px;
-  border-radius: 5px ;
+  border-radius: 5px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -221,7 +222,9 @@ function UploadLogo() {
               right: "-50px",
             }}
           >
-            <DeleteIcon />
+            <Tooltip text="Usuń logo">
+              <DeleteIcon />
+            </Tooltip>
           </IconButton>
         </ImageContainer>
       ) : (

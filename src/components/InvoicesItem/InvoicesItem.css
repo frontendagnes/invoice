@@ -14,6 +14,7 @@
 }
 
 .invoicesitem__content {
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22,12 +23,12 @@
 }
 
 .invoicesitem__item {
-  width: 25%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 20%;
 }
 
-.invoicesitem__number {
-  align-items: center;
-}
 
 .invoicesitem__number a {
   margin-left: 5px;
@@ -48,13 +49,19 @@
 .invoicesitem__note {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 20px;
+  border-top: 1px solid #d3d3d3;
+  padding-top: 10px;
   color: #ff0000;
   font-weight: 600;
   letter-spacing: 2px;
 }
 
 @media screen and (max-width: 800px) {
+  .invoicesitem__wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
   .invoicesitem {
     justify-content: center;
   }
@@ -63,6 +70,12 @@
     width: 100%;
     margin-bottom: 10px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+  .invoicesitem__icons{
+    gap: 20px;
     justify-content: center;
   }
 }

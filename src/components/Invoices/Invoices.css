@@ -1,7 +1,8 @@
-.invoices{
+.invoices {
     padding-bottom: 10px;
 }
-.invoices h2{
+
+.invoices h2 {
     margin: 0 auto;
     width: 80%;
     text-align: center;
@@ -10,4 +11,10 @@
     padding: 10px 20px;
     margin-bottom: 5px;
     margin-top: 5px;
+}
+
+.invoices__emptyList {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

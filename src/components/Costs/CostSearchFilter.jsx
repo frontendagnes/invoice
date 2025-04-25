@@ -4,12 +4,12 @@ import { useStateValue } from "../../assets/utility/StateProvider";
 import useSearchFilter from "../../hooks/useSearchFilter";
 import usePagination from "../../hooks/usePagination";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 5;
 
-const InvoiceSearchFilter = ({ data, onFilterChange }) => {
+const CostSearchFilter = ({ data, onFilterChange }) => {
   const [{ selectedYear }] = useStateValue();
   const { searchText, setSearchText, filteredDataBySearchAndYear } =
-    useSearchFilter(data, selectedYear, "buyer.name");
+    useSearchFilter(data, selectedYear, "contractor");
   const {
     currentPage,
     currentPageData: paginatedDataForList,
@@ -35,22 +35,19 @@ const InvoiceSearchFilter = ({ data, onFilterChange }) => {
     onFilterChange,
   ]);
   return (
-    <div className="invoices__nameFilter">
-      <h2>Wyszukaj fkature po kontrahencie, numerze lub NIP</h2>
-      <div className="namefilter__input">
-        <TextField
-          type="text"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          id="outlined-basic"
-          label="Wyszukaj wpisując kontrahenta lub numer faktury"
-          variant="outlined"
-          autoComplete="off"
-          fullWidth
-        />
-      </div>
+    <div className="namefilter__input">
+      <TextField
+        type="text"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        id="outlined-basic"
+        label="Wyszukaj wpisując kontrahenta, numer faktury lub NIP"
+        variant="outlined"
+        autoComplete="off"
+        fullWidth
+      />
     </div>
   );
 };
 
-export default memo(InvoiceSearchFilter);
+export default memo(CostSearchFilter);

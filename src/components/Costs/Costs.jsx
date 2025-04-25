@@ -1,32 +1,63 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useCallback } from "react";
 import "./Costs.css";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { today } from "../../assets/functions";
-import { deleteDoc, doc, db } from "../../assets/utility/firebase";
+import useFirestore from "../../api/useFirestore/useFirestore";
+import CostDateFilter from "./CostDateFilter";
+import CostSearchFilter from "./CostSearchFilter";
+
 //components
-import Cost from "../Cost/Cost";
 import AddCost from "../AddCost/AddCost";
 import TabGenerator from "../TabGenerator/TabGenerator";
-// mui
-import { TextField } from "@mui/material";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-function Costs() {
-  const [{ user, costs, selectedYear }, dispatch] = useStateValue();
+import CostsList from "./CostsList";
+import CostListNoSearch from "./CostListNoSearch";
 
-  const [text, setText] = useState("");
-  const [anyDate, setAnyDate] = useState(today());
-  const resetDate = () => {
-    setAnyDate(today());
-  };
+function Costs() {
+  const [{ costs }, dispatch] = useStateValue();
+  const { deleteDocument } = useFirestore("invoices");
+
+  const [dateFilterResult, setDateFilterResult] = useState({
+    data: [],
+    totalPages: 1,
+    handlePageChange: () => {},
+    currentPage: 1,
+    setPage: () => {},
+  });
+  const [searchFilterResult, setSearchFilterResult] = useState({
+    data: [],
+    totalPages: 1,
+    handlePageChange: () => {},
+    currentPage: 1,
+    setPage: () => {},
+  });
+
   const deleteItem = async (itemId) => {
-    await deleteDoc(doc(db, "invoices", user.uid, "costs", itemId))
-      .then(() => {
-        dispatch({ type: "ALERT_DELETE" });
-      })
-      .catch((error) =>
-        dispatch({ type: "ALERT__ERROR", item: error.message })
-      );
+    await deleteDocument("costs", itemId);
+    dispatch({ type: "ALERT_DELETE" });
   };
+  const handleFilterChange = useCallback((filterType, result) => {
+    if (filterType === "date") {
+      setDateFilterResult(result);
+    } else if (filterType === "search") {
+      setSearchFilterResult(result);
+    }
+  }, []);
+
+  const renderFilteredList = ({
+    data,
+    totalPages,
+    currentPage,
+    handlePageChange,
+  }) => (
+    <div className="costs__list-section">
+      <CostsList
+        costs={data}
+        deleteItem={deleteItem}
+        totalPages={totalPages}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+      />
+    </div>
+  );
   return (
     <div className="costs">
       <TabGenerator
@@ -34,126 +65,37 @@ function Costs() {
           {
             label: "Dodaj wydatek",
             content: (
-              <>
+              <div className="costs__add">
                 <AddCost />
-                {costs
-                  .filter(
-                    (item) =>
-                      new Date(item.data.date).getFullYear() === selectedYear
-                  )
-                  .sort(
-                    (a, b) =>
-                      new Date(b.data.date).getTime() -
-                      new Date(a.data.date).getTime()
-                  )
-                  .map((item) => (
-                    <Cost
-                      key={item.id}
-                      index={item.id}
-                      number={item.data.number}
-                      contractor={item.data.contractor}
-                      date={item.data.date}
-                      amount={item.data.amount}
-                      nip={item.data.nip}
-                      deleteItem={deleteItem}
-                    />
-                  ))}
-              </>
+                <CostListNoSearch costs={costs} deleteItem={deleteItem} />
+              </div>
             ),
           },
           {
             label: "Przeglądaj wydatki",
             content: (
-              <>
-                <div>
-                  <h5>Wyszukaj po dacie faktury</h5>
-                  <div className="datefilter">
-                    <div className="datefilter__input">
-                      <div className="datefilter__input--width">
-                        <TextField
-                          type="date"
-                          value={anyDate}
-                          onChange={(e) => setAnyDate(e.target.value)}
-                          fullWidth
-                        />
-                      </div>
-                      <RemoveCircleIcon
-                        onClick={resetDate}
-                        color="error"
-                        fontSize="large"
-                        className="datefilter__button"
-                      />
-                    </div>
-                    {costs
-                      .filter(
-                        (item) =>
-                          new Date(item.data.date).getFullYear() ===
-                          selectedYear
-                      )
-                      .filter((item) => item.data.date === anyDate)
-                      .map((item) => (
-                        <Cost
-                          key={item.id}
-                          index={item.id}
-                          number={item.data.number}
-                          contractor={item.data.contractor}
-                          date={item.data.date}
-                          amount={item.data.amount}
-                          deleteItem={deleteItem}
-                        />
-                      ))}
+              <div className="costs__filter">
+                <div className="costs__list">
+                  <h2>Wyszukaj faktury wg daty </h2>
+                  <CostDateFilter
+                    data={costs}
+                    onFilterChange={handleFilterChange}
+                  />
+                  <div className="costs__list-section">
+                    {renderFilteredList(dateFilterResult)}
                   </div>
                 </div>
-                <div>
-                  <h5>Zestawienie Kosztów</h5>
-                  <div className="namefilter">
-                    <div className="namefilter__input">
-                      <TextField
-                        type="text"
-                        vlaue={text}
-                        onChange={(e) => setText(e.target.value)}
-                        id="outlined-basic"
-                        label="Wyszukaj wpisując kontrahenta lub numer faktury"
-                        variant="outlined"
-                        autoComplete="off"
-                        fullWidth
-                      />
-                    </div>
-
-                    {costs
-                      .filter(
-                        (item) =>
-                          new Date(item.data.date).getFullYear() ===
-                          selectedYear
-                      )
-                      .sort(
-                        (a, b) =>
-                          new Date(b.data.date).getTime() -
-                          new Date(a.data.date).getTime()
-                      )
-                      .filter(
-                        (item) =>
-                          item.data.contractor
-                            .toLowerCase()
-                            .includes(text.toLowerCase()) ||
-                          item.data.number
-                            .toLowerCase()
-                            .includes(text.toLowerCase())
-                      )
-                      .map((item) => (
-                        <Cost
-                          key={item.id}
-                          index={item.id}
-                          number={item.data.number}
-                          contractor={item.data.contractor}
-                          date={item.data.date}
-                          amount={item.data.amount}
-                          deleteItem={deleteItem}
-                        />
-                      ))}
+                <div className="costs__list">
+                  <h2>Wyszukaj po nazwie i NIP</h2>
+                  <CostSearchFilter
+                    data={costs}
+                    onFilterChange={handleFilterChange}
+                  />
+                  <div className="costs__list-section">
+                    {renderFilteredList(searchFilterResult)}
                   </div>
                 </div>
-              </>
+              </div>
             ),
           },
         ]}

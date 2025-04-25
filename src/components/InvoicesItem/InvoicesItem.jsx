@@ -9,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 //components
 import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
 import AddNote from "../AddNote/AddNote";
+import Tooltip from "../Tooltip/Tooltip";
 
 function InvoicesItem({
   name,
@@ -20,6 +21,7 @@ function InvoicesItem({
   amount,
   noteCnt,
   optionalValue,
+  nip,
 }) {
   const [isEdit, setIsEdit] = useState(false);
 
@@ -28,45 +30,60 @@ function InvoicesItem({
       <div className="invoicesitem__wrapper">
         <div className="invoicesitem__content">
           <div className="invoicesitem__item">
-            Kontrahent: <b>{name}</b>
+            <span> Kontrahent:</span> <b>{name}</b>
+          </div>
+
+          <div className="invoicesitem__item">
+            {nip ? (
+              <>
+                <span> NIP:</span> <b>{nip}</b>
+              </>
+            ) : (
+              <span> BRAK NIp-u </span>
+            )}
           </div>
 
           <div className="invoicesitem__number invoicesitem__item">
-            Numer Faktury: <b>{number}</b>
-          </div>
-
-          <div className="invoicesitem__item">
-            Data wystawienie: <b>{date}</b>
+            <span> Numer Faktury: </span> <b>{number}</b>
           </div>
           <div className="invoicesitem__item">
-            Wartość:{" "}
+            <span>Data wystawienie:</span> <b>{date}</b>
+          </div>
+          <div className="invoicesitem__item">
+            <span>Wartość:</span>
             <DisplayingNumber
               value={amount}
               renderText={(value) => (
-                <b>{Number.parseFloat(value).toFixed(2)} zł</b>
+                <b>{Number.parseFloat(value || 0).toFixed(2)} zł</b>
               )}
             />
           </div>
         </div>
         <div className="invoicesitem__icons">
-          <VisibilityIcon
-            onClick={() => openDetails(index)}
-            color="success"
-            fontSize="medium"
-            titleAccess="Podgląd Faktury"
-          />
-          <EditIcon
-            onClick={() => setIsEdit(!isEdit)}
-            color="primary"
-            fontSize="medium"
-            titleAccess="Edytuj notaktę"
-          />
-          <RemoveCircleIcon
-            onClick={() => deleteItem(index)}
-            color="error"
-            fontSize="medium"
-            titleAccess="Usuń Fakturę"
-          />
+          <Tooltip text="Podgląd faktury">
+            <VisibilityIcon
+              onClick={() => openDetails(index)}
+              color="success"
+              fontSize="medium"
+              titleAccess="Podgląd Faktury"
+            />
+          </Tooltip>
+          <Tooltip text="Dodaj notatkę">
+            <EditIcon
+              onClick={() => setIsEdit(!isEdit)}
+              color="primary"
+              fontSize="medium"
+              titleAccess="Edytuj notaktę"
+            />
+          </Tooltip>
+          <Tooltip text="Usuń fakturę">
+            <RemoveCircleIcon
+              onClick={() => deleteItem(index)}
+              color="error"
+              fontSize="medium"
+              titleAccess="Usuń Fakturę"
+            />
+          </Tooltip>
         </div>
       </div>
       <div className="invoicesitem__note">{noteCnt}</div>
