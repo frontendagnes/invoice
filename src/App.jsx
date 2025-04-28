@@ -1,38 +1,99 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, Suspense, useCallback } from "react"; // Dodano useCallback
 import "./App.css";
-import { renderLoader, index } from "./assets/functions.jsx";
+import { renderLoader } from "./assets/functions.jsx";
 import { auth } from "./assets/utility/firebase.jsx";
 import { useStateValue } from "./assets/utility/StateProvider.jsx";
 import {
-  db,
-  onSnapshot,
-  collection,
-  doc,
   onAuthStateChanged,
   orderBy,
   query,
 } from "./assets/utility/firebase.jsx";
 import { Routes, Route } from "react-router-dom";
+import routesConfig from "./router/routes.jsx";
 //components
-import Header from "./components/Header/Header.jsx";
-import CreateInvoice from "./components/CreateInvoice/CreateInvoice.jsx";
-import Authorization from "./components/Authorization/Authoryzation.jsx";
-import Invoices from "./components/Invoices/Invoices.jsx";
-import Invoice from "./components/Invoice/Invoice.jsx";
-import InvoicesDetails from "./components/InvoicesDetails/InvoicesDetails.jsx";
 import SnackBar from "./components/Snackbar/Snackbar.jsx";
-import NoMatch from "./components/NoMatch/NoMatch.jsx";
-import Records from "./components/Records/Records.jsx";
-import Costs from "./components/Costs/Costs.jsx";
-import Footer from "./components/Footer/Footer.jsx";
-import SelectedYear from "./components/SelectedYear/index.jsx";
-import InfoYear from "@/components/InfoYear/index.jsx";
-import PasswordRecovery from "@/components/Authorization/PasswordRecovery/PasswordRecovery.jsx";
-import ErrorBoundary from "./assets/utility/ErrorBoundary.jsx";
+import { useFirestoreCollection } from "./api/useFirestore/useFirestoreCollection.jsx";
 
 function App() {
-  const [invoices, setInvoices] = useState([]);
   const [{ user }, dispatch] = useStateValue();
+
+  // Memoizowane funkcje mapujące i queryFn
+  const mapInvoices = useCallback(
+    (snapshot) =>
+      snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })),
+    []
+  );
+
+  const queryInvoices = useCallback(
+    (ref) => query(ref, orderBy("number", "asc")),
+    []
+  );
+
+  const mapYears = useCallback(
+    (snapshot) => {
+      dispatch({ type: "CLEAR_YEAR" });
+      snapshot.docs.forEach((doc) => {
+        dispatch({
+          type: "SET_YEAR",
+          item: {
+            id: doc.id,
+            data: doc.data(),
+          },
+        });
+      });
+    },
+    [dispatch]
+  ); // dispatch jako zależność
+
+  const mapLogo = useCallback(
+    (snapshot) => {
+      snapshot.docs.forEach((doc) =>
+        dispatch({ type: "SET_LOGO", item: doc.data().imageUrl })
+      );
+    },
+    [dispatch]
+  ); // dispatch jako zależność
+
+  const mapNumber = useCallback(
+    (snapshot) => {
+      snapshot.docs.forEach((doc) =>
+        dispatch({ type: "GET_COUNT", item: doc.data().count })
+      );
+    },
+    [dispatch]
+  ); // dispatch jako zależność
+
+  const mapCosts = useCallback((snapshot) => {
+    dispatch({
+      type: "SET_COSTS",
+      item: snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })),
+    });
+  }, []);
+
+  const queryCosts = useCallback(
+    (ref) => query(ref, orderBy("date", "desc")),
+    []
+  );
+
+  const mapSeller = useCallback((snapshot) => {
+    dispatch({
+      type: "SET_SALESMAN",
+      item: snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })),
+    });
+  }, []);
+
+  // Użycie useFirestoreCollection
+  const {
+    data: invoicesData,
+    loading: loadingInvoices,
+    error: errorInvoices,
+  } = useFirestoreCollection("invoices", "invoice", mapInvoices, queryInvoices);
+
+  useFirestoreCollection("invoices", "years", mapYears);
+  useFirestoreCollection("invoices", "logo", mapLogo);
+  useFirestoreCollection("invoices", "number", mapNumber);
+  useFirestoreCollection("invoices", "costs", mapCosts, queryCosts);
+  useFirestoreCollection("invoices", "seller", mapSeller);
 
   useEffect(() => {
     const authUser = onAuthStateChanged(auth, (authUser) => {
@@ -50,198 +111,24 @@ function App() {
     return () => {
       authUser();
     };
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (user) {
-      const docRef = doc(db, "invoices", user?.uid);
-      const ref = collection(docRef, "invoice");
-      const sortRef = query(ref, orderBy("number", "asc"));
-      const unsb = onSnapshot(sortRef, (snap) => {
-        setInvoices(
-          snap.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          }))
-        );
-      });
-      return () => {
-        unsb();
-      };
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      const docRef = doc(db, "invoices", user?.uid);
-      const ref = collection(docRef, "years");
-      const unsb = onSnapshot(ref, (snap) => {
-        dispatch({ type: "CLEAR_YEAR" });
-        snap.docs.map((doc) => {
-          dispatch({
-            type: "SET_YEAR",
-            item: {
-              id: doc.id,
-              data: doc.data(),
-            },
-          });
-        });
-      });
-      return () => {
-        unsb();
-      };
-    }
-  }, [user, dispatch]);
-
-  useEffect(() => {
-    if (user) {
-      const docRef = doc(db, "invoices", user?.uid);
-      const ref = collection(docRef, "logo");
-      const unsb = onSnapshot(ref, (snap) => {
-        snap.docs.map((doc) =>
-          dispatch({ type: "SET_LOGO", item: doc.data().imageUrl })
-        );
-      });
-      return () => {
-        unsb();
-      };
-    }
-  }, [user, dispatch]);
-  useEffect(() => {
-    if (user) {
-      const docRef = doc(db, "invoices", user?.uid);
-      const ref = collection(docRef, "number");
-      const unsb = onSnapshot(ref, (snap) => {
-        snap.docs.map((doc) =>
-          dispatch({ type: "GET_COUNT", item: doc.data().count })
-        );
-      });
-      return () => {
-        unsb();
-      };
-    }
-  }, [user, dispatch]);
-  useEffect(() => {
-    if (user) {
-      const docRef = doc(db, "invoices", user?.uid);
-      const ref = collection(docRef, "costs");
-      const sortRef = query(ref, orderBy("date", "desc"));
-      const unsb = onSnapshot(sortRef, (snap) => {
-        dispatch({
-          type: "SET_COSTS",
-          item: snap.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          })),
-        });
-      });
-      return () => {
-        unsb();
-      };
-    }
-  }, [user, dispatch]);
-
-  useEffect(() => {
-    if (user) {
-      const docRef = doc(db, "invoices", user?.uid);
-      const ref = collection(docRef, "seller");
-      const unsb = onSnapshot(ref, (snap) => {
-        dispatch({
-          type: "SET_SALESMAN",
-          item: snap.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          })),
-        });
-      });
-      return () => {
-        unsb();
-      };
-    }
-  }, [user, dispatch]);
+  }, [dispatch]); // dispatch jako zależność
 
   return (
     <div className="app">
       <Suspense fallback={renderLoader()}>
         <Routes>
-          <Route path="/authorization" element={<Authorization />} />
-          <Route
-            index
-            path="/"
-            element={
-              <div className="app__login">
-                {user ? (
-                  <>
-                    <Header />
-                    <CreateInvoice />
-                    <Footer />
-                    <InfoYear />
-                  </>
-                ) : (
-                  <Authorization />
-                )}
-              </div>
-            }
-          />
-          <Route
-            path="/invoices"
-            element={
-              <>
-                <Header />
-                <Invoices data={invoices} />
-                <Footer />
-              </>
-            }
-          />
-          <Route path="/invoice" element={<Invoice />} />
-          <Route
-            path="/invoice/:invoiceId"
-            element={
-              <>
-                <Header />
-                {/* <ErrorBoundary> */}
-                  <InvoicesDetails data={invoices} />
-                {/* </ErrorBoundary> */}
-              </>
-            }
-          />
-          {/* </Route> */}
-          <Route
-            path="/costs"
-            element={
-              <>
-                <Header />
-                <Costs />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/records"
-            element={
-              <div>
-                <Header />
-                <Records data={invoices} />
-                <Footer />
-              </div>
-            }
-          />
-          <Route path="/password-recovery" element={<PasswordRecovery />} />
-          {/*
-          tymczasowo wyłączona - komponet istnieje
-          czy potrzbnie skoro rok zmienia się w selekcie?
-          Do przemyślenia!!*/}
-          <Route
-            path="/selected-year"
-            element={
-              <>
-                <Header />
-                <SelectedYear /> {/* url - @/components/SelectedYear */}
-                <Footer />
-              </>
-            }
-          />
-          <Route path="*" element={<NoMatch />} />
+          {Object.values(routesConfig).map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              index={route.index}
+              element={
+                typeof route.element === "function"
+                  ? route.element({ invoices: invoicesData })
+                  : route.element
+              }
+            />
+          ))}
         </Routes>
       </Suspense>
       <SnackBar />

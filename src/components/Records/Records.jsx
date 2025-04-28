@@ -27,7 +27,7 @@ const ButtonMonth = styled(Button)`
   }
 `;
 
-function Records({ data }) {
+function Records({ data = [] }) {
   const [cumTotal, setCumTotal] = useState([]);
   const [totalMnoth, setTotalMonth] = useState([]);
   const [totalCosts, setTotalCosts] = useState([]);

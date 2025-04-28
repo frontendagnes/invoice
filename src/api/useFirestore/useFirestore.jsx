@@ -11,7 +11,7 @@ import {
   setDoc,
   onSnapshot,
   query,
-  where
+  where,
 } from "@/assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
 
@@ -25,21 +25,36 @@ const useFirestore = (collectionName) => {
     dispatch({ type: "ALERT__ERROR", item: error.message });
   };
 
-  const getData = async (table, type) => {
+  const getData = async (table, type = null, mapFn = null, setState = null) => {
     setLoading(true);
     setErrorFirestore(null);
+
     try {
       const docRef = doc(db, collectionName, user?.uid);
       const ref = collection(docRef, table);
-      onSnapshot(ref, (snap) => {
-        dispatch({
-          type: type,
-          item: snap.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          })),
-        });
+
+      const unsubscribe = onSnapshot(ref, (snap) => {
+        const result = mapFn
+          ? mapFn(snap)
+          : snap.docs.map((doc) => ({
+              id: doc.id,
+              data: doc.data(),
+            }));
+
+        if (setState) {
+          setState(result); // jeśli podano funkcję setState -> używamy useState
+        } else if (type) {
+          dispatch({
+            type: type,
+            item: result, // jeśli podano type -> wysyłamy do globalnego state
+          });
+        } else {
+          console.warn(
+            "Neither setState nor dispatch type provided in getData."
+          );
+        }
       });
+      return unsubscribe;
     } catch (error) {
       setErrorFirestore(error.message);
       handleFirestoreError(error.message);
@@ -47,6 +62,29 @@ const useFirestore = (collectionName) => {
       setLoading(false);
     }
   };
+
+  // const getData = async (table, type) => {
+  //   setLoading(true);
+  //   setErrorFirestore(null);
+  //   try {
+  //     const docRef = doc(db, collectionName, user?.uid);
+  //     const ref = collection(docRef, table);
+  //     onSnapshot(ref, (snap) => {
+  //       dispatch({
+  //         type: type,
+  //         item: snap.docs.map((doc) => ({
+  //           id: doc.id,
+  //           data: doc.data(),
+  //         })),
+  //       });
+  //     });
+  //   } catch (error) {
+  //     setErrorFirestore(error.message);
+  //     handleFirestoreError(error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const setDocumentField = async (table, id, data, name) => {
     setLoading(true);
     setErrorFirestore(null);
@@ -285,6 +323,56 @@ const useFirestore = (collectionName) => {
   //     setLoading(false);
   //   }
   // };
+  const listenToCollection = (
+    table,
+    type,
+    sortField = null,
+    sortOrder = "asc"
+  ) => {
+    setErrorFirestore(null);
+    try {
+      const docRef = doc(db, collectionName, user?.uid);
+      const ref = collection(docRef, table);
+      const queryRef = sortField
+        ? query(ref, orderBy(sortField, sortOrder))
+        : ref;
+      const unsub = onSnapshot(queryRef, (snap) => {
+        dispatch({
+          type: type,
+          item: snap.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          })),
+        });
+      });
+      return unsub;
+    } catch (error) {
+      setErrorFirestore(error.message);
+      handleFirestoreError(error.message);
+      return () => {};
+    }
+  };
+
+  const listenToCollectionField = (table, type, fieldName) => {
+    setErrorFirestore(null);
+    try {
+      const docRef = doc(db, collectionName, user?.uid);
+      const ref = collection(docRef, table);
+      const unsub = onSnapshot(ref, (snap) => {
+        snap.docs.forEach((doc) => {
+          dispatch({
+            type: type,
+            item: doc.data()[fieldName],
+          });
+        });
+      });
+      return unsub;
+    } catch (error) {
+      setErrorFirestore(error.message);
+      handleFirestoreError(error.message);
+      return () => {};
+    }
+  };
 
   return {
     loading,
