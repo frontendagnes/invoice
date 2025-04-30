@@ -13,9 +13,10 @@ function CostListNoSearch({ costs, deleteItem }) {
   const [{ selectedYear }] = useStateValue();
 
   const filteredCosts = useMemo(() => {
-    return costs.filter(
-      (item) => new Date(item.data.date).getFullYear() === selectedYear
-    );
+      return costs.filter(
+        (item) => new Date(item.data.date).getFullYear() === selectedYear
+      );
+
   }, [costs, selectedYear]);
 
   const { currentPage, currentPageData, totalPages, handlePageChange } =
@@ -48,11 +49,11 @@ function CostListNoSearch({ costs, deleteItem }) {
           />
         ))
       )}
-        <PaginationUX
-          totalPages={totalPages}
-          currentPage={currentPage}
-          handlePageChange={handlePageChange}
-        />
+      <PaginationUX
+        totalPages={totalPages}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 }

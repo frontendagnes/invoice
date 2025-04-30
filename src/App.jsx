@@ -8,14 +8,35 @@ import {
   orderBy,
   query,
 } from "./assets/utility/firebase.jsx";
+import { useFirestoreCollection } from "./api/useFirestore/useFirestoreCollection.jsx";
 import { Routes, Route } from "react-router-dom";
 import routesConfig from "./router/routes.jsx";
 //components
 import SnackBar from "./components/Snackbar/Snackbar.jsx";
-import { useFirestoreCollection } from "./api/useFirestore/useFirestoreCollection.jsx";
+import RenderLoader from "./components/RenderLoader/RenderLoader.jsx";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
+
+  useEffect(() => {
+    dispatch({ type: "SET_GLOBAL_LOADING" });
+    const authUser = onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        dispatch({
+          type: "SET_USER",
+          user: authUser,
+        });
+      } else {
+        dispatch({
+          type: "DELETE_USER",
+        });
+      }
+      dispatch({ type: "UNSET_GLOBAL_LOADING" });
+    });
+    return () => {
+      authUser();
+    };
+  }, [dispatch, user]);
 
   // Memoizowane funkcje mapujące i queryFn
   const mapInvoices = useCallback(
@@ -43,7 +64,7 @@ function App() {
       });
     },
     [dispatch]
-  ); // dispatch jako zależność
+  );
 
   const mapLogo = useCallback(
     (snapshot) => {
@@ -52,7 +73,7 @@ function App() {
       );
     },
     [dispatch]
-  ); // dispatch jako zależność
+  );
 
   const mapNumber = useCallback(
     (snapshot) => {
@@ -61,7 +82,7 @@ function App() {
       );
     },
     [dispatch]
-  ); // dispatch jako zależność
+  );
 
   const mapCosts = useCallback((snapshot) => {
     dispatch({
@@ -82,7 +103,7 @@ function App() {
     });
   }, []);
 
-  // Użycie useFirestoreCollection
+  // Użycie useFirestoreCollection, pobiera dane z Firestore
   const {
     data: invoicesData,
     loading: loadingInvoices,
@@ -94,24 +115,6 @@ function App() {
   useFirestoreCollection("invoices", "number", mapNumber);
   useFirestoreCollection("invoices", "costs", mapCosts, queryCosts);
   useFirestoreCollection("invoices", "seller", mapSeller);
-
-  useEffect(() => {
-    const authUser = onAuthStateChanged(auth, (authUser) => {
-      if (authUser) {
-        dispatch({
-          type: "SET_USER",
-          user: authUser,
-        });
-      } else {
-        dispatch({
-          type: "DELETE_USER",
-        });
-      }
-    });
-    return () => {
-      authUser();
-    };
-  }, [dispatch]); // dispatch jako zależność
 
   return (
     <div className="app">
@@ -132,6 +135,7 @@ function App() {
         </Routes>
       </Suspense>
       <SnackBar />
+      <RenderLoader />
     </div>
   );
 }

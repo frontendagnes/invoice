@@ -6,20 +6,22 @@ export const useFirestoreCollection = (
   collectionName,
   table,
   mapFn = null,
-  queryFn = null
+  queryFn = null,
+  isError = false
 ) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     if (!user) {
       setData([]);
       setLoading(false);
+      dispatch({ type: "UNSET_GLOBAL_LOADING" });
       return;
     }
-
+    dispatch({ type: "SET_GLOBAL_LOADING" });
     setLoading(true);
     setError(null);
 
@@ -42,11 +44,17 @@ export const useFirestoreCollection = (
 
         setData(result);
         setLoading(false);
+        dispatch({ type: "UNSET_GLOBAL_LOADING" });
       },
       (err) => {
         console.error("Firestore listen error:", err);
-        setError(err.message || "Unknown error");
+        if (isError) {
+          setError(err.message || "Unknown error");
+        } else {
+          dispatch({ type: "ALERT__ERROR", item: err.message });
+        }
         setLoading(false);
+        dispatch({ type: "UNSET_GLOBAL_LOADING" });
       }
     );
 

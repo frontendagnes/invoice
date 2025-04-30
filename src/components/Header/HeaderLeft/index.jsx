@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/pic/logo.webp";
-
+import ViewSelectedYear from "@/components/ViewSelectedYear";
 function HeaderLeft() {
   return (
     <div className="header__left">
@@ -12,4 +12,4 @@ function HeaderLeft() {
   );
 }
 
-export default HeaderLeft
+export default HeaderLeft;

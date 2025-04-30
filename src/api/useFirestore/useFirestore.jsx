@@ -19,14 +19,23 @@ const useFirestore = (collectionName) => {
   const [loading, setLoading] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
   const [errorFirestore, setErrorFirestore] = useState(null);
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user, globalLoading }, dispatch] = useStateValue();
 
   const handleFirestoreError = (error) => {
     dispatch({ type: "ALERT__ERROR", item: error.message });
   };
 
-  const getData = async (table, type = null, mapFn = null, setState = null) => {
+  const hanldeFiresotreLoadingSet = () => {
+    dispatch({ type: "SET_GLOBAL_LOADING" });
     setLoading(true);
+  };
+  const hanldeFiresotreLoadingUnset = () => {
+    dispatch({ type: "UNSET_GLOBAL_LOADING" });
+    setLoading(false);
+  };
+  // pobiera dane z bazy
+  const getData = async (table, type = null, mapFn = null, setState = null) => {
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
 
     try {
@@ -59,7 +68,7 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(error.message);
       handleFirestoreError(error.message);
     } finally {
-      setLoading(false);
+      hanldeFiresotreLoadingUnset();
     }
   };
 
@@ -86,7 +95,7 @@ const useFirestore = (collectionName) => {
   //   }
   // };
   const setDocumentField = async (table, id, data, name) => {
-    setLoading(true);
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
     try {
       const ref = doc(db, collectionName, user.uid, table, id);
@@ -104,12 +113,12 @@ const useFirestore = (collectionName) => {
       handleFirestoreError(err.message);
       return null;
     } finally {
-      setLoading(false);
+      hanldeFiresotreLoadingUnset();
     }
   };
 
   const setDocument = async (table, id, data) => {
-    setLoading(true);
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
     try {
       const ref = doc(db, collectionName, user.uid, table, id);
@@ -131,7 +140,7 @@ const useFirestore = (collectionName) => {
       handleFirestoreError(err.message);
       return null;
     } finally {
-      setLoading(false);
+      hanldeFiresotreLoadingUnset();
     }
   };
 
@@ -141,7 +150,7 @@ const useFirestore = (collectionName) => {
     table,
     sellerId = "item-seller123"
   ) => {
-    setLoading(true);
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
     const refSeller = doc(db, collectionName, user.uid, table, sellerId);
 
@@ -163,7 +172,7 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(error.message);
       handleFirestoreError(error.message);
     } finally {
-      setLoading(false);
+      hanldeFiresotreLoadingUnset();
     }
   };
 
@@ -174,7 +183,7 @@ const useFirestore = (collectionName) => {
     table,
     sellerId = "item-seller123"
   ) => {
-    setLoading(true);
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
 
     const refSeller = doc(db, collectionName, user.uid, table, sellerId);
@@ -188,7 +197,7 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(error.mesage);
       handleFirestoreError(error.message);
     } finally {
-      setLoading(false);
+      hanldeFiresotreLoadingUnset();
     }
   };
 
@@ -207,7 +216,7 @@ const useFirestore = (collectionName) => {
   // }
 
   const updateDocument = async (table, id, dataExist, dataNoExist) => {
-    setLoading(true);
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
     try {
       let docRef;
@@ -229,12 +238,13 @@ const useFirestore = (collectionName) => {
       handleFirestoreError(err.message);
       return false;
     } finally {
-      setLoading(false);
+      hanldeFiresotreLoadingUnset();
     }
   };
 
   const addDocument = async (data, table) => {
     setLoadingAdd(true);
+    dispatch({ type: "SET_GLOBAL_LOADING" });
     setErrorFirestore(null);
     try {
       const docRef = doc(db, collectionName, user.uid);
@@ -246,11 +256,12 @@ const useFirestore = (collectionName) => {
       throw err;
     } finally {
       setLoadingAdd(false);
+      dispatch({ type: "UNSET_GLOBAL_LOADING" });
     }
   };
 
   const deleteDocument = async (table, id) => {
-    setLoading(true);
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
     try {
       await deleteDoc(doc(db, collectionName, user.uid, table, id));
@@ -258,12 +269,12 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(err.message);
       handleFirestoreError(err.message);
     } finally {
-      setLoading(false);
+      hanldeFiresotreLoadingUnset();
     }
   };
 
   const findDocumentByField = async (field, value, table) => {
-    setLoading(true);
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
     try {
       // Utwórz referencję do dokumentu użytkownika
@@ -282,7 +293,7 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(error.message);
       return false;
     } finally {
-      setLoading(false);
+      hanldeFiresotreLoadingUnset();
     }
   };
   // const getDocuments = async () => {
@@ -329,6 +340,7 @@ const useFirestore = (collectionName) => {
     sortField = null,
     sortOrder = "asc"
   ) => {
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
     try {
       const docRef = doc(db, collectionName, user?.uid);
@@ -350,10 +362,13 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(error.message);
       handleFirestoreError(error.message);
       return () => {};
+    } finally {
+      hanldeFiresotreLoadingUnset();
     }
   };
 
   const listenToCollectionField = (table, type, fieldName) => {
+    hanldeFiresotreLoadingSet();
     setErrorFirestore(null);
     try {
       const docRef = doc(db, collectionName, user?.uid);
@@ -371,6 +386,8 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(error.message);
       handleFirestoreError(error.message);
       return () => {};
+    } finally {
+      hanldeFiresotreLoadingUnset();
     }
   };
 

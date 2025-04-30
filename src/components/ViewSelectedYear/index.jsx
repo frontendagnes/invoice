@@ -6,7 +6,6 @@ import { useStateValue } from "../../assets/utility/StateProvider";
 import NativeSelect from "@mui/material/NativeSelect";
 // import SettingsIcon from "@mui/icons-material/Settings";
 
-
 function ViewSelectedYear() {
   const [{ selectedYear, yearArray }, dispatch] = useStateValue();
   const handleChange = (e) => {

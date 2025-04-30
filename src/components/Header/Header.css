@@ -32,6 +32,28 @@
     transform: scale(1.5);
 }
 
+.header__right {
+    margin-top: -20px;
+}
+
+.header__right--icon {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -10px;
+
+}
+
+/* .header__year {
+   position: absolute;
+   top: 40px;
+   right: 20px;
+   color: #fafafafa;
+
+} */
+
+/* .header__year>div {
+
+} */
 
 @media screen and (max-width: 550px) {
     .header {

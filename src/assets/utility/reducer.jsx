@@ -38,6 +38,7 @@ export const initialState = {
     //   data: { contractor: "Miko", nip: "896-289-28-54" },
     // },
   ],
+  globalLoading: false,
 };
 
 const reducer = (state, action) => {
@@ -195,7 +196,18 @@ const reducer = (state, action) => {
         ...state,
         yearArray: [],
       };
+    //loading
+    case "SET_GLOBAL_LOADING":
+      return {
+        ...state,
+        globalLoading: true,
+      };
 
+    case "UNSET_GLOBAL_LOADING":
+      return {
+        ...state,
+        globalLoading: false,
+      };
     // LOGO
     case "SET_LOGO":
       return {

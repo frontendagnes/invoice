@@ -1,3 +1,5 @@
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+
 export const menuItems = [
   {
     id: 1,
@@ -21,7 +23,8 @@ export const menuItems = [
   },
   // {
   //   id: 5,
-  //   name: "Wybierz Rok",
-  //   href: "/selected-year",
+  //   name: "Ustawienia",
+  //   href: "/settings",
+  //   icon: ManageAccountsIcon,
   // },
 ];
