@@ -69,7 +69,7 @@ function MenuDeskopt() {
           </div>
           <AnimatePresence>
             {item.submenu && activeSubmenuId === item.id && (
-              <SubMenu item={item} />
+              <SubMenu item={item} handleClick={handleClose} />
             )}
           </AnimatePresence>
         </div>

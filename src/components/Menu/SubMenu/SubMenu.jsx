@@ -19,7 +19,7 @@ const menuItemVariants = {
   animate: { scale: 1, opacity: 1 },
   exit: { opacity: 0, y: -10 },
 };
-function SubMenu({ item }) {
+function SubMenu({ item, handleClick }) {
   return (
     <motion.ul
       className="subMenu"
@@ -39,7 +39,7 @@ function SubMenu({ item }) {
             damping: 20,
             delay: 0.1 + index / 10,
           }}
-          // transition={{ delay: index * 0.05, duration: 0.2, ease: "easeInOut" }}
+          onClick={handleClick}
         >
           <NavLink to={subItem.href} className="subMenu__link">
             {subItem.name}
