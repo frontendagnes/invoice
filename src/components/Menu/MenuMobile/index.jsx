@@ -1,45 +1,69 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useRef } from "react";
 import { menuItems } from "../items";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Squash as Hamburger } from "hamburger-react";
+import { useClickAway } from "react-use";
 
-const activeMobielStyle = {
-  background: "#3f4d70",
-};
+import MenuItem from "../MenuItem.jsx";
+import SubMenuMobile from "../SubMenu/SubMenuMobile.jsx";
+import RotateArrow from "../RotateArrow.jsx";
 
 function MenuMobile() {
   const [isView, setIsView] = useState(false);
+  const [openSubmenuId, setOpenSubmenuId] = useState(null);
 
-  const changeView = () => {
-    setIsView(!isView);
+  const menuRef = useRef();
+  useClickAway(menuRef, () => setIsView(false));
+
+  const toggleSubmenu = (itemId) => {
+    const hasSubmenu = menuItems.find((item) => item.id === itemId)?.submenu;
+    if (!hasSubmenu) return setIsView(false), setOpenSubmenuId(null);
+    setOpenSubmenuId((prev) => (prev === itemId ? null : itemId));
   };
-  const handleClick = () => {
-    setIsView(false);
-  };
+
   return (
-    <div className="menu__mobile">
+    <div className="menu__wrapper--mobile" ref={menuRef}>
       <div className="menu__mobileIcon">
-        <MenuIcon sx={{ fontSize: "48px" }} onClick={changeView} />
+        <Hamburger toggled={isView} toggle={setIsView} />
       </div>
-      <ul
-        className="menu__ulMobile"
+
+      <div
+        className="menu__list--mobile"
         style={{
           transform: isView ? "scaleY(1)" : "scaleY(0)",
+          transition: "transform 0.3s ease",
         }}
+        role="menubar"
       >
-        {menuItems.map((item) => (
-          <li key={item.id.toString()} onClick={handleClick}>
-            <NavLink
-              style={({ isActive }) =>
-                isActive ? activeMobielStyle : undefined
-              }
-              to={item.href}
-            >
-              {item.name}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
+        {menuItems.map((item) =>
+          item.submenu ? (
+            <div key={item.id.toString()}>
+              <div
+                className="menu__item--mobile"
+                onClick={() => toggleSubmenu(item.id)}
+              >
+                {item.name}
+                <RotateArrow activeSubmenuId={openSubmenuId} item={item} />
+              </div>
+              <SubMenuMobile
+                item={item}
+                openSubmenuId={openSubmenuId}
+                setIsView={setIsView}
+              />
+            </div>
+          ) : (
+            <MenuItem
+              key={item.id.toString()}
+              item={item}
+              onClick={() => {
+                setIsView(false);
+                setOpenSubmenuId(null);
+              }}
+              className="menu__item--mobile"
+              isMobile
+            />
+          )
+        )}
+      </div>
     </div>
   );
 }

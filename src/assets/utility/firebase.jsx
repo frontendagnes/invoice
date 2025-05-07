@@ -9,7 +9,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import {
@@ -26,7 +26,7 @@ import {
   deleteDoc,
   getDocs,
   getDoc,
-  where
+  where,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -92,5 +92,5 @@ export {
   deleteObject,
   getDoc,
   sendPasswordResetEmail,
-  where
+  where,
 };

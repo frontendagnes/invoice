@@ -1,37 +1,80 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useRef } from "react";
 import { menuItems } from "../items";
-import Tooltip from "../../Tooltip/Tooltip.jsx";
 
+import { useLocation } from "react-router-dom";
+import { useClickAway } from "react-use";
+import { AnimatePresence } from "framer-motion";
+//componnents
+import MenuItem from "../MenuItem.jsx";
+import SubMenu from "../SubMenu/SubMenu.jsx";
 
-const activeStyle = {
-  borderTop: "3px solid #a4b0cc",
-};
+const activeClass = "menu__item--deskopt-active"; // Klasa CSS dla aktywnego elementu
 
 function MenuDeskopt() {
-  return (
-    <ul className="menu__ul">
-      {menuItems.map((item) => {
-        const Icon = item.icon;
+  const [activeSubmenuId, setActiveSubmenuId] = useState(null);
 
-        return (
-          <li key={item.id.toString()}>
-            <NavLink
-              style={({ isActive }) => (isActive ? activeStyle : undefined)}
-              to={item.href}
-            >
-              {Icon ? (
-                <Tooltip text={item.name}>
-                  <Icon  style={{ marginRight: "5px"}} />
-                </Tooltip>
-              ) : (
-                item.name
-              )}
-            </NavLink>
-          </li>
-        );
-      })}
-    </ul>
+  let location = useLocation();
+
+  const handleClose = () => {
+    setActiveSubmenuId(null);
+  };
+
+  const menuRef = useRef();
+  useClickAway(menuRef, handleClose);
+
+  const handleClick = (itemId) => {
+    const clickedItem = menuItems.find((item) => item.id === itemId);
+    if (clickedItem?.submenu) {
+      setActiveSubmenuId(itemId);
+    } else {
+      setActiveSubmenuId(null);
+    }
+  };
+  const handleOpenCloseSubmenu = (e, item) => {
+    if (activeSubmenuId) {
+      handleClose();
+    } else {
+      handleClick(item.id);
+    }
+  };
+  const getActiveClass = (item) => {
+    if (item.submenu && activeSubmenuId === item.id) return activeClass;
+    if (!item.submenu && location.pathname === item.href) return activeClass;
+    if (
+      item.submenu &&
+      location.pathname.startsWith(item.href) &&
+      item.href !== "/"
+    )
+      return activeClass;
+    return "";
+  };
+
+  return (
+    <div className="menu__wrapper--deskopt" role="menubar" ref={menuRef}>
+      {menuItems.map((item) => (
+        <div
+          key={item.id.toString()}
+          className={`menu__item--deskopt ${getActiveClass(item)}`}
+        >
+          <div
+            onClick={(e) => handleOpenCloseSubmenu(e, item)}
+            className="menu__wrapper--items"
+          >
+            <MenuItem
+              item={item}
+              activeSubmenuId={activeSubmenuId}
+              className="menu__item--link"
+              onClick={handleClose}
+            />
+          </div>
+          <AnimatePresence>
+            {item.submenu && activeSubmenuId === item.id && (
+              <SubMenu item={item} />
+            )}
+          </AnimatePresence>
+        </div>
+      ))}
+    </div>
   );
 }
 

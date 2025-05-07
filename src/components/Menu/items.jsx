@@ -21,10 +21,22 @@ export const menuItems = [
     name: "Podsumowanie",
     href: "/records",
   },
-  // {
-  //   id: 5,
-  //   name: "Ustawienia",
-  //   href: "/settings",
-  //   icon: ManageAccountsIcon,
-  // },
+  {
+    id: 5,
+    name: "Ustawienia",
+    href: "/settings",
+    // icon: ManageAccountsIcon,
+    submenu: [
+      {
+        id: 1,
+        name: "Kontrachenci",
+        href: "/settings/contractors",
+      },
+      {
+        id: 2,
+        name: "Zarządzaj aktualnym rokiem",
+        href: "/settings/selected-year",
+      },
+    ],
+  },
 ];

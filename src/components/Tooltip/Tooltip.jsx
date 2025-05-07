@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
+const defaultBackgroundColor = "rgba(0,0,0,0.7)";
+const defaultColor = "#ffffff";
+const defaultFontSize = "inherit"; // Dziedziczy wielkość czcionki od rodzica
+const defaultBottom = "90%";
+const defaultLeft = "50%";
 const TooltipContainer = styled.div`
   position: relative;
   display: inline-block;
@@ -9,15 +14,16 @@ const TooltipContainer = styled.div`
 const TooltipText = styled.div`
   visibility: hidden;
   width: auto;
-  background-color: rgba(0,0,0,0.7);
-  color: #ffffff;
+  background-color: ${defaultBackgroundColor};
+  color: ${defaultColor};
+  font-size: ${defaultFontSize};
   text-align: center;
   border-radius: 6px;
   padding: 5px 10px;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
-  left: 50%;
+  bottom: ${defaultBottom};
+  left: ${defaultLeft};
   margin-left: -100px;
   opacity: 0;
   transition: opacity 0.3s;
@@ -28,9 +34,25 @@ const TooltipText = styled.div`
   }
 `;
 
-const Tooltip = ({ text, children }) => {
+const Tooltip = ({
+  text,
+  children,
+  backgroundColor,
+  color,
+  fontSize,
+  left,
+  bottom,
+}) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const tooltipRef = useRef(null);
+
+  const tooltipStyle = {
+    backgroundColor: backgroundColor || defaultBackgroundColor,
+    color: color || defaultColor,
+    fontSize: fontSize || defaultFontSize,
+    bottom: bottom || defaultBottom,
+    left: left || defaultLeft,
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -52,7 +74,9 @@ const Tooltip = ({ text, children }) => {
       onMouseLeave={() => setShowTooltip(false)}
     >
       {children}
-      <TooltipText className={showTooltip ? "show" : ""}>{text}</TooltipText>
+      <TooltipText className={showTooltip ? "show" : ""} style={tooltipStyle}>
+        {text}
+      </TooltipText>
     </TooltipContainer>
   );
 };

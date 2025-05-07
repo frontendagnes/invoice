@@ -39,7 +39,6 @@ const ImageContainer = styled.div`
   align-items: center;
   position: relative;
   margin-top: 10px;
-  z-index: 1000;
 `;
 
 const UploadedImage = styled.img`
@@ -222,7 +221,7 @@ function UploadLogo() {
               right: "-50px",
             }}
           >
-            <Tooltip text="Usuń logo">
+            <Tooltip text="Usuń logo" fontSize="12px" left="40px" bottom="30px">
               <DeleteIcon />
             </Tooltip>
           </IconButton>

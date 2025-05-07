@@ -6,11 +6,12 @@ import MenuDeskopt from "./MenuDeskopt";
 import MenuMobile from "./MenuMobile";
 
 function Menu() {
+
   return (
-    <div className="menu">
+    <nav className="menu">
       <MenuDeskopt />
       <MenuMobile />
-    </div>
+    </nav>
   );
 }
 

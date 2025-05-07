@@ -11,7 +11,7 @@ import NoMatch from "../components/NoMatch/NoMatch.jsx";
 import Home from "../components/Home/Home.jsx";
 import Layout from "../components/Layout/Layout.jsx";
 import Settings from "../components/Settings/Settings.jsx";
-
+import Contractors from "../components/Contractors/Contractors.jsx";
 const routesConfig = {
   authorization: {
     path: "/authorization",
@@ -63,11 +63,27 @@ const routesConfig = {
     path: "/password-recovery",
     element: <PasswordRecovery />,
   },
-  selectedYear: {
+  settings: {
     path: "/settings",
     element: () => (
       <Layout>
         <Settings />
+      </Layout>
+    ),
+  },
+  selectedYear: {
+    path: "/settings/selected-year",
+    element: () => (
+      <Layout>
+        <SelectedYear />
+      </Layout>
+    ),
+  },
+  contractors: {
+    path: "/settings/contractors",
+    element: () => (
+      <Layout>
+        <Contractors/>
       </Layout>
     ),
   },
