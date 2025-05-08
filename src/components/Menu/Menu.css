@@ -83,18 +83,6 @@
     transition: border-top 0.75s ease-in;
 }
 
-.submenu__arrow {
-    display: inline-block;
-    margin-top: 5px;
-    font-size: 10px;
-    transform: rotate(0deg);
-    transition: transform 0.3s ease;
-}
-
-.submenu__arrow.rotated {
-    transform: rotate(-180deg);
-}
-
 .menu__item--deskopt-active {
     border-top: 3px solid #a4b0cc;
 }

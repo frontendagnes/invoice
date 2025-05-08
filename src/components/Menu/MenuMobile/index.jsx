@@ -5,7 +5,7 @@ import { useClickAway } from "react-use";
 
 import MenuItem from "../MenuItem.jsx";
 import SubMenuMobile from "../SubMenu/SubMenuMobile.jsx";
-import RotateArrow from "../RotateArrow.jsx";
+import RotateArrow from "../RotateArrow/RotateArrow.jsx";
 
 function MenuMobile() {
   const [isView, setIsView] = useState(false);

@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Tooltip from "../Tooltip/Tooltip.jsx";
-import RotateArrow from "./RotateArrow.jsx";
+import RotateArrow from "./RotateArrow/RotateArrow.jsx";
 
 function MenuItem({
   item,
