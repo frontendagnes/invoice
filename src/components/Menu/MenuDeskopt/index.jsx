@@ -37,15 +37,42 @@ function MenuDeskopt() {
       handleClick(item.id);
     }
   };
+  // const getActiveClass = (item) => {
+  //   if (item.submenu && activeSubmenuId === item.id) return activeClass;
+  //   if (!item.submenu && location.pathname === item.href) return activeClass;
+  //   if (
+  //     item.submenu &&
+  //     location.pathname.startsWith(item.href) &&
+  //     item.href !== "/"
+  //   )
+  //     return activeClass;
+  //   return "";
+  // };
   const getActiveClass = (item) => {
-    if (item.submenu && activeSubmenuId === item.id) return activeClass;
-    if (!item.submenu && location.pathname === item.href) return activeClass;
-    if (
+    const { pathname, search, hash } = location;
+
+    const isHome = item.href === "/";
+    const isExactMatch = pathname === item.href;
+    const isMatchWithQueryOrHash = isExactMatch && (search || hash);
+    const isSubmenuActive = item.submenu && activeSubmenuId === item.id;
+    const isNestedPathMatch =
       item.submenu &&
-      location.pathname.startsWith(item.href) &&
-      item.href !== "/"
-    )
+      pathname.startsWith(item.href) &&
+      item.href !== "/" &&
+      item.href !== ""; // zapobiega przypadkowemu dopasowaniu pustych ścieżek
+
+    const isManuallyActive = item.manualActive === true; // tylko jeśli używasz tego w obiekcie `menuItems`
+
+    if (
+      isSubmenuActive ||
+      (!item.submenu && (isExactMatch || isMatchWithQueryOrHash)) ||
+      isNestedPathMatch ||
+      (isHome && pathname === "/") ||
+      isManuallyActive
+    ) {
       return activeClass;
+    }
+
     return "";
   };
 

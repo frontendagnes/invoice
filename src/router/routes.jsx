@@ -1,17 +1,16 @@
-import Authorization from "../components/Authorization/Authoryzation.jsx";
-import Header from "../components/Header/Header.jsx";
-import Invoices from "../components/Invoices/Invoices.jsx";
-import Invoice from "../components/Invoice/Invoice.jsx";
-import InvoicesDetails from "../components/InvoicesDetails/InvoicesDetails.jsx";
-import Costs from "../components/Costs/Costs.jsx";
-import Records from "../components/Records/Records.jsx";
 import PasswordRecovery from "@/components/Authorization/PasswordRecovery/PasswordRecovery.jsx";
-import SelectedYear from "../components/SelectedYear/index.jsx";
-import NoMatch from "../components/NoMatch/NoMatch.jsx";
+import Authorization from "../components/Authorization/Authoryzation.jsx";
+import Costs from "../components/Costs/Costs.jsx";
+import Header from "../components/Header/Header.jsx";
 import Home from "../components/Home/Home.jsx";
+import Invoices from "../components/Invoices/Invoices.jsx";
+import InvoicesDetails from "../components/InvoicesDetails/InvoicesDetails.jsx";
 import Layout from "../components/Layout/Layout.jsx";
-import Settings from "../components/Settings/Settings.jsx";
+import NoMatch from "../components/NoMatch/NoMatch.jsx";
+import Records from "../components/Records/Records.jsx";
+import SelectedYear from "../components/SelectedYear/index.jsx";
 import Contractors from "../components/Contractors/Contractors.jsx";
+import Settings from "../components/Settings/Settings.jsx";
 const routesConfig = {
   authorization: {
     path: "/authorization",
@@ -30,12 +29,12 @@ const routesConfig = {
       </Layout>
     ),
   },
-  invoice: {
-    path: "/invoice",
-    element: <Invoice />,
-  },
+  // invoice: {
+  //   path: "/invoice",
+  //   element: <Invoice />,
+  // },
   invoiceDetails: {
-    path: "/invoice/:invoiceId",
+    path: "/invoices/:invoiceId",
     element: ({ invoices }) => (
       <>
         <Header />
@@ -83,7 +82,7 @@ const routesConfig = {
     path: "/settings/contractors",
     element: () => (
       <Layout>
-        <Contractors/>
+        <Contractors />
       </Layout>
     ),
   },

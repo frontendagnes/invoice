@@ -1,0 +1,31 @@
+.settings {
+    height: 80%;
+}
+
+.settings__title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: normal;
+    letter-spacing: 3px;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+.settings__links a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.settings__links a:hover {
+    transform: scale(1.2);
+    color: #007BFF;
+}
+
+.settings__links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+}

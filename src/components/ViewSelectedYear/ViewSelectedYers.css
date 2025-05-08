@@ -1,6 +1,6 @@
 .viewSelectedYear {
     position: absolute;
-    left:10px;
+    left: 10px;
     top: 0px;
     display: flex;
     justify-content: center;
@@ -9,9 +9,10 @@
 }
 
 .viewSelectedYear a {
-    transition: all 0.75s;
+    transition: transform 0.75s;
+    margin-top: 5px;
 }
 
 .viewSelectedYear a:hover {
-    transform: scale(1.5);
+    transform: scale(1.3);
 }

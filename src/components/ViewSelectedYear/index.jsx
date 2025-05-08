@@ -34,9 +34,9 @@ function ViewSelectedYear() {
         tymczasowo wyłączona - komponet istnieje
         czy potrzbnie skoro rok zmienia się w selekcie?
         Do przemyślenia!! */}
-      {/* <Link to="/selected-year">
+      {/* <Link to="/settings/selected-year">
         <SettingsIcon
-          sx={{ color: "#808080", cursor: "pointer" }}
+          sx={{cursor: "pointer",}}
           titleAccess="Ustawienia"
           fontSize="medium"
         />

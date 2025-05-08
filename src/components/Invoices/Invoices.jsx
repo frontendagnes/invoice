@@ -31,7 +31,7 @@ function Invoices({ data }) {
 
   const openDetails = useCallback(
     (details) => {
-      navigate(`/invoice/${details}`);
+      navigate(`/invoices/${details}`);
     },
     [navigate]
   );
