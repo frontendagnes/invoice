@@ -1,9 +1,9 @@
 import React from "react";
 
 //cpmponents
-import Cost from "../Cost/Cost";
-import ValidationError from "../ValidationError/ValidationError";
-import PaginationUX from "../PaginationUX/PaginationUX";
+import Cost from "../../Cost/Cost";
+import ValidationError from "../../ValidationError/ValidationError";
+import PaginationUX from "../../PaginationUX/PaginationUX";
 
 function CostsList({
   costs,

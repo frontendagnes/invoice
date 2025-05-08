@@ -2,14 +2,13 @@ import React, { useState, useCallback } from "react";
 import "./Costs.css";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import useFirestore from "../../api/useFirestore/useFirestore";
-import { renderLoader } from "../../assets/functions";
 //components
 import AddCost from "../AddCost/AddCost";
 import TabGenerator from "../TabGenerator/TabGenerator";
-import CostsList from "./CostsList";
-import CostListNoSearch from "./CostListNoSearch";
-import CostDateFilter from "./CostDateFilter";
-import CostSearchFilter from "./CostSearchFilter";
+import CostsList from "./CostsLists/CostsList.jsx";
+import CostListNoSearch from "./CostsLists/CostListNoSearch.jsx";
+import CostDateFilter from "./CostsFilter/CostDateFilter.jsx";
+import CostSearchFilter from "./CostsFilter/CostSearchFilter.jsx";
 
 function Costs() {
   const [{ costs }, dispatch] = useStateValue();

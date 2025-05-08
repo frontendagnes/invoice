@@ -1,11 +1,10 @@
 import React, { useMemo } from "react";
-import { useStateValue } from "../../assets/utility/StateProvider";
-import usePagination from "../../hooks/usePagination";
-// import { Pagination, Stack } from "@mui/material";
+import { useStateValue } from "../../../assets/utility/StateProvider";
+import usePagination from "../../../hooks/usePagination";
 //components
-import Cost from "../Cost/Cost";
-import ValidationError from "../ValidationError/ValidationError";
-import PaginationUX from "../PaginationUX/PaginationUX.jsx";
+import Cost from "../../Cost/Cost";
+import ValidationError from "../../ValidationError/ValidationError";
+import PaginationUX from "../../PaginationUX/PaginationUX.jsx";
 
 const ITEMS_PER_PAGE = 10;
 
