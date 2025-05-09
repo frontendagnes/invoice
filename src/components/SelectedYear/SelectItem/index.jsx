@@ -1,32 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useStateValue } from "../../../assets/utility/StateProvider";
 //mui
-// import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+//components
+import Tooltip from "../../Tooltip/Tooltip";
 
 function SelectItem({ year, deleteItem }) {
-  const [value, setValue] = useState();
   const [isClicked, setIsClicked] = useState(false);
   const [{ selectedYear }, dispatch] = useStateValue();
-  useEffect(() => {
-    setValue(year);
-  }, [value]);
 
   const changeYear = () => {
-    dispatch({ type: "SELECTED_YEAR", item: parseInt(value) });
+    dispatch({ type: "SELECTED_YEAR", item: parseInt(year) });
     setIsClicked(true);
 
-    setTimeout(() => setIsClicked(false), 300);
+    const timer = setTimeout(() => {
+      setIsClicked(false);
+    }, 500); // 500 ms = 0.5 second
+    return () => clearTimeout(timer); // Cleanup the timer on unmount
   };
+
+  function getClassName(isClicked, selectedYear, year) {
+    if (isClicked) {
+      return "selectItem__year--clicked";
+    } else if (selectedYear === year) {
+      return "selectItem__year--active";
+    } else {
+      return "selectItem__year--default";
+    }
+  }
+  const className = getClassName(isClicked, selectedYear, year);
   return (
     <li className="selectedYear__item">
-      <div
-        style={{ color: isClicked ? "#ff0000" : "#000000" }}
-        value={value}
-        onClick={changeYear}
-      >
+      <div className={className} onClick={changeYear}>
         {year}
       </div>
-      {/* <RemoveCircleIcon onClick={deleteItem} color="error" titleAccess="Usuń" /> */}
+      <Tooltip text="Usuń rok" fontSize="10px" left="50px">
+        <RemoveCircleIcon
+          onClick={deleteItem}
+          color="error"
+          titleAccess="Usuń"
+        />
+      </Tooltip>
     </li>
   );
 }

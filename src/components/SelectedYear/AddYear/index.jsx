@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useStateValue } from "../../../assets/utility/StateProvider";
+import { validate } from "./validete.jsx";
 // mui
 import AddIcon from "@mui/icons-material/Add";
-
+import { TextField } from "@mui/material";
 import {
   db,
   doc,
@@ -12,8 +13,8 @@ import {
 } from "../../../assets/utility/firebase";
 //componets
 import ValidationError from "../../ValidationError/ValidationError.jsx";
-import { validate } from "./validete.jsx";
-import { TextField } from "@mui/material";
+import Tooltip from "../../Tooltip/Tooltip.jsx"
+
 function AddYear() {
   const [value, setValue] = useState("");
   const [error, setError] = useState(null);
@@ -68,7 +69,6 @@ function AddYear() {
       console.log("Dodano", value.length, value);
       return;
     }
-    setError(null);
     // addData();
     // updateNumber();
     console.log("Dodano", value.length, value);
@@ -88,16 +88,18 @@ function AddYear() {
                 fullWidth
               />
             </div>
-            <AddIcon
-              onClick={handleSubmit}
-              sx={{ cursor: "pointer" }}
-              fontSize="large"
-              color="success"
-            />
+            <Tooltip text="Dodaj Rok">
+              <AddIcon
+                onClick={handleSubmit}
+                sx={{ cursor: "pointer" }}
+                fontSize="large"
+                color="success"
+              />
+            </Tooltip>
           </form>
           {error ? <ValidationError text={error} /> : null}
         </>
-      )
+      );
 }
 
 export default AddYear;

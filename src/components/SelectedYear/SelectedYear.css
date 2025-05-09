@@ -1,4 +1,5 @@
 .selectedYear {
+    height: 70%;
     padding: 20px 40px;
 }
 
@@ -31,23 +32,38 @@
 
 /* ul  */
 .selectedYear__items {
+    box-sizing: border-box;
     list-style-type: none;
     padding: 10px 20px;
     width: 100%;
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    color: #000000;
+    /* gap: 40px; */
 }
 
 /* li */
+.selectItem__year--default {
+    color: #000000;
+}
+.selectItem__year--active {
+    color: #0000ff;
+}
 
+.selectItem__year--clicked {
+    color: #ff0000;
+}
+.selectedYear__item{
+    width: 25%;
+    display: flex;
+}
 .selectedYear__item>div {
     font-size: 1.3rem;
+    margin-right: 20px;
 }
 
 .selectedYear__item>div,
 .selectedYear__item>svg {
-
     cursor: pointer;
     transition: transform 0.75s;
 }

@@ -26,7 +26,7 @@ function AddCost() {
     isViewTips,
     loading,
     errorFirestore,
-    costHints,
+    contractors: costHints,
     setNumber,
     setContractor,
     setDate,

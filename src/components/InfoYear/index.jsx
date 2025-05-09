@@ -10,7 +10,7 @@ const nextYear = new Date().getFullYear();
 function InfoYear() {
   const [userConfirmed, setUserConfirmed] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
-  const [{ yearArray, user }, dispatch] = useStateValue();
+  const [{ yearArray }, dispatch] = useStateValue();
 
   const { setDocument, addDocument } = useFirestore("invoices");
 
@@ -25,7 +25,8 @@ function InfoYear() {
   }, [yearArray]);
 
   const resetInvoiceNumber = async () => {
-    await setDocument("number", "YgYuBDoz5AisskTWslyB", { count: 1 }); // Stały ID numeracji
+    const IDNumber = "YgYuBDoz5AisskTWslyB"; // Stały ID numeracji
+    await setDocument("number", IDNumber, { count: 1 });
     dispatch({
       type: "ALERT_SUCCESS",
       item: "Numer faktury został zresetowany",

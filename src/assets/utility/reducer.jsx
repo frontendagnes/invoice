@@ -21,7 +21,7 @@ export const initialState = {
   ],
   selectedYear: new Date().getFullYear(),
   yearArray: [],
-  costHints: [
+  contractors: [
     // {
     //   id: 1,
     //   data: {
@@ -76,11 +76,11 @@ const reducer = (state, action) => {
         ...state,
         costs: [...state.costs, action.item],
       };
-    //costHints
-    case "SET_COSTHINTS":
+    //contractors
+    case "SET_CONTRACTORS":
       return {
         ...state,
-        costHints: action.item,
+        contractors: action.item,
       };
     //Snackbar
     case "ALLERT_DEFAULT":

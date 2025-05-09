@@ -5,7 +5,7 @@ import useFirestore from "../../api/useFirestore/useFirestore";
 import { useStateValue } from "../../assets/utility/StateProvider";
 
 function useAddCostForm() {
-  const [{ user, costHints }, dispatch] = useStateValue();
+  const [{ user, contractors }, dispatch] = useStateValue();
   const { loading, errorFirestore, getData, addDocument, findDocumentByField } =
     useFirestore("invoices");
 
@@ -23,7 +23,7 @@ function useAddCostForm() {
 
   const getHints = async () => {
     if (user) {
-      await getData("contractors", "SET_COSTHINTS");
+      await getData("contractors", "SET_CONTRACTORS");
     }
   };
 
@@ -57,7 +57,7 @@ function useAddCostForm() {
       dispatch({ type: "ALERT__ERROR", item: msg });
       return;
     }
-    const existingContractor = costHints.some(
+    const existingContractor = contractors.some(
       (item) => String(item.data.nip) === String(nip)
     );
 
@@ -86,7 +86,7 @@ function useAddCostForm() {
     isViewTips,
     loading,
     errorFirestore,
-    costHints,
+    contractors,
     setNumber,
     setContractor,
     setDate,
