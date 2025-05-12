@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { useClickAway } from "react-use";
+
 import { Button, LinearProgress, IconButton } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -15,7 +17,8 @@ import {
   deleteObject,
 } from "../../assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
-
+//components
+import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import Tooltip from "../Tooltip/Tooltip";
 const VisuallyHiddenInput = styled.input`
   opacity: 0;
@@ -39,6 +42,7 @@ const ImageContainer = styled.div`
   align-items: center;
   position: relative;
   margin-top: 10px;
+  z-index: 1000;
 `;
 
 const UploadedImage = styled.img`
@@ -53,41 +57,10 @@ const ActionButtons = styled.div`
   margin-top: 10px;
   position: absolute;
   top: -100px;
-`;
-const ButtonR = styled.button`
-  margin-left: 10px;
-  letter-spacing: 2px;
-  padding: 10px 20px;
-  font-weight: 600;
+  background: #ffffff;
+  padding: 20px 30px;
+  padding-bottom: 0;
   border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.75s ease;
-  &:hover {
-    background: #bababa;
-  }
-`;
-const ButtonError = styled(ButtonR)`
-  color: #ff0000;
-`;
-const ButtonSuccess = styled(ButtonR)`
-  color: #008000;
-`;
-const Alert = styled.div`
-  width: 70%;
-  height: 100px;
-  background: rgba(0, 0, 0, 0.68);
-  color: rgb(255, 255, 255);
-  padding: 20px 40px;
-  border-radius: 5px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  position: absolute;
-  z-index: 1001;
 `;
 
 function UploadLogo() {
@@ -179,13 +152,12 @@ function UploadLogo() {
   return (
     <Container>
       {remove ? (
-        <Alert>
-          <p>Czy na pewno chcesz trwale usunąć logo?</p>
-          <div style={{ display: "flex" }}>
-            <ButtonError onClick={handleDelete}>Tak</ButtonError>
-            <ButtonSuccess onClick={() => setRemove(false)}>Nie</ButtonSuccess>
-          </div>
-        </Alert>
+        <DeleteConfirmationModal
+          isOpen={remove}
+          onClickYes={handleDelete}
+          onClickNo={() => setRemove(false)}
+          item="Logo"
+        />
       ) : null}
 
       {preview ? (

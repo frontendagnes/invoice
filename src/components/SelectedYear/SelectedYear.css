@@ -2,7 +2,11 @@
     height: 70%;
     padding: 20px 40px;
 }
-
+.selectedYear > h2{
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 40px;
+}
 .selectedYear form,
 .selectedYear__select>div {
     display: flex;

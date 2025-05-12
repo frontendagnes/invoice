@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./style.css";
 
+import { INVOICE_COUNTER_DOCUMENT_ID } from "import.meta.env";
 import { useStateValue } from "@/assets/utility/StateProvider";
 import useFirestore from "@/api/useFirestore/useFirestore";
 import Content from "./Content.jsx";
 
-const nextYear = new Date().getFullYear();
+const CURRENT_YEAR = new Date().getFullYear();
 
 function InfoYear() {
   const [userConfirmed, setUserConfirmed] = useState(false);
@@ -16,7 +17,7 @@ function InfoYear() {
 
   const yearExists =
     Array.isArray(yearArray) &&
-    yearArray.some((item) => item.data.year === nextYear);
+    yearArray.some((item) => item.data.year === CURRENT_YEAR);
 
   useEffect(() => {
     if (!Array.isArray(yearArray) || yearArray.length === 0) return;
@@ -25,8 +26,10 @@ function InfoYear() {
   }, [yearArray]);
 
   const resetInvoiceNumber = async () => {
-    const IDNumber = "YgYuBDoz5AisskTWslyB"; // Stały ID numeracji
-    await setDocument("number", IDNumber, { count: 1 });
+    const data = {
+      count: 1,
+    };
+    await setDocument("number", INVOICE_COUNTER_DOCUMENT_ID, data);
     dispatch({
       type: "ALERT_SUCCESS",
       item: "Numer faktury został zresetowany",
@@ -35,7 +38,7 @@ function InfoYear() {
 
   const addYearToDB = async () => {
     dispatch({ type: "CLEAR_YEAR" });
-    await addDocument({ year: nextYear }, "years");
+    await addDocument({ year: CURRENT_YEAR }, "years");
   };
 
   const handleAddYear = async () => {
