@@ -1,24 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-
+import { styled } from "styled-components";
+import { useStateValue } from "../../assets/utility/StateProvider";
+//mui
 import { Button, LinearProgress, IconButton } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
-import { styled } from "styled-components";
-import {
-  db,
-  storage,
-  doc,
-  setDoc,
-  ref,
-  getDownloadURL,
-  uploadBytesResumable,
-  deleteObject,
-} from "../../assets/utility/firebase";
-import { useStateValue } from "../../assets/utility/StateProvider";
 //components
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import Tooltip from "../Tooltip/Tooltip";
+import ValidationError from "../ValidationError/ValidationError.jsx";
+import useImageUpload from "./useImageUpload.jsx";
 const VisuallyHiddenInput = styled.input`
   opacity: 0;
   position: absolute;
@@ -71,7 +63,15 @@ function UploadLogo() {
   const [progress, setProgress] = useState(0);
   const [imageUrl, setImageUrl] = useState(null);
   const [remove, setRemove] = useState(false);
-  const [{ user, logo }, dispatch] = useStateValue();
+  const [{ logo }, dispatch] = useStateValue();
+
+  const {
+    uploadImage,
+    deleteImage,
+    loading,
+    errorFirestore: error,
+  } = useImageUpload();
+
   const fileInputRef = useRef();
 
   useEffect(() => {
@@ -90,32 +90,18 @@ function UploadLogo() {
     }
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!imageFile) return;
 
-    const storageRef = ref(storage, `images/${imageFile.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, imageFile);
+    const url = await uploadImage(imageFile, setProgress);
+    if (url) {
+      setImageUrl(url);
+    }
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        setProgress((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-      },
-      (error) => dispatch({ type: "ALERT__ERROR", item: error.message }),
-      async () => {
-        const url = await getDownloadURL(uploadTask.snapshot.ref);
-        await setDoc(doc(db, "invoices", user?.uid, "logo", "item-logo123"), {
-          timestamp: new Date(),
-          imageUrl: url,
-        });
-
-        dispatch({ type: "ALERT_SUCCESS", item: "Logo przesłane pomyślnie!" });
-        setImageUrl(url);
-        setProgress(0);
-        setPreview(null);
-        setImageFile(null);
-      }
-    );
+    setPreview(null);
+    setImageFile(null);
+    setPreview(null);
+    setProgress(0);
   };
 
   const handleRemovePreview = () => {
@@ -128,27 +114,9 @@ function UploadLogo() {
   };
 
   const handleDelete = async () => {
-    if (logo) {
-      const refImg = ref(storage, logo);
-      const docRef = doc(db, "invoices", user?.uid, "logo", "item-logo123");
-
-      await deleteObject(refImg)
-        .then(() => {
-          setDoc(docRef, {
-            imageUrl: "",
-            timestamp: new Date(),
-          });
-
-          dispatch({ type: "ALERT_SUCCESS", item: "Logo usunięte pomyślnie!" });
-          setImageUrl(null);
-          setRemove(false);
-        })
-        .catch((error) =>
-          dispatch({ type: "ALERT__ERROR", item: error.message })
-        );
-    } else {
-      dispatch({ type: "ALERT__ERROR", item: "Nie ma nic do usunięcia" });
-    }
+    await deleteImage(imageUrl);
+    setImageUrl(null);
+    setRemove(false);
   };
 
   return (
@@ -161,7 +129,7 @@ function UploadLogo() {
           item="Logo"
         />
       ) : null}
-
+      <ValidationError text={error} />
       {preview ? (
         <ImageContainer>
           <UploadedImage src={preview} alt="Podgląd" />
@@ -172,7 +140,7 @@ function UploadLogo() {
               startIcon={<CheckIcon />}
               onClick={handleUpload}
             >
-              Zapisz
+              {loading ? "Zapisuje" : "Zapisz"}
             </Button>
             <Button
               variant="outlined"

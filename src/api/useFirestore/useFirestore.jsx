@@ -14,28 +14,21 @@ import {
   where,
 } from "@/assets/utility/firebase";
 import { useStateValue } from "../../assets/utility/StateProvider";
-
+import { useHelpers } from "./helpers";
 const useFirestore = (collectionName) => {
   const [loading, setLoading] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
   const [errorFirestore, setErrorFirestore] = useState(null);
-  const [{ user, globalLoading }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
+  const {
+    handleFirestoreError,
+    handleFirestoreLoadingSet,
+    handleFirestoreLoadingUnset,
+  } = useHelpers(setLoading);
 
-  const handleFirestoreError = (error) => {
-    dispatch({ type: "ALERT__ERROR", item: error.message });
-  };
-
-  const hanldeFiresotreLoadingSet = () => {
-    dispatch({ type: "SET_GLOBAL_LOADING" });
-    setLoading(true);
-  };
-  const hanldeFiresotreLoadingUnset = () => {
-    dispatch({ type: "UNSET_GLOBAL_LOADING" });
-    setLoading(false);
-  };
-  // pobiera dane z bazy
   const getData = async (table, type = null, mapFn = null, setState = null) => {
-    hanldeFiresotreLoadingSet();
+    // pobiera dane z bazy
+    handleFirestoreLoadingSet();
     setErrorFirestore(null);
 
     try {
@@ -68,34 +61,13 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(error.message);
       handleFirestoreError(error.message);
     } finally {
-      hanldeFiresotreLoadingUnset();
+      handleFirestoreLoadingUnset();
     }
   };
 
-  // const getData = async (table, type) => {
-  //   setLoading(true);
-  //   setErrorFirestore(null);
-  //   try {
-  //     const docRef = doc(db, collectionName, user?.uid);
-  //     const ref = collection(docRef, table);
-  //     onSnapshot(ref, (snap) => {
-  //       dispatch({
-  //         type: type,
-  //         item: snap.docs.map((doc) => ({
-  //           id: doc.id,
-  //           data: doc.data(),
-  //         })),
-  //       });
-  //     });
-  //   } catch (error) {
-  //     setErrorFirestore(error.message);
-  //     handleFirestoreError(error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const setDocumentField = async (table, id, data, name) => {
-    hanldeFiresotreLoadingSet();
+    // aktualizuje pole w dokumencie
+    handleFirestoreLoadingSet();
     setErrorFirestore(null);
     try {
       const ref = doc(db, collectionName, user.uid, table, id);
@@ -113,12 +85,15 @@ const useFirestore = (collectionName) => {
       handleFirestoreError(err.message);
       return null;
     } finally {
-      hanldeFiresotreLoadingUnset();
+      handleFirestoreLoadingUnset();
     }
   };
 
   const setDocument = async (table, id, data) => {
-    hanldeFiresotreLoadingSet();
+    // aktualizuje dokument w kolekcji
+    // Tworzy nowy dokument, jeśli dokument o podanym ID nie istnieje.
+    // Nadpisuje istniejący dokument wszystkimi danymi, które przekazujesz. Jeśli w data brakuje pól, które istniały wcześniej w dokumencie, te pola zostaną usunięte.
+    handleFirestoreLoadingSet();
     setErrorFirestore(null);
     try {
       const ref = doc(db, collectionName, user.uid, table, id);
@@ -140,7 +115,7 @@ const useFirestore = (collectionName) => {
       handleFirestoreError(err.message);
       return null;
     } finally {
-      hanldeFiresotreLoadingUnset();
+      handleFirestoreLoadingUnset();
     }
   };
 
@@ -150,7 +125,8 @@ const useFirestore = (collectionName) => {
     table,
     sellerId = "item-seller123"
   ) => {
-    hanldeFiresotreLoadingSet();
+    // aktualizuje wszystkie pola w dokumencie sprzedawcy
+    handleFirestoreLoadingSet();
     setErrorFirestore(null);
     const refSeller = doc(db, collectionName, user.uid, table, sellerId);
 
@@ -172,7 +148,7 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(error.message);
       handleFirestoreError(error.message);
     } finally {
-      hanldeFiresotreLoadingUnset();
+      handleFirestoreLoadingUnset();
     }
   };
 
@@ -183,7 +159,8 @@ const useFirestore = (collectionName) => {
     table,
     sellerId = "item-seller123"
   ) => {
-    hanldeFiresotreLoadingSet();
+    // aktualizuje pole w dokumencie sprzedawcy
+    handleFirestoreLoadingSet();
     setErrorFirestore(null);
 
     const refSeller = doc(db, collectionName, user.uid, table, sellerId);
@@ -197,26 +174,14 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(error.mesage);
       handleFirestoreError(error.message);
     } finally {
-      hanldeFiresotreLoadingUnset();
+      handleFirestoreLoadingUnset();
     }
   };
 
-  // const updateDocument = async (table, id){
-  //   setLoading(true)
-  //   setError(null)
-  //   try{
-  //     const updateRef = doc(db, collectionName)
-
-  //   }catch (err) {
-  //     setError(err.message);
-  //     return false;
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
   const updateDocument = async (table, id, dataExist, dataNoExist) => {
-    hanldeFiresotreLoadingSet();
+    // aktualizuje dokument w kolekcji
+    // Aktualizuje istniejący dokument. Jeśli dokument o podanym ID nie istnieje, updateDoc zwróci błąd.
+    handleFirestoreLoadingSet();
     setErrorFirestore(null);
     try {
       let docRef;
@@ -238,11 +203,12 @@ const useFirestore = (collectionName) => {
       handleFirestoreError(err.message);
       return false;
     } finally {
-      hanldeFiresotreLoadingUnset();
+      handleFirestoreLoadingUnset();
     }
   };
 
   const addDocument = async (data, table) => {
+    // dodaje dokument do kolekcji
     setLoadingAdd(true);
     dispatch({ type: "SET_GLOBAL_LOADING" });
     setErrorFirestore(null);
@@ -261,7 +227,8 @@ const useFirestore = (collectionName) => {
   };
 
   const deleteDocument = async (table, id) => {
-    hanldeFiresotreLoadingSet();
+    //usuwanie dokumentu z kolekcji
+    handleFirestoreLoadingSet();
     setErrorFirestore(null);
     try {
       await deleteDoc(doc(db, collectionName, user.uid, table, id));
@@ -269,125 +236,27 @@ const useFirestore = (collectionName) => {
       setErrorFirestore(err.message);
       handleFirestoreError(err.message);
     } finally {
-      hanldeFiresotreLoadingUnset();
+      handleFirestoreLoadingUnset();
     }
   };
 
   const findDocumentByField = async (field, value, table) => {
-    hanldeFiresotreLoadingSet();
+    // sprawdza czy w kolekcji istnieje dokument z danym polem i wartością
+    handleFirestoreLoadingSet();
     setErrorFirestore(null);
     try {
-      // Utwórz referencję do dokumentu użytkownika
       const userDocRef = doc(db, collectionName, user.uid);
-      // Utwórz referencję do subkolekcji 'contractors' w tym dokumencie
       const contractorsCollectionRef = collection(userDocRef, table);
-      // Wykonaj zapytanie w subkolekcji 'contractors'
       const snapshot = await getDocs(
         query(contractorsCollectionRef, where(field, "==", value))
       );
-      console.log(">>>>", snapshot.docs);
-
       return !snapshot.empty; // Zwraca true, jeśli dokument istnieje
     } catch (error) {
       console.error("Błąd wyszukiwania dokumentu:", error);
       setErrorFirestore(error.message);
       return false;
     } finally {
-      hanldeFiresotreLoadingUnset();
-    }
-  };
-  // const getDocuments = async () => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const querySnapshot = await getDocs(collection(db, collectionName));
-  //     const documents = querySnapshot.docs.map((doc) => ({
-  //       id: doc.id,
-  //       ...doc.data(),
-  //     }));
-  //     return documents;
-  //   } catch (err) {
-  //     setError(err.message);
-  //     return []; // Zwróć pustą tablicę w przypadku błędu
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const getDocument = async (id) => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const docSnapshot = await getDoc(doc(db, collectionName, id));
-  //     if (docSnapshot.exists()) {
-  //       return {
-  //         id: docSnapshot.id,
-  //         ...docSnapshot.data(),
-  //       };
-  //     } else {
-  //       return null; // Zwróć null, jeśli dokument nie istnieje
-  //     }
-  //   } catch (err) {
-  //     setError(err.message);
-  //     return null; // Zwróć null w przypadku błędu
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-  const listenToCollection = (
-    table,
-    type,
-    sortField = null,
-    sortOrder = "asc"
-  ) => {
-    hanldeFiresotreLoadingSet();
-    setErrorFirestore(null);
-    try {
-      const docRef = doc(db, collectionName, user?.uid);
-      const ref = collection(docRef, table);
-      const queryRef = sortField
-        ? query(ref, orderBy(sortField, sortOrder))
-        : ref;
-      const unsub = onSnapshot(queryRef, (snap) => {
-        dispatch({
-          type: type,
-          item: snap.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          })),
-        });
-      });
-      return unsub;
-    } catch (error) {
-      setErrorFirestore(error.message);
-      handleFirestoreError(error.message);
-      return () => {};
-    } finally {
-      hanldeFiresotreLoadingUnset();
-    }
-  };
-
-  const listenToCollectionField = (table, type, fieldName) => {
-    hanldeFiresotreLoadingSet();
-    setErrorFirestore(null);
-    try {
-      const docRef = doc(db, collectionName, user?.uid);
-      const ref = collection(docRef, table);
-      const unsub = onSnapshot(ref, (snap) => {
-        snap.docs.forEach((doc) => {
-          dispatch({
-            type: type,
-            item: doc.data()[fieldName],
-          });
-        });
-      });
-      return unsub;
-    } catch (error) {
-      setErrorFirestore(error.message);
-      handleFirestoreError(error.message);
-      return () => {};
-    } finally {
-      hanldeFiresotreLoadingUnset();
+      handleFirestoreLoadingUnset();
     }
   };
 
@@ -404,8 +273,6 @@ const useFirestore = (collectionName) => {
     updateDocument,
     deleteDocument,
     findDocumentByField,
-    // getDocuments,
-    // getDocument,
   };
 };
 
