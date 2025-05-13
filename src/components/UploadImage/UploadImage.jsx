@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { useClickAway } from "react-use";
 
 import { Button, LinearProgress, IconButton } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -45,6 +44,9 @@ const ImageContainer = styled.div`
   z-index: 1000;
 `;
 
+const ImageContainerUploaded = styled(ImageContainer)`
+  z-index: 0;
+`;
 const UploadedImage = styled.img`
   width: 150px;
   height: auto;
@@ -183,7 +185,7 @@ function UploadLogo() {
           </ActionButtons>
         </ImageContainer>
       ) : imageUrl ? (
-        <ImageContainer>
+        <ImageContainerUploaded>
           <UploadedImage src={imageUrl} alt="Logo" />
           <IconButton
             onClick={confirmRemove}
@@ -197,7 +199,7 @@ function UploadLogo() {
               <DeleteIcon />
             </Tooltip>
           </IconButton>
-        </ImageContainer>
+        </ImageContainerUploaded>
       ) : (
         <Button
           component="label"

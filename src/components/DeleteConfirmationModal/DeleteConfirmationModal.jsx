@@ -1,14 +1,14 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useRef } from "react";
-import "./DeleteConfirmationModal.css";
-import FormButton from "../Form/FormButton/FormButton.jsx";
 import { useClickAway } from "react-use";
-import { motion } from "framer-motion";
 import { useFocusTrap } from "../../hooks/useFocusTrap";
+import FormButton from "../Form/FormButton/FormButton.jsx";
+import "./DeleteConfirmationModal.css";
 
 const modalVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.8 },
+  initial: { opacity: 0, scale: 0.8 },
+  animate: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
+  exit: { opacity: 0, scale: 0.8, transition: { duration: 0.2 } },
 };
 
 function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
@@ -26,47 +26,50 @@ function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
   );
 
   const message = item
-    ? `Element "${item}" zostanie usunięty trwale, czy na pewno chcesz kontynuować?`
+    ? `Element "${item}" zostanie trwale usunięty, czy na pewno chcesz kontynuować?`
     : "Czy na pewno chcesz kontynuować tę operację?";
 
   return (
-    <motion.div
-      className="deleteConfirmationModal"
-      role="dialog"
-      aria-modal="true"
-      variants={modalVariants}
-      initial="hidden"
-      animate={isOpen ? "visible" : "hidden"}
-      exit="exit"
-    >
+    <AnimatePresence>
       <motion.div
-        className="deleteConfirmationModal__content"
-        ref={contentRef}
-        onKeyDown={handleKeyDown}
-        variants={{
-          hidden: { scale: 0.9 },
-          visible: { scale: 1 },
-          exit: { scale: 0.9 },
-        }}
+        key="modal"
+        className="deleteConfirmationModal"
+        role="dialog"
+        aria-modal="true"
+        variants={modalVariants}
+        initial="hidden"
+        animate={isOpen ? "visible" : "hidden"}
+        exit="exit"
       >
-        <h2>{message}</h2>
-        <div className="deleteConfirmationModal__buttons">
-          <FormButton
-            text="Tak"
-            onClick={onClickYes}
-            styles={{
-              backgroundColor: "red",
-              color: "white",
-              "&:hover": {
-                backgroundColor: "darkred",
-              },
-            }}
-            ref={yesButtonRef}
-          />
-          <FormButton text="Nie" onClick={onClickNo} ref={noButtonRef} />
-        </div>
+        <motion.div
+          className="deleteConfirmationModal__content"
+          ref={contentRef}
+          onKeyDown={handleKeyDown}
+          variants={{
+            hidden: { scale: 0.9 },
+            visible: { scale: 1 },
+            exit: { scale: 0.9 },
+          }}
+        >
+          <h2>{message}</h2>
+          <div className="deleteConfirmationModal__buttons">
+            <FormButton
+              text="Tak"
+              onClick={onClickYes}
+              styles={{
+                backgroundColor: "red",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "darkred",
+                },
+              }}
+              ref={yesButtonRef}
+            />
+            <FormButton text="Nie" onClick={onClickNo} ref={noButtonRef} />
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </AnimatePresence>
   );
 }
 

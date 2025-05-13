@@ -15,9 +15,7 @@ const subMenuVariants = {
   },
 };
 const menuItemVariants = {
-  initial: { scale: 0, opacity: 0 },
-  animate: { scale: 1, opacity: 1 },
-  exit: { opacity: 0, y: -10 },
+
 };
 function SubMenu({ item, handleClick }) {
   return (

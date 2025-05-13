@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useStateValue } from "../../../assets/utility/StateProvider";
 import { validate } from "./validete.jsx";
 import useFirestore from "../../../api/useFirestore/useFirestore.jsx";
-import { VITE_INVOICE_COUNTER_ID } from "import.meta.env";
 // mui
 import AddIcon from "@mui/icons-material/Add";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -16,7 +15,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 function AddYear() {
   const [value, setValue] = useState("");
   const [error, setError] = useState(null);
-
+  const { VITE_INVOICE_COUNTER_ID } = import.meta.env;
   const [{ yearArray }, dispatch] = useStateValue();
   const {
     addDocument,
@@ -75,7 +74,7 @@ function AddYear() {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             label="Wpisz Rok"
-            placeholder="np. 2024"
+            placeholder={`np. ${CURRENT_YEAR}`}
             fullWidth
           />
         </div>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import "./style.css";
 
-import { INVOICE_COUNTER_DOCUMENT_ID } from "import.meta.env";
 import { useStateValue } from "@/assets/utility/StateProvider";
 import useFirestore from "@/api/useFirestore/useFirestore";
 import Content from "./Content.jsx";
@@ -12,6 +11,7 @@ function InfoYear() {
   const [userConfirmed, setUserConfirmed] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [{ yearArray }, dispatch] = useStateValue();
+  const { INVOICE_COUNTER_DOCUMENT_ID } = import.meta.env;
 
   const { setDocument, addDocument } = useFirestore("invoices");
 
