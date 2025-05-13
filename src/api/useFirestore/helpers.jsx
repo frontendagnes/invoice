@@ -18,7 +18,7 @@ export function useHelpers(setLoading) {
     dispatch({ type: "UNSET_GLOBAL_LOADING" });
     setLoading(false);
   }, [dispatch, setLoading]);
-  
+
   return {
     handleFirestoreError,
     handleFirestoreLoadingSet,

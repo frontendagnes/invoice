@@ -1,15 +1,26 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import "./Cost.css";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
 import Tooltip from "../Tooltip/Tooltip";
+import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 function Cost({ number, contractor, date, amount, deleteItem, id, nip }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const formattedDate = useMemo(
     () => new Date(date).toLocaleDateString(),
     [date]
   );
   return (
     <div className="cost">
+      {isModalOpen && (
+        <DeleteConfirmationModal
+          isOpen={isModalOpen}
+          onClickYes={() => deleteItem(id)}
+          onClickNo={() => setIsModalOpen(false)}
+          item={contractor}
+        />
+      )}
       <div className="cost__item">
         Numer Faktury: <span>{number}</span>
       </div>
@@ -41,7 +52,7 @@ function Cost({ number, contractor, date, amount, deleteItem, id, nip }) {
       <div className="cost__icons">
         <Tooltip text="Usuń koszt">
           <RemoveCircleIcon
-            onClick={() => deleteItem(id)}
+            onClick={() => setIsModalOpen(true)}
             color="error"
             fontSize="medium"
           />

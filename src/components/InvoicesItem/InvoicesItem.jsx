@@ -10,7 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
 import AddNote from "../AddNote/AddNote";
 import Tooltip from "../Tooltip/Tooltip";
-
+import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 function InvoicesItem({
   name,
   number,
@@ -24,9 +24,18 @@ function InvoicesItem({
   nip,
 }) {
   const [isEdit, setIsEdit] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="invoicesitem">
+      {isModalOpen && (
+        <DeleteConfirmationModal
+          isOpen={isModalOpen}
+          onClickYes={() => deleteItem(index)}
+          onClickNo={() => setIsModalOpen(false)}
+          item={name}
+        />
+      )}
       <div className="invoicesitem__wrapper">
         <div className="invoicesitem__content">
           <div className="invoicesitem__item">
@@ -78,7 +87,7 @@ function InvoicesItem({
           </Tooltip>
           <Tooltip text="Usuń fakturę">
             <RemoveCircleIcon
-              onClick={() => deleteItem(index)}
+              onClick={() => setIsModalOpen(true)}
               color="error"
               fontSize="medium"
               titleAccess="Usuń Fakturę"
