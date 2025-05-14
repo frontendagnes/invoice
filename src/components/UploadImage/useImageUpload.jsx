@@ -21,7 +21,7 @@ const useImageUpload = () => {
     handleFirestoreLoadingSet,
     handleFirestoreLoadingUnset,
   } = useHelpers(setLoading);
-
+ 
   const uploadImage = useCallback(
     (file, onProgress) => {
       handleFirestoreLoadingSet();

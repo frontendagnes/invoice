@@ -1,23 +1,33 @@
 import { useState } from "react";
 import "./SelectedYear.css";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import { deleteDoc, doc, db } from "../../assets/utility/firebase";
+import useFirestore from "../../api/useFirestore/useFirestore";
 //components
 import SelectItem from "./SelectItem";
 import AddYear from "./AddYear";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
-
+import ValidationError from "../ValidationError/ValidationError";
 function SelectedYear() {
-  const [{ yearArray, user }, dispatch] = useStateValue();
+  const [{ yearArray }, dispatch] = useStateValue();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemToDeleteId, setItemToDeleteId] = useState(null);
   const [itemToDeleteName, setItemToDeleteName] = useState(null);
-
+  const { deleteDocument: deleteYear, errorFirestore } =
+    useFirestore("invoices");
   const deleteItem = async (itemId) => {
-    if (itemId) {
-      await deleteDoc(doc(db, "invoices", user.uid, "years", itemId));
-      closeModal();
+    if (!itemId) {
+      dispatch({
+        type: "ALERT_ERROR",
+        item: "Nie można usunąć elementu, ponieważ nie został on znaleziony.",
+      });
+      return;
     }
+    await deleteYear("years", itemId);
+    closeModal();
+    dispatch({
+      type: "ALERT_SUCCESS",
+      item: `Rok ${itemToDeleteName} został usunięty`,
+    });
   };
 
   const openModal = (id, name) => {
@@ -40,17 +50,21 @@ function SelectedYear() {
       </div>
       <h3>Kilknij Rok który chcesz wybrać:</h3>
       <ul className="selectedYear__items">
-        {yearArray
-          .sort((a, b) => b.data.year - a.data.year)
-          .map((item) => (
-            <SelectItem
-              key={item.id}
-              year={item.data.year}
-              deleteItem={() => openModal(item.id, item.data.year)}
-            />
-          ))}
+        {yearArray ? (
+          yearArray
+            .sort((a, b) => b.data.year - a.data.year)
+            .map((item) => (
+              <SelectItem
+                key={item.id}
+                year={item.data.year}
+                deleteItem={() => openModal(item.id, item.data.year)}
+              />
+            ))
+        ) : (
+          <ValidationError text="Nie znaleziono żadnych lat." />
+        )}
       </ul>
-
+      {errorFirestore && <ValidationError text={errorFirestore} />}
       {isModalOpen && (
         <DeleteConfirmationModal
           isOpen={isModalOpen}
