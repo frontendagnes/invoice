@@ -1,0 +1,40 @@
+.contractor {
+    /* Klasa dla elementu <li> */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 20px 40px;
+    position: relative;
+    padding-left: 2.5rem;
+    background-color: #ebebeb;
+    max-width: 80%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+
+.contractor__data>span {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.contractor__data>span:last-child {
+    margin-bottom: 0;
+}
+
+.contractor__name {
+    font-weight: bold;
+}
+
+.contractor__actions span {
+    cursor: pointer;
+    color: #ff0000;
+    transition: color 0.5s ease;
+}
+.contractor__actions span:hover{
+    color:  #8b0000;
+}

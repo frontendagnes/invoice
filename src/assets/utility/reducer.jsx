@@ -142,7 +142,7 @@ const reducer = (state, action) => {
         ...state,
         alert: {
           open: true,
-          message: `Gratualcje! Fakturę usunięto poprawnie`,
+          message: `Gratualcje! Element został usunięty poprawnie`,
           type: "success",
         },
       };

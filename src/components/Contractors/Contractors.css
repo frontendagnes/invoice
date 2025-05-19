@@ -1,0 +1,17 @@
+.contractors__list--container{
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+}
+
+.contactors h2{
+    text-align: center;
+    letter-spacing: 3px;
+    font-weight: normal;
+}
+.contactors__title{
+    font-size: 1.9rem;
+}
+.contractor__list--name{
+    margin-top: 50px;
+}

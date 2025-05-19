@@ -1,9 +1,9 @@
 import React from "react";
 import "./Form.css";
-function Form({ children, onSubmit }) {
+function Form({ children, onSubmit, className }) {
   if (onSubmit) {
     return (
-      <form className="form" onSubmit={onSubmit}>
+      <form className={`form ${className}`} onSubmit={onSubmit}>
         {children}
       </form>
     );
