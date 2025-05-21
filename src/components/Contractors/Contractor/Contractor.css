@@ -38,3 +38,11 @@
 .contractor__actions span:hover{
     color:  #8b0000;
 }
+
+@media screen and (max-width: 600px) {
+
+    .contractor{
+        flex-direction: column;
+        gap: 10px;
+    }
+}

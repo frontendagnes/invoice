@@ -241,9 +241,9 @@ export function useContractorsManagement() {
     const data = {
       contractor: state.contractor,
       nip: state.nip,
-      street: state.street,
-      zipCode: state.zipCode,
-      town: state.town,
+      street: state?.street,
+      zipCode: state?.zipCode,
+      town: state?.town,
     };
     await updateDocument("contractors", editingItemId, data);
 
@@ -273,11 +273,11 @@ export function useContractorsManagement() {
       setState({ contractor: "", nip: "", street: "", zipCode: "", town: "" });
     }
     setState({
-      contractor: item.data?.contractor,
-      nip: item.data?.nip,
-      street: item.data?.street,
-      zipCode: item.data?.zipCode,
-      town: item.data?.town,
+      contractor: item.data?.contractor || "",
+      nip: item.data?.nip || "",
+      street: item.data?.street || "",
+      zipCode: item.data?.zipCode || "",
+      town: item.data?.town || "",
     });
     setEditingItemId(item.id);
   };
