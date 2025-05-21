@@ -69,7 +69,7 @@ function FormProducts({
   };
 
   const handlePriceChange = (e) => {
-    dispatch({ type: "SET_PRICE", price: e.target.value });
+    dispatch({ type: "SET_PRICE", price: e.target.value});
   };
   return (
     <div className="formproducts">

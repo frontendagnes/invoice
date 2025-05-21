@@ -54,6 +54,7 @@ function FormSelect({ seller }) {
       await updateSellerField(select, fieldsToUpdate[select], user, "seller");
     }
     setSelect("");
+    setSelectName("")
   };
   return (
     <div className="formSelect">

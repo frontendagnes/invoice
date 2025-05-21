@@ -24,13 +24,17 @@ const useSearchFilter = (data, selectedYear, field) => {
           ?.toLowerCase()
           .includes(searchText.toLowerCase());
 
-        return fieldMatches || numberMatches || nipMatches;
+        const townMatches = item.data?.town
+          ?.toLowerCase()
+          .includes(searchText.toLowerCase());
+
+        return fieldMatches || numberMatches || nipMatches || townMatches;
       })
       .sort(
         (a, b) =>
           new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
       );
-  }, [data, searchText, selectedYear]);
+  }, [data, searchText, selectedYear, field]);
 
   return { searchText, setSearchText, filteredDataBySearchAndYear };
 };

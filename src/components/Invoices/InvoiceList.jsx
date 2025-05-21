@@ -1,7 +1,3 @@
-import React from "react";
-
-import { getTotal } from "../../assets/functions";
-
 //components
 import InvoicesItem from "../InvoicesItem/InvoicesItem";
 import PaginationUX from "../PaginationUX/PaginationUX";
@@ -25,16 +21,10 @@ const InvoiceList = ({
         invoices.map((item) => (
           <InvoicesItem
             key={item.id}
-            optionalValue={item.data.note}
-            name={item.data.buyer.name}
-            number={item.data.number}
+            item={item}
             index={item.id}
-            date={item.data.date}
-            noteCnt={item.data?.note}
             openDetails={openDetails}
             deleteItem={deleteItem}
-            amount={getTotal(item.data.products)}
-            nip={item.data.buyer.nip}
           />
         ))
       )}

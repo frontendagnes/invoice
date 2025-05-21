@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./InvoicesItem.css";
-
+import { getTotal } from "../../assets/functions";
 //mui
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -11,18 +11,8 @@ import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNum
 import AddNote from "../AddNote/AddNote";
 import Tooltip from "../Tooltip/Tooltip";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
-function InvoicesItem({
-  name,
-  number,
-  index,
-  date,
-  openDetails,
-  deleteItem,
-  amount,
-  noteCnt,
-  optionalValue,
-  nip,
-}) {
+
+function InvoicesItem({ item, index, openDetails, deleteItem }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -33,19 +23,23 @@ function InvoicesItem({
           isOpen={isModalOpen}
           onClickYes={() => deleteItem(index)}
           onClickNo={() => setIsModalOpen(false)}
-          item={name}
+          item={item.data.buyer.name}
         />
       )}
       <div className="invoicesitem__wrapper">
         <div className="invoicesitem__content">
           <div className="invoicesitem__item">
-            <span> Kontrahent:</span> <b>{name}</b>
+            <strong>{item.data.buyer.name}</strong>
+            <strong>{item.data.buyer.street}</strong>
+            <strong>
+              {item.data.buyer.zipcode} {item.data.buyer.town}
+            </strong>
           </div>
 
           <div className="invoicesitem__item">
-            {nip ? (
+            {item.data.buyer.nip ? (
               <>
-                <span> NIP:</span> <b>{nip}</b>
+                <span> NIP:</span> <strong>{item.data.buyer.nip}</strong>
               </>
             ) : (
               <span> BRAK NIp-u </span>
@@ -53,17 +47,17 @@ function InvoicesItem({
           </div>
 
           <div className="invoicesitem__number invoicesitem__item">
-            <span> Numer Faktury: </span> <b>{number}</b>
+            <span> Numer Faktury: </span> <strong>{item.data.number}</strong>
           </div>
           <div className="invoicesitem__item">
-            <span>Data wystawienie:</span> <b>{date}</b>
+            <span>Data wystawienie:</span> <strong>{item.data.date}</strong>
           </div>
           <div className="invoicesitem__item">
             <span>Wartość:</span>
             <DisplayingNumber
-              value={amount}
-              renderText={(value) => (
-                <b>{Number.parseFloat(value || 0).toFixed(2)} zł</b>
+              value={getTotal(item.data.products)}
+              renderText={(formattedValue) => (
+                <strong>{formattedValue || 0} zł</strong>
               )}
             />
           </div>
@@ -95,10 +89,10 @@ function InvoicesItem({
           </Tooltip>
         </div>
       </div>
-      <div className="invoicesitem__note">{noteCnt}</div>
+      <div className="invoicesitem__note">{item.data?.note}</div>
       {isEdit ? (
         <AddNote
-          optionalValue={optionalValue}
+          optionalValue={item.data.note}
           setIsEdit={setIsEdit}
           index={index}
         />

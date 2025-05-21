@@ -25,12 +25,6 @@ function AddContractor({
     }));
   };
 
-  const handleNipChange = (event) => {
-    setState((prevState) => ({
-      ...prevState,
-      nip: event.target.value,
-    }));
-  };
   return (
     <Form
       className="addContractor"

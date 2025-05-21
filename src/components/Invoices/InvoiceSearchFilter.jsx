@@ -1,15 +1,15 @@
 import React, { useEffect, memo } from "react";
 import { TextField } from "@mui/material";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import useSearchFilter from "../../hooks/useSearchFilter";
+// import useSearchFilter from "../../hooks/useSearchFilter";
 import usePagination from "../../hooks/usePagination";
-
+import useInvoiceSearchFilter from "./useInvoiceSearchFilter";
 const ITEMS_PER_PAGE = 10;
 
 const InvoiceSearchFilter = ({ data, onFilterChange }) => {
   const [{ selectedYear }] = useStateValue();
   const { searchText, setSearchText, filteredDataBySearchAndYear } =
-    useSearchFilter(data, selectedYear, "buyer.name");
+    useInvoiceSearchFilter(data, selectedYear);
   const {
     currentPage,
     currentPageData: paginatedDataForList,
