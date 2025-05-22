@@ -5,7 +5,7 @@ import { getTotal } from "../../assets/functions";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import EditIcon from "@mui/icons-material/Edit";
-
+import ConstructionIcon from "@mui/icons-material/Construction";
 //components
 import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
 import AddNote from "../AddNote/AddNote";
@@ -15,6 +15,7 @@ import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmati
 function InvoicesItem({ item, index, openDetails, deleteItem }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCorrectin, setIsCorrection] = useState(false);
 
   return (
     <div className="invoicesitem">
@@ -87,9 +88,23 @@ function InvoicesItem({ item, index, openDetails, deleteItem }) {
               titleAccess="Usuń Fakturę"
             />
           </Tooltip>
+          <Tooltip text="Koryguj fakturę">
+            <ConstructionIcon
+              onClick={() => setIsCorrection(!isCorrectin)}
+              color="action"
+              fontSize="medium"
+              titleAccess="Koryguj fakturę"
+            />
+          </Tooltip>
         </div>
       </div>
       <div className="invoicesitem__note">{item.data?.note}</div>
+      {isCorrectin && (
+        <div>
+          tutaj komponenty odpowiedzialne za korygowanie faktury logika
+          oczywiście osobno
+        </div>
+      )}
       {isEdit ? (
         <AddNote
           optionalValue={item.data.note}

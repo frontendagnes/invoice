@@ -113,6 +113,7 @@ function CreateInvoice() {
     const data = {
       date: state.date,
       number: state.number,
+      documentType: state.check ? "RETURN" : "SALE",
       payment: state.selected,
       buyer: {
         name: state.buyer.name,

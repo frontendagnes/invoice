@@ -1,30 +1,14 @@
-import React, { useState } from "react";
-import "./FormProducts.css";
+import { useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import "./FormProducts.css";
+import { validate } from "./validate.jsx";
+
 //mui
 import { TextField } from "@mui/material";
 //components
-import ValidationError from "../../ValidationError/ValidationError";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
+import ValidationError from "../../ValidationError/ValidationError";
 import FormButton from "../FormButton/FormButton.jsx";
-
-const validate = (title, quantity, price) => {
-  if (!title) {
-    return "Wpisz nazwę produktu";
-  }
-  if (!quantity) {
-    return "Podaj ilość produktów";
-  } else if (quantity < 1) {
-    return "Ilość musi być większa od 0";
-  }
-  if (!price) {
-    return "Podaj cenę jednostkową";
-  }
-  if (price < 0){
-    return "Cena nie może być ujemna"
-  }
-  return null;
-};
 
 function FormProducts({
   title,
@@ -36,9 +20,7 @@ function FormProducts({
 }) {
   const [error, setError] = useState("");
 
-  const endValue = () => {
-    return quantity * price;
-  };
+  const worth = useMemo(() => quantity * price, [quantity, price]);
 
   const addProduct = () => {
     const msg = validate(title, quantity, price);
@@ -51,7 +33,7 @@ function FormProducts({
       title: title,
       quantity: quantity,
       price: price,
-      worth: endValue(),
+      worth: worth,
       vat: 0,
     };
     setProductsStorage([...productsStorage, objStorage]);
@@ -62,14 +44,17 @@ function FormProducts({
   };
   const handleTitleChange = (e) => {
     dispatch({ type: "SET_TITLE", title: e.target.value });
+    setError("");
   };
 
   const handleQuantityChange = (e) => {
-    dispatch({ type: "SET_QUANTITY", quantity: e.target.value });
+    const parsedQuantity = parseFloat(e.target.value || 0);
+    dispatch({ type: "SET_QUANTITY", quantity: parsedQuantity });
+    setError("");
   };
-
   const handlePriceChange = (e) => {
-    dispatch({ type: "SET_PRICE", price: e.target.value});
+    dispatch({ type: "SET_PRICE", price: e.target.value });
+    setError("");
   };
   return (
     <div className="formproducts">

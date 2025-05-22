@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useClickAway } from "react-use";
 import { useFocusTrap } from "../../hooks/useFocusTrap";
 import FormButton from "../Form/FormButton/FormButton.jsx";
@@ -12,6 +12,17 @@ const modalVariants = {
 };
 
 function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [isOpen]);
+
   const contentRef = useRef();
   const yesButtonRef = useRef(null);
   const noButtonRef = useRef(null);
