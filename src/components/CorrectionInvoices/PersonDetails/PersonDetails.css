@@ -1,0 +1,19 @@
+.correctionDetails__persons{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 40px 0px 40px;
+}
+
+.correctionDetails__persons > div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.person__wrapper{
+    display: flex;
+    gap: 5px;
+}
+.person__title{
+    font-weight: 600;
+    letter-spacing: 2px;
+}

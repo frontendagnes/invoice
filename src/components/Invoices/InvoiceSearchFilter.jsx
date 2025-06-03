@@ -3,7 +3,7 @@ import { TextField } from "@mui/material";
 import { useStateValue } from "../../assets/utility/StateProvider";
 // import useSearchFilter from "../../hooks/useSearchFilter";
 import usePagination from "../../hooks/usePagination";
-import useInvoiceSearchFilter from "./useInvoiceSearchFilter";
+import useInvoiceSearchFilter from "../../hooks/useInvoiceSearchFilter";
 const ITEMS_PER_PAGE = 10;
 
 const InvoiceSearchFilter = ({ data, onFilterChange }) => {
@@ -36,7 +36,7 @@ const InvoiceSearchFilter = ({ data, onFilterChange }) => {
   ]);
   return (
     <div className="invoices__nameFilter">
-      <h2>Wyszukaj fkature po kontrahencie, numerze lub NIP</h2>
+      <h2>Wyszukaj fakture po kontrahencie, numerze lub NIP-ie</h2>
       <div className="namefilter__input">
         <TextField
           type="text"

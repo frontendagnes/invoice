@@ -1,0 +1,12 @@
+.correctionDetails__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__center div:first-child {
+    font-size: 1.5rem;
+}
+
+.header__center div:last-child{
+    font-size: 0.9rem;
+}

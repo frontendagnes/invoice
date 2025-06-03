@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./InvoicesDetails.css";
 
 import { getTotal, today } from "../../assets/functions";
+import { amountToWords } from "../../assets/utility/amountToWords";
 import { useStateValue } from "../../assets/utility/StateProvider";
 import { useReactToPrint } from "react-to-print";
 
@@ -137,8 +138,14 @@ function InvoicesDetails({ data }) {
                   </span>
                   <span>
                     {Number.parseFloat(getTotal(item.data.products)).toFixed(2)}{" "}
-                    PLN{" "}
+                    PLN
                   </span>
+                </div>
+                <div>
+                  <span>
+                    <b>Zapłacono słownie:</b>
+                  </span>
+                  <span>{amountToWords(getTotal(item.data.products))}</span>
                 </div>
                 <div>
                   <span>

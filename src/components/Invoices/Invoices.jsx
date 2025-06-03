@@ -1,4 +1,4 @@
-import { useCallback, useState, memo } from "react";
+import { useCallback, useState, memo, useEffect } from "react";
 import "./Invoices.css";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../assets/utility/StateProvider";
@@ -26,7 +26,6 @@ function Invoices({ data }) {
     currentPage: 1,
     setPage: () => {},
   });
-
   const navigate = useNavigate();
 
   const openDetails = useCallback(

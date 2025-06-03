@@ -1,0 +1,41 @@
+.correctionInvoicesItem {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 20px 40px;
+    margin-bottom: 5px;
+    background-color: #ebebeb;
+}
+
+.correctionInvoicesItem:last-child {
+    margin-bottom: 0;
+}
+
+.correctionInvoicesItem__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.content__item {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.correctionInvoicesItem__action{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 800px) {
+    .content__item{
+        width: auto;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+}

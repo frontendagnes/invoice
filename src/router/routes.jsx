@@ -11,6 +11,8 @@ import Records from "../components/Records/Records.jsx";
 import SelectedYear from "../components/SelectedYear/index.jsx";
 import Contractors from "../components/Contractors/Contractors.jsx";
 import Settings from "../components/Settings/Settings.jsx";
+import CorrectionInvoices from "../components/CorrectionInvoices/CorrectionInvoices.jsx";
+import CorrectionDetails from "../components/CorrectionInvoices/CorrectionDetails/CorrectionDetails.jsx";
 const routesConfig = {
   authorization: {
     path: "/authorization",
@@ -29,16 +31,29 @@ const routesConfig = {
       </Layout>
     ),
   },
-  // invoice: {
-  //   path: "/invoice",
-  //   element: <Invoice />,
-  // },
   invoiceDetails: {
     path: "/invoices/:invoiceId",
     element: ({ invoices }) => (
       <>
         <Header />
         <InvoicesDetails data={invoices} />
+      </>
+    ),
+  },
+  corectionInvoices: {
+    path: "/correction-invoices",
+    element: ({ correctionInvoices }) => (
+      <Layout>
+        <CorrectionInvoices data={correctionInvoices} />
+      </Layout>
+    ),
+  },
+  corectionInvoicesDetails: {
+    path: "/correction-invoices/:correctionId",
+    element: ({ correctionInvoices }) => (
+      <>
+        <Header />
+        <CorrectionDetails data={correctionInvoices} />
       </>
     ),
   },

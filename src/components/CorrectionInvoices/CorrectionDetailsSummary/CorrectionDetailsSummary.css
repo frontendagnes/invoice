@@ -1,0 +1,15 @@
+.correctionDetails__summary{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0px 3rem 0px 3rem;
+}
+
+.correctionDetails__summary > div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.correctionDetails__summary>div> span{
+    font-weight: 600;
+}

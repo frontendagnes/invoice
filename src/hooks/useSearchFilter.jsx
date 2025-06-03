@@ -1,3 +1,4 @@
+
 import { useState, useMemo } from "react";
 // Funkcja do bezpiecznego dostępu do zagnieżdżonej właściwości
 const getNestedValue = (obj, path) => {

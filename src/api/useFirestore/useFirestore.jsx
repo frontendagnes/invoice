@@ -283,6 +283,39 @@ const useFirestore = (collectionName) => {
       handleFirestoreLoadingUnset();
     }
   };
+  const getCollectionDocsOnce = async (subCollectionName, queryFn = null) => {
+    handleFirestoreLoadingSet();
+    setErrorFirestore(null);
+    try {
+      if (!user?.uid) {
+        console.warn(
+          "getCollectionDocsOnce: User ID not available. Cannot fetch data."
+        );
+        return { empty: true, size: 0, docs: [] }; // Zwróć obiekt symulujący pusty snapshot
+      }
+
+      const docRef = doc(db, collectionName, user.uid); // Nadrzędny dokument użytkownika
+      let collectionRef = collection(docRef, subCollectionName); // Subkolekcja (np. "invoiceCorrections")
+
+      if (queryFn) {
+        collectionRef = queryFn(collectionRef); // Zastosuj wszelkie zapytania (np. orderBy)
+      }
+
+      const querySnapshot = await getDocs(collectionRef); // <-- Użyj getDocs
+
+      handleFirestoreLoadingUnset();
+      return querySnapshot; // Zwróć cały QuerySnapshot
+    } catch (error) {
+      setErrorFirestore(error.message);
+      handleFirestoreError(error.message);
+      handleFirestoreLoadingUnset();
+      console.error(
+        `Błąd w getCollectionDocsOnce dla kolekcji ${subCollectionName}:`,
+        error
+      );
+      throw error; // Rzuć błąd, aby wyższa warstwa mogła go obsłużyć
+    }
+  };
 
   return {
     loading,
@@ -297,6 +330,7 @@ const useFirestore = (collectionName) => {
     updateDocument,
     deleteDocument,
     findDocumentByField,
+    getCollectionDocsOnce,
   };
 };
 

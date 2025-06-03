@@ -8,8 +8,20 @@ export const menuItems = [
   },
   {
     id: 2,
-    name: "Przychody/Wyszukaj",
+    name: "Faktury",
     href: "/invoices",
+    submenu:[
+      {
+        id: 1,
+        name: "Faktury-podgląd",
+        href: "/invoices"
+      },
+      {
+        id: 2,
+        name: "Faktury korygujące",
+        href: "/correction-invoices"
+      }
+    ]
   },
   {
     id: 3,

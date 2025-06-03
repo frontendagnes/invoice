@@ -1,0 +1,38 @@
+.correctionDetails {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e7e7e7;
+}
+
+#correction {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    box-sizing: border-box;
+    width: 794px;
+    min-height: 1123px;
+    height: 100%;
+    padding: 40px;
+    background-color: #ffffff;
+    font-size: 1rem;
+    position: relative;
+}
+.correctionInvoices__search{
+    padding: 20px 40px;
+}
+.correctionDetails__products,
+.correctionDetails__products>div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.correctionDetails__products>div {
+    gap: 10px
+}
+
+.products__title {
+    letter-spacing: 2px;
+}

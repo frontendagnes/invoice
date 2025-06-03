@@ -1,0 +1,14 @@
+.correctionDetails__sygnature{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 3rem 0px 3rem;
+    margin-top: 40px;
+}
+
+.correctionDetails__sygnature > div{
+    width: 40%;
+}
+.correctionDetails__sygnature>div >div:last-child{
+    border-top:
+    2px solid #000000;
+}

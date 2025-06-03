@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, useCallback } from "react"; // Dodano useCallback
+import React, { useEffect, Suspense, useCallback, useState } from "react"; // Dodano useCallback
 import "./App.css";
 import { renderLoader } from "./assets/functions.jsx";
 import { auth } from "./assets/utility/firebase.jsx";
@@ -17,6 +17,8 @@ import RenderLoader from "./components/RenderLoader/RenderLoader.jsx";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
+  const [allDocuments, setAllDocuments] = useState([]);
+  const [loadingAllDocuments, setLoadingAllDocuments] = useState(true);
 
   useEffect(() => {
     dispatch({ type: "SET_GLOBAL_LOADING" });
@@ -42,6 +44,7 @@ function App() {
   const mapInvoices = useCallback(
     (snapshot) =>
       snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })),
+
     []
   );
 
@@ -102,8 +105,26 @@ function App() {
       item: snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })),
     });
   }, []);
+  const mapDocuments = useCallback((querySnapshot) => {
+    const mappedData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      data: doc.data(),
+    }));
+    return mappedData;
+  }, []);
 
-  // Użycie useFirestoreCollection, pobiera dane z Firestore
+  // --- NOWE: Pobieranie faktur korygujących ---
+  const {
+    data: correctionsData,
+    loading: loadingCorrections,
+    error: errorCorrections,
+  } = useFirestoreCollection(
+    "invoices",
+    "invoiceCorrections",
+    mapDocuments
+    // queryDocuments
+  );
+
   const {
     data: invoicesData,
     loading: loadingInvoices,
@@ -116,6 +137,32 @@ function App() {
   useFirestoreCollection("invoices", "costs", mapCosts, queryCosts);
   useFirestoreCollection("invoices", "seller", mapSeller);
 
+  // Efekt do łączenia danych po ich załadowaniu
+  useEffect(() => {
+    if (
+      !loadingInvoices &&
+      !loadingCorrections &&
+      !errorInvoices &&
+      !errorCorrections
+    ) {
+      const combinedDocuments = [...invoicesData, ...correctionsData];
+      setAllDocuments(combinedDocuments);
+      setLoadingAllDocuments(false);
+    } else if (errorInvoices || errorCorrections) {
+      console.error(
+        "Błąd ładowania faktur lub korekt:",
+        errorInvoices || errorCorrections
+      );
+      setLoadingAllDocuments(false);
+    }
+  }, [
+    invoicesData,
+    correctionsData,
+    loadingInvoices,
+    loadingCorrections,
+    errorInvoices,
+    errorCorrections,
+  ]);
   return (
     <div className="app">
       <Suspense fallback={renderLoader()}>
@@ -127,7 +174,10 @@ function App() {
               index={route.index}
               element={
                 typeof route.element === "function"
-                  ? route.element({ invoices: invoicesData })
+                  ? route.element({
+                      invoices: allDocuments,
+                      correctionInvoices: correctionsData,
+                    })
                   : route.element
               }
             />

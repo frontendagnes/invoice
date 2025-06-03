@@ -49,7 +49,7 @@ function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
         aria-modal="true"
         variants={modalVariants}
         initial="hidden"
-        animate={isOpen ? "visible" : "hidden"}
+        animate="visible"
         exit="exit"
       >
         <motion.div
