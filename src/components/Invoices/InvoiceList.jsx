@@ -10,9 +10,10 @@ const InvoiceList = ({
   totalPages,
   handlePageChange,
   currentPage,
+  allCorrections,
+  openCorrectionDetails,
+  deleteCorrection,
 }) => {
-  // console.log(invoices);
-
   return (
     <>
       {invoices.length === 0 ? (
@@ -20,18 +21,24 @@ const InvoiceList = ({
           <ValidationError text="Nie znaleziono żadnych faktur" />
         </div>
       ) : (
-        invoices
-          .filter((item) => item.data.documentType !== "CORRECTION")
-          .map((item) => (
-            <InvoicesItem
-              key={item.id}
-              item={item}
-              index={item.id}
-              openDetails={openDetails}
-              deleteItem={deleteItem}
-            />
-          ))
+        <div className="invoices__list">
+          {invoices
+            .filter((item) => item.data.documentType !== "CORRECTION")
+            .map((item) => (
+              <InvoicesItem
+                key={item.id}
+                item={item.data}
+                itemId={item.id}
+                openDetails={openDetails}
+                deleteItem={deleteItem}
+                allCorrections={allCorrections}
+                openCorrectionDetails={openCorrectionDetails}
+                deleteCorrection={deleteCorrection}
+              />
+            ))}
+        </div>
       )}
+
       <PaginationUX
         totalPages={totalPages}
         currentPage={currentPage}

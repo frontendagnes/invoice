@@ -67,9 +67,9 @@ const routesConfig = {
   },
   records: {
     path: "/records",
-    element: ({ invoices }) => (
+    element: ({ allInvoices }) => (
       <Layout>
-        <Records data={invoices} />
+        <Records data={allInvoices} />
       </Layout>
     ),
   },

@@ -249,7 +249,7 @@ const useFirestore = (collectionName) => {
     handleFirestoreLoadingSet();
     setErrorFirestore(null);
     try {
-      await deleteDoc(doc(db, collectionName, user.uid, table, id));
+      await deleteDoc(doc(db, collectionName, user?.uid, table, id));
     } catch (err) {
       setErrorFirestore(err.message);
       handleFirestoreError(err.message);

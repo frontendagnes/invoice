@@ -1,3 +1,4 @@
+
 .correctionInvoices__search{
     display: flex;
     flex-direction: column;
@@ -16,3 +17,11 @@
 .correctionsList__empty{
     margin: 0 auto;
 }
+
+.correctionInvoices__empty{
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

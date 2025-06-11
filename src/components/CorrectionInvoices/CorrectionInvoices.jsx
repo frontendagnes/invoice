@@ -38,14 +38,19 @@ function CorrectionInvoices({ data }) {
     },
     [navigate]
   );
-  const deleteItem = useCallback(async (idDoc) => {
-    await deleteDocument("invoiceCorrections", idDoc);
-    dispatch({ type: "ALERT_DELETE" });
-  },[]);
+  const deleteItem = useCallback(
+    async (idDoc) => {
+      await deleteDocument("invoiceCorrections", idDoc);
+      dispatch({ type: "ALERT_DELETE" });
+    },
+    [deleteDocument, dispatch]
+  );
 
   if (!data.length)
     return (
-      <ValidationError text="Nie wystawiłeś jeszcze faktury korygującej" />
+      <div className="correctionInvoices__empty">
+        <ValidationError text="Nie wystawiłeś jeszcze faktury korygującej" />
+      </div>
     );
   return (
     <div className="correctionInvoices">

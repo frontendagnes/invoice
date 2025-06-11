@@ -35,7 +35,7 @@ function AddNote({ optionalValue, setIsEdit, index }) {
           value={note}
           onChange={(e) => setNote(e.target.value)}
           id="outlined-basic"
-          label="Edytuj Notatkę"
+          label={optionalValue ? "Edytuj notatkę" : "Dodaj notatkę"}
           placeholder="np. informacja o zwrocie, terminie płatności itp."
           variant="outlined"
           sx={{ backgroundColor: "#ffffff"}}

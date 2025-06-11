@@ -5,6 +5,7 @@ import CorrectionInvoicesItem from "./CorrectionInvoicesItem/CorrectionInvoicesI
 import ValidationError from "../ValidationError/ValidationError";
 
 function CorrectionsList({ data, openDetails, deleteItem }) {
+
   if (data.length === 0)
     return (
       <div className="correctionsList__empty">

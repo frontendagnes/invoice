@@ -36,6 +36,9 @@ function AddCorrectionInvoiceModal({
     handleSubmitCorrection,
   } = useCorrectionForm(originalInvoice); // Przekazujemy originalInvoice do hooka
 
+  useEffect(() => {
+    console.log("corectionAt", correctionForm.createdAt);
+  }, [correctionForm.createdAt]);
   const contentRef = useRef(null);
   useClickAway(contentRef, onClose);
 
@@ -116,7 +119,7 @@ function AddCorrectionInvoiceModal({
             <Form onSubmit={onSubmitHandler}>
               {originalInvoice && (
                 <div>
-                  Korygujesz fakturę nr:{" "}
+                  Korygujesz fakturę nr:
                   <strong>{originalInvoice.number}</strong>
                   <p>ID oryginalnej faktury: {originalInvoiceId}</p>
                 </div>
@@ -132,6 +135,20 @@ function AddCorrectionInvoiceModal({
                 margin="normal"
                 required
               />
+              <div>
+                <span>Data wystawienia:</span>
+                <TextField
+                  name="createdAt"
+                  value={correctionForm.createdAt}
+                  onChange={handleChange}
+                  id="createdAt"
+                  label="Data wystawianie korekty"
+                  type="date"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                />
+              </div>
               <div className="addCorrectionInvoice__inputs">
                 <div className="addCorrectionInvoice__original-buyer">
                   <h3>Oryginalne dane kupującego:</h3>

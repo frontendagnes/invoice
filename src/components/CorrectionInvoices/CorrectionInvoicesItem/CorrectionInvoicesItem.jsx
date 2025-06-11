@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import "./CorrectionInvoicesItem.css";
 import { getTotal } from "../../../assets/functions";
 import { dateFormated, getCorrectionWorth } from "../util/helpers";
@@ -8,10 +8,21 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 //componets
 import DisplayingNumber from "../../NumberComponents/DisplayingNumber/DisplayingNumber";
 import Tooltip from "../../Tooltip/Tooltip";
-
+import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal";
 function CorrectionInvoicesItem({ item, itemId, openDetails, deleteItem }) {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+
   return (
     <div className="correctionInvoicesItem">
+      {isOpenModal && (
+        <DeleteConfirmationModal
+          isOpen={isOpenModal}
+          onClickYes={() => deleteItem(itemId)}
+          onClickNo={() => setIsOpenModal(false)}
+          item={item.correctedHeader.correctedBuyer.name}
+        />
+      )}
       <div className="correctionInvoicesItem_wrapper">
         <div className="correctionInvoicesItem__content">
           <div className="content__item">
@@ -76,7 +87,7 @@ function CorrectionInvoicesItem({ item, itemId, openDetails, deleteItem }) {
             <RemoveCircleIcon
               fontSize="large"
               color="error"
-              onClick={() => deleteItem(itemId)}
+              onClick={() => setIsOpenModal(true)}
               titleAccess={`Usuń korektę nr ${item.correctionNumber}`}
               sx={{ cursor: "pointer" }}
             />

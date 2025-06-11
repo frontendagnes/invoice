@@ -1,5 +1,6 @@
 import { useMemo, useRef } from "react";
 import "./CorrectionDetails.css";
+
 import { getCorrectionWorth } from "../util/helpers";
 import { useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
@@ -26,8 +27,16 @@ function CorrectionDetails({ data }) {
     return data.find((doc) => doc.id === correctionId);
   }, [data, correctionId]);
 
+  if (!correctionItem) {
+    return (
+      <ValidationError
+        text={`Błąd ładowania danych lub korekta o ID: ${correctionId} nie została znaleziona.`}
+      />
+    );
+  }
   const { data: correctionData } = correctionItem;
   const { originalInvoiceData } = correctionData;
+  const { correctedHeader } = correctionData;
 
   const totalOriginalWorth = useMemo(() => {
     return originalInvoiceData?.products
@@ -46,13 +55,6 @@ function CorrectionDetails({ data }) {
     return totalOriginalWorth + totalCorrectionWorth;
   }, [totalOriginalWorth, totalCorrectionWorth]);
 
-  if (!correctionItem) {
-    return (
-      <ValidationError
-        text={`Błąd ładowania danych lub korekta o ID: ${correctionId} nie została znaleziona.`}
-      />
-    );
-  }
   return (
     <div className="correctionDetails">
       <Print onClick={() => handlePrint()} />
@@ -70,7 +72,7 @@ function CorrectionDetails({ data }) {
         />
         <CorrectionDetailsPersons
           seller={originalInvoiceData?.seller}
-          buyer={originalInvoiceData?.buyer}
+          buyer={correctedHeader?.correctedBuyer}
         />
 
         <div className="correctionDetails__products">
@@ -97,7 +99,10 @@ function CorrectionDetails({ data }) {
           totalCorrectionWorth={totalCorrectionWorth}
           totalWorthAfterCorrection={totalWorthAfterCorrection}
         />
-        <CorrectionDetailsSignature originalInvoiceData={originalInvoiceData} />
+        <CorrectionDetailsSignature
+          originalInvoiceData={originalInvoiceData}
+          correctedHeader={correctedHeader}
+        />
       </div>
       <Footer />
     </div>

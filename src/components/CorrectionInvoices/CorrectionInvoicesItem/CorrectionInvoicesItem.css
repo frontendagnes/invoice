@@ -5,37 +5,74 @@
     margin-bottom: 5px;
     background-color: #ebebeb;
 }
-
+.correctionInvoicesItem:first-child{
+    border-radius: 10px 10px 0 0;
+}
+.correctionInvoicesItem:last-child {
+    border-radius: 0px 0px 10px 10px;
+}
 .correctionInvoicesItem:last-child {
     margin-bottom: 0;
 }
 
 .correctionInvoicesItem__content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
 }
 
 .content__item {
-    width: 40%;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1;
 }
 
-.correctionInvoicesItem__action{
+.content__item strong {
+    height: 3rem;
+}
+
+.correctionInvoicesItem__action {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 2rem;
     margin-top: 20px;
 }
 
+@media screen and (max-width: 820px) {
+    .content__item strong {
+        height: 4rem;
+    }
+}
+
 @media screen and (max-width: 800px) {
-    .content__item{
+
+    .content__item {
         width: auto;
         justify-content: flex-start;
         gap: 10px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .correctionInvoicesItem__content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .content__item {
+        width: 90%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .content__item strong {
+        height: auto
     }
 }

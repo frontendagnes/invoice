@@ -19,7 +19,6 @@ function App() {
   const [{ user }, dispatch] = useStateValue();
   const [allDocuments, setAllDocuments] = useState([]);
   const [loadingAllDocuments, setLoadingAllDocuments] = useState(true);
-
   useEffect(() => {
     dispatch({ type: "SET_GLOBAL_LOADING" });
     const authUser = onAuthStateChanged(auth, (authUser) => {
@@ -105,7 +104,8 @@ function App() {
       item: snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })),
     });
   }, []);
-  const mapDocuments = useCallback((querySnapshot) => {
+
+  const mapCorrections = useCallback((querySnapshot) => {
     const mappedData = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       data: doc.data(),
@@ -113,6 +113,10 @@ function App() {
     return mappedData;
   }, []);
 
+  const queryCorrections = useCallback(
+    (ref) => query(ref, orderBy("createdAt", "asc")),
+    []
+  );
   // --- NOWE: Pobieranie faktur korygujących ---
   const {
     data: correctionsData,
@@ -121,8 +125,8 @@ function App() {
   } = useFirestoreCollection(
     "invoices",
     "invoiceCorrections",
-    mapDocuments
-    // queryDocuments
+    mapCorrections
+    // queryCorrections
   );
 
   const {
@@ -136,9 +140,8 @@ function App() {
   useFirestoreCollection("invoices", "number", mapNumber);
   useFirestoreCollection("invoices", "costs", mapCosts, queryCosts);
   useFirestoreCollection("invoices", "seller", mapSeller);
-
-  // Efekt do łączenia danych po ich załadowaniu
   useEffect(() => {
+
     if (
       !loadingInvoices &&
       !loadingCorrections &&
@@ -175,8 +178,9 @@ function App() {
               element={
                 typeof route.element === "function"
                   ? route.element({
-                      invoices: allDocuments,
+                      invoices: invoicesData,
                       correctionInvoices: correctionsData,
+                      allInvoices: allDocuments,
                     })
                   : route.element
               }

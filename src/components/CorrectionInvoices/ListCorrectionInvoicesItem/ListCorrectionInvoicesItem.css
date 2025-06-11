@@ -1,0 +1,31 @@
+.listCorrectionInvoices{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.listCorrectionInvoices__items{
+    flex: 1 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.listCorrectionInvoices__item{
+    display: flex;
+    gap: 10px;
+}
+.listCorrectionInvoices__action{
+    display: flex;
+    gap: 10px;
+}
+
+@media screen and (max-width: 800px) {
+
+    .listCorrectionInvoices,
+    .listCorrectionInvoices__items {
+        flex-direction: column;
+    }
+}

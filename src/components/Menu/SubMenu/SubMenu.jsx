@@ -1,4 +1,3 @@
-import React from "react";
 import "./SubMenu.css";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -15,7 +14,8 @@ const subMenuVariants = {
   },
 };
 const menuItemVariants = {
-
+  initial: { scale: 0, opacity: 0 },
+  animate: { scale: 1, opacity: 1 },
 };
 function SubMenu({ item, handleClick }) {
   return (

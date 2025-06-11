@@ -9,8 +9,16 @@ import InvoiceDateFilter from "./InvoiceDataFilter.jsx";
 import InvoiceSearchFilter from "./InvoiceSearchFilter.jsx";
 import InvoiceList from "./InvoiceList.jsx";
 function Invoices({ data }) {
+  const [allCorrections, setAllCorrections] = useState([]);
   const [{ user }, dispatch] = useStateValue();
-  const { deleteDocument } = useFirestore("invoices");
+  const { deleteDocument, getData: getCorrectionsData } =
+    useFirestore("invoices");
+
+
+  useEffect(() => {
+    if (!user) return;
+    getCorrectionsData("invoiceCorrections", null, null, setAllCorrections);
+  }, [user]);
 
   const [dateFilterResult, setDateFilterResult] = useState({
     data: [],
@@ -39,6 +47,18 @@ function Invoices({ data }) {
     await deleteDocument("invoice", itemId);
     dispatch({ type: "ALERT_DELETE" });
   };
+
+  const openCorrectionDetails = useCallback((details) =>{
+    navigate(`/correction-invoices/${details}`);
+  },[navigate])
+
+  const deleteCorrection = useCallback(
+    async (idDoc) => {
+      await deleteDocument("invoiceCorrections", idDoc);
+      dispatch({ type: "ALERT_DELETE" });
+    },
+    [deleteDocument, dispatch]
+  );
   const handleFilterChange = useCallback((filterType, result) => {
     if (filterType === "date") {
       setDateFilterResult(result);
@@ -57,6 +77,9 @@ function Invoices({ data }) {
           totalPages={dateFilterResult.totalPages}
           handlePageChange={dateFilterResult.handlePageChange}
           currentPage={dateFilterResult.currentPage}
+          allCorrections={allCorrections}
+          openCorrectionDetails={openCorrectionDetails}
+          deleteCorrection={deleteCorrection}
         />
       </div>
       <InvoiceSearchFilter onFilterChange={handleFilterChange} data={data} />
@@ -68,6 +91,9 @@ function Invoices({ data }) {
           totalPages={searchFilterResult.totalPages}
           handlePageChange={searchFilterResult.handlePageChange}
           currentPage={searchFilterResult.currentPage}
+          allCorrections={allCorrections}
+          openCorrectionDetails={openCorrectionDetails}
+          deleteCorrection={deleteCorrection}
         />
       </div>
     </div>

@@ -12,7 +12,9 @@
     margin-bottom: 5px;
     margin-top: 5px;
 }
-
+.invoices__list-section{
+    padding: 0px 20px;
+}
 .invoices__emptyList {
     display: flex;
     align-items: center;

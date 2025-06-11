@@ -2,12 +2,13 @@
 import { useCallback, useEffect, useState } from "react";
 import useFirestore from "../api/useFirestore/useFirestore.jsx";
 import { generateCorrectionNumber } from "../components/CorrectionInvoices/util/generateCorrectionNumber.jsx";
-
+import { today } from "../assets/functions.jsx";
 export const useCorrectionForm = (originalInvoice) => {
   const { getCollectionDocsOnce, addDocument } = useFirestore("invoices");
 
   const initialFormState = {
     reason: "",
+    createdAt: today() || "",
     correctedIssueDate: originalInvoice?.date || "",
     buyer: {
       name: originalInvoice?.buyer?.name || "",
@@ -22,7 +23,12 @@ export const useCorrectionForm = (originalInvoice) => {
     // z dodatkowymi polami do korekty
     correctedItems: [],
   };
-
+  useEffect(() => {
+    console.log(
+      "useCorrectionForm initialFormState.createdAt",
+      initialFormState.createdAt
+    );
+  }, [initialFormState.createdAt]);
   const [correctionForm, setCorrectionForm] = useState(initialFormState);
   const [currentTotal, setCurrentTotal] = useState(0);
 
@@ -214,7 +220,8 @@ export const useCorrectionForm = (originalInvoice) => {
     const payload = {
       originalInvoiceId: originalInvoiceId,
       documentType: "CORRECTION",
-      createdAt: new Date().toISOString(),
+      createdAt: correctionForm.createdAt,
+      recordCreationTimestamp: new Date().toISOString(),
       // correctionNumber zostanie dodany w AddCorrectionInvoiceModal (lub w Firebase Functions)
       reason: correctionForm.reason,
       correctedHeader: {
@@ -251,6 +258,7 @@ export const useCorrectionForm = (originalInvoice) => {
           title: p.title || "",
           quantity: Number(p.quantity || 0),
           price: Number(p.price || 0),
+          worth: Number(p.worth || 0),
           vat: Number(p.vat || 0),
         })),
         totalWorth: Number(originalInvoice.worth || 0),
@@ -291,7 +299,6 @@ export const useCorrectionForm = (originalInvoice) => {
       payload.correctionNumber = generatedCorrectionNum;
 
       await addDocument(payload, "invoiceCorrections");
-      console.log("Dodano do bazy danych:", payload);
       onClose();
     } catch (error) {
       console.error("Błąd podczas zapisywania faktury korygującej:", error);

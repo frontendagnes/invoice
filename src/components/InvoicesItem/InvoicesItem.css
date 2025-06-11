@@ -1,34 +1,46 @@
 .invoicesitem {
+  position: relative;
   margin-bottom: 5px;
   background: #ebebebfa;
   padding: 20px;
-  border-radius: 10px;
 }
-
+.invoicesitem:first-child {
+  border-radius: 10px 10px 0px 0px;
+}
+.invoicesitem:last-child {
+  border-radius: 0px 0px 10px 10px;
+}
 .invoicesitem__wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-
 }
 
 .invoicesitem__content {
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 90%;
+  align-items: flex-start;
+  flex: 1 1;
 }
 
 .invoicesitem__item {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  width: 20%;
+  align-items: center;
+  margin: 0 auto;
 }
 
+.invoicesitem__item strong {
+  margin-bottom: 10px;
+}
+
+.invoicesitem__buyer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+}
 
 .invoicesitem__number a {
   margin-left: 5px;
@@ -39,14 +51,14 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 10%;
+  gap: 20px;
 }
 
 .invoicesitem__icons>div {
   width: 33%;
 }
 
-.invoicesitem__note {
+.invoicesItem__note {
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -57,25 +69,66 @@
   letter-spacing: 2px;
 }
 
+.invoicesItem__corrections {
+  background-color: #d3d3d3;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.invoicesItem__corrections--action {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0px;
+}
+
+.invoiceItem__displayNote>div {
+  background-color: #d3d3d3;
+  width: 80%;
+  padding: 0px 20px;
+  border-radius: 5px;
+
+}
+
+.invoicesItem__corrections-container,
+.invoiceItem__displayNote {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform 0.75s ease;
+  z-index: 10;
+}
+
+.invoicesItem__corrections-container.expanded,
+.invoiceItem__displayNote.expanded {
+  transform: scaleY(1);
+}
+
 @media screen and (max-width: 800px) {
   .invoicesitem__wrapper {
     flex-direction: column;
-    align-items: center;
   }
-  .invoicesitem {
+
+  .invoicesitem__content {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px
   }
 
   .invoicesitem__item {
-    width: 100%;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 50%;
     flex-direction: row;
+    justify-content: space-between;
   }
-  .invoicesitem__icons{
-    gap: 20px;
-    justify-content: center;
+}
+
+@media screen and (max-width: 510px) {
+  .invoicesitem__item {
+    width: 90%;
   }
+
 }

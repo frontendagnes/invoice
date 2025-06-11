@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 
 const usePagination = (data, itemsPerPage) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,9 +17,9 @@ const usePagination = (data, itemsPerPage) => {
     setCurrentPage(1);
   }, [data]);
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = useCallback((event, value) => {
     setCurrentPage(value);
-  };
+  },[]);
   return {
     currentPage,
     currentPageData,
