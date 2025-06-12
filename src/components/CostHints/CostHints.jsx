@@ -1,28 +1,33 @@
-import React, { useCallback, useMemo, useRef, useEffect} from "react";
+import { useCallback, useMemo, useRef, useEffect } from "react";
 import "./costHints.css";
 
-//mui
-import CloseIcon from "@mui/icons-material/Close";
 //components
 import useListNavigation from "../../hooks/useListNavigation";
 
 function CostHints(props) {
-  const { data, setContractor, setNip, value, setValue, setIsViewTips } = props;
+  const { data, setNip, value, setValue, setIsViewTips } = props;
   const listContainerRef = useRef(null);
 
   const handleItemSelected = useCallback(
     (item) => {
       if (item?.data) {
-        setContractor(item.data.contractor);
         setNip(item.data.nip);
         setValue(item.data.contractor);
         setIsViewTips(false);
       }
     },
-    [setContractor, setNip, setValue, setIsViewTips]
+    [ setNip, setValue, setIsViewTips]
   );
+  const filteredData = useMemo(() => {
+    return data.filter(
+      (item) =>
+        item.data.contractor.toLowerCase().includes(value.toLowerCase()) ||
+        item.data.nip.toLowerCase().includes(value.toLowerCase())
+    );
+  }, [data, value]);
+
   const { selectedIndex, changeIndex } = useListNavigation(
-    data,
+    filteredData,
     setIsViewTips,
     handleItemSelected
   );
@@ -48,15 +53,8 @@ function CostHints(props) {
     }
   }, [selectedIndex, data]);
 
-
-  const filtredData = useMemo(() => {
-    const filter = data.filter(
-      (item) =>
-        item.data.contractor.toLowerCase().includes(value.toLowerCase()) ||
-        item.data.nip.toLowerCase().includes(value.toLowerCase())
-    );
-
-    if (filter.length === 0) {
+  const showData = useMemo(() => {
+    if (filteredData.length === 0) {
       return (
         <div className="costHinst__no-results">
           Żaden element nie odpowiada wyszukiwanemu kryterium
@@ -64,7 +62,7 @@ function CostHints(props) {
       );
     }
 
-    return filter.map((item, index) => (
+    return filteredData.map((item, index) => (
       <div
         key={item.id}
         className={`costHinst__item ${index === selectedIndex ? "active" : ""}`}
@@ -75,18 +73,9 @@ function CostHints(props) {
     ));
   }, [data, value, selectedIndex, handleClick]);
   return (
-    <div
-      className="costHinst"
-      ref={listContainerRef}
-    >
-      <span
-        className="costHints__close"
-        onClick={() => setIsViewTips(false)}
-      >
-        <CloseIcon />
-      </span>
+    <div className="costHinst">
       <div className="costHinst__constainer" ref={listContainerRef}>
-        {filtredData}
+        {showData}
       </div>
     </div>
   );

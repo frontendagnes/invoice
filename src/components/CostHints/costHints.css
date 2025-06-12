@@ -1,8 +1,3 @@
-:root{
-    --sticky-top: 5px;
-    --sticky-top-margin: -30px
-}
-
 .costHinst {
     box-sizing: border-box;
     position: absolute;
@@ -16,16 +11,11 @@
     background: #ffffff;
     border: 1px solid #808080;
     border-radius: 1px 1px 10px 10px;
-    z-index: 999;
+    z-index: 9999;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-height: 300px;
     overflow: scroll;
     cursor: pointer;
-}
-.costHinst::before{
-    content: '';
-    display: block;
-    height: var(--sticky-top);
-    margin-top: var(--sticky-top-margin);
 }
 .costHinst__item,
 .costHinst__no-results {
@@ -50,23 +40,6 @@
 .costHinst__item.active {
     color: #ffffff;
     background-color: #007bff;
-}
-
-.costHints__close {
-    position: sticky;
-    top: var(--sticky-top);
-    right: 10px;
-    align-self: flex-end;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    background: #ff0000;
-    border: 1px solid transparent;
-    border-radius: 999px;
-    transition: background 0.75s ease;
-    z-index: 99999;
 }
 
 .costHints__close:hover {

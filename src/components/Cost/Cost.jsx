@@ -1,6 +1,9 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import "./Cost.css";
+//mui
+import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+//components
 import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
 import Tooltip from "../Tooltip/Tooltip";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
@@ -41,7 +44,7 @@ function Cost({ number, contractor, date, amount, deleteItem, id, nip }) {
         Data wystawienia: <span>{formattedDate}</span>
       </div>
       <div className="cost__item">
-        Wartość:{" "}
+        Wartość:
         <DisplayingNumber
           value={amount}
           renderText={(value) => (
@@ -50,6 +53,13 @@ function Cost({ number, contractor, date, amount, deleteItem, id, nip }) {
         />
       </div>
       <div className="cost__icons">
+        <Tooltip text="Edytuj koszt">
+          <EditIcon
+            onClick={() => console.log("Edit functionality not implemented")}
+            color="primary"
+            fontSize="medium"
+          />
+        </Tooltip>
         <Tooltip text="Usuń koszt">
           <RemoveCircleIcon
             onClick={() => setIsModalOpen(true)}

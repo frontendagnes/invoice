@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { useStateValue } from "../../../assets/utility/StateProvider";
 import usePagination from "../../../hooks/usePagination";
 //components

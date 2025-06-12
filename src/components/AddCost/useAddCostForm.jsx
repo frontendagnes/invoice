@@ -1,12 +1,12 @@
-// useAddCostForm.js
 import { useEffect, useState } from "react";
 import { validate, validateContractor } from "./validate";
 import useFirestore from "../../api/useFirestore/useFirestore";
 import { useStateValue } from "../../assets/utility/StateProvider";
+import useDebouncedValue from "../../hooks/useDebounceValue";
 
 function useAddCostForm() {
   const [{ user, contractors }, dispatch] = useStateValue();
-  const { loading, errorFirestore, getData, addDocument, findDocumentByField } =
+  const { loading, errorFirestore, getData, addDocument } =
     useFirestore("invoices");
 
   const [number, setNumber] = useState("");
@@ -17,6 +17,8 @@ function useAddCostForm() {
   const [test, setTest] = useState("");
   const [isViewTips, setIsViewTips] = useState(false);
 
+  const debouncedContractor = useDebouncedValue(contractor, 400);
+
   useEffect(() => {
     getHints();
   }, [user, dispatch]);
@@ -26,6 +28,18 @@ function useAddCostForm() {
       await getData("contractors", "SET_CONTRACTORS");
     }
   };
+
+  useEffect(() => {
+    if (debouncedContractor && debouncedContractor.length >= 2) {
+      getHints();
+    }
+  }, [debouncedContractor]);
+
+  useEffect(() => {
+    if (contractor.trim() === "") {
+      setIsViewTips(false);
+    }
+  }, [contractor]);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -76,6 +90,11 @@ function useAddCostForm() {
     });
   };
 
+  const handleChangeTip = (e) => {
+    setContractor(e.target.value);
+    setIsViewTips(true);
+  };
+  const handleChangeInput = (setter) => (e) => setter(e.target.value);
   return {
     number,
     contractor,
@@ -96,7 +115,8 @@ function useAddCostForm() {
     setIsViewTips,
     handleClick,
     addContractor,
-    getHints,
+    handleChangeTip,
+    handleChangeInput,
   };
 }
 

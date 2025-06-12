@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import { useRef } from "react";
 import "./AddCost.css";
-
+import { useClickAway } from "react-use";
 import useAddCostForm from "./useAddCostForm.jsx";
-import useDebouncedValue from "../../hooks/useDebounceValue.jsx";
 
 //mui
 import { TextField } from "@mui/material";
@@ -36,29 +35,23 @@ function AddCost() {
     setIsViewTips,
     handleClick,
     addContractor,
-    getHints: fetchHints,
+    handleChangeTip,
+    handleChangeInput,
   } = useAddCostForm();
 
-  const debouncedContractor = useDebouncedValue(contractor, 400);
+  const closeRef = useRef(null);
+  useClickAway(closeRef, () => {
+    setIsViewTips(false);
+  });
 
-  useEffect(() => {
-    if (debouncedContractor && debouncedContractor.length >= 2) {
-      fetchHints();
-    }
-  }, [debouncedContractor]);
-
-  const handleChangeTip = (e) => {
-    setContractor(e.target.value);
-    setIsViewTips(true);
-  };
   return (
-    <form className="addcost" onClick={() => setIsViewTips(false)}>
+    <form className="addcost">
       <AntySpam test={test} setTest={setTest} />
       <ValidationError text={errorFirestore} />
       <h2>Dodaj Koszt</h2>
       <AddContractor addContractor={addContractor} loading={loading} />
       <div className="addcost__wrapper">
-        <div className="addcost__item">
+        <div className="addcost__item" ref={closeRef}>
           <TextField
             label="Kontrahent"
             value={contractor}
@@ -70,7 +63,6 @@ function AddCost() {
             <CostHints
               data={costHints}
               value={contractor}
-              setContractor={setContractor}
               setNip={setNip}
               setIsViewTips={setIsViewTips}
               setValue={setContractor}
@@ -84,7 +76,7 @@ function AddCost() {
             placeholder="___-___-__-__"
             label="NIP"
             value={nip}
-            onChange={(e) => setNip(e.target.value)}
+            onChange={handleChangeInput(setNip)}
             helperText="Podaj numer NIP"
           />
         </div>
@@ -92,32 +84,34 @@ function AddCost() {
           <TextField
             label="Numer Faktury"
             value={number}
-            onChange={(e) => setNumber(e.target.value)}
+            onChange={handleChangeInput(setNumber)}
             fullWidth
             helperText="Podaj numer faktury"
           />
         </div>
         <div className="addcost__item">
           <TextField
+            label="Data faktury"
             value={date}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={handleChangeInput(setDate)}
             type="date"
             fullWidth
             helperText="Podaj datę faktury"
+            InputLabelProps={{ shrink: true }}
           />
         </div>
         <div className="addcost__item">
           <NumericField
             label="Kwota Faktury"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={handleChangeInput(setAmount)}
             helperText="Podaj kwotę brutto faktury"
             numeric
           />
         </div>
       </div>
       <FormButton
-        text={loading ? "Dodaje" : "Dodaj Koszt"}
+        text={loading ? "Dodaje..." : "Dodaj Koszt"}
         onClick={handleClick}
         disabled={loading}
       />
