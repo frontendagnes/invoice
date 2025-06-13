@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { validate, validateContractor } from "./validate";
-import useFirestore from "../../api/useFirestore/useFirestore";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { validate, validateContractor } from "../components/AddCost/validate";
+import useFirestore from "../api/useFirestore/useFirestore";
+import { useStateValue } from "../assets/utility/StateProvider";
 
-function useAddCostForm() {
+function useCostForm() {
   const [{ user, contractors }, dispatch] = useStateValue();
   const { loading, errorFirestore, getData, addDocument } =
     useFirestore("invoices");
@@ -111,4 +111,4 @@ function useAddCostForm() {
   };
 }
 
-export default useAddCostForm;
+export default useCostForm;

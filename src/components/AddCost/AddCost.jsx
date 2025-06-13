@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import "./AddCost.css";
 import { useClickAway } from "react-use";
-import useAddCostForm from "./useAddCostForm.jsx";
+import useCostForm from "../../hooks/useCostForm.jsx";
 
 //mui
 import { TextField } from "@mui/material";
 
 //components
-import AntySpam from "../AntySpam/AntySpam";
+import AntySpam from "../AntySpam/AntySpam.jsx";
 import NumericField from "../NumberComponents/NumericField/NumericField.jsx";
 import CostHints from "../CostHints/CostHints.jsx";
 import FormButton from "../Form/FormButton/FormButton.jsx";
@@ -37,7 +37,7 @@ function AddCost() {
     addContractor,
     handleChangeTip,
     handleChangeInput,
-  } = useAddCostForm();
+  } = useCostForm();
 
   const closeRef = useRef(null);
   useClickAway(closeRef, () => {

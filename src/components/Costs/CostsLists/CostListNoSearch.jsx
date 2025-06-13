@@ -38,12 +38,8 @@ function CostListNoSearch({ costs, deleteItem }) {
         sortedData.map((item) => (
           <Cost
             key={item.id}
-            id={item.id}
-            number={item.data.number}
-            contractor={item.data.contractor}
-            date={item.data.date}
-            amount={item.data.amount}
-            nip={item.data.nip}
+            itemId={item.id}
+            item={item.data}
             deleteItem={deleteItem}
           />
         ))

@@ -19,6 +19,7 @@ function NumericField(props) {
     className,
     helperText,
     numeric,
+    error,
   } = props;
 
   // Ta funkcja jest wywoływana przez `react-number-format` poprzez prop `onValueChange`
@@ -60,6 +61,7 @@ function NumericField(props) {
           renderText={renderText}
           className={className}
           helperText={helperText}
+          error={error}
           allowedDecimalSeparators={[",", "."]}
           thousandSeparator={true}
           decimalScale={2}
@@ -79,6 +81,7 @@ function NumericField(props) {
           renderText={renderText}
           className={className}
           helperText={helperText}
+          error={error}
           fullWidth
         />
       )}

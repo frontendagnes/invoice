@@ -1,4 +1,3 @@
-import React from "react";
 
 //cpmponents
 import Cost from "../../Cost/Cost";
@@ -22,12 +21,8 @@ function CostsList({
         costs.map((item) => (
           <Cost
             key={item.id}
-            id={item.id}
-            number={item.data.number}
-            contractor={item.data.contractor}
-            nip={item.data.nip}
-            date={item.data.date}
-            amount={item.data.amount}
+            itemId={item.id}
+            item={item.data}
             deleteItem={deleteItem}
           />
         ))

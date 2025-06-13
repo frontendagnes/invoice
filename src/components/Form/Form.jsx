@@ -8,7 +8,7 @@ function Form({ children, onSubmit, className }) {
       </form>
     );
   }
-  return <form className="form">{children}</form>;
+  return <form className={`form ${className}`}>{children}</form>;
 }
 
 export default Form;
