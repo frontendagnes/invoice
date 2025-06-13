@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { validate, validateContractor } from "./validate";
 import useFirestore from "../../api/useFirestore/useFirestore";
 import { useStateValue } from "../../assets/utility/StateProvider";
-import useDebouncedValue from "../../hooks/useDebounceValue";
 
 function useAddCostForm() {
   const [{ user, contractors }, dispatch] = useStateValue();
@@ -17,8 +16,6 @@ function useAddCostForm() {
   const [test, setTest] = useState("");
   const [isViewTips, setIsViewTips] = useState(false);
 
-  const debouncedContractor = useDebouncedValue(contractor, 400);
-
   useEffect(() => {
     getHints();
   }, [user, dispatch]);
@@ -28,12 +25,6 @@ function useAddCostForm() {
       await getData("contractors", "SET_CONTRACTORS");
     }
   };
-
-  useEffect(() => {
-    if (debouncedContractor && debouncedContractor.length >= 2) {
-      getHints();
-    }
-  }, [debouncedContractor]);
 
   useEffect(() => {
     if (contractor.trim() === "") {
