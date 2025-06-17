@@ -1,19 +1,19 @@
-import { useState } from "react";
 import {
-  db,
-  collection,
-  doc,
   addDoc,
-  updateDoc,
+  collection,
+  db,
   deleteDoc,
-  getDocs,
+  doc,
   getDoc,
-  setDoc,
+  getDocs,
   onSnapshot,
   query,
+  setDoc,
+  updateDoc,
   where,
-} from "@/assets/utility/firebase";
-import { useStateValue } from "../../assets/utility/StateProvider";
+} from "../config/firebase";
+import { useState } from "react";
+import { useStateValue } from "../../utility/StateProvider";
 import { useHelpers } from "./helpers";
 
 const useFirestore = (collectionName) => {

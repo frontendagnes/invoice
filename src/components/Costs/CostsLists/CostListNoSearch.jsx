@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { useStateValue } from "../../../assets/utility/StateProvider";
+import { useStateValue } from "../../../utility/StateProvider";
 import usePagination from "../../../hooks/usePagination";
 //components
-import Cost from "../../Cost/Cost";
+import Cost from "../Cost/Cost.jsx";
 import ValidationError from "../../ValidationError/ValidationError";
 import PaginationUX from "../../PaginationUX/PaginationUX.jsx";
 

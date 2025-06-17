@@ -1,5 +1,5 @@
 import React from "react";
-import { useStateValue } from "@/assets/utility/StateProvider.jsx";
+import { useStateValue } from "@/utility/StateProvider.jsx";
 
 //components
 import Authorization from "@/components/Authorization/Authoryzation.jsx";

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./SelectedYear.css";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { useStateValue } from "../../utility/StateProvider";
 import useFirestore from "../../api/useFirestore/useFirestore";
 //components
 import SelectItem from "./SelectItem";

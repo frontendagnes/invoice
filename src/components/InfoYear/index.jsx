@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import "./style.css";
 
-import { useStateValue } from "@/assets/utility/StateProvider";
+import { useStateValue } from "@/utility/StateProvider";
 import useFirestore from "@/api/useFirestore/useFirestore";
+//components
 import Content from "./Content.jsx";
 
 const CURRENT_YEAR = new Date().getFullYear();

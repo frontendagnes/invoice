@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
-import { today } from "../assets/functions.jsx";
-import { getDateFromItem } from "../assets/utility/documentFiltres"; // <-- WAŻNE: Zaimportuj getDateFromItem
+import { today } from "../utility/functions.jsx";
+import { getDateFromItem } from "../utility/documentFiltres"; // <-- WAŻNE: Zaimportuj getDateFromItem
 
 const useDateFilter = (data, selectedYear) => {
   const [filterDate, setFilterDate] = useState(today());

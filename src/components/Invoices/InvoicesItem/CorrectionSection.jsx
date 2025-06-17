@@ -1,5 +1,5 @@
-import FormButton from "../Form/FormButton/FormButton";
-import ListCorrectionInvoicesItem from "../CorrectionInvoices/ListCorrectionInvoicesItem/ListCorrectionInvoicesItem";
+import FormButton from "../../Form/FormButton/FormButton";
+import ListCorrectionInvoicesItem from "../ListCorrectionInvoicesItem/ListCorrectionInvoicesItem";
 
 const CorrectionSection = ({
   isSettings,

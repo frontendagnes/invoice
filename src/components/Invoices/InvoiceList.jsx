@@ -1,5 +1,5 @@
 //components
-import InvoicesItem from "../InvoicesItem/InvoicesItem";
+import InvoicesItem from "./InvoicesItem/InvoicesItem.jsx";
 import PaginationUX from "../PaginationUX/PaginationUX";
 import ValidationError from "../ValidationError/ValidationError";
 

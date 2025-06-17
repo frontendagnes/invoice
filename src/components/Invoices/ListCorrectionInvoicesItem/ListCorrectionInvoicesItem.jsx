@@ -1,18 +1,21 @@
 import { useState } from "react";
+import {
+  dateFormated,
+  getCorrectionWorth,
+} from "../../CorrectionInvoices/util/helpers";
 import "./ListCorrectionInvoicesITem.css";
-import { dateFormated, getCorrectionWorth } from "../util/helpers";
 //mui
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import Tooltip from "../../Tooltip/Tooltip";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal";
+import Tooltip from "../../Tooltip/Tooltip";
 function ListCorrectionInvoicesItem({
   item,
   itemId,
   openCorrectionDetails,
   deleteCorrection,
 }) {
-  const [isDeleteModal, setIsDeleteModal] = useState(false)
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
   const totalWorthCorrection = getCorrectionWorth(item.correctedItems) || 0;
 
   return (

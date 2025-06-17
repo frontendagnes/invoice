@@ -1,16 +1,16 @@
 import { useCallback, useState } from "react";
 import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject,
-  setDoc,
-  doc,
-  storage,
   db,
-} from "../../assets/utility/firebase";
-import { useStateValue } from "../../assets/utility/StateProvider";
+  deleteObject,
+  doc,
+  getDownloadURL,
+  ref,
+  setDoc,
+  storage,
+  uploadBytesResumable,
+} from "../../api/config/firebase";
 import { useHelpers } from "../../api/useFirestore/helpers";
+import { useStateValue } from "../../utility/StateProvider";
 
 const useImageUpload = () => {
   const [{ user }, dispatch] = useStateValue();
@@ -21,7 +21,7 @@ const useImageUpload = () => {
     handleFirestoreLoadingSet,
     handleFirestoreLoadingUnset,
   } = useHelpers(setLoading);
- 
+
   const uploadImage = useCallback(
     (file, onProgress) => {
       handleFirestoreLoadingSet();

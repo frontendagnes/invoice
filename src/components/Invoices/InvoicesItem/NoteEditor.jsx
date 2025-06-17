@@ -1,4 +1,4 @@
-import AddNote from "../AddNote/AddNote";
+import AddNote from "../../AddNote/AddNote";
 
 const NoteEditor = ({ isEdit, refNote, optionalValue, setIsEdit, itemId }) => {
   return (

@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useEffect } from "react";
 import "./costHints.css";
 
 //components
-import useListNavigation from "../../hooks/useListNavigation";
+import useListNavigation from "../../../hooks/useListNavigation";
 
 function CostHints(props) {
   const { data, setNip, value, setValue, setIsViewTips } = props;

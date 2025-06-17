@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useStateValue } from "../../../assets/utility/StateProvider";
+import { useStateValue } from "../../../utility/StateProvider";
 import { validate } from "./validete.jsx";
 import useFirestore from "../../../api/useFirestore/useFirestore.jsx";
 // mui

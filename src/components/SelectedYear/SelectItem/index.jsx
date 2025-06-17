@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useStateValue } from "../../../assets/utility/StateProvider";
+import { useStateValue } from "../../../utility/StateProvider";
 //mui
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 //components

@@ -37,7 +37,7 @@ import {
 } from "firebase/storage";
 
 // Your web app's Firebase configuration
-import { firebaseConfig, firebaseConfigTest } from "@/assets/utility/config";
+import { firebaseConfig, firebaseConfigTest } from "./config";
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfigTest);
@@ -45,25 +45,6 @@ const storage = getStorage(firebaseApp);
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider(firebaseApp);
-// export const getCosts = (dispatch, user) => {
-//   const docRef = doc(db, "invoices", user?.uid)
-//   const ref = collection(docRef, "costs")
-//   if (user) {
-//     try {
-//       getDocs(ref).then((snapshot) => {
-//         dispatch({
-//           type: "SET_COSTS",
-//           item: snapshot.docs.map((doc) => ({
-//             id: doc.id,
-//             data: doc.data(),
-//           })),
-//         });
-//       });
-//     } catch (error) {
-//       console.log("err>>", error);
-//     }
-//   }
-// };
 
 export {
   db,

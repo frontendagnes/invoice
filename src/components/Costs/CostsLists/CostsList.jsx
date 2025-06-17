@@ -1,6 +1,6 @@
 
 //cpmponents
-import Cost from "../../Cost/Cost";
+import Cost from "../Cost/Cost.jsx";
 import ValidationError from "../../ValidationError/ValidationError";
 import PaginationUX from "../../PaginationUX/PaginationUX";
 

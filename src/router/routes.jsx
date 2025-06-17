@@ -4,7 +4,7 @@ import Costs from "../components/Costs/Costs.jsx";
 import Header from "../components/Header/Header.jsx";
 import Home from "../components/Home/Home.jsx";
 import Invoices from "../components/Invoices/Invoices.jsx";
-import InvoicesDetails from "../components/InvoicesDetails/InvoicesDetails.jsx";
+import InvoicesDetails from "../components/Invoices/InvoicesDetails/InvoicesDetails.jsx";
 import Layout from "../components/Layout/Layout.jsx";
 import NoMatch from "../components/NoMatch/NoMatch.jsx";
 import Records from "../components/Records/Records.jsx";

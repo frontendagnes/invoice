@@ -1,4 +1,4 @@
-import { today } from "../../assets/functions";
+import { today } from "../../utility/functions";
 
 export const initialState = {
   count: 0,

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./AddNote.css";
 
 import useFirestore from "../../api/useFirestore/useFirestore";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { useStateValue } from "../../utility/StateProvider";
 //mui
 import { TextField } from "@mui/material";
 //components

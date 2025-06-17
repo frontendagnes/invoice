@@ -1,13 +1,13 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 import "./Cost.css";
-import { useClickOutside } from "../../hooks/useClickOutside";
+import { useClickOutside } from "../../../hooks/useClickOutside";
 //mui
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 //components
-import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
-import Tooltip from "../Tooltip/Tooltip";
-import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
+import DisplayingNumber from "../../NumberComponents/DisplayingNumber/DisplayingNumber";
+import Tooltip from "../../Tooltip/Tooltip";
+import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal";
 import EditCost from "../EditCost/EditCost";
 function Cost({ item, itemId }) {
   const { number, contractor, date, amount, deleteItem, nip } = item;
@@ -25,6 +25,7 @@ function Cost({ item, itemId }) {
     }
   };
   useEffect(() => {
+    if (!isEditCost) return;
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);

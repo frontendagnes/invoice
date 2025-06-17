@@ -1,16 +1,16 @@
 // src/components/AddCorrectionInvoice/AddCorrectionInvoiceModal.jsx
 import { useEffect, useRef } from "react";
-import "./AddCorrectionInvoice.css"; // Twój plik CSS
+import "./AddCorrectionInvoice.css";
 
-import { TextField } from "@mui/material"; // Mui TextField
-import { AnimatePresence, motion } from "framer-motion"; // Do animacji
-import { useClickAway } from "react-use"; // Biblioteka do obsługi kliknięcia poza elementem
+import { TextField } from "@mui/material";
+import { AnimatePresence, motion } from "framer-motion";
+import { useClickAway } from "react-use";
 
 // Import komponentów
-import { useCorrectionForm } from "../../../hooks/useCorrectionForm.jsx"; // Nasz nowy hook
-import Form from "../../Form/Form"; // Zakładam, że masz komponent Form
-import FormButton from "../../Form/FormButton/FormButton"; // Zakładam, że masz komponent FormButton
-import CorrectionItemRow from "../CorrectionItemRow/CorrectionItemRow"; // Nasz nowy komponent wiersza
+import { useCorrectionForm } from "../useCorrectionForm.jsx";
+import Form from "../../Form/Form";
+import FormButton from "../../Form/FormButton/FormButton";
+import CorrectionItemRow from "../CorrectionItemRow/CorrectionItemRow";
 
 // Animacje dla modala
 const modalVariants = {
@@ -25,7 +25,7 @@ function AddCorrectionInvoiceModal({
   originalInvoice,
   originalInvoiceId,
 }) {
-  // Używamy naszego custom hooka do zarządzania logiką formularza
+  // Używamy custom hooka do zarządzania logiką formularza
   const {
     correctionForm,
     currentTotal,

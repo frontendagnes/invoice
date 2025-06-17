@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { useStateValue } from "../../utility/StateProvider";
 
 export function useHelpers(setLoading) {
   const [{ user }, dispatch] = useStateValue();

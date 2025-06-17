@@ -1,18 +1,18 @@
 import { useRef } from "react";
-import "./AddCost.css";
 import { useClickAway } from "react-use";
-import useCostForm from "../../hooks/useCostForm.jsx";
+import "./AddCost.css";
+import useCostForm from "../useCostForm.jsx";
 
 //mui
 import { TextField } from "@mui/material";
 
 //components
-import AntySpam from "../AntySpam/AntySpam.jsx";
-import NumericField from "../NumberComponents/NumericField/NumericField.jsx";
+import AntySpam from "../../AntySpam/AntySpam.jsx";
 import CostHints from "../CostHints/CostHints.jsx";
-import FormButton from "../Form/FormButton/FormButton.jsx";
+import FormButton from "../../Form/FormButton/FormButton.jsx";
+import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
+import ValidationError from "../../ValidationError/ValidationError.jsx";
 import AddContractor from "./AddContractor.jsx";
-import ValidationError from "../ValidationError/ValidationError.jsx";
 
 function AddCost() {
   const {

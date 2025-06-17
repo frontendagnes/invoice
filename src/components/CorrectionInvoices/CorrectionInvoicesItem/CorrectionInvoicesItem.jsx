@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import "./CorrectionInvoicesItem.css";
-import { getTotal } from "../../../assets/functions";
+import { getTotal } from "../../../utility/functions";
 import { dateFormated, getCorrectionWorth } from "../util/helpers";
 //mui
 import VisibilityIcon from "@mui/icons-material/Visibility";

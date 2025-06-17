@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import "./Costs.css";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { useStateValue } from "../../utility/StateProvider";
 import useFirestore from "../../api/useFirestore/useFirestore";
 //components
-import AddCost from "../AddCost/AddCost";
+import AddCost from "./AddCost/AddCost.jsx";
 import TabGenerator from "../TabGenerator/TabGenerator";
 import CostsList from "./CostsLists/CostsList.jsx";
 import CostListNoSearch from "./CostsLists/CostListNoSearch.jsx";

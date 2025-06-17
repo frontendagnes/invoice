@@ -2,11 +2,11 @@ import { useState } from "react";
 import "./FormSelect.css";
 //mui
 import { FormControl } from "@mui/material";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import useFirestore from "../../../api/useFirestore/useFirestore";
-import { useStateValue } from "../../../assets/utility/StateProvider";
+import { useStateValue } from "../../../utility/StateProvider";
 // components
 import Tooltip from "../../Tooltip/Tooltip";
 import FormButton from "../FormButton/FormButton";
@@ -54,7 +54,7 @@ function FormSelect({ seller }) {
       await updateSellerField(select, fieldsToUpdate[select], user, "seller");
     }
     setSelect("");
-    setSelectName("")
+    setSelectName("");
   };
   return (
     <div className="formSelect">

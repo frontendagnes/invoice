@@ -1,9 +1,9 @@
 import {
   getFilteredAndSortedDocuments,
   getDisplayDataForTable,
-} from "../../../assets/utility/documentFiltres"; // Upewnij się, że ścieżka i nazwa pliku są poprawne
+} from "../../../utility/documentFiltres"; // Upewnij się, że ścieżka i nazwa pliku są poprawne
 import DisplayingNumber from "../../NumberComponents/DisplayingNumber/DisplayingNumber";
-import { getTotal } from "../../../assets/functions"; // Zakładam, że getTotal jest w assets/functions
+import { getTotal } from "../../../utility/functions"; // Zakładam, że getTotal jest w assets/functions
 
 function IncomeSheets(props) {
   const { months, sumMonth, number, data, cumTotal, selectedYear } = props;

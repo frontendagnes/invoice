@@ -1,6 +1,6 @@
 import React, { useEffect, memo } from "react";
 import { TextField } from "@mui/material";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { useStateValue } from "../../utility/StateProvider";
 // import useSearchFilter from "../../hooks/useSearchFilter";
 import usePagination from "../../hooks/usePagination";
 import useInvoiceSearchFilter from "../../hooks/useInvoiceSearchFilter";

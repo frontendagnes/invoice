@@ -2,15 +2,15 @@ import { useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./InvoicesDetails.css";
 
-import { getTotal, today } from "../../assets/functions";
-import { amountToWords } from "../../assets/utility/amountToWords";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { getTotal, today } from "../../../utility/functions";
+import { amountToWords } from "../../../utility/amountToWords";
+import { useStateValue } from "../../../utility/StateProvider";
 import { useReactToPrint } from "react-to-print";
 
 //compontents
-import Footer from "../Footer/Footer";
-import {PrintSeller, PrintSellerList} from "../PrintSeller/PrintSeller";
-import Print from "../Print/index";
+import Footer from "../../Footer/Footer";
+import {PrintSeller, PrintSellerList} from "../../PrintSeller/PrintSeller";
+import Print from "../../Print/index";
 
 function InvoicesDetails({ data }) {
   let { invoiceId } = useParams();

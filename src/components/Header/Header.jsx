@@ -1,5 +1,5 @@
 import React from "react";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { useStateValue } from "../../utility/StateProvider";
 import useAuth from "../../api/useAuth/useAuth";
 import "./Header.css";
 //comonents

@@ -1,4 +1,4 @@
-import DisplayingNumber from "../NumberComponents/DisplayingNumber/DisplayingNumber";
+import DisplayingNumber from "../../NumberComponents/DisplayingNumber/DisplayingNumber";
 
 function InvoiceMeta({ item, amountInvoice }) {
   return (

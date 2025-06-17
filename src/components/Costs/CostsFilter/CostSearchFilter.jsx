@@ -1,8 +1,10 @@
-import React, { useEffect, memo } from "react";
-import { TextField } from "@mui/material";
-import { useStateValue } from "../../../assets/utility/StateProvider";
+import { useEffect, memo } from "react";
+
+import { useStateValue } from "../../../utility/StateProvider";
 import useSearchFilter from "../../../hooks/useSearchFilter";
 import usePagination from "../../../hooks/usePagination";
+//mui
+import { TextField } from "@mui/material";
 
 const ITEMS_PER_PAGE = 5;
 

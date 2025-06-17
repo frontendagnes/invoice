@@ -1,6 +1,6 @@
 import { memo } from "react";
 import "./CorrectionDetailsSummary.css";
-import { amountToWords } from "../../../assets/utility/amountToWords";
+import { amountToWords } from "../../../utility/amountToWords";
 const CorrectionDetailsSummary = memo(
   ({ totalOriginalWorth, totalCorrectionWorth, totalWorthAfterCorrection }) => {
     return (

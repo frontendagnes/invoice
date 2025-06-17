@@ -1,13 +1,13 @@
 import React, { useEffect, Suspense, useCallback, useState } from "react"; // Dodano useCallback
 import "./App.css";
-import { renderLoader } from "./assets/functions.jsx";
-import { auth } from "./assets/utility/firebase.jsx";
-import { useStateValue } from "./assets/utility/StateProvider.jsx";
+import { renderLoader } from "./utility/functions.jsx";
+import { auth } from "./api/config/firebase.jsx";
+import { useStateValue } from "./utility/StateProvider.jsx";
 import {
   onAuthStateChanged,
   orderBy,
   query,
-} from "./assets/utility/firebase.jsx";
+} from "./api/config/firebase.jsx";
 import { useFirestoreCollection } from "./api/useFirestore/useFirestoreCollection.jsx";
 import { Routes, Route } from "react-router-dom";
 import routesConfig from "./router/routes.jsx";

@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import "./records.style.css";
 import {
   getFilteredAndSortedDocuments,
   getDateFromItem,
-} from "../../assets/utility/documentFiltres";
-import { getTotal, today } from "../../assets/functions";
-import { useStateValue } from "../../assets/utility/StateProvider";
+} from "../../utility/documentFiltres";
+import { getTotal, today } from "../../utility/functions";
+import { useStateValue } from "../../utility/StateProvider";
 import { useReactToPrint } from "react-to-print";
 
 // mui

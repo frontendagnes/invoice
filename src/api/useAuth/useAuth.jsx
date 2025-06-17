@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
   auth,
@@ -8,8 +8,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
-} from "@/assets/utility/firebase";
-import { useStateValue } from "@/assets/utility/StateProvider";
+} from "@/api/config/firebase";
+import { useStateValue } from "@/utility/StateProvider";
 import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {

@@ -1,7 +1,7 @@
 // src/hooks/useInvoiceSearchFilter.js
 import { useState, useMemo } from "react";
 
-import { getDateFromItem } from "../assets/utility/documentFiltres";
+import { getDateFromItem } from "../utility/documentFiltres";
 
 const useInvoiceSearchFilter = (dataToFilter, selectedYear) => {
   const [searchText, setSearchText] = useState("");

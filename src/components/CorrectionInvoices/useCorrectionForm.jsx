@@ -1,8 +1,8 @@
 // src/hooks/useCorrectionForm.jsx
 import { useCallback, useEffect, useState } from "react";
-import useFirestore from "../api/useFirestore/useFirestore.jsx";
-import { generateCorrectionNumber } from "../components/CorrectionInvoices/util/generateCorrectionNumber.jsx";
-import { today } from "../assets/functions.jsx";
+import useFirestore from "../../api/useFirestore/useFirestore.jsx";
+import { generateCorrectionNumber } from "./util/generateCorrectionNumber.jsx";
+import { today } from "../../utility/functions.jsx";
 export const useCorrectionForm = (originalInvoice) => {
   const { getCollectionDocsOnce, addDocument } = useFirestore("invoices");
 

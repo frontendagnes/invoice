@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { db, collection, onSnapshot, doc } from "../../assets/utility/firebase";
-import { useStateValue } from "../../assets/utility/StateProvider";
+import { db, collection, onSnapshot, doc } from "../config/firebase";
+import { useStateValue } from "../../utility/StateProvider";
 
 export const useFirestoreCollection = (
   collectionName,

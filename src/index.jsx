@@ -4,8 +4,8 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, HashRouter } from "react-router-dom";
-import { StateProvider } from "./assets/utility/StateProvider";
-import reducer, { initialState } from "./assets/utility/reducer";
+import { StateProvider } from "./utility/StateProvider";
+import reducer, { initialState } from "./utility/reducer";
 
 const container = document.getElementById("root");
 const root = createRoot(container);

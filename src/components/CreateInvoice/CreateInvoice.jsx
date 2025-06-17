@@ -1,35 +1,32 @@
 import { useEffect, useReducer } from "react";
 import "./CreateInvoice.css";
 
-import { useLocalStorage } from "../../assets/utility/storage";
 import useFirestore from "../../api/useFirestore/useFirestore";
+import { useLocalStorage } from "../../utility/storage";
 
 import { useNavigate } from "react-router-dom";
-import { useStateValue } from "../../assets/utility/StateProvider";
-import { getTotal } from "../../assets/functions";
+import { getTotal } from "../../utility/functions";
+import { useStateValue } from "../../utility/StateProvider";
 import { validate, validateSeller } from "../Form/ValidateHomeForm";
 
-import { increment } from "../../assets/utility/firebase";
+import { increment } from "../../api/config/firebase";
 
-import {
-  initialState,
-  invoiceReducer,
-} from "../../api/reducers/invoiceReducer";
+import { initialState, invoiceReducer } from "./invoiceReducer";
 
 //components
 import Form from "../Form/Form";
-import FormPerson from "../Form/FormPerson/FormPerson";
+import FormButton from "../Form/FormButton/FormButton";
+import { FooterNote, FooterSummary } from "../Form/FormFooter/FormFooter";
 import FormPayment from "../Form/FormPaymnet/FormPayment";
+import FormPerson from "../Form/FormPerson/FormPerson";
 import FormProducts from "../Form/FormProducts/FormProducts";
+import FormSelect from "../Form/FormSelect/FormSelect";
+import Number from "../Form/FormTop/Left/Number";
+import DataPlace from "../Form/FormTop/Right/DataPlace";
+import ButtonToggle from "../Form/ToggleButton/ToggleButton";
 import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
 import UploadImage from "../UploadImage/UploadImage";
-import ButtonToggle from "../Form/ToggleButton/ToggleButton";
-import DataPlace from "../Form/FormTop/Right/DataPlace";
-import Number from "../Form/FormTop/Left/Number";
-import FormButton from "../Form/FormButton/FormButton";
 import ValidationError from "../ValidationError/ValidationError";
-import FormSelect from "../Form/FormSelect/FormSelect";
-import { FooterNote, FooterSummary } from "../Form/FormFooter/FormFooter";
 
 function CreateInvoice() {
   const {
