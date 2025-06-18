@@ -1,4 +1,3 @@
-import React from "react";
 import "./ViewProducts.css";
 
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -9,6 +8,14 @@ function ViewProducts({ productsStorage, setProductsStorage }) {
     setProductsStorage(newProducts);
 
   };
+
+  if (!productsStorage.length) {
+    return (
+      <div className="viewproducts__empty">
+        Dodaj produkty do faktury, aby je zobaczyć.
+      </div>
+    );
+  }
   return (
     <div className="viewproducts">
       <table>

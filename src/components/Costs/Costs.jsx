@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import "./Costs.css";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 import useFirestore from "../../api/useFirestore/useFirestore";
 //components
 import AddCost from "./AddCost/AddCost.jsx";

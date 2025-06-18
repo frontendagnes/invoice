@@ -1,6 +1,6 @@
 import { useEffect, memo } from "react";
 
-import { useStateValue } from "../../../utility/StateProvider";
+import { useStateValue } from "../../../state/StateProvider";
 import useDateFilter from "../../../hooks/useDateFilter.jsx";
 import usePagination from "../../../hooks/usePagination.jsx";
 //mui

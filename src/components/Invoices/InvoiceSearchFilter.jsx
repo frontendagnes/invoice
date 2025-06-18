@@ -1,9 +1,11 @@
-import React, { useEffect, memo } from "react";
-import { TextField } from "@mui/material";
-import { useStateValue } from "../../utility/StateProvider";
-// import useSearchFilter from "../../hooks/useSearchFilter";
+import { useEffect, memo } from "react";
+
+import { useStateValue } from "../../state/StateProvider";
 import usePagination from "../../hooks/usePagination";
 import useInvoiceSearchFilter from "../../hooks/useInvoiceSearchFilter";
+//mui
+import { TextField } from "@mui/material";
+
 const ITEMS_PER_PAGE = 10;
 
 const InvoiceSearchFilter = ({ data, onFilterChange }) => {

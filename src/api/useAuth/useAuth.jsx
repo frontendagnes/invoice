@@ -9,7 +9,7 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from "@/api/config/firebase";
-import { useStateValue } from "@/utility/StateProvider";
+import { useStateValue } from "@/state/StateProvider";
 import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {

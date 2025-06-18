@@ -1,16 +1,12 @@
-import React, { useEffect, Suspense, useCallback, useState } from "react"; // Dodano useCallback
+import { useEffect, Suspense, useCallback, useState } from "react";
 import "./App.css";
 import { renderLoader } from "./utility/functions.jsx";
 import { auth } from "./api/config/firebase.jsx";
-import { useStateValue } from "./utility/StateProvider.jsx";
-import {
-  onAuthStateChanged,
-  orderBy,
-  query,
-} from "./api/config/firebase.jsx";
+import { useStateValue } from "./state/StateProvider.jsx";
+import { onAuthStateChanged, orderBy, query } from "./api/config/firebase.jsx";
 import { useFirestoreCollection } from "./api/useFirestore/useFirestoreCollection.jsx";
 import { Routes, Route } from "react-router-dom";
-import routesConfig from "./router/routes.jsx";
+import routesConfig from "../routes.jsx";
 //components
 import SnackBar from "./components/Snackbar/Snackbar.jsx";
 import RenderLoader from "./components/RenderLoader/RenderLoader.jsx";
@@ -141,7 +137,6 @@ function App() {
   useFirestoreCollection("invoices", "costs", mapCosts, queryCosts);
   useFirestoreCollection("invoices", "seller", mapSeller);
   useEffect(() => {
-
     if (
       !loadingInvoices &&
       !loadingCorrections &&

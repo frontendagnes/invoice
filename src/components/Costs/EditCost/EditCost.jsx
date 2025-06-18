@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useFirestore from "../../../api/useFirestore/useFirestore.jsx";
-import { useStateValue } from "../../../utility/StateProvider.jsx";
+import { useStateValue } from "../../../state/StateProvider.jsx";
 import "./EditCost.css";
 import { validate } from "./validate.js";
 //mui

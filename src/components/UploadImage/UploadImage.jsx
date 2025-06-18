@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
-import { useStateValue } from "../../utility/StateProvider.jsx";
+import { useStateValue } from "../../state/StateProvider.jsx";
 //mui
 import CheckIcon from "@mui/icons-material/Check";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";

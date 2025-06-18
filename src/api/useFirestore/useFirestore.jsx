@@ -13,7 +13,7 @@ import {
   where,
 } from "../config/firebase";
 import { useState } from "react";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 import { useHelpers } from "./helpers";
 
 const useFirestore = (collectionName) => {

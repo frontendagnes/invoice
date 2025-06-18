@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 
 export function useHelpers(setLoading) {
   const [{ user }, dispatch] = useStateValue();
@@ -14,6 +14,7 @@ export function useHelpers(setLoading) {
     dispatch({ type: "SET_GLOBAL_LOADING" });
     setLoading(true);
   }, [dispatch, setLoading]);
+
   const handleFirestoreLoadingUnset = useCallback(() => {
     dispatch({ type: "UNSET_GLOBAL_LOADING" });
     setLoading(false);

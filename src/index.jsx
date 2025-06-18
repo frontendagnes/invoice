@@ -4,8 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, HashRouter } from "react-router-dom";
-import { StateProvider } from "./utility/StateProvider";
-import reducer, { initialState } from "./utility/reducer";
+import { StateProvider } from "./state/StateProvider";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -21,7 +20,7 @@ root.render(
         // v7_skipActionErrorRevalidation: true,
       }}
     >
-      <StateProvider initialState={initialState} reducer={reducer}>
+      <StateProvider>
         <App />
       </StateProvider>
     </BrowserRouter>

@@ -1,10 +1,11 @@
+import "./InvoicesDetails.css";
+
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
-import "./InvoicesDetails.css";
 
 import { getTotal, today } from "../../../utility/functions";
 import { amountToWords } from "../../../utility/amountToWords";
-import { useStateValue } from "../../../utility/StateProvider";
+import { useStateValue } from "../../../state/StateProvider";
 import { useReactToPrint } from "react-to-print";
 
 //compontents

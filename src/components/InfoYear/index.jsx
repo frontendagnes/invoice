@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./style.css";
 
-import { useStateValue } from "@/utility/StateProvider";
+import { useStateValue } from "@/state/StateProvider";
 import useFirestore from "@/api/useFirestore/useFirestore";
 //components
 import Content from "./Content.jsx";

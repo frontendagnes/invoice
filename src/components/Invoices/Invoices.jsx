@@ -1,7 +1,7 @@
 import { useCallback, useState, memo, useEffect } from "react";
 import "./Invoices.css";
 import { useNavigate } from "react-router-dom";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 
 import useFirestore from "../../api/useFirestore/useFirestore.jsx";
 //components

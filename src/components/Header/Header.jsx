@@ -1,7 +1,7 @@
-import React from "react";
-import { useStateValue } from "../../utility/StateProvider";
-import useAuth from "../../api/useAuth/useAuth";
 import "./Header.css";
+
+import { useStateValue } from "../../state/StateProvider";
+import useAuth from "../../api/useAuth/useAuth";
 //comonents
 import Menu from "../Menu/Menu";
 import HeaderLeft from "./HeaderLeft";

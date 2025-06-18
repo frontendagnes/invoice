@@ -1,5 +1,4 @@
-import React from "react";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 import { CircularProgress } from "@mui/material";
 
 function RenderLoader() {

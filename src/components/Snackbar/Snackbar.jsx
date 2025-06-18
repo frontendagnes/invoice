@@ -1,6 +1,6 @@
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 
 function SnackBar() {
   const [{ alert }, dispatch] = useStateValue();

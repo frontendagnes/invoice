@@ -2,7 +2,7 @@ import Tooltip from "../../Tooltip/Tooltip";
 //mui
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import EditIcon from "@mui/icons-material/Edit";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 import ConstructionIcon from "@mui/icons-material/Construction";
 
 const InvoiceIcons = ({
@@ -26,7 +26,7 @@ const InvoiceIcons = ({
 
       <Tooltip text="Dodaj notatkę">
         <span ref={refNoteButton}>
-          <EditIcon
+          <EditNoteIcon
             onClick={onEditNote}
             color="primary"
             fontSize="medium"

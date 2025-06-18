@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useFirestore from "../../api/useFirestore/useFirestore";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 import { validate, validateContractor } from "./AddCost/validate";
 
 function useCostForm() {

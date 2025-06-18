@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useStateValue } from "../../../utility/StateProvider";
+import { useStateValue } from "../../../state/StateProvider";
 import usePagination from "../../../hooks/usePagination";
 //components
 import Cost from "../Cost/Cost.jsx";

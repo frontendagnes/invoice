@@ -3,6 +3,13 @@
     display: flex;
     align-items: center;
 }
+.viewproducts__empty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 3px;
+    font-size: 1rem;
+}
 .vieproducts__button{
     cursor: pointer;
 }

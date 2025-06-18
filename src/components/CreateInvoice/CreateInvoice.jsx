@@ -6,7 +6,7 @@ import { useLocalStorage } from "../../utility/storage";
 
 import { useNavigate } from "react-router-dom";
 import { getTotal } from "../../utility/functions";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 import { validate, validateSeller } from "../Form/ValidateHomeForm";
 
 import { increment } from "../../api/config/firebase";

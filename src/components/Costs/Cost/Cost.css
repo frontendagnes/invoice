@@ -14,21 +14,29 @@
   padding: 20px;
 }
 
-.cost__items{
-  width: 100%;
-  flex-wrap: 1 1;
-}
-.cost__item{
+.cost__items {
+  width: 83%;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px
+}
+
+.cost__item {
+  display: flex;
+  width: calc(100% / 5);
+  flex-direction: column;
   gap: 5px;
+  flex: 1 1;
 }
 
 .cost__actions {
-  width: 100%;
   cursor: pointer;
   display: flex;
   justify-content: center;
   gap: 1rem;
+  flex: 1 1;
 }
 
 .cost__edit {
@@ -50,11 +58,17 @@
   .cost {
     justify-content: center;
   }
-
+.cost__items {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
   .cost__item {
     width: 100%;
     margin-bottom: 10px;
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
   }
 }

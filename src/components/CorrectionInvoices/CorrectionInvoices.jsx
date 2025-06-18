@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import "./CorrectionInvoices.css";
 
 import useFirestore from "../../api/useFirestore/useFirestore";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 import { useNavigate } from "react-router-dom";
 import usePagination from "../../hooks/usePagination";
 import useInvoiceSearchFilter from "../../hooks/useInvoiceSearchFilter";

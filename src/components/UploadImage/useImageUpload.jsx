@@ -10,7 +10,7 @@ import {
   uploadBytesResumable,
 } from "../../api/config/firebase";
 import { useHelpers } from "../../api/useFirestore/helpers";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 
 const useImageUpload = () => {
   const [{ user }, dispatch] = useStateValue();

@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect, useMemo } from "react";
-import { useStateValue } from "../../utility/StateProvider";
+import { useStateValue } from "../../state/StateProvider";
 import useFirestore from "../../api/useFirestore/useFirestore";
 import usePagination from "../../hooks/usePagination";
 import { validateContractor } from "./validate";
