@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/pic/logo.webp";
-import ViewSelectedYear from "@/components/ViewSelectedYear";
+
 function HeaderLeft() {
   return (
     <div className="header__left">

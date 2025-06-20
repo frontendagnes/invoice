@@ -1,13 +1,11 @@
 import "./ViewSelectedYers.css";
-import { useStateValue } from "../../state/StateProvider";
+import { useStateValue } from "../../../state/StateProvider";
 
 //mui
 import NativeSelect from "@mui/material/NativeSelect";
 
 function ViewSelectedYear() {
   const [{ selectedYear, yearArray }, dispatch] = useStateValue();
-  // console.log("selectedYear:", selectedYear);
-  // console.log("yearArray:", yearArray);
   const handleChange = (e) => {
     dispatch({ type: "SELECTED_YEAR", item: Number(e.target.value) });
   };

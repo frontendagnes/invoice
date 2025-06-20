@@ -10,11 +10,23 @@ const useInvoiceSearchFilter = (dataToFilter, selectedYear) => {
     const searchTerm = searchText.toLowerCase();
 
     if (!dataToFilter || dataToFilter.length === 0) {
-      console.log("No dataToFilter provided or it's empty.");
+      console.log("Brak danych do filtrowania lub dane są puste.");
       return [];
     }
 
-    const searchFiltered = dataToFilter.filter((item) => {
+    // KROK 1: Filtrowanie po roku
+    const yearFiltered = dataToFilter.filter((item) => {
+      const itemDate = getDateFromItem(item);
+      // Upewnij się, że itemDate to poprawny obiekt Date przed pobraniem roku
+      return (
+        itemDate instanceof Date &&
+        !isNaN(itemDate) &&
+        itemDate.getFullYear() === selectedYear
+      );
+    });
+
+    // KROK 2: Filtrowanie po tekście wyszukiwania (na danych już przefiltrowanych po roku)
+    const searchFiltered = yearFiltered.filter((item) => {
       // WAŻNE: Sprawdź item.data.documentType dla KAŻDEGO itemu
       const documentType = item.data?.documentType || "INVOICE";
       let matches = false;
@@ -45,7 +57,7 @@ const useInvoiceSearchFilter = (dataToFilter, selectedYear) => {
           .includes(searchTerm);
         const correctionNoteMatch = item.data.note
           ?.toLowerCase()
-          .includes(searchTerm); // Dodatkowe wyszukiwanie po notatce
+          .includes(searchTerm);
 
         matches =
           correctionNumberMatch ||
@@ -54,7 +66,7 @@ const useInvoiceSearchFilter = (dataToFilter, selectedYear) => {
           originalBuyerNameMatch ||
           correctedBuyerNipMatch ||
           originalBuyerNipMatch ||
-          correctionNoteMatch; // Dodano wyszukiwanie po notatce
+          correctionNoteMatch;
       } else {
         // documentType === "INVOICE"
         const invoiceNumberMatch = item.data.number
@@ -71,18 +83,19 @@ const useInvoiceSearchFilter = (dataToFilter, selectedYear) => {
           .includes(searchTerm);
         const invoiceNoteMatch = item.data.note
           ?.toLowerCase()
-          .includes(searchTerm); // Dodatkowe wyszukiwanie po notatce
+          .includes(searchTerm);
 
         matches =
           invoiceNumberMatch ||
           buyerNameMatch ||
           buyerNipMatch ||
           buyerTownMatch ||
-          invoiceNoteMatch; // Dodano wyszukiwanie po notatce
+          invoiceNoteMatch;
       }
       return matches;
     });
 
+    // KROK 3: Sortowanie przefiltrowanych danych
     const sortedData = searchFiltered.sort((a, b) => {
       const dateA = getDateFromItem(a);
       const dateB = getDateFromItem(b);
@@ -98,7 +111,7 @@ const useInvoiceSearchFilter = (dataToFilter, selectedYear) => {
     });
 
     return sortedData;
-  }, [dataToFilter, searchText, selectedYear]);
+  }, [dataToFilter, searchText, selectedYear]); // selectedYear jest już w zależnościach
 
   return {
     searchText,

@@ -6,7 +6,7 @@ import useAuth from "../../api/useAuth/useAuth";
 import Menu from "../Menu/Menu";
 import HeaderLeft from "./HeaderLeft";
 import HeaderRight from "./HeaderRight";
-import ViewSelectedYear from "@/components/ViewSelectedYear";
+import ViewSelectedYear from "../SelectedYear/ViewSelectedYear/index.jsx";
 
 function Header() {
   const [{ user }, dispatch] = useStateValue();
