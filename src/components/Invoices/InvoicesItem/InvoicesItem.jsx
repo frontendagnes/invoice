@@ -1,4 +1,4 @@
-import { useState, memo, useRef, useMemo } from "react";
+import { useState, memo, useRef, useMemo, useEffect } from "react";
 import "./InvoicesItem.css";
 import { getTotal } from "../../../utility/functions";
 import { useClickOutside } from "../../../hooks/useClickOutside";
@@ -43,6 +43,22 @@ function InvoicesItem({
     refSettingsButton,
   ]);
   useClickOutside(refNote, handleClickAwayNote, [refNoteButton]);
+
+  const handleGlobalKeyDown = (event) => {
+    if (event.key === "Escape") {
+      if (isSettings) setIsSettings(false);
+      if (isEdit) setIsEdit(false);
+    }
+  };
+  useEffect(() => {
+    if (isSettings || isEdit) {
+      document.addEventListener("keydown", handleGlobalKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleGlobalKeyDown);
+    };
+  }, [isSettings, isEdit]);
 
   const filteredCorrections = useMemo(() => {
     return (
