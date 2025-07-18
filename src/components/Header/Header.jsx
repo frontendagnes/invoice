@@ -14,7 +14,7 @@ function Header() {
 
   return (
     <header className="header">
-      <ViewSelectedYear />
+      {/* <ViewSelectedYear /> */}
       <HeaderLeft />
       <Menu />
       <HeaderRight user={user} logout={logout} loading={loading} />

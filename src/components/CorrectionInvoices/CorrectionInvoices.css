@@ -1,27 +1,35 @@
+.correctionInvoices h2 {
+    width: 80%;
+    text-align: center;
+    border-bottom: 1px solid #d3d3d3;
+    border-top: 1px solid #d3d3d3;
+    padding: 10px 20px;
+    margin: 0 auto;
+}
 
-.correctionInvoices__search{
+.correctionInvoices__search {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.correctionsInvoice__searchDate{
+
+.correctionsInvoice__searchDate {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.correctionsInvoice__searchDate div:first-child{
+.correctionsInvoice__searchDate div:first-child {
     flex: 1 1;
 }
 
-.correctionsList__empty{
+.correctionsList__empty {
     margin: 0 auto;
 }
 
-.correctionInvoices__empty{
+.correctionInvoices__empty {
     min-height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-

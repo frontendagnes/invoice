@@ -1,0 +1,10 @@
+.selectYearHeader {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+.selectYearHeader span{
+    letter-spacing: 2px;
+}

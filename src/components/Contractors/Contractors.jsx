@@ -54,11 +54,11 @@ function Contractors() {
       </div>
       <div className="contracotrs__list">
         <h2 className="contractor__list--name">Lista Kontrahentów</h2>
+        <SearchContractors
+          search={searchContractors}
+          setSearch={setSearchContractors}
+        />
         <ul className="contractors__list--container">
-          <SearchContractors
-            search={searchContractors}
-            setSearch={setSearchContractors}
-          />
           {filteredAndSortedContractors ? (
             currentPageData.map((item) => (
               <Contractor
@@ -74,7 +74,6 @@ function Contractors() {
             <ValidationError text="Brak kontrachentów" />
           )}
         </ul>
-
         <PaginationUX
           totalPages={totalPages}
           currentPage={currentPage}

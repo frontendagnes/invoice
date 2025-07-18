@@ -42,6 +42,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
     color: #000000;
     /* gap: 40px; */
 }
@@ -60,10 +61,10 @@
 .selectedYear__item{
     width: 25%;
     display: flex;
+    gap: 5px;
 }
 .selectedYear__item>div {
     font-size: 1.3rem;
-    margin-right: 20px;
 }
 
 .selectedYear__item>div,

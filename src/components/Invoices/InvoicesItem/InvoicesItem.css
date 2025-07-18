@@ -2,7 +2,7 @@
   position: relative;
   margin-bottom: 5px;
   background: #ebebebfa;
-  padding: 20px;
+  padding: 20px 10px;
 }
 
 .invoicesitem:first-child {
@@ -126,6 +126,9 @@
     width: 50%;
     flex-direction: row;
     justify-content: space-between;
+  }
+  .invoicesitem__buyer{
+    align-items: flex-end;
   }
 }
 

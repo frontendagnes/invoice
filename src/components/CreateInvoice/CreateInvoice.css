@@ -90,7 +90,11 @@
     align-items: center;
   }
 }
-
+@media screen and (max-width: 550px) {
+  .createinvoice{
+    padding: 5px 10px;
+  }
+}
 @media screen and (max-width: 500px) {
   .createinvoice__text {
     font-size: 1.1rem;

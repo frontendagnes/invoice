@@ -14,7 +14,6 @@ function Invoices({ data }) {
   const { deleteDocument, getData: getCorrectionsData } =
     useFirestore("invoices");
 
-
   useEffect(() => {
     if (!user) return;
     getCorrectionsData("invoiceCorrections", null, null, setAllCorrections);
@@ -48,9 +47,12 @@ function Invoices({ data }) {
     dispatch({ type: "ALERT_DELETE" });
   };
 
-  const openCorrectionDetails = useCallback((details) =>{
-    navigate(`/correction-invoices/${details}`);
-  },[navigate])
+  const openCorrectionDetails = useCallback(
+    (details) => {
+      navigate(`/correction-invoices/${details}`);
+    },
+    [navigate]
+  );
 
   const deleteCorrection = useCallback(
     async (idDoc) => {

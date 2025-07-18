@@ -1,73 +1,90 @@
-import React from "react";
-import DisplayingNumber from "../../NumberComponents/DisplayingNumber/DisplayingNumber";
-function CostSheets(props) {
-  const { months, number, sumCosts, costs, selectedYear } = props;
+import { useMemo } from "react";
+import { getFilteredAndSortedDocuments } from "../../../utility/documentFiltres";
+import usePaginatedTable from "../../../hooks/usePaginatedTable";
+import usePrintMode from "../usePrintMode";
+// MUI
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Box,
+} from "@mui/material";
+//components
+import TableCaption from "../TableElements/TableCaption";
+import EmptyRow from "../TableElements/EmptyRow";
+import TableFoot from "../TableElements/TableFoot";
+import CostRow from "./CostRow";
+
+function CostSheets({
+  selectedMonthNumber,
+  calculateCostsForMonth,
+  costs,
+  selectedYear,
+}) {
+  const isPrintMode = usePrintMode();
+
+  const filteredAndSortedCosts = useMemo(() => {
+    return getFilteredAndSortedDocuments(
+      costs,
+      selectedYear,
+      selectedMonthNumber
+    );
+  }, [costs, selectedYear, selectedMonthNumber]);
+
+  const {
+    page,
+    rowsPerPage,
+    paginatedData,
+    handleChangePage,
+    handleChangeRowsPerPage,
+  } = usePaginatedTable({
+    data: filteredAndSortedCosts,
+    isPrintMode,
+  });
+
   return (
-    <table>
-      <caption>
-        <div className="records__total">
-          <span>
-            Miesiąc: <b>{months[number - 1]}</b>
-          </span>
-          <span>
-            Suma:{" "}
-            <b>
-              <DisplayingNumber
-                value={sumCosts(number)}
-                renderText={(value) => <b>{value} zł</b>}
-              />
-            </b>
-          </span>
-        </div>
-      </caption>
-      <thead>
-        <tr>
-          <td className="table__singular">Lp.</td>
-          <td>Numer Faktury</td>
-          <td>Kontrahent</td>
-          <td>Data wystawienia</td>
-          <td>Wartość brutto</td>
-        </tr>
-      </thead>
-      <tbody>
-        {costs
-          .filter(
-            (item) => new Date(item.data.date).getFullYear() === selectedYear
-          )
-          .sort(
-            (a, b) =>
-              new Date(a.data.date).getTime() - new Date(b.data.date).getTime()
-          )
-          .filter((item) => new Date(item.data.date).getMonth() + 1 === number)
-          .map((item, index) => (
-            <tr key={item.id}>
-              <td className="table__singular">{index + 1}</td>
-              <td>{item.data.number}</td>
-              <td>{item.data.contractor}</td>
-              <td>{item.data.date}</td>
-              <td className="records__amount">
-                <DisplayingNumber
-                  value={item.data.amount}
-                  renderText={(value) => <b>{value} zł</b>}
-                />
-              </td>
-            </tr>
-          ))}
-      </tbody>
-      <tfoot>
-        <tr>
-          <td className="records__summary" colSpan={4}>
-            Podsumowanie:
-          </td>
-          <td className="records__summary">
-            <DisplayingNumber
-              value={sumCosts(number)}
-              renderText={(value) => <b>{value} zł</b>}
-            />
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+    <Box sx={{ width: "100%", overflowX: "auto" }}>
+      <TableContainer component={Paper} className="table__wrapper">
+        <Table className="table__responsive">
+          <TableCaption
+            calculateFunction={calculateCostsForMonth}
+            selectedMonthNumber={selectedMonthNumber}
+          />
+          <TableHead>
+            <TableRow>
+              <TableCell className="table__singular">Lp.</TableCell>
+              <TableCell>Numer Faktury</TableCell>
+              <TableCell>Kontrahent</TableCell>
+              <TableCell>Data wystawienia</TableCell>
+              <TableCell>Wartość brutto</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginatedData.length === 0 ? (
+              <EmptyRow colSpan={5} />
+            ) : (
+              paginatedData.map((item, index) => (
+                <CostRow key={item.id || index} item={item} index={index} />
+              ))
+            )}
+          </TableBody>
+          <TableFoot
+            calculateFunction={calculateCostsForMonth}
+            selectedMonthNumber={selectedMonthNumber}
+            colSpan={4}
+            totalCount={filteredAndSortedCosts.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }
 

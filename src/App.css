@@ -8,29 +8,6 @@
 .app__login {
   min-height: 100%;
 }
-
-/* table */
-table{
-  width: 100%;
-}
-table, td{
-  border: 1px solid #000000;
-  border-collapse: collapse;
-  word-wrap:break-word;
-}
-td{
-  height: 30px;
-  padding: 5px;
-  text-align:center;
-}
-.table__title{
-  width: 350px;
-  text-align: left;
-}
-.table__price{
-  width: 70px;
-}
-
 /* note invoice (used createinvoice and invoiceitem components*/
 .note{
   display: flex;

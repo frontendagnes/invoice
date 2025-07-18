@@ -1,0 +1,37 @@
+.table__wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table__responsive {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.table__responsive td,
+.table__responsive th {
+    border: 1px solid #ccc;
+    white-space: nowrap;
+    padding: 0.5rem;
+}
+
+.records__date {
+    text-align: center !important;
+}
+
+.table__responsive th {
+    font-weight: 600 !important;
+    letter-spacing: 1.5px;
+}
+
+
+@media (max-width: 768px) {
+
+    .table__responsive td,
+    .table__responsive th {
+        font-size: 0.85rem;
+        padding: 0.4rem;
+    }
+}

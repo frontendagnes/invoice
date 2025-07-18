@@ -12,10 +12,9 @@ function CostListNoSearch({ costs, deleteItem }) {
   const [{ selectedYear }] = useStateValue();
 
   const filteredCosts = useMemo(() => {
-      return costs.filter(
-        (item) => new Date(item.data.date).getFullYear() === selectedYear
-      );
-
+    return costs.filter(
+      (item) => new Date(item.data.date).getFullYear() === selectedYear
+    );
   }, [costs, selectedYear]);
 
   const { currentPage, currentPageData, totalPages, handlePageChange } =
@@ -28,22 +27,20 @@ function CostListNoSearch({ costs, deleteItem }) {
     );
   }, [currentPageData]);
 
+  if (!sortedData.length)
+    return <ValidationError text="Nie znaleziono żadnych wydatków" />;
   return (
     <div className="costs__list">
-      {sortedData.length === 0 ? (
-        <div className="costs__emptyList">
-          <ValidationError text="Nie znaleziono żadnych wydatków" />
-        </div>
-      ) : (
-        sortedData.map((item) => (
+      <div>
+        {sortedData.map((item) => (
           <Cost
             key={item.id}
             itemId={item.id}
             item={item.data}
             deleteItem={deleteItem}
           />
-        ))
-      )}
+        ))}
+      </div>
       <PaginationUX
         totalPages={totalPages}
         currentPage={currentPage}

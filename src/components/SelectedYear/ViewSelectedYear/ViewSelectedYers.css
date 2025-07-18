@@ -1,11 +1,11 @@
 .viewSelectedYear {
-    position: absolute;
+    /* position: absolute;
     left: 10px;
     top: 0px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 10px; */
 }
 
 .viewSelectedYear a {

@@ -1,7 +1,7 @@
 .correctionInvoicesItem {
     box-sizing: border-box;
     width: 100%;
-    padding: 20px 40px;
+    padding: 20px 10px;
     margin-bottom: 5px;
     background-color: #ebebeb;
 }
@@ -10,8 +10,6 @@
 }
 .correctionInvoicesItem:last-child {
     border-radius: 0px 0px 10px 10px;
-}
-.correctionInvoicesItem:last-child {
     margin-bottom: 0;
 }
 

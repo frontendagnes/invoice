@@ -1,8 +1,22 @@
 .records {
   padding: 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+}
+
+.records__actions {
+  padding: 10px 0px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.records button {
+  text-transform: none;
+  letter-spacing: 3px;
+}
+
+.actions__summary {
+  display: flex;
   align-items: center;
 }
 
@@ -33,40 +47,24 @@
 }
 
 .records__wrapper {
-  width: 100%;
+  flex: 1 1;
+  min-width: 0;
 }
 
 .records__buttons {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   flex-wrap: wrap;
   cursor: pointer;
   padding: 20px 30px;
-  width: 100%;
-}
-
-.records__button {
-  width: 15%;
-}
-
-.records ul {
-  margin: 0;
-  padding: 0;
-}
-
-.records ul li {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-bottom: 10px;
-  background: #fafafafa;
-  padding: 10px 20px;
 }
 
 .records caption {
   padding-top: 20px;
   padding-bottom: 10px;
   font-size: 1.2rem;
+  caption-side: top !important;
 }
 
 .records caption div {
@@ -74,7 +72,8 @@
 }
 
 .records__wrapper table {
-  width: 100%;
+  min-height: 20px;
+  overflow-y: auto;
 }
 
 .records table caption {
@@ -91,12 +90,12 @@
 }
 
 .records table tbody tr:nth-child(even) {
-  background: #e7e7e7;
+  background: rgb(238, 238, 250);
 }
 
 .records__summary,
 .records__amount {
-  text-align: right;
+  text-align: right !important;
   letter-spacing: 2px;
 }
 
@@ -105,16 +104,10 @@
   font-size: 1.2rem;
 }
 
-.records__tableSummary {
-  font-size: 1.1rem;
-  margin-top: 20px;
-  width: 100%;
-}
-
 .records__monthTd {
   text-align: left;
   padding-left: 50px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   letter-spacing: 2px;
 }
 
@@ -125,22 +118,70 @@
   text-align: center;
 }
 
+.records__selects {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.correction-details {
+  display: block;
+}
+
+.records__summary-top {
+  font-weight: normal;
+  margin-left: 10px;
+  font-size: 1rem;
+}
+
+.records__amount.negative-row,
+.records__summary.negative-row,
+.records__summary-top.negative-row {
+  color: #ff0000;
+}
+
+.records__summary.positive-row,
+.records__summary-top.positive-row {
+  color: #008000;
+}
+
+.records__note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.records__note>div {
+  letter-spacing: 1.5px;
+}
+
+.records__note svg {
+  animation: move 2s ease infinite;
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(0)
+  }
+
+  50% {
+    transform: translateY(-50%)
+  }
+
+  0% {
+    transform: translateY(0)
+  }
+}
+
 @media screen and (max-width: 800px) {
   .records {
     padding: 5px;
-  }
-
-  .records__button {
-    width: 30%;
   }
 }
 
 @media screen and (max-width: 600px) {
   .records {
     font-size: 0.8rem;
-  }
-
-  .records__button {
-    width: 50%;
   }
 }

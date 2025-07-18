@@ -13,6 +13,8 @@ import Contractors from "./src/components/Contractors/Contractors.jsx";
 import Settings from "./src/components/Settings/Settings.jsx";
 import CorrectionInvoices from "./src/components/CorrectionInvoices/CorrectionInvoices.jsx";
 import CorrectionDetails from "./src/components/CorrectionInvoices/CorrectionDetails/CorrectionDetails.jsx";
+import SelectYearHeader from "./src/components/SelectYearHeader/SelectYearHeader.jsx";
+
 const routesConfig = {
   authorization: {
     path: "/authorization",
@@ -27,6 +29,7 @@ const routesConfig = {
     path: "/invoices",
     element: ({ invoices }) => (
       <Layout>
+        <SelectYearHeader />
         <Invoices data={invoices} />
       </Layout>
     ),
@@ -44,6 +47,7 @@ const routesConfig = {
     path: "/correction-invoices",
     element: ({ correctionInvoices }) => (
       <Layout>
+        <SelectYearHeader />
         <CorrectionInvoices data={correctionInvoices} />
       </Layout>
     ),
@@ -61,6 +65,7 @@ const routesConfig = {
     path: "/costs",
     element: () => (
       <Layout>
+        <SelectYearHeader />
         <Costs />
       </Layout>
     ),

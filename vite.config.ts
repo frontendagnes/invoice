@@ -18,6 +18,7 @@ export default defineConfig({
     open: true,
     // this sets a default port to 3500
     port: 3500,
+    host: true,
   },
   build: {
     outDir: "build",

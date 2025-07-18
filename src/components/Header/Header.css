@@ -61,7 +61,8 @@
     border-color: rgba(255, 255, 255, 0.2);
     cursor: not-allowed;
 }
-.header__no-logged{
+
+.header__no-logged {
     display: block;
     text-decoration: none;
     color: #ffffff;
@@ -70,16 +71,28 @@
     transition: all 0.75s ease-in-out;
     margin-top: 10px;
 }
+
 .header__no-logged:hover {
     color: #fafafa;
     text-decoration: underline;
 }
+
 @media screen and (max-width: 550px) {
     .header {
         justify-content: center;
-        flex-direction: column;
+        flex-direction: row;
         height: auto;
         font-size: 1rem;
     }
 
+    .header__left img {
+        width: 150px;
+    }
+
+    .header__right {
+        font-size: 0.8rem;
+    }
+    .header__actions button{
+        font-size: 0.8rem;
+    }
 }

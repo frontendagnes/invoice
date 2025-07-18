@@ -98,6 +98,8 @@ export const getDisplayDataForTable = (item, getTotal) => {
       worth: totalWorthDifference, // Używamy sumy worthDifference
       isCorrection: true,
       correctionNumber: item.data.correctionNumber || "Brak nr korekty",
+      contractor:
+        item.data.originalInvoiceData?.buyer?.name || "Brak kontrahenta",
     };
   } else {
     displayData = {
@@ -106,6 +108,7 @@ export const getDisplayDataForTable = (item, getTotal) => {
         ? new Date(item.data.date).toLocaleDateString("pl-PL")
         : "Brak daty",
       worth: item.data.products ? getTotal(item.data.products) : 0,
+      contractor: item.data.buyer.name || "Brak kontrahenta",
       isCorrection: false,
     };
   }

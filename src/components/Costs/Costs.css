@@ -2,6 +2,24 @@
 .costs__input--date {
     padding: 20px 5px;
 }
+ .costs__list{
+    padding: 0px 10px;
+
+}
+.costs__list > div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+/* .costs__list:first-child {
+    border-radius: 10px 10px 0 0;
+}
+
+.costs__list:last-child {
+    border-radius: 0px 0px 10px 10px;
+    margin-bottom: 0;
+} */
+
 
 .costs h5 {
     margin: 0 auto;

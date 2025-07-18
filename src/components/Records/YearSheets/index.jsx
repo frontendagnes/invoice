@@ -1,105 +1,64 @@
-import React from "react";
-import DisplayingNumber from "../../NumberComponents/DisplayingNumber/DisplayingNumber";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import { months } from "../months";
 
-function YearSheets(props) {
-  const {
-    totalYear,
-    totalCost,
-    yearEnd,
-    months,
-    summaryYearId,
-    totalMnoth,
-    totalCosts,
-  } = props;
+// components
+import YearSheetsCaption from "./YearSheetsCaption";
+import YearSheetsFoot from "./YearSheetsFoot";
+import YearSheetsRow from "./YearSheetsRow";
 
+function YearSheets({
+  getYearlyIncomeTotal,
+  getYearlyCostTotal,
+  getYearEndBalance,
+  monthlyIncomeTotals,
+  monthlyCostTotals,
+}) {
   return (
-    <table id="records__tableSummary">
-      <caption>
-        <div>
-          Przychody:{" "}
-          <DisplayingNumber
-            value={totalYear()}
-            renderText={(value) => <b>{value} zł</b>}
+    <Box sx={{ width: "100%", overflowX: "auto" }}>
+      <TableContainer component={Paper} className="table__wrapper">
+        <Table className="table__responsive" id="records__tableSummary">
+          <YearSheetsCaption
+            getYearlyIncomeTotal={getYearlyIncomeTotal}
+            getYearlyCostTotal={getYearlyCostTotal}
+            getYearEndBalance={getYearEndBalance}
           />
-        </div>
-        <div>
-          Koszty:{" "}
-          <DisplayingNumber
-            value={totalCost()}
-            renderText={(value) => <b>{value} zł</b>}
+          <TableHead>
+            <TableRow>
+              <TableCell className="table__singular">Lp.</TableCell>
+              <TableCell>Miesiąc</TableCell>
+              <TableCell>Przychody</TableCell>
+              <TableCell>Koszty</TableCell>
+              <TableCell>Dochód</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {months.map((month, index) => (
+              <YearSheetsRow
+                key={index}
+                index={index}
+                month={month}
+                monthlyIncomeTotals={monthlyIncomeTotals}
+                monthlyCostTotals={monthlyCostTotals}
+              />
+            ))}
+          </TableBody>
+          <YearSheetsFoot
+            getYearEndBalance={getYearEndBalance}
+            getYearlyIncomeTotal={getYearlyIncomeTotal}
+            getYearlyCostTotal={getYearlyCostTotal}
           />
-        </div>
-        <div className="records__revenue" title="Przychód - Koszty">
-          Dochód:{" "}
-          <DisplayingNumber
-            value={yearEnd()}
-            renderText={(value) => <b>{value} zł</b>}
-          />
-        </div>
-      </caption>
-      <thead>
-        <tr>
-          <td className="table__singular">Lp.</td>
-          <td>Miesiąc</td>
-          <td>Przychody</td>
-          <td>Koszty</td>
-          <td>Dochód</td>
-        </tr>
-      </thead>
-      <tbody>
-        {months
-          .filter((_, index) => index !== summaryYearId)
-          .map((month, index) => (
-            <tr key={index}>
-              <td className="table__singular">{index + 1}</td>
-              <td className="records__monthTd">{month}</td>
-              <td className="records__amount">
-                <DisplayingNumber
-                  value={totalMnoth[index]}
-                  renderText={(value) => <span>{value} zł</span>}
-                />
-              </td>
-              <td className="records__amount">
-                <DisplayingNumber
-                  value={totalCosts[index]}
-                  renderText={(value) => <span>{value} zł</span>}
-                />
-              </td>
-              <td className="records__amount records__profit">
-                <DisplayingNumber
-                  value={totalMnoth[index] - totalCosts[index]}
-                  renderText={(value) => <b>{value} zł</b>}
-                />
-              </td>
-            </tr>
-          ))}
-      </tbody>
-      <tfoot>
-        <tr>
-          <td className="records__summary" colSpan={2}>
-            Razem:
-          </td>
-          <td className="records__summary">
-            <DisplayingNumber
-              value={totalYear()}
-              renderText={(value) => <b>{value} zł</b>}
-            />
-          </td>
-          <td className="records__summary">
-            <DisplayingNumber
-              value={totalCost()}
-              renderText={(value) => <b>{value} zł</b>}
-            />
-          </td>
-          <td className="records__summary">
-            <DisplayingNumber
-              value={yearEnd()}
-              renderText={(value) => <b>{value} zł</b>}
-            />
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }
 

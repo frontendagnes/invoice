@@ -1,4 +1,3 @@
-
 //cpmponents
 import Cost from "../Cost/Cost.jsx";
 import ValidationError from "../../ValidationError/ValidationError";
@@ -18,14 +17,16 @@ function CostsList({
           <ValidationError text="Nie znaleziono żadnych wydatków" />
         </div>
       ) : (
-        costs.map((item) => (
-          <Cost
-            key={item.id}
-            itemId={item.id}
-            item={item.data}
-            deleteItem={deleteItem}
-          />
-        ))
+        <div>
+          {costs.map((item) => (
+            <Cost
+              key={item.id}
+              itemId={item.id}
+              item={item.data}
+              deleteItem={deleteItem}
+            />
+          ))}
+        </div>
       )}
       <PaginationUX
         totalPages={totalPages}

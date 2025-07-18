@@ -1,0 +1,17 @@
+@media print{
+     caption {
+        caption-side: top !important;
+        text-align: right !important;
+    }
+    .records__revenue,
+    .records__total {
+        text-align: right !important;
+    }
+    .table__responsive td,
+    .table__responsive th {
+        padding: 0.5rem;
+    }
+    .no-print {
+        display: none !important;
+    }
+}

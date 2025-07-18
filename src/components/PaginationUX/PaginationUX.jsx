@@ -1,11 +1,21 @@
 import React from "react";
 import { Pagination, Stack } from "@mui/material";
 
-function PaginationUX({ totalPages, currentPage, handlePageChange }) {
+function PaginationUX({
+  totalPages,
+  currentPage,
+  handlePageChange,
+  className,
+}) {
   return (
     <>
       {totalPages > 1 && (
-        <Stack alignItems="center" mt={2} sx={{ overflowX: "auto" }}>
+        <Stack
+          alignItems="center"
+          mt={2}
+          sx={{ overflowX: "auto" }}
+          className={className}
+        >
           <Pagination
             count={totalPages}
             page={currentPage}
