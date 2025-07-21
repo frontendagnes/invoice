@@ -37,7 +37,6 @@ function Cost({ item, itemId }) {
     [date]
   );
   return (
-    // <div className="cost__styling">
     <div className="cost">
       {isModalOpen && (
         <DeleteConfirmationModal
@@ -109,8 +108,6 @@ function Cost({ item, itemId }) {
         />
       </div>
     </div>
-
-    // </div>
   );
 }
 
