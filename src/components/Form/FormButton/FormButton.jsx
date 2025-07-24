@@ -12,6 +12,7 @@ function FormButton({ text, styles, onClick, disabled, className, type }) {
       sx={{
         letterSpacing: "1px",
         padding: "10px 20px",
+        textTransform: "none",
         ...styles,
       }}
     >

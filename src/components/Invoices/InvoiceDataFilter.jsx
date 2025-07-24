@@ -1,4 +1,4 @@
-import "./Invoices.css"
+import "./Invoices.css";
 import { useEffect, memo } from "react";
 
 import { useStateValue } from "../../state/StateProvider";
