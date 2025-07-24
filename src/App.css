@@ -25,6 +25,7 @@
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
+  margin: 0 auto;
 }
 .datefilter__input--width{
   width: 60%;
@@ -36,7 +37,32 @@
 .namefilter__input {
   padding: 10px 20px;
 }
+/* table products and view invoices*/
+table {
+  width: 100%;
+}
 
+table,
+td {
+  border: 1px solid #000000;
+  border-collapse: collapse;
+  word-wrap: break-word;
+}
+
+td {
+  height: 30px;
+  padding: 5px;
+  text-align: center;
+}
+
+.table__title {
+  width: 350px;
+  text-align: left;
+}
+
+.table__price {
+  width: 70px;
+}
 @media screen and (max-width: 600px) {
   table th{
     font-size: .55em;
