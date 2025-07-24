@@ -54,16 +54,10 @@ export function useContractorsManagement() {
    * @property {Function} getData - Funkcja do pobierania danych z kolekcji.
    * @property {Function} addDocument - Funkcja do dodawania dokumentów do kolekcji.
    * @property {Function} deleteDocument - Funkcja do usuwania dokumentów z kolekcji.
-   * @property {Function} updateDocument - Funkcja do aktualizowania dokumentów w kolekcji.
    * @property {string|null} errorFirestore - Ewentualny błąd podczas interakcji z Firestore.
    */
-  const {
-    getData,
-    addDocument,
-    deleteDocument,
-    updateDocument,
-    errorFirestore,
-  } = useFirestore("invoices");
+  const { getData, addDocument, deleteDocument, errorFirestore } =
+    useFirestore("invoices");
 
   /**
    * Stan lokalny hooka zarządzający widocznością modalu potwierdzenia usunięcia.
@@ -84,17 +78,10 @@ export function useContractorsManagement() {
   const [itemToDeleteName, setItemToDeleteName] = useState(null);
 
   /**
-   * Stan lokalny hooka przechowujący ID aktualnie edytowanego kontrahenta.
-   * @type {string|null}
-   */
-  const [editingItemId, setEditingItemId] = useState(null);
-
-  /**
    * Stan lokalny hooka przechowujący wartość testu antyspamowego.
    * @type {string}
    */
   const [test, setTest] = useState("");
-
   /**
    * Stan lokalny hooka przechowujący frazę wyszukiwania kontrahentów.
    * @type {string}
@@ -189,23 +176,27 @@ export function useContractorsManagement() {
    */
   const handleContractorSubmit = async (e) => {
     e.preventDefault();
+    console.log("Wartość testu przed walidacją:", test);
     const msg = validateContractor(state.contractor, state.nip, test);
     if (msg) {
       dispatch({ type: "ALERT__ERROR", item: msg });
+      setTest("");
       return;
     }
-    const existingContractor = contractors.some(
-      (item) => String(item.data.nip) === String(state.nip)
-    );
+    if (state.nip) {
+      const existingContractor = contractors.some(
+        (item) => String(item.data.nip) === String(state.nip)
+      );
 
-    if (existingContractor) {
-      dispatch({
-        type: "ALERT__ERROR",
-        item: `Kontrahent o tym NIPie ${state.nip} już istnieje`,
-      });
-      return;
+      if (existingContractor) {
+        dispatch({
+          type: "ALERT__ERROR",
+          item: `Kontrahent o tym NIPie ${state.nip} już istnieje`,
+        });
+        return;
+      }
     }
-    const data= {
+    const data = {
       contractor: state.contractor,
       nip: state.nip,
       street: state?.street,
@@ -224,71 +215,6 @@ export function useContractorsManagement() {
       zipCode: "",
       town: "",
     });
-  };
-  /**
-   * Funkcja obsługująca formularza edycji istniejącego kontrahenta.
-   * Aktualizuje dane kontrahenta w bazie danych i resetuje stan edycji.
-   * Wyświetla komunikat o sukcesie lub błędzie w przypadku braku ID edytowanego elementu.
-   * @async
-   * @param {Object} e - Obiekt zdarzenia formularza.
-   */
-  const handleContractorEdit = async (e) => {
-    e.preventDefault();
-    if (!editingItemId) {
-      dispatch({ type: "ALERT__ERROR", item: "Brakuje elementu do edycji" });
-      return;
-    }
-    const data = {
-      contractor: state.contractor,
-      nip: state.nip,
-      street: state?.street,
-      zipCode: state?.zipCode,
-      town: state?.town,
-    };
-    await updateDocument("contractors", editingItemId, data);
-
-    setState({
-      contractor: "",
-      nip: "",
-      street: "",
-      zipCode: "",
-      town: "",
-    });
-    setEditingItemId(null);
-    dispatch({
-      type: "ALERT_SUCCESS",
-      item: "Aktualizacja przebiegła pomyślnie!",
-    });
-  };
-
-  /**
-   * Funkcja inicjująca tryb edycji dla wybranego kontrahenta.
-   * Ustawia `editingItemId` na ID edytowanego elementu i wypełnia stan formularza
-   * aktualnymi danymi kontrahenta. Jeśli inny element był wcześniej edytowany,
-   * resetuje stan formularza.
-   * @param {Object} item - Dane kontrahenta do edycji.
-   */
-  const handleEditInitiated = (item) => {
-    if (editingItemId !== null && editingItemId !== item.id) {
-      setState({ contractor: "", nip: "", street: "", zipCode: "", town: "" });
-    }
-    setState({
-      contractor: item.data?.contractor || "",
-      nip: item.data?.nip || "",
-      street: item.data?.street || "",
-      zipCode: item.data?.zipCode || "",
-      town: item.data?.town || "",
-    });
-    setEditingItemId(item.id);
-  };
-
-  /**
-   * Funkcja anulująca tryb edycji.
-   * Resetuje `editingItemId` oraz stan formularza.
-   */
-  const handleCancelEdit = () => {
-    setEditingItemId(null);
-    setState({ contractor: "", nip: "", street: "", zipCode: "", town: "" });
   };
 
   /**
@@ -313,7 +239,6 @@ export function useContractorsManagement() {
   return {
     //state
     errorFirestore,
-    editingItemId,
     isModalOpen,
     itemToDeleteName,
     searchContractors,
@@ -331,9 +256,6 @@ export function useContractorsManagement() {
     openConfirmModal,
     closeConfirmModal,
     handleContractorSubmit,
-    handleContractorEdit,
     handleContractorDelete,
-    handleEditInitiated,
-    handleCancelEdit,
   };
 }

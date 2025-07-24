@@ -1,4 +1,5 @@
 .contractor {
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -45,6 +46,13 @@
     font-weight: bold;
 }
 
+.contractor__actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
 .contractor__actions span {
     cursor: pointer;
     color: #ff0000;
@@ -55,10 +63,27 @@
     color: #8b0000;
 }
 
-@media screen and (max-width: 600px) {
+.contractor__edit {
+    z-index: 999;
+    position: absolute;
+    top: 210px;
+    width: 100%;
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+    transition: transform 0.75s ease-in-out;
+}
 
+.contractor__edit.expanded {
+    transform: scaleY(1);
+
+}
+
+@media screen and (max-width: 600px) {
     .contractor {
         flex-direction: column;
         gap: 10px;
+    }
+    .contractor__edit{
+        top: 190px
     }
 }

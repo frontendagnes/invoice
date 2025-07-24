@@ -30,26 +30,3 @@ export const validate = (form, test) => {
 
   return Object.keys(newErrors).length ? newErrors : null;
 };
-
-// export const validate = (number, contractor, date, amount, test) => {
-//   const errors = {};
-
-//   if (test) {
-//     errors.test =
-//       "Nie przeszedłeś filtra antyspamowego. Odśwież stronę i spróbuj ponownie.";
-//   }
-//   if (!number) {
-//     errors.number = "Pole 'Numer Faktury' musi zostać wypełnione";
-//   }
-//   if (!contractor) {
-//     errors.contractor = "Pole 'Kontrahent' musi zostać wypełnione";
-//   }
-//   if (!date) {
-//     errors.date = "Pole 'Data' musi zostać wypełnione";
-//   }
-//   if (!amount) {
-//     errors.amount = "Pole 'Kwota Faktury' musi zostać wypełnione";
-//   }
-
-//   return Object.keys(errors).length > 0 ? errors : null;
-// };

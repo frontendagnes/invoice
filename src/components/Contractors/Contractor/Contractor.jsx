@@ -1,64 +1,99 @@
+import { useEffect, useState, useRef } from "react";
 import "./Contractor.css";
+import { useClickOutside } from "../../../hooks/useClickOutside";
 //mui
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 //components
 import Tooltip from "../../Tooltip/Tooltip";
+import EditContractor from "../EditContractor/EditContractor";
 
-function Contractor({ item, onEdit, onDelete, onCancelEdit, isEdit }) {
+function Contractor({ item, onDelete }) {
+  const { contractor, nip, street, zipCode, town } = item.data;
+  const [isEdit, setIsEdit] = useState(false);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      setIsEdit(false);
+    }
+  };
+  useEffect(() => {
+    if (!isEdit) return;
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isEdit]);
+
+  const refButton = useRef(null);
+  const refEdit = useRef(null);
+
+  useClickOutside(refEdit, () => setIsEdit(false), [refButton]);
+
   const handleEditClick = () => {
-    onEdit(item);
+    setIsEdit((prev) => !prev);
   };
 
-  const handleCancelEditClick = () => {
-    onCancelEdit();
-  };
   return (
     <li className="contractor">
       <div className="contractor__data">
         <span>
           <span className="contractor__name">Nazwa: </span>
-          {item.data.contractor}
+          {contractor}
         </span>
         <span>
           <span className="contractor__name">NIP: </span>
-          {item.data.nip}
+          {nip}
         </span>
         <span>
           <span className="contractor__name">Ulica: </span>
-          {item.data?.street}
+          {street}
         </span>
         <span>
           <span className="contractor__name">Kod pocztowy: </span>
-          {item.data?.zipCode}
+          {zipCode}
         </span>
         <span>
           <span className="contractor__name">Miejscowość: </span>
-          {item.data?.town}
+          {town}
         </span>
       </div>
       <div className="contractor__actions">
-        <Tooltip text={isEdit ? "Zakończ Edycję" : "Edytuj"}>
-          {isEdit ? (
-            <span onClick={handleCancelEditClick}>Zakończ edycję</span>
-          ) : (
-            <IconButton aria-label="edit" className="contractor__action">
-              <EditIcon
-                className="contractor__action--edit"
-                onClick={handleEditClick}
-              />
-            </IconButton>
-          )}
+        <Tooltip text="Edytuj">
+          <IconButton aria-label="edit" className="contractor__action">
+            <EditIcon
+              ref={refButton}
+              className="contractor__action--edit"
+              color="primary"
+              onClick={handleEditClick}
+            />
+          </IconButton>
         </Tooltip>
         <Tooltip text="Usuń">
           <IconButton aria-label="delete" className="contractor__action">
-            <DeleteForeverIcon
+            <RemoveCircleIcon
               className="contractor__action--delete"
+              color="error"
               onClick={() => onDelete(item.id)}
             />
           </IconButton>
         </Tooltip>
+      </div>
+      <div
+        ref={refEdit}
+        className={`contractor__edit ${isEdit ? "expanded" : ""}`}
+      >
+        <EditContractor
+          contractor={contractor}
+          nip={nip}
+          street={street}
+          zipCode={zipCode}
+          town={town}
+          itemId={item.id}
+          setIsEdit={setIsEdit}
+          isEdit={isEdit}
+        />
       </div>
     </li>
   );

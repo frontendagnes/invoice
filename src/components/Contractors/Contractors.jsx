@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./Contractors.css";
 import { useContractorsManagement } from "./useContractorsManagement";
 
@@ -13,7 +14,6 @@ function Contractors() {
   const {
     //state
     errorFirestore,
-    editingItemId,
     isModalOpen,
     itemToDeleteName,
     searchContractors,
@@ -31,22 +31,19 @@ function Contractors() {
     openConfirmModal,
     closeConfirmModal,
     handleContractorSubmit,
-    // handleContractorIsEdit,
-    handleContractorEdit,
     handleContractorDelete,
-    handleEditInitiated,
-    handleCancelEdit,
   } = useContractorsManagement();
-
+  useEffect(() => {
+    console.log("test", test);
+    
+  },[test])
   return (
     <div className="contactors">
       {errorFirestore && <ValidationError text={errorFirestore} />}
       <div className="contactors__header">
         <AddContractor
-          isEdit={editingItemId !== null}
           state={state}
           setState={setState}
-          onContractorEdit={(e) => handleContractorEdit(e)}
           onContractorSubmit={handleContractorSubmit}
           test={test}
           setTest={setTest}
@@ -64,10 +61,7 @@ function Contractors() {
               <Contractor
                 key={item.id}
                 item={item}
-                onEdit={handleEditInitiated}
                 onDelete={() => openConfirmModal(item.id, item.data.contractor)}
-                onCancelEdit={handleCancelEdit}
-                isEdit={editingItemId === item.id}
               />
             ))
           ) : (

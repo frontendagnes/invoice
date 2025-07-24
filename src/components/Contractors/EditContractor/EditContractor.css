@@ -1,0 +1,36 @@
+.editContractor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    background-color: #faebd7;
+    padding-top: 40px;
+    gap: 20px;
+}
+
+.editContractor__inputs {
+    display: flex;
+    flex-flow: wrap row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.editContractor__inputs input{
+    background-color: #ffffff;
+}
+.editContractor__actions{
+     cursor: pointer;
+     width: 90%;
+     margin: 0 auto;
+}
+.editContractor__item{
+    width: 25%;
+}
+@media screen and (max-width: 500px) {
+
+ .editContractor__item {
+     width: 90%;
+ }
+}

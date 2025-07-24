@@ -69,7 +69,11 @@ function EditCost({
     });
     setIsEditing(false);
   };
-
+  const buttonText = loading
+    ? "Aktualizowanie..."
+    : !isChanged
+    ? "Brak zmian do zapisania"
+    : "Zapisz zmiany";
   return (
     <Form className="editCost" onSubmit={handleSubmit}>
       {errorFirestore && <ValidationError text={errorFirestore} />}
@@ -143,7 +147,7 @@ function EditCost({
       <Tooltip text={!isChanged ? "Brak zmian do zapisania" : ""}>
         <div className="editCost__actions">
           <FormButton
-            text={loading ? "Aktualizuje..." : "Aktualizuj Koszt"}
+            text={buttonText}
             disabled={loading || !isChanged}
             styles={{ width: "100%" }}
             type="submit"

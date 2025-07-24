@@ -9,14 +9,13 @@ import AntySpam from "../../AntySpam/AntySpam";
 import NumericField from "../../NumberComponents/NumericField/NumericField";
 
 function AddContractor({
-  isEdit,
   state,
   setState,
-  onContractorEdit,
   onContractorSubmit,
   test,
   setTest,
 }) {
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setState((prevState) => ({
@@ -26,13 +25,8 @@ function AddContractor({
   };
 
   return (
-    <Form
-      className="addContractor"
-      onSubmit={isEdit ? onContractorEdit : onContractorSubmit}
-    >
-      <h2 className="addContractor__title">
-        {isEdit ? "Edytuj Kontrahenta" : "Dodaj kontrahenta"}
-      </h2>
+    <Form className="addContractor" onSubmit={onContractorSubmit}>
+      <h2 className="addContractor__title">Dodaj kontrahenta</h2>
       <div className="addContractor__inputsWrapper">
         <div className="addContractor__section">
           <div className="addContractor__input">
@@ -99,7 +93,7 @@ function AddContractor({
         <AntySpam test={test} setTest={setTest} />
       </div>
       <FormButton
-        text={isEdit ? "Zapisz" : "Dodaj"}
+        text="Dodaj"
         type="submit"
         className="addContractorButton"
         styles={{
