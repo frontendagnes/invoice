@@ -35,11 +35,11 @@ function EditContractor({
   });
 
   const isChanged =
-    form.contractor !== contractor ||
-    form.nip !== nip ||
-    form.street !== street ||
-    form.zipCode !== zipCode ||
-    form.town !== town;
+    form.contractor.trim() !== (contractor || "").trim() ||
+    form.nip.trim() !== (nip || "").trim() ||
+    form.street.trim() !== (street || "").trim() ||
+    form.zipCode.trim() !== (zipCode || "").trim() ||
+    form.town.trim() !== (town || "").trim();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,6 +71,7 @@ function EditContractor({
     ? "Brak zmian do zapisania"
     : "Zapisz zmiany";
 
+  if (!contractor) return null;
   return (
     <Form className="editContractor" onSubmit={handleSubmit}>
       {errorFirestore && <ValidationError text={errorFirestore} />}
