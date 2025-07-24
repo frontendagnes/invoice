@@ -1,83 +1,80 @@
-import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
+import { useState } from "react";
+import styled, { css } from "styled-components";
 
-const defaultBackgroundColor = "rgba(0,0,0,0.7)";
-const defaultColor = "#ffffff";
-const defaultFontSize = "inherit"; // Dziedziczy wielkość czcionki od rodzica
-const defaultBottom = "90%";
-const defaultLeft = "50%";
-const TooltipContainer = styled.div`
+const TooltipWrapper = styled.div`
   position: relative;
-  display: inline-block;
+  display: ${(props) => props.$display || "inline-block"};
+  width: ${(props) => props.$width || "auto"};
 `;
 
-const TooltipText = styled.div`
-  visibility: hidden;
-  width: auto;
-  background-color: ${defaultBackgroundColor};
-  color: ${defaultColor};
-  font-size: ${defaultFontSize};
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 10px;
+const TooltipBubble = styled.div`
   position: absolute;
-  z-index: 1;
-  bottom: ${defaultBottom};
-  left: ${defaultLeft};
-  margin-left: -100px;
+  z-index: 999;
+  width: ${(props) => props.$width || "auto"};
+  background-color: ${(props) => props.$bg || "rgba(0,0,0,0.7)"};
+  color: ${(props) => props.$color || "#fff"};
+  font-size: ${(props) => props.$fontSize || "0.85rem"};
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: pre-line;
+  text-align: center;
+  pointer-events: none;
   opacity: 0;
-  transition: opacity 0.3s;
+  transform: translate(-50%, 10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  left: ${(props) => props.$left || "50%"};
+  bottom: ${(props) => props.$bottom || "120%"};
 
-  &.show {
-    visibility: visible;
-    opacity: 1;
-  }
+  ${(props) =>
+    props.$visible &&
+    css`
+      opacity: 1;
+      transform: translate(-50%, 0);
+    `}
 `;
 
 const Tooltip = ({
-  text,
   children,
+  text,
   backgroundColor,
   color,
   fontSize,
   left,
   bottom,
+  width,
+  containerDisplay,
+  containerWidth,
 }) => {
-  const [showTooltip, setShowTooltip] = useState(false);
-  const tooltipRef = useRef(null);
+  const [visible, setVisible] = useState(false);
 
-  const tooltipStyle = {
-    backgroundColor: backgroundColor || defaultBackgroundColor,
-    color: color || defaultColor,
-    fontSize: fontSize || defaultFontSize,
-    bottom: bottom || defaultBottom,
-    left: left || defaultLeft,
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
-        setShowTooltip(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [tooltipRef]);
+  const show = () => setVisible(true);
+  const hide = () => setVisible(false);
 
   return (
-    <TooltipContainer
-      ref={tooltipRef}
-      onMouseEnter={() => setShowTooltip(true)}
-      onMouseLeave={() => setShowTooltip(false)}
+    <TooltipWrapper
+      $display={containerDisplay}
+      $width={containerWidth}
+      onMouseEnter={show}
+      onMouseLeave={hide}
+      onFocus={show}
+      onBlur={hide}
     >
       {children}
-      <TooltipText className={showTooltip ? "show" : ""} style={tooltipStyle}>
-        {text}
-      </TooltipText>
-    </TooltipContainer>
+      {text && (
+        <TooltipBubble
+          role="tooltip"
+          $visible={visible}
+          $bg={backgroundColor}
+          $color={color}
+          $fontSize={fontSize}
+          $left={left}
+          $bottom={bottom}
+          $width={width}
+        >
+          {text}
+        </TooltipBubble>
+      )}
+    </TooltipWrapper>
   );
 };
 
