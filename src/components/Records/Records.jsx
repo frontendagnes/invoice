@@ -15,6 +15,7 @@ function Records({ data = [] }) {
     selectedMonthNumber,
     setSelectedMonthName,
     isYearSummaryVisible,
+    selectedMonthName,
     setIsYearSummaryVisible,
     cumulativeIncome,
     monthlyIncomeTotals,
@@ -51,6 +52,7 @@ function Records({ data = [] }) {
                     setSelectedMonthName={setSelectedMonthName}
                     changeMonthByIndex={changeMonthByIndex}
                     setSelectedMonthNumber={setSelectedMonthNumber}
+                    selectedMonthName={selectedMonthName}
                   />
                 ),
               },
@@ -66,6 +68,7 @@ function Records({ data = [] }) {
                     setSelectedMonthName={setSelectedMonthName}
                     changeMonthByIndex={changeMonthByIndex}
                     setSelectedMonthNumber={setSelectedMonthNumber}
+                    selectedMonthName={selectedMonthName}
                   />
                 ),
               },

@@ -159,7 +159,14 @@
 .records__note svg {
   animation: move 2s ease infinite;
 }
-
+.records__printMonthAdnYear{
+  display: none;
+  font-size: 1.5rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
 @keyframes move {
   0% {
     transform: translateY(0)

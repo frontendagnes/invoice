@@ -14,6 +14,7 @@ function CostTab({
   setSelectedMonthName,
   changeMonthByIndex,
   setSelectedMonthNumber,
+  selectedMonthName
 }) {
   const { printRef: printCostRef, handlePrint } = usePrint();
   const handleSummary = () => {
@@ -36,7 +37,11 @@ function CostTab({
           setSelectMonth={setSelectedMonthName}
           number={selectedMonthNumber}
         />
-
+        {/* only print */}
+        <div className="records__printMonthAdnYear">
+          <div>{selectedMonthName} </div>
+          <div>{selectedYear}</div>
+        </div>
         <CostSheets
           calculateCostsForMonth={calculateCostsForMonth}
           selectedMonthNumber={selectedMonthNumber}

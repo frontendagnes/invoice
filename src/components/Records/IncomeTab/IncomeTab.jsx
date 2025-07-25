@@ -17,6 +17,7 @@ function IncomeTab({
   calculateIncomeForMonth,
   changeMonthByIndex,
   setSelectedMonthNumber,
+  selectedMonthName
 }) {
   const { printRef: printIncomeRef, handlePrint } = usePrint();
   const handleSummary = () => {
@@ -34,13 +35,17 @@ function IncomeTab({
       <div className="records__print" ref={printIncomeRef}>
         <PrintStyle />
         <h2>Zestawienie Przychodów</h2>
-
+        
         <MonthAndYear
           numberChange={changeMonthByIndex}
           setSelectMonth={setSelectedMonthName}
           number={selectedMonthNumber}
         />
-
+        {/* only print */}
+        <div className="records__printMonthAdnYear">
+          <div>{selectedMonthName} </div>
+          <div>{selectedYear}</div>
+        </div>
         <IncomeSheets
           calculateIncomeForMonth={calculateIncomeForMonth}
           selectedMonthNumber={selectedMonthNumber}

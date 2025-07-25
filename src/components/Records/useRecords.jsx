@@ -158,6 +158,7 @@ function useRecords(data = []) {
     selectedMonthNumber,
     setSelectedMonthNumber,
     setSelectedMonthName,
+    selectedMonthName,
     isYearSummaryVisible,
     setIsYearSummaryVisible,
     cumulativeIncome,
