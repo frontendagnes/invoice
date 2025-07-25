@@ -1,0 +1,29 @@
+.editProducts {
+    background-color: #faebd7;
+    display: flex;
+    flex-flow: column wrap;
+    gap: 20px;
+    padding: 20px 0;;
+}
+.editProducts__error{
+    margin: 0 auto;
+}
+.editProducts__inputs {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.editProducts__actions{
+    display: flex;
+    justify-content: center;
+}
+
+.editProducts__inputs--row{
+    width: 40%;
+}
+.editProducts__inputs--row input{
+    background-color: #ffffff;
+}

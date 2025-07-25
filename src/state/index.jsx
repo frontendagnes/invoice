@@ -21,7 +21,7 @@ import {
   selectedYearReducer,
 } from "./reducers/selectedYear";
 import { initialYearArray, yearArrayReducer } from "./reducers/yearArray";
-
+import { initialProductsState, productsReducer } from "./reducers/products";
 export const initialState = {
   user: initialUserState,
   alert: initialAlertState,
@@ -35,6 +35,7 @@ export const initialState = {
   globalLoading: initialGlobalLoadingState,
   selectedYear: initialSelectedYearState,
   yearArray: initialYearArray,
+  products: initialProductsState,
 };
 
 export const rootReducer = combineReducers({
@@ -50,4 +51,5 @@ export const rootReducer = combineReducers({
   globalLoading: globalLoadingReducer,
   selectedYear: selectedYearReducer,
   yearArray: yearArrayReducer,
+  products: productsReducer,
 });

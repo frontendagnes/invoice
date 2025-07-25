@@ -15,6 +15,7 @@ function App() {
   const [{ user }, dispatch] = useStateValue();
   const [allDocuments, setAllDocuments] = useState([]);
   const [loadingAllDocuments, setLoadingAllDocuments] = useState(true);
+
   useEffect(() => {
     dispatch({ type: "SET_GLOBAL_LOADING" });
     const authUser = onAuthStateChanged(auth, (authUser) => {
@@ -113,6 +114,18 @@ function App() {
     (ref) => query(ref, orderBy("createdAt", "asc")),
     []
   );
+
+  const mapProducts = useCallback((snapshot) => {
+    dispatch({
+      type: "SET_PRODUCTS",
+      item: snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })),
+    });
+  }, []);
+
+  const queryProducts = useCallback(
+    (ref) => query(ref, orderBy("createdAt", "desc")),
+    []
+  );
   // --- NOWE: Pobieranie faktur korygujących ---
   const {
     data: correctionsData,
@@ -131,6 +144,7 @@ function App() {
     error: errorInvoices,
   } = useFirestoreCollection("invoices", "invoice", mapInvoices, queryInvoices);
 
+  useFirestoreCollection("invoices", "products", mapProducts);
   useFirestoreCollection("invoices", "years", mapYears);
   useFirestoreCollection("invoices", "logo", mapLogo);
   useFirestoreCollection("invoices", "number", mapNumber);

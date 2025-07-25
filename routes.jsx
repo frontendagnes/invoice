@@ -14,6 +14,7 @@ import Settings from "./src/components/Settings/Settings.jsx";
 import CorrectionInvoices from "./src/components/CorrectionInvoices/CorrectionInvoices.jsx";
 import CorrectionDetails from "./src/components/CorrectionInvoices/CorrectionDetails/CorrectionDetails.jsx";
 import SelectYearHeader from "./src/components/SelectYearHeader/SelectYearHeader.jsx";
+import Products from "./src/components/Products/Products.jsx";
 
 const routesConfig = {
   authorization: {
@@ -75,6 +76,14 @@ const routesConfig = {
     element: ({ allInvoices }) => (
       <Layout>
         <Records data={allInvoices} />
+      </Layout>
+    ),
+  },
+  products: {
+    path: "/products",
+    element: () => (
+      <Layout>
+        <Products />
       </Layout>
     ),
   },

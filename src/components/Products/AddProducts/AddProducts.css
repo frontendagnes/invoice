@@ -1,0 +1,30 @@
+.addProducts{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.addProducts__inputs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row wrap;
+    gap: 10px;
+}
+.addProducts__inputs__row{
+    width: 40%;
+}
+
+.addProducts__actions{
+    display: flex;
+    justify-content: center;
+}
+
+.addProducts__actions button{
+    width: 70%;
+}
+
+@media screen and (max-width: 680px) {
+    .addProducts__inputs__row {
+        width: 90%;
+    }
+}

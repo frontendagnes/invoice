@@ -1,0 +1,19 @@
+.products h2 {
+    text-align: center;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    padding: 10px 0;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.products_error {
+    display: flex;
+    justify-content: center;
+    padding: 0 3rem;
+}
+
+.products__search{
+    width: 80%;
+    margin: 10px auto;
+}

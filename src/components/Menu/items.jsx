@@ -10,18 +10,18 @@ export const menuItems = [
     id: 2,
     name: "Faktury",
     href: "/invoices",
-    submenu:[
+    submenu: [
       {
         id: 1,
         name: "Faktury-podgląd",
-        href: "/invoices"
+        href: "/invoices",
       },
       {
         id: 2,
         name: "Faktury korygujące",
-        href: "/correction-invoices"
-      }
-    ]
+        href: "/correction-invoices",
+      },
+    ],
   },
   {
     id: 3,
@@ -46,6 +46,11 @@ export const menuItems = [
       },
       {
         id: 2,
+        name: "Produkty",
+        href: "/products",
+      },
+      {
+        id: 3,
         name: "Zarządzaj aktualnym rokiem",
         href: "/settings/selected-year",
       },
