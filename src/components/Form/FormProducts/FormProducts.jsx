@@ -1,101 +1,123 @@
-import { useMemo, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import "./FormProducts.css";
-import { validate } from "./validate.jsx";
-
+import useFormProductsLogic from "./useFormProducts";
 //mui
 import { TextField } from "@mui/material";
 //components
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 import ValidationError from "../../ValidationError/ValidationError";
 import FormButton from "../FormButton/FormButton.jsx";
+import ProductHints from "./ProductHints/ProductHints.jsx";
+import AntySpam from "../../AntySpam/AntySpam.jsx";
 
-function FormProducts({
-  title,
-  quantity,
-  price,
-  productsStorage,
-  setProductsStorage,
-  dispatch,
-}) {
-  const [error, setError] = useState("");
+function FormProducts(props) {
+  const {
+    title,
+    quantity,
+    price,
+    products,
+    dispatch,
+    productsStorage,
+    setProductsStorage,
+  } = props;
 
-  const worth = useMemo(() => quantity * price, [quantity, price]);
+  const {
+    refFormProduct,
+    handleChange,
+    addProduct,
+    setPrice,
+    setTest,
+    setIsViewTips,
+    setSelectedProductId,
+    test,
+    errors,
+    loading,
+    errorFirestore,
+    isViewTips,
+  } = useFormProductsLogic({
+    title,
+    quantity,
+    price,
+    dispatch,
+    products,
+    productsStorage,
+    setProductsStorage,
+  });
 
-  const addProduct = () => {
-    const msg = validate(title, quantity, price);
-    if (msg) {
-      setError(msg);
-      return;
-    }
-    const objStorage = {
-      id: uuidv4(),
-      title: title,
-      quantity: quantity,
-      price: price,
-      worth: worth,
-      vat: 0,
-    };
-    setProductsStorage([...productsStorage, objStorage]);
-    dispatch({ type: "SET_TITLE", title: "" });
-    dispatch({ type: "SET_QUANTITY", quantity: 1 });
-    dispatch({ type: "SET_PRICE", price: 0 });
-    setError("");
-  };
-  const handleTitleChange = (e) => {
-    dispatch({ type: "SET_TITLE", title: e.target.value });
-    setError("");
-  };
-
-  const handleQuantityChange = (e) => {
-    const parsedQuantity = parseFloat(e.target.value || 0);
-    dispatch({ type: "SET_QUANTITY", quantity: parsedQuantity });
-    setError("");
-  };
-  const handlePriceChange = (e) => {
-    dispatch({ type: "SET_PRICE", price: e.target.value });
-    setError("");
-  };
   return (
     <div className="formproducts">
       <div className="createinvoice__text">Dodaj Produkty:</div>
-      {error ? <ValidationError text={error} /> : null}
-      <div className="formproducts__wrapper">
-        <div className="formproducts__input">
-          <TextField
-            value={title}
-            onChange={handleTitleChange}
-            id="outlined-basic"
-            label="Nazwa produktu"
-            variant="outlined"
-            fullWidth
-          />
-        </div>
-        <div className="formproducts__input">
-          <TextField
-            min="1"
-            max="999"
-            value={quantity}
-            type="number"
-            onChange={handleQuantityChange}
-            id="outlined-basic"
-            label="Ilość"
-            variant="outlined"
-            fullWidth
-          />
-        </div>
-        <div className="formproducts__input">
-          <NumericField
-            value={price}
-            onChange={handlePriceChange}
-            label="Cena jedn."
-            numeric
-          />
+
+      <div className="formproducts__error">
+        {errorFirestore && <ValidationError text={errorFirestore} />}
+        {errors.test && <ValidationError text={errors.test} />}
+      </div>
+
+      <div className="formproducts__wrapper" ref={refFormProduct}>
+        <div className="formproducts__inputs">
+          <div className="formproducts__input">
+            <TextField
+              value={title}
+              name="title"
+              onChange={(e) => handleChange("title", e.target.value)}
+              label="Nazwa produktu"
+              variant="outlined"
+              fullWidth
+              helperText={errors.title || " "}
+              error={!!errors.title}
+              autoComplete="off"
+            />
+          </div>
+
+          {isViewTips && (
+            <ProductHints
+              value={title}
+              products={products}
+              setValue={(val) => dispatch({ type: "SET_TITLE", title: val })}
+              setPrice={setPrice}
+              setIsViewTips={setIsViewTips}
+              setSelectedProductId={setSelectedProductId}
+            />
+          )}
+
+          <div className="formproducts__input">
+            <TextField
+              value={quantity}
+              name="quantity"
+              type="number"
+              onChange={(e) => handleChange("quantity", e.target.value)}
+              label="Ilość"
+              variant="outlined"
+              fullWidth
+              helperText={errors.quantity || " "}
+              error={!!errors.quantity}
+            />
+          </div>
+
+          <div className="formproducts__input">
+            <NumericField
+              value={price}
+              name="price"
+              onChange={(e) => handleChange("price", e.target.value)}
+              label="Cena jedn."
+              numeric
+              helperText={errors.price || " "}
+              error={!!errors.price}
+            />
+          </div>
         </div>
         <div className="formproducts__button">
-          <FormButton text="Dodaj produkt" onClick={addProduct} />
+          <FormButton
+            text={loading ? "Dodaje..." : "Dodaj produkt"}
+            onClick={addProduct}
+            disabled={loading}
+            styles={{
+              height: "56px", // wysokość jak TextField
+            }}
+          />
         </div>
       </div>
+
+      <AntySpam test={test} setTest={setTest} />
     </div>
   );
 }

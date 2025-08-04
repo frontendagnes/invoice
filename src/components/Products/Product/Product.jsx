@@ -45,7 +45,7 @@ function Product({ product, removeProduct }) {
           {price} zł
         </div>
         <div>
-          <span>Ilość:</span> {quantity}
+          <span>Ilość:</span> {quantity} szt.
         </div>
         <div>
           <span>Opis:</span> {description}

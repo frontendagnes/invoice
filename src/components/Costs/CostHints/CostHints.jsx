@@ -16,7 +16,7 @@ function CostHints(props) {
         setIsViewTips(false);
       }
     },
-    [ setNip, setValue, setIsViewTips]
+    [setNip, setValue, setIsViewTips]
   );
   const filteredData = useMemo(() => {
     return data.filter(

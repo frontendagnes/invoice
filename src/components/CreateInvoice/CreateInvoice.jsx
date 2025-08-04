@@ -40,7 +40,7 @@ function CreateInvoice() {
 
   const [productsStorage, setProductsStorage] = useLocalStorage("products", []);
   const [place, setPlace] = useLocalStorage("place", "");
-  const [{ amount, numberInvoice, salesman }, dispatch] = useStateValue();
+  const [{ amount, numberInvoice, salesman, products }, dispatch] = useStateValue();
   const [state, localDispatch] = useReducer(invoiceReducer, initialState);
 
   const navigate = useNavigate();
@@ -228,10 +228,12 @@ function CreateInvoice() {
           dispatch={localDispatch}
           productsStorage={productsStorage}
           setProductsStorage={setProductsStorage}
+          products={products}
         />
         <ViewProducts
           productsStorage={productsStorage}
           setProductsStorage={setProductsStorage}
+          products={products}
         />
 
         <div className="createinvoice__footer">

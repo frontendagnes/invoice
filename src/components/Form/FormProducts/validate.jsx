@@ -1,28 +1,38 @@
-export const validate = (title, quantity, price) => {
-  // Parsuje wartości numeryczne na samym początku
+export const validate = (title, price, quantity, test) => {
+  const newErrors = {};
+
+  // Walidacja pola 'test'
+  if (test) {
+    newErrors.test =
+      "Nie przeszedłeś filtra antyspamowego. Odśwież stronę i spróbuj ponownie";
+  }
+
+  // Walidacja wymaganych pól
+  if (!title?.trim()) {
+    newErrors.title = "Pole 'Nazwa Produktu' musi zostać wypełnione";
+  }
+
+  if (price === "" || price === null || price === undefined) {
+    newErrors.price = "Pole 'Cena Produktu' musi zostać wypełnione";
+  }
+
+  if (quantity === "" || quantity === null || quantity === undefined) {
+    newErrors.quantity = "Pole 'Ilość' musi zostać wypełnione";
+  }
+
   const parsedQuantity = parseFloat(quantity);
+  if (quantity !== "" && (isNaN(parsedQuantity) || parsedQuantity < 1)) {
+    newErrors.quantity = "Pole 'Ilość' musi być liczbą nie mniejszą niż 1";
+  }
+
+  // Dokładna walidacja ceny
   const parsedPrice = parseFloat(price);
-
-  if (!title) {
-    return "Wpisz nazwę produktu";
+  if (price !== "" && isNaN(parsedPrice)) {
+    newErrors.price = "Pole 'Cena Produktu' musi być liczbą";
   }
-
-  // Walidacja ilości
-  // Ilość powinna być liczbą większą od 0 (np. nie można "zwrócić" 0 produktów)
-  if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
-    return "Ilość produktu musi być liczbą całkowitą większą od 0";
-  }
-
-  // Walidacja ceny
-  if (isNaN(parsedPrice)) {
-    return "Cena jednostkowa musi być poprawną liczbą";
-  }
-
-  // Dodajemy walidację, żeby cena nie była zerem (chyba, że to świadoma decyzja biznesowa, np. darmowy produkt)
-  if (parsedPrice === 0) {
-    return "Cena jednostkowa nie może być zerem";
-  }
-
-  // Jeśli wszystko jest w porządku, zwróć null
-  return null;
+if(price <= 0){
+  newErrors.price="Cena musi być większa od 0 (zera)"
+}
+  // Zwróć obiekt błędów lub null, jeśli nie ma błędów
+  return Object.keys(newErrors).length ? newErrors : null;
 };

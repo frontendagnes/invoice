@@ -10,7 +10,7 @@ function ProductFields({ form, handleChange, errors }) {
           value={form.name}
           onChange={handleChange}
           fullWidth
-          helperText={errors.name}
+          helperText={errors.name ? errors.name : " "}
           error={!!errors.name}
         />
       </div>
@@ -22,7 +22,7 @@ function ProductFields({ form, handleChange, errors }) {
           onChange={handleChange}
           fullWidth
           numeric
-          helperText={errors.price}
+          helperText={errors.price ? errors.price : " "}
           error={!!errors.price}
         />
       </div>
@@ -34,7 +34,7 @@ function ProductFields({ form, handleChange, errors }) {
           value={form.quantity}
           onChange={handleChange}
           fullWidth
-          helperText={errors.quantity}
+          helperText={errors.quantity ? errors.quantity : " "}
           error={!!errors.quantity}
         />
       </div>
@@ -45,7 +45,7 @@ function ProductFields({ form, handleChange, errors }) {
           value={form.description}
           onChange={handleChange}
           fullWidth
-          helperText={errors.description}
+          helperText={errors.description ? errors.description : " "}
           error={!!errors.description}
           multiline
           minRows={2}

@@ -1,12 +1,50 @@
 import "./ViewProducts.css";
-
+import useFirestore from "../../../api/useFirestore/useFirestore";
+import { useStateValue } from "../../../state/StateProvider";
+//mui
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-function ViewProducts({ productsStorage, setProductsStorage }) {
-  const removeProduct = (index) => {
-    const newProducts = [...productsStorage];
-    newProducts.splice(index, 1);
-    setProductsStorage(newProducts);
 
+function ViewProducts({ productsStorage, setProductsStorage, products }) {
+  const { updateDocument } = useFirestore("invoices");
+  const [, dispatch] = useStateValue();
+
+  const removeProduct = async (index) => {
+    const productToRemove = productsStorage[index];
+    if (!productToRemove) return;
+
+    let originalProductInDB;
+    if (productToRemove.idDB) {
+      originalProductInDB = products.find(
+        (item) => item.id === productToRemove.idDB
+      );
+    }
+
+    if (originalProductInDB) {
+      try {
+        const quantityInDB = Number(originalProductInDB.data.quantity ?? 0);
+        const quantityToRestore = Number(productToRemove.quantity ?? 0);
+        const newQuantityInDB = quantityInDB + quantityToRestore;
+
+        await updateDocument("products", originalProductInDB.id, {
+          quantity: newQuantityInDB,
+        });
+
+        dispatch({
+          type: "UPDATE_PRODUCT_QUANTITY",
+          id: originalProductInDB.id,
+          newQuantity: newQuantityInDB,
+        });
+      } catch (error) {
+        dispatch({
+          type: "ALERT__ERROR",
+          item: error.message || "Nieznany błąd podczas aktualizacji produktu.",
+        });
+        return;
+      }
+    }
+
+    const newProducts = productsStorage.filter((_, i) => i !== index);
+    setProductsStorage(newProducts);
   };
 
   if (!productsStorage.length) {
@@ -41,7 +79,7 @@ function ViewProducts({ productsStorage, setProductsStorage }) {
               <td>{item.vat}</td>
               <td>
                 <RemoveCircleIcon
-                  className="vieproducts__button"
+                  className="viewproducts__button"
                   color="error"
                   onClick={() => removeProduct(index)}
                 />

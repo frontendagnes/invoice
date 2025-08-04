@@ -1,18 +1,30 @@
 
 .formproducts__wrapper{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    padding-bottom: 20px;
-}
-.formproducts__input{
-    width:25%;
-}
-.formproducts__button{
+    position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+    gap: 20px;
 }
+.formproducts__inputs{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex: 1 1;
+}
+.formproducts__input{
+    width:100%;
+}
+
+.formproducts__error{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
 @media screen and (max-width: 800px) {
     .formproducts{
         width: 100%;
@@ -20,5 +32,22 @@
     .formproducts__input{
         width:90%;
         margin-bottom: 10px;
+    }
+
+    .formproducts__inputs,
+    .formproducts__wrapper {
+        width: 100%;
+        flex-direction: column;
+    }
+    .formproducts__input{
+        width: 100%;
+    }
+    .formproducts__button{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .formproducts__button button{
+        width: 90%;
     }
 }
