@@ -26,12 +26,6 @@ function useCostForm() {
     }
   };
 
-  useEffect(() => {
-    if (contractor.trim() === "") {
-      setIsViewTips(false);
-    }
-  }, [contractor]);
-
   const handleClick = async (e) => {
     e.preventDefault();
     const msg = validate(number, contractor, date, amount, test);
@@ -81,10 +75,17 @@ function useCostForm() {
     });
   };
 
+
   const handleChangeTip = (e) => {
-    setContractor(e.target.value);
-    setIsViewTips(true);
+    const newValue = e.target.value;
+    setContractor(newValue);
+    if (newValue.trim() !== "") {
+      setIsViewTips(true);
+    } else {
+      setIsViewTips(false);
+    }
   };
+
   const handleChangeInput = (setter) => (e) => setter(e.target.value);
   return {
     number,

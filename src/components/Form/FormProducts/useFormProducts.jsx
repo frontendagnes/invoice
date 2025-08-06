@@ -50,7 +50,10 @@ export default function useFormProductsLogic({
       (item) => item.id === selectedProductId
     );
 
-    if (selectedProduct && Number(quantity) > Number(selectedProduct.data.quantity)) {
+    if (
+      selectedProduct &&
+      Number(quantity) > Number(selectedProduct.data.quantity)
+    ) {
       setErrors({
         quantity: `Niewystarczająca ilość produktu w magazynie. Dostępne: ${selectedProduct.data.quantity} szt.`,
       });
@@ -76,7 +79,8 @@ export default function useFormProductsLogic({
     setProductsStorage([...productsStorage, objStorage]);
 
     if (selectedProduct) {
-      const decrementQuantity = Number(selectedProduct.data.quantity) - Number(quantity);
+      const decrementQuantity =
+        Number(selectedProduct.data.quantity) - Number(quantity);
       await updateDocument(
         "products",
         selectedProduct.id,
@@ -101,7 +105,7 @@ export default function useFormProductsLogic({
     handleChange,
     addProduct,
     setTest,
-    setPrice: (val) => dispatch({ type: "SET_PRICE", price: val }),
+    // setPrice: (val) => dispatch({ type: "SET_PRICE", price: val }),
     setIsViewTips,
     setSelectedProductId,
     test,

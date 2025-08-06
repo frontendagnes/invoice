@@ -6,9 +6,8 @@ import { TextField } from "@mui/material";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 import ValidationError from "../../ValidationError/ValidationError";
 import FormButton from "../FormButton/FormButton.jsx";
-import ProductHints from "./ProductHints/ProductHints.jsx";
 import AntySpam from "../../AntySpam/AntySpam.jsx";
-
+import HintsList from "../../HintsList/HintsList.jsx";
 function FormProducts(props) {
   const {
     title,
@@ -24,7 +23,6 @@ function FormProducts(props) {
     refFormProduct,
     handleChange,
     addProduct,
-    setPrice,
     setTest,
     setIsViewTips,
     setSelectedProductId,
@@ -69,13 +67,26 @@ function FormProducts(props) {
           </div>
 
           {isViewTips && (
-            <ProductHints
+            <HintsList
+              items={products}
               value={title}
-              products={products}
-              setValue={(val) => dispatch({ type: "SET_TITLE", title: val })}
-              setPrice={setPrice}
               setIsViewTips={setIsViewTips}
-              setSelectedProductId={setSelectedProductId}
+              onSelect={(selectedProduct) => {
+                handleChange("title", selectedProduct.data.name);
+                handleChange("price", selectedProduct.data.price);
+                setSelectedProductId(selectedProduct.id);
+              }}
+              filterCallback={(product, value) =>
+                product.name.toLowerCase().includes(value.toLowerCase())
+              }
+              renderItem={(product) => (
+                <>
+                  <div>{product.name} </div>
+                  <div>{product.quantity} szt </div>
+                  <div>{product.price} zł </div>
+                </>
+              )}
+              width="50%"
             />
           )}
 

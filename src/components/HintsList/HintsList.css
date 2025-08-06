@@ -1,11 +1,10 @@
-.productHints {
+.hintsList {
     box-sizing: border-box;
     position: absolute;
     display: flex;
     flex-direction: column;
     top: 56px;
-    padding: 0px;
-    width: 50%;
+    padding: 0;
     font-size: 1rem;
     background: #ffffff;
     border: 1px solid #808080;
@@ -13,12 +12,18 @@
     z-index: 9999;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-height: 300px;
-    overflow: scroll;
+    overflow-y: scroll;
     cursor: pointer;
 }
 
-.productHints__item,
-.productHints__no-results {
+.hintsList__container {
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+
+
+.hintsList__item,
+.hintsList__no-results {
     box-sizing: border-box;
     padding: 10px 20px;
     min-height: 40px;
@@ -28,41 +33,48 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    overflow: scroll;
     cursor: pointer;
-
 }
 
-.productHints__no-results {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.productHints__item>div {
-    width: calc(99% /3);
-    display: flex;
-    justify-content: flex-end;
-}
-
-.productHints__item>div:first-child {
-    justify-content: flex-start;
-}
-
-.productHints__item:not(:last-child),
-.productHints__no-results:not(:last-child) {
-    border-bottom: 1px solid #000000;
-}
-
-.productHints__item:hover,
-.productHints__item.active {
+.hintsList__item:hover,
+.hintsList__item.active {
     color: #ffffff;
     background-color: #007bff;
 }
 
+.hintsList__item:not(:last-child),
+.hintsList__no-results:not(:last-child) {
+    border-bottom: 1px solid #000000;
+}
+
+.hintsList__item {
+    display: flex;
+    align-items: center
+}
+
+.hintsList__item>div {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hintsList__item>div:first-child {
+    justify-content: flex-start;
+}
+
+/* W przypadku, gdy chcemy, aby niektóre kolumny miały inne szerokości,
+   można dodać dodatkowe klasy, np.:
+.hintsList__item > .wide {
+    flex-grow: 2;
+}
+.hintsList__item > .narrow {
+    flex-grow: 0.5;
+} */
+
+
 @media screen and (max-width: 800px) {
-    .productHints {
-        width: 90%;
+    .hintsList {
+        width: 90% !important;
         left: 50%;
         transform: translateX(-50%);
     }

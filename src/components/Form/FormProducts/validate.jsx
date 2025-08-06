@@ -15,7 +15,9 @@ export const validate = (title, price, quantity, test) => {
   if (price === "" || price === null || price === undefined) {
     newErrors.price = "Pole 'Cena Produktu' musi zostać wypełnione";
   }
-
+  if(price <= 0){
+    newErrors.price = "Pole 'Cena Produktu' musi być większa od 0 (zera)";
+  }
   if (quantity === "" || quantity === null || quantity === undefined) {
     newErrors.quantity = "Pole 'Ilość' musi zostać wypełnione";
   }
@@ -30,9 +32,7 @@ export const validate = (title, price, quantity, test) => {
   if (price !== "" && isNaN(parsedPrice)) {
     newErrors.price = "Pole 'Cena Produktu' musi być liczbą";
   }
-if(price <= 0){
-  newErrors.price="Cena musi być większa od 0 (zera)"
-}
+
   // Zwróć obiekt błędów lub null, jeśli nie ma błędów
   return Object.keys(newErrors).length ? newErrors : null;
 };

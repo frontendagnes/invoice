@@ -13,7 +13,7 @@ export const initialState = {
   error: "",
   check: false,
   title: "",
-  price: 0,
+  price: null,
   quantity: 1,
 };
 

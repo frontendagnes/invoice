@@ -8,12 +8,11 @@ import { TextField } from "@mui/material";
 
 //components
 import AntySpam from "../../AntySpam/AntySpam.jsx";
-import CostHints from "../CostHints/CostHints.jsx";
 import FormButton from "../../Form/FormButton/FormButton.jsx";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 import ValidationError from "../../ValidationError/ValidationError.jsx";
 import AddContractor from "./AddContractor.jsx";
-
+import HintsList from "../../HintsList/HintsList.jsx";
 function AddCost() {
   const {
     number,
@@ -59,15 +58,29 @@ function AddCost() {
             fullWidth
             helperText="Podaj nazwę Kontahenta"
           />
-          {isViewTips ? (
-            <CostHints
-              data={costHints}
+          {isViewTips && (
+            <HintsList
+              items={costHints}
               value={contractor}
-              setNip={setNip}
               setIsViewTips={setIsViewTips}
-              setValue={setContractor}
+              onSelect={(selectedContractor) => {
+                setNip(selectedContractor.data.nip);
+                setContractor(selectedContractor.data.contractor);
+              }}
+              filterCallback={(contractor, value) =>
+                contractor.contractor
+                  .toLowerCase()
+                  .includes(value.toLowerCase()) ||
+                contractor.nip.toLowerCase().includes(value.toLowerCase())
+              }
+              renderItem={(contractor) => (
+                <>
+                  <div>{contractor.contractor}</div>
+                  <div>{contractor.nip}</div>
+                </>
+              )}
             />
-          ) : null}
+          )}
         </div>
         <div className="addcost__item">
           <NumericField
