@@ -4,18 +4,21 @@
   min-height: 100%;
   font-size: 14px;
   font-family: 'tahoma', sans-serif;
- }
+}
+
 .app__login {
   min-height: 100%;
 }
+
 /* note invoice (used createinvoice and invoiceitem components*/
-.note{
+.note {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
 }
-.note__row{
+
+.note__row {
   width: 90%;
 }
 
@@ -27,16 +30,20 @@
   padding: 10px 20px;
   margin: 0 auto;
 }
-.datefilter__input--width{
+
+.datefilter__input--width {
   width: 60%;
 }
-.datefilter__button{
+
+.datefilter__button {
   margin-left: 10px;
   cursor: pointer;
 }
+
 .namefilter__input {
   padding: 10px 20px;
 }
+
 /* table products and view invoices*/
 table {
   width: 100%;
@@ -63,8 +70,13 @@ td {
 .table__price {
   width: 70px;
 }
+
+body.no-scroll {
+  overflow: hidden;
+}
+
 @media screen and (max-width: 600px) {
-  table th{
+  table th {
     font-size: .55em;
   }
 }

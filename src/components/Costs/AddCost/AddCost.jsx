@@ -13,7 +13,7 @@ import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 import ValidationError from "../../ValidationError/ValidationError.jsx";
 import AddContractor from "./AddContractor.jsx";
 import HintsList from "../../HintsList/HintsList.jsx";
-function AddCost() {
+function AddCost({setIsViewAddCost}) {
   const {
     number,
     contractor,
@@ -36,7 +36,7 @@ function AddCost() {
     addContractor,
     handleChangeTip,
     handleChangeInput,
-  } = useCostForm();
+  } = useCostForm(setIsViewAddCost);
 
   const closeRef = useRef(null);
   useClickAway(closeRef, () => {

@@ -3,7 +3,7 @@ import useFirestore from "../../api/useFirestore/useFirestore";
 import { useStateValue } from "../../state/StateProvider";
 import { validate, validateContractor } from "./AddCost/validate";
 
-function useCostForm() {
+function useCostForm(setIsViewAddCost) {
   const [{ user, contractors }, dispatch] = useStateValue();
   const { loading, errorFirestore, getData, addDocument } =
     useFirestore("invoices");
@@ -47,6 +47,7 @@ function useCostForm() {
     setDate("");
     setAmount("");
     setNip("");
+    setIsViewAddCost(false)
   };
 
   const addContractor = async (e) => {
@@ -74,7 +75,6 @@ function useCostForm() {
       item: "Kontrahent został dodany poprawnie",
     });
   };
-
 
   const handleChangeTip = (e) => {
     const newValue = e.target.value;

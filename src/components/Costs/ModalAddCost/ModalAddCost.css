@@ -1,0 +1,39 @@
+.modalAddCost {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalAddCost__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalAddCost__close-icon {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+@keyframes zoom {
+    0% {
+        -webkit-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
+
+}
