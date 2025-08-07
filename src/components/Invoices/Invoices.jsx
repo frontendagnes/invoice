@@ -19,14 +19,7 @@ function Invoices({ data }) {
     getCorrectionsData("invoiceCorrections", null, null, setAllCorrections);
   }, [user]);
 
-  const [dateFilterResult, setDateFilterResult] = useState({
-    data: [],
-    totalPages: 1,
-    handlePageChange: () => {},
-    currentPage: 1,
-    setPage: () => {},
-  });
-  const [searchFilterResult, setSearchFilterResult] = useState({
+  const [filterResult, setFilterResult] = useState({
     data: [],
     totalPages: 1,
     handlePageChange: () => {},
@@ -62,37 +55,22 @@ function Invoices({ data }) {
     [deleteDocument, dispatch]
   );
   const handleFilterChange = useCallback((filterType, result) => {
-    if (filterType === "date") {
-      setDateFilterResult(result);
-    } else if (filterType === "search") {
-      setSearchFilterResult(result);
-    }
+    //filterType can be unused, but it must be present in the function signature if the children pass it on
+    setFilterResult(result);
   }, []);
   return (
     <div className="invoices">
+      <h2>Filtruj Faktury</h2>
       <InvoiceDateFilter onFilterChange={handleFilterChange} data={data} />
-      <div className="invoices__list-section">
-        <InvoiceList
-          invoices={dateFilterResult.data}
-          openDetails={openDetails}
-          deleteItem={deleteItem}
-          totalPages={dateFilterResult.totalPages}
-          handlePageChange={dateFilterResult.handlePageChange}
-          currentPage={dateFilterResult.currentPage}
-          allCorrections={allCorrections}
-          openCorrectionDetails={openCorrectionDetails}
-          deleteCorrection={deleteCorrection}
-        />
-      </div>
       <InvoiceSearchFilter onFilterChange={handleFilterChange} data={data} />
       <div className="invoices__list-section">
         <InvoiceList
-          invoices={searchFilterResult.data}
+          invoices={filterResult.data}
           openDetails={openDetails}
           deleteItem={deleteItem}
-          totalPages={searchFilterResult.totalPages}
-          handlePageChange={searchFilterResult.handlePageChange}
-          currentPage={searchFilterResult.currentPage}
+          totalPages={filterResult.totalPages}
+          handlePageChange={filterResult.handlePageChange}
+          currentPage={filterResult.currentPage}
           allCorrections={allCorrections}
           openCorrectionDetails={openCorrectionDetails}
           deleteCorrection={deleteCorrection}
@@ -103,3 +81,4 @@ function Invoices({ data }) {
 }
 
 export default memo(Invoices);
+

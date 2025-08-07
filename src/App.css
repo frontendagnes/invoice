@@ -5,7 +5,9 @@
   font-size: 14px;
   font-family: 'tahoma', sans-serif;
 }
-
+h2{
+  letter-spacing: 2px;
+}
 .app__login {
   min-height: 100%;
 }

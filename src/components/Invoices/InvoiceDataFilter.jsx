@@ -10,7 +10,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 //cpmponents
 import Tooltip from "../Tooltip/Tooltip.jsx";
 
-const ITEMS_PER_PAGE = 3;
+const ITEMS_PER_PAGE = import.meta.env.VITE_APP_ITEMS_PER_PAGE_MORE|| 10;
 
 const InvoiceDateFilter = ({ data, onFilterChange }) => {
   const [{ selectedYear }] = useStateValue();
@@ -42,14 +42,15 @@ const InvoiceDateFilter = ({ data, onFilterChange }) => {
   ]);
   return (
     <div className="invoices__dataFilter">
-      <h2>Wyszukaj faktury wg daty</h2>
       <div className="datefilter__input">
         <div className="datefilter__input--width">
           <TextField
             type="date"
+            label="Wyszukaj po dacie"
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
             fullWidth
+            InputLabelProps={{ shrink: true }}
           />
         </div>
         <Tooltip text="Resetuj datę">

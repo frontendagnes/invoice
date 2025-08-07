@@ -6,7 +6,7 @@ import useInvoiceSearchFilter from "../../hooks/useInvoiceSearchFilter";
 //mui
 import { TextField } from "@mui/material";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = import.meta.env.VITE_APP_ITEMS_PER_PAGE_MORE || 10;
 
 const InvoiceSearchFilter = ({ data, onFilterChange }) => {
   const [{ selectedYear }] = useStateValue();
@@ -38,7 +38,6 @@ const InvoiceSearchFilter = ({ data, onFilterChange }) => {
   ]);
   return (
     <div className="invoices__nameFilter">
-      <h2>Wyszukaj fakture po kontrahencie, numerze lub NIP-ie</h2>
       <div className="namefilter__input">
         <TextField
           type="text"

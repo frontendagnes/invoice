@@ -1,55 +1,54 @@
 import { useEffect, memo } from "react";
-
 import { useStateValue } from "../../../state/StateProvider";
-import useSearchFilter from "../../../hooks/useSearchFilter";
-import usePagination from "../../../hooks/usePagination";
+import useInvoiceSearchFilter from "../../../hooks/useInvoiceSearchFilter.jsx";
+import usePagination from "../../../hooks/usePagination.jsx";
 //mui
 import { TextField } from "@mui/material";
 
 const ITEMS_PER_PAGE = import.meta.env.VITE_APP_ITEMS_PER_PAGE_LESS || 5;
 
-const CostSearchFilter = ({ data, onFilterChange }) => {
+const CorrectionSearchFilter = ({ data, onFilterChange }) => {
   const [{ selectedYear }] = useStateValue();
   const { searchText, setSearchText, filteredDataBySearchAndYear } =
-    useSearchFilter(data, selectedYear, "contractor");
+    useInvoiceSearchFilter(data, selectedYear);
   const {
     currentPage,
-    currentPageData: paginatedDataForList,
+    currentPageData: paginatedData,
     totalPages,
     handlePageChange,
-    setCurrentPage: setPageSearch,
+    setCurrentPage: setPage,
   } = usePagination(filteredDataBySearchAndYear, ITEMS_PER_PAGE);
 
   useEffect(() => {
-    onFilterChange("search", {
-      data: paginatedDataForList,
+    onFilterChange({
+      data: paginatedData,
       totalPages,
       handlePageChange,
       currentPage,
-      setPage: setPageSearch,
+      setPage,
     });
   }, [
-    paginatedDataForList,
+    paginatedData,
     totalPages,
     handlePageChange,
     currentPage,
-    setPageSearch,
+    setPage,
     onFilterChange,
   ]);
+
   return (
-    <div className="namefilter__input">
+    <div className="correctionInvoices__search">
       <TextField
-        type="text"
+        name="search"
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
-        id="outlined-basic"
-        label="Wyszukaj wpisując kontrahenta, numer faktury lub NIP"
+        id="search"
+        label="Wyszukaj numer faktury"
         variant="outlined"
-        autoComplete="off"
         fullWidth
       />
     </div>
   );
 };
 
-export default memo(CostSearchFilter);
+export default memo(CorrectionSearchFilter);
