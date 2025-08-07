@@ -9,7 +9,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 //componets
 import Tooltip from "../../Tooltip/Tooltip.jsx";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 5;
 
 const CostDateFilter = ({ data, onFilterChange }) => {
   const [{ selectedYear }] = useStateValue();

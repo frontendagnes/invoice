@@ -3,10 +3,10 @@ import { today } from "../utility/functions.jsx";
 import { getDateFromItem } from "../utility/documentFiltres"; // <-- WAŻNE: Zaimportuj getDateFromItem
 
 const useDateFilter = (data, selectedYear) => {
-  const [filterDate, setFilterDate] = useState(today());
+  const [filterDate, setFilterDate] = useState("");
 
   const resetDate = useCallback(() => {
-    setFilterDate(today());
+    setFilterDate("");
   }, []);
 
   const filteredDataByDateAndYear = useMemo(() => {
@@ -28,7 +28,7 @@ const useDateFilter = (data, selectedYear) => {
           ? docDate.toISOString().slice(0, 10)
           : null;
 
-        return itemDateString === filterDate;
+        return !filterDate || itemDateString === filterDate;
       });
   }, [data, filterDate, selectedYear]);
 

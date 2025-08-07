@@ -6,57 +6,35 @@ import { AnimatePresence } from "framer-motion";
 //mui
 import Button from "@mui/material/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-
 //components
 import CostsList from "./CostsLists/CostsList.jsx";
 import CostDateFilter from "./CostsFilter/CostDateFilter.jsx";
 import CostSearchFilter from "./CostsFilter/CostSearchFilter.jsx";
 import ModalAddCost from "./ModalAddCost/ModalAddCost.jsx";
 
-const filterObject = {
-  data: [],
-  totalPages: 1,
-  handlePageChange: () => {},
-  currentPage: 1,
-  setPage: () => {},
-};
-
 function Costs() {
   const [{ costs }, dispatch] = useStateValue();
   const { deleteDocument } = useFirestore("invoices");
+
   const [viewAddCost, setViewAddCost] = useState(false);
 
-  const [dateFilterResult, setDateFilterResult] = useState(filterObject);
-  const [searchFilterResult, setSearchFilterResult] = useState(filterObject);
+  const [filterResult, setFilterResult] = useState({
+    data: costs ?? [],
+    totalPages: 1,
+    currentPage: 1,
+    handlePageChange: () => {},
+    setPage: () => {},
+  });
 
   const deleteItem = async (itemId) => {
     await deleteDocument("costs", itemId);
     dispatch({ type: "ALERT_DELETE" });
   };
-  const handleFilterChange = useCallback((filterType, result) => {
-    if (filterType === "date") {
-      setDateFilterResult(result);
-    } else if (filterType === "search") {
-      setSearchFilterResult(result);
-    }
-  }, []);
 
-  const renderFilteredList = ({
-    data,
-    totalPages,
-    currentPage,
-    handlePageChange,
-  }) => (
-    <div className="costs__list-section">
-      <CostsList
-        costs={data}
-        deleteItem={deleteItem}
-        totalPages={totalPages}
-        currentPage={currentPage}
-        handlePageChange={handlePageChange}
-      />
-    </div>
-  );
+  const handleFilterChange = useCallback((filterType, result) => {
+    //filterType can be unused, but it must be present in the function signature if the children pass it on
+    setFilterResult(result);
+  }, []);
 
   return (
     <div className="costs">
@@ -79,21 +57,21 @@ function Costs() {
           )}
         </AnimatePresence>
       </div>
+
       <div className="costs__filter">
-        <div className="costs__list">
-          <h2>Wyszukaj faktury wg daty </h2>
-          <CostDateFilter data={costs} onFilterChange={handleFilterChange} />
-          <div className="costs__list-section">
-            {renderFilteredList(dateFilterResult)}
-          </div>
-        </div>
-        <div className="costs__list">
-          <h2>Wyszukaj po nazwie i NIP</h2>
-          <CostSearchFilter data={costs} onFilterChange={handleFilterChange} />
-          <div className="costs__list-section">
-            {renderFilteredList(searchFilterResult)}
-          </div>
-        </div>
+        <h2>Filtruj koszty</h2>
+        <CostDateFilter data={costs} onFilterChange={handleFilterChange} />
+        <CostSearchFilter data={costs} onFilterChange={handleFilterChange} />
+      </div>
+
+      <div className="costs__list-section">
+        <CostsList
+          costs={filterResult.data}
+          deleteItem={deleteItem}
+          totalPages={filterResult.totalPages}
+          currentPage={filterResult.currentPage}
+          handlePageChange={filterResult.handlePageChange}
+        />
       </div>
     </div>
   );
