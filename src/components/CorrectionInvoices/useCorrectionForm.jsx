@@ -23,12 +23,7 @@ export const useCorrectionForm = (originalInvoice) => {
     // z dodatkowymi polami do korekty
     correctedItems: [],
   };
-  useEffect(() => {
-    console.log(
-      "useCorrectionForm initialFormState.createdAt",
-      initialFormState.createdAt
-    );
-  }, [initialFormState.createdAt]);
+
   const [correctionForm, setCorrectionForm] = useState(initialFormState);
   const [currentTotal, setCurrentTotal] = useState(0);
 

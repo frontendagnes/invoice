@@ -21,11 +21,11 @@ const modalVariants = {
 
 function AddCorrectionInvoiceModal({
   isOpen,
+  setIsOpen,
   onClose,
   originalInvoice,
   originalInvoiceId,
 }) {
-  // Używamy custom hooka do zarządzania logiką formularza
   const {
     correctionForm,
     currentTotal,
@@ -34,25 +34,28 @@ function AddCorrectionInvoiceModal({
     handleAddItem,
     handleRemoveItem,
     handleSubmitCorrection,
-  } = useCorrectionForm(originalInvoice); // Przekazujemy originalInvoice do hooka
+  } = useCorrectionForm(originalInvoice);
 
-  useEffect(() => {
-    console.log("corectionAt", correctionForm.createdAt);
-  }, [correctionForm.createdAt]);
   const contentRef = useRef(null);
   useClickAway(contentRef, onClose);
 
   // Efekt do zarządzania scrollowaniem body
   useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
     if (isOpen) {
       document.body.classList.add("no-scroll");
-    } else {
-      document.body.classList.remove("no-scroll");
+      document.addEventListener("keydown", handleKeyDown);
     }
+
     return () => {
       document.body.classList.remove("no-scroll");
+      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, setIsOpen]);
 
   const onSubmitHandler = (e) => {
     handleSubmitCorrection(e, originalInvoiceId, onClose);

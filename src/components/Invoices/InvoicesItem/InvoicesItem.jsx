@@ -84,6 +84,7 @@ function InvoicesItem({
       {isCorrectionModal && (
         <AddCorrectionInvoiceModal
           isOpen={isCorrectionModal}
+          setIsOpen={setIsCorrectionModal}
           onClose={() => setIsCorrectionModal(false)}
           originalInvoice={item}
           originalInvoiceId={itemId}

@@ -5,12 +5,10 @@
     height: 100%;
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Półprzezroczyste tło */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    /* Upewnij się, że jest na wierzchu innych elementów */
 }
 
 .addCorrectionInvoice__content {
@@ -19,18 +17,12 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     max-width: 600px;
-    /* Ogranicz szerokość modala */
     width: 90%;
-    /* Responsywna szerokość */
     max-height: 90vh;
-    /* Ogranicz wysokość, żeby można było przewijać w razie potrzeby */
     overflow-y: auto;
-    /* Dodaj przewijanie, jeśli zawartość jest za duża */
     display: flex;
     flex-direction: column;
-    /* Aby elementy w środku układały się w kolumnie */
     gap: 15px;
-    /* Odstępy między elementami formularza */
 }
 
 .addCorrectionInvoice__inputs {
@@ -42,13 +34,6 @@
 .addCorrectionInvoice__actions {
     display: flex;
     justify-content: flex-end;
-    /* Przyciski po prawej */
     gap: 10px;
-    /* Odstęp między przyciskami */
     margin-top: 20px;
-    /* Odstęp od formularza */
-}
-
-body.no-scroll{
-    overflow: hidden;
 }

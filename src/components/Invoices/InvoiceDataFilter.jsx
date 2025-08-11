@@ -41,7 +41,7 @@ const InvoiceDateFilter = ({ data, onFilterChange }) => {
     onFilterChange,
   ]);
   return (
-    <div className="invoices__dataFilter">
+    // <div className="invoices__dataFilter">
       <div className="datefilter__input">
         <div className="datefilter__input--width">
           <TextField
@@ -62,7 +62,7 @@ const InvoiceDateFilter = ({ data, onFilterChange }) => {
           />
         </Tooltip>
       </div>
-    </div>
+    // </div>
   );
 };
 

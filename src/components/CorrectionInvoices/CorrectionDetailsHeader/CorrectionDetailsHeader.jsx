@@ -1,6 +1,6 @@
 import "./CorrectionDetailsHeader.css"
 import { memo } from "react";
-import { dateFormated } from "../util/helpers"; // Upewnij się, że ścieżka jest poprawna
+import { dateFormated } from "../util/helpers"; 
 
 const CorrectionDetailsHeader = memo(
   ({

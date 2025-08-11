@@ -41,14 +41,17 @@ const CorrectionDateFilter = ({ data, onFilterChange }) => {
 
   return (
     <div className="correctionsInvoice__searchDate">
-      <TextField
-        type="date"
-        label="Wyszukaj po dacie"
-        value={filterDate}
-        onChange={(e) => setFilterDate(e.target.value)}
-        fullWidth
-        InputLabelProps={{ shrink: true }}
-      />
+    <div className="datefilter__input">
+      <div className="cdatefilter__input--width">
+        <TextField
+          type="date"
+          label="Wyszukaj po dacie"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+      </div>
       <Tooltip text="Resetuj datę">
         <RemoveCircleIcon
           onClick={resetDate}
@@ -58,6 +61,7 @@ const CorrectionDateFilter = ({ data, onFilterChange }) => {
         />
       </Tooltip>
     </div>
+   </div>
   );
 };
 

@@ -10,7 +10,6 @@ const useInvoiceSearchFilter = (dataToFilter, selectedYear) => {
     const searchTerm = searchText.toLowerCase();
 
     if (!dataToFilter || dataToFilter.length === 0) {
-      console.log("Brak danych do filtrowania lub dane są puste.");
       return [];
     }
 

@@ -61,8 +61,10 @@ function Invoices({ data }) {
   return (
     <div className="invoices">
       <h2>Filtruj Faktury</h2>
-      <InvoiceDateFilter onFilterChange={handleFilterChange} data={data} />
-      <InvoiceSearchFilter onFilterChange={handleFilterChange} data={data} />
+      <div className="invoices__filters>">
+        <InvoiceDateFilter onFilterChange={handleFilterChange} data={data} />
+        <InvoiceSearchFilter onFilterChange={handleFilterChange} data={data} />
+      </div>
       <div className="invoices__list-section">
         <InvoiceList
           invoices={filterResult.data}
@@ -81,4 +83,3 @@ function Invoices({ data }) {
 }
 
 export default memo(Invoices);
-
