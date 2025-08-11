@@ -1,5 +1,6 @@
 .addcost {
-  padding-bottom: 20px;
+  box-sizing: border-box;
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,12 +33,13 @@
   margin-bottom: 10px;
 }
 
-.addContractor__button {
+.addContractor__button,
+.addcost__actions {
   width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;;
+  gap: 10px;
   cursor: pointer;
 }
 

@@ -2,113 +2,121 @@ import { useEffect, useState } from "react";
 import useFirestore from "../../api/useFirestore/useFirestore";
 import { useStateValue } from "../../state/StateProvider";
 import { validate, validateContractor } from "./AddCost/validate";
-
+import { checkNipDuplicate } from "../../utility/functions";
+const initialFormState = {
+  number: "",
+  contractor: "",
+  date: "",
+  amount: 0,
+  nip: "",
+};
 function useCostForm(setIsViewAddCost) {
   const [{ user, contractors }, dispatch] = useStateValue();
   const { loading, errorFirestore, getData, addDocument } =
     useFirestore("invoices");
 
-  const [number, setNumber] = useState("");
-  const [contractor, setContractor] = useState("");
-  const [date, setDate] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [nip, setNip] = useState("");
   const [test, setTest] = useState("");
   const [isViewTips, setIsViewTips] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [formState, setFormState] = useState(initialFormState);
 
   useEffect(() => {
-    getHints();
-  }, [user, dispatch]);
-
-  const getHints = async () => {
     if (user) {
-      await getData("contractors", "SET_CONTRACTORS");
+      getData("contractors", "SET_CONTRACTORS");
     }
-  };
+  }, [user]);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const msg = validate(number, contractor, date, amount, test);
+    setErrors({});
+    const msg = validate(
+      formState.number,
+      formState.contractor,
+      formState.date,
+      formState.amount,
+      formState.nip,
+      test
+    );
     if (msg) {
-      dispatch({ type: "ALERT__ERROR", item: msg });
+      setErrors(msg);
       return;
     }
-    const data = {
-      number,
-      contractor,
-      date,
-      amount: parseFloat(amount, 10),
-      nip,
-    };
-    await addDocument(data, "costs");
+
+    await addDocument(formState, "costs");
+    setIsViewAddCost(false);
     dispatch({ type: "ALERT_SUCCESS", item: "Koszt został dodany poprawnie" });
-    setNumber("");
-    setContractor("");
-    setDate("");
-    setAmount("");
-    setNip("");
-    setIsViewAddCost(false)
+    setFormState(initialFormState);
   };
 
   const addContractor = async (e) => {
     e.preventDefault();
-    const msg = validateContractor(contractor, nip, test);
+    setErrors({});
+    setTest("");
+    const msg = validateContractor(formState.contractor, formState.nip, test);
     if (msg) {
-      dispatch({ type: "ALERT__ERROR", item: msg });
+      setErrors(msg);
       return;
     }
-    const existingContractor = contractors.some(
-      (item) => String(item.data.nip) === String(nip)
-    );
-
-    if (existingContractor) {
-      dispatch({
-        type: "ALERT__ERROR",
-        item: `Kontrahent o tym NIPie ${nip} już istnieje`,
-      });
+    if (checkNipDuplicate(formState.nip, contractors)) {
+      setErrors((prev) => ({
+        ...prev,
+        nip: "Kontrahent o tym NIP-ie już istnieje.",
+      }));
       return;
     }
-    const data = { contractor, nip };
+    const data = { contractor: formState.contractor, nip: formState.nip };
     await addDocument(data, "contractors");
     dispatch({
       type: "ALERT_SUCCESS",
       item: "Kontrahent został dodany poprawnie",
     });
   };
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+    // Logika usuwania błędów
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
   const handleChangeTip = (e) => {
+    const { name } = e.target;
     const newValue = e.target.value;
-    setContractor(newValue);
+    setFormState((prev) => ({ ...prev, contractor: newValue }));
     if (newValue.trim() !== "") {
       setIsViewTips(true);
     } else {
       setIsViewTips(false);
     }
+    // Na bieżąco usuwaj błędy danego pola
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+  const handleSelectContractor = (selectedContractor) => {
+    setFormState((prev) => ({
+      ...prev,
+      contractor: selectedContractor.data.contractor,
+      nip: selectedContractor.data.nip,
+    }));
   };
 
-  const handleChangeInput = (setter) => (e) => setter(e.target.value);
   return {
-    number,
-    contractor,
-    date,
-    amount,
-    nip,
+    errors,
+    handleSelectContractor,
+    handleChange,
+    formState,
     test,
     isViewTips,
     loading,
     errorFirestore,
     contractors,
-    setNumber,
-    setContractor,
-    setDate,
-    setAmount,
-    setNip,
+    setFormState,
     setTest,
     setIsViewTips,
     handleClick,
     addContractor,
     handleChangeTip,
-    handleChangeInput,
   };
 }
 

@@ -10,7 +10,7 @@ import { useStateValue } from "../../state/StateProvider";
 import useFirestore from "../../api/useFirestore/useFirestore";
 import usePagination from "../../hooks/usePagination";
 import { validateContractor } from "./validate";
-
+import { checkNipDuplicate } from "../../utility/functions";
 /**
  * Liczba elementów wyświetlanych na jednej stronie paginacji.
  * @constant {number}
@@ -176,26 +176,20 @@ export function useContractorsManagement() {
    */
   const handleContractorSubmit = async (e) => {
     e.preventDefault();
-    console.log("Wartość testu przed walidacją:", test);
     const msg = validateContractor(state.contractor, state.nip, test);
     if (msg) {
       dispatch({ type: "ALERT__ERROR", item: msg });
       setTest("");
       return;
     }
-    if (state.nip) {
-      const existingContractor = contractors.some(
-        (item) => String(item.data.nip) === String(state.nip)
-      );
-
-      if (existingContractor) {
+    if (checkNipDuplicate(state.nip, contractors)) {
         dispatch({
           type: "ALERT__ERROR",
-          item: `Kontrahent o tym NIPie ${state.nip} już istnieje`,
+          item: `Kontrahent o tym NIP-ie ${state.nip} już istnieje.`,
         });
         return;
-      }
     }
+
     const data = {
       contractor: state.contractor,
       nip: state.nip,

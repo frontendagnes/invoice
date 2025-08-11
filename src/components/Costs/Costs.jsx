@@ -17,7 +17,6 @@ function Costs() {
   const { deleteDocument } = useFirestore("invoices");
 
   const [viewAddCost, setViewAddCost] = useState(false);
-
   const [filterResult, setFilterResult] = useState({
     data: costs ?? [],
     totalPages: 1,
@@ -33,6 +32,7 @@ function Costs() {
 
   const handleFilterChange = useCallback((filterType, result) => {
     //filterType can be unused, but it must be present in the function signature if the children pass it on
+
     setFilterResult(result);
   }, []);
 
