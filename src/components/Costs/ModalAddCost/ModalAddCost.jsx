@@ -76,12 +76,12 @@ function ModalAddCost({ isViewAddCost, setIsViewAddCost }) {
             position: "absolute",
           }}
           className="modalAddCost__close-icon"
+          onClick={() => setIsViewAddCost(false)}
         >
           <CloseIcon
             fontSize="large"
             color="error"
             sx={{ cursor: "pointer" }}
-            onClick={() => setIsViewAddCost(false)}
           />
         </IconButton>
         <AddCost setIsViewAddCost={setIsViewAddCost} />

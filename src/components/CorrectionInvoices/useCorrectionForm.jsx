@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import useFirestore from "../../api/useFirestore/useFirestore.jsx";
 import { generateCorrectionNumber } from "./util/generateCorrectionNumber.jsx";
 import { today } from "../../utility/functions.jsx";
+// import {validate} from "./AddCorrectionInvoices/validate.jsx"
 export const useCorrectionForm = (originalInvoice) => {
   const { getCollectionDocsOnce, addDocument } = useFirestore("invoices");
 
@@ -228,8 +229,8 @@ export const useCorrectionForm = (originalInvoice) => {
           zipcode: correctionForm.buyer.zipCode, // Jeśli baza oczekuje 'zipcode'
           town: correctionForm.buyer.town,
         },
-        place: correctionForm.place,
-        note: correctionForm.note,
+        place: correctionForm.place || "",
+        note: correctionForm.note || "",
       },
       originalInvoiceData: {
         number: originalInvoice.number || "",
