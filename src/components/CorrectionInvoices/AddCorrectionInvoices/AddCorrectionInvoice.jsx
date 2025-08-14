@@ -14,7 +14,9 @@ import CorrectionOriginalBuyer from "./CorrectionOriginalBuyer.jsx";
 import AddCorrectionsHeader from "./AddCorrectionsHeader.jsx";
 import BuyerFields from "./BuyerFields.jsx";
 import AddCorrectionItemTotal from "./AddCorrectionItemTotal.jsx";
-
+import AntySpam from "../../AntySpam/AntySpam.jsx";
+import ValidationError from "../../ValidationError/ValidationError.jsx";
+import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal.jsx";
 // Animacje dla modala
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.8 },
@@ -30,6 +32,9 @@ function AddCorrectionInvoiceModal({
   originalInvoiceId,
 }) {
   const {
+    spamTest,
+    setSpamTest,
+    errors,
     correctionForm,
     currentTotal,
     handleChange,
@@ -37,8 +42,14 @@ function AddCorrectionInvoiceModal({
     handleAddItem,
     handleRemoveItem,
     handleSubmitCorrection,
+    isFormChanged,
+    itemToDeleteIndex,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
   } = useCorrectionForm(originalInvoice);
-
+  useEffect(() => {
+    console.log(isOpen);
+  }, [isOpen]);
   const contentRef = useRef(null);
 
   useClickAway(contentRef, onClose);
@@ -67,11 +78,12 @@ function AddCorrectionInvoiceModal({
         fullWidth: true,
         margin: "normal",
         variant: "outlined",
+        helperText: errors[name] || " ",
+        error: Boolean(errors[name]),
         ...props,
       }}
     />
   );
-
   return (
     <AnimatePresence>
       {isOpen && (
@@ -91,6 +103,8 @@ function AddCorrectionInvoiceModal({
             className="addCorrectionInvoice__content"
             onClick={(e) => e.stopPropagation()}
           >
+            <ValidationError text={errors.spamTest} />
+
             <Form onSubmit={onSubmitHandler}>
               {originalInvoice && (
                 <AddCorrectionsHeader
@@ -101,7 +115,6 @@ function AddCorrectionInvoiceModal({
 
               {renderField("reason", {
                 label: "Podaj powód korekty",
-                required: true,
               })}
               {renderField("createdAt", {
                 label: "Data wystawienia korekty",
@@ -116,6 +129,7 @@ function AddCorrectionInvoiceModal({
                   <BuyerFields
                     correctionForm={correctionForm}
                     handleChange={handleChange}
+                    errors={errors.buyer || {}}
                   />
                   {renderField("correctedIssueDate", {
                     label: "Nowa data wystawienia",
@@ -140,11 +154,11 @@ function AddCorrectionInvoiceModal({
                 {correctionForm.correctedItems.length > 0 ? (
                   correctionForm.correctedItems.map((item, idx) => (
                     <CorrectionItemRow
-                      key={item.itemId}
+                      key={item.itemId || idx}
                       item={item}
                       index={idx}
                       handleItemChange={handleItemChange}
-                      onRemoveItem={handleRemoveItem}
+                      onOpenDeleteModal={() => handleOpenDeleteModal(idx)}
                     />
                   ))
                 ) : (
@@ -166,6 +180,7 @@ function AddCorrectionInvoiceModal({
                 <FormButton
                   type="submit"
                   text="Dodaj Fakturę korygującą"
+                  disabled={!isFormChanged()}
                   styles={{
                     width: "50%",
                     height: "56px",
@@ -181,7 +196,16 @@ function AddCorrectionInvoiceModal({
                   }}
                 />
               </div>
+              <AntySpam test={spamTest} setTest={setSpamTest} />
             </Form>
+            {itemToDeleteIndex !== null && (
+              <DeleteConfirmationModal
+                isOpen={itemToDeleteIndex !== null}
+                onClickYes={() => handleRemoveItem(itemToDeleteIndex)}
+                onClickNo={handleCloseDeleteModal}
+                item={correctionForm.correctedItems[itemToDeleteIndex]?.title}
+              />
+            )}
           </motion.div>
         </motion.div>
       )}

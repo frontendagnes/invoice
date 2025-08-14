@@ -1,33 +1,37 @@
 import { TextField } from "@mui/material";
-function BuyerFields({ correctionForm, handleChange }) {
+import NumericField from "../../NumberComponents/NumericField/NumericField";
+
+function BuyerFields({ correctionForm, handleChange, errors }) {
+  const errorForNip = errors?.nip || null;
+
   // field configuration for the buyer section
   const buyerFields = [
     {
-      name: "buyer.name",
+      name: "name",
       label: "Nazwa kupującego",
       value: correctionForm.buyer.name,
       id: "buyer-name",
     },
     {
-      name: "buyer.nip",
+      name: "nip",
       label: "NIP",
       value: correctionForm.buyer.nip,
       id: "buyer-nip",
     },
     {
-      name: "buyer.street",
+      name: "street",
       label: "Ulica",
       value: correctionForm.buyer.street,
       id: "buyer-street",
     },
     {
-      name: "buyer.zipCode",
+      name: "zipCode",
       label: "Kod pocztowy",
       value: correctionForm.buyer.zipCode,
       id: "buyer-zipCode",
     },
     {
-      name: "buyer.town",
+      name: "town",
       label: "Miejscowość",
       value: correctionForm.buyer.town,
       id: "buyer-town",
@@ -35,19 +39,38 @@ function BuyerFields({ correctionForm, handleChange }) {
   ];
   return (
     <div className="addCorrectionInvoice__item ">
-      {buyerFields.map((field) => (
-        <TextField
-          key={field.id}
-          name={field.name}
-          value={field.value}
-          onChange={handleChange}
-          id={field.id}
-          label={field.label}
-          variant="outlined"
-          fullWidth
-          margin="normal"
-        />
-      ))}
+      {buyerFields.map((field) =>
+        field.name === "nip" ? (
+          <NumericField
+            key={field.id}
+            name={`buyer.${field.name}`}
+            value={field.value}
+            onChange={handleChange}
+            id={field.id}
+            label={field.label}
+            variant="outlined"
+            fullWidth
+            format="###-###-##-##"
+            mask="_"
+            placeholder="___-___-__-__"
+            helperText={errorForNip || " "}
+            error={Boolean(errorForNip)}
+          />
+        ) : (
+          <TextField
+            key={field.id}
+            name={`buyer.${field.name}`}
+            value={field.value}
+            onChange={handleChange}
+            id={field.id}
+            label={field.label}
+            variant="outlined"
+            fullWidth
+            helperText={errors[field.name] || " "}
+            error={Boolean(errors[field.name])}
+          />
+        )
+      )}
     </div>
   );
 }

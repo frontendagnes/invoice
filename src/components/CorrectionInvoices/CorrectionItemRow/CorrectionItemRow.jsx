@@ -1,15 +1,23 @@
 import "./CorrectionItemRow.css";
+//mui
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+//components
 import CorrectionItemDetails from "./CorrectionItemDetails";
 import CorrectionItemForm from "./CorrectionItemForm";
 import CorrectionItemSummary from "./CorrectionItemSummary";
 
-function CorrectionItemRow({ item, index, handleItemChange, onRemoveItem }) {
+function CorrectionItemRow({
+  item,
+  index,
+  handleItemChange,
+  onOpenDeleteModal,
+
+}) {
   const { type, title } = item;
 
   const handleRemoveClick = () => {
-    onRemoveItem(index);
+    onOpenDeleteModal(index);
   };
 
   const getCorrectionTypeLabel = (type) => {

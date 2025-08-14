@@ -37,27 +37,32 @@
     gap: 10px;
     margin-top: 20px;
 }
+
 .addCorrectionInvoice__original-buyer {
     margin-bottom: 10px;
     padding: 10px 20px;
     background-color: #f9f9f9;
     border-radius: 5px;
 }
+
 .addCorrectionInvoice h3 {
     letter-spacing: 1.5px;
     border-bottom: 1px solid #cccccc;
     padding: 10px 0px 5px 0px;
 }
+
 .addCorrectionInvoice__original-buyer p {
     margin: 5px 0;
     font-size: 14px;
     color: #333333;
 }
+
 .addCorrectionInvoice__item {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 10px;
 }
+
 .addCorrectionInvoice__actions--add {
     display: flex;
     justify-content: center;
@@ -77,4 +82,8 @@
 
 .correction_negative {
     color: #ff0000;
+}
+
+.addCorrectionInvoice button {
+    cursor: pointer;
 }

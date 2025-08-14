@@ -1,43 +1,65 @@
 // src/hooks/useCorrectionForm.jsx
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useFirestore from "../../api/useFirestore/useFirestore.jsx";
-import { generateCorrectionNumber } from "./util/generateCorrectionNumber.jsx";
+import { useStateValue } from "../../state/StateProvider.jsx";
 import { today } from "../../utility/functions.jsx";
-// import {validate} from "./AddCorrectionInvoices/validate.jsx"
+import { validate } from "./AddCorrectionInvoices/validate.jsx";
+import { clearErrorByPath, calculateItemWorth } from "./helpers.jsx";
+import { generateCorrectionNumber } from "./util/generateCorrectionNumber.jsx";
 export const useCorrectionForm = (originalInvoice) => {
   const { getCollectionDocsOnce, addDocument } = useFirestore("invoices");
+  const [, dispatch] = useStateValue();
 
-  const initialFormState = {
-    reason: "",
-    createdAt: today() || "",
-    correctedIssueDate: originalInvoice?.date || "",
-    buyer: {
-      name: originalInvoice?.buyer?.name || "",
-      nip: originalInvoice?.buyer?.nip || "",
-      street: originalInvoice?.buyer?.street || "",
-      zipCode: originalInvoice?.buyer?.zipcode || "",
-      town: originalInvoice?.buyer?.town || "",
-    },
-    place: originalInvoice?.place || "",
-    note: originalInvoice?.note || "",
-    // correctedItems będzie zawierać kopie produktów z oryginalnej faktury
-    // z dodatkowymi polami do korekty
-    correctedItems: [],
-  };
+  const [errors, setErrors] = useState({});
+  const [spamTest, setSpamTest] = useState("");
+  const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
 
+  const initialFormState = useMemo(() => {
+    // Mapujemy oryginalne produkty do formatu correctedItems
+    const mappedItems =
+      originalInvoice?.products?.map((product) => {
+        const originalWorth = calculateItemWorth(
+          product.quantity,
+          product.price
+        );
+        return {
+          id: product.id,
+          itemId: product.id,
+          title: product.title,
+          type: "MODIFICATION",
+          originalQuantity: product.quantity,
+          originalPrice: product.price,
+          originalWorth: originalWorth,
+          originalVat: product.vat,
+          correctedQuantity: product.quantity,
+          correctedPrice: product.price,
+          correctedWorth: originalWorth,
+          correctedVat: product.vat,
+          quantityDifference: 0,
+          priceDifference: 0,
+          worthDifference: 0,
+          vatDifference: 0,
+        };
+      }) || [];
+
+    return {
+      reason: "",
+      createdAt: today() || "",
+      correctedIssueDate: originalInvoice?.date || "",
+      buyer: {
+        name: originalInvoice?.buyer?.name || "",
+        nip: originalInvoice?.buyer?.nip || "",
+        street: originalInvoice?.buyer?.street || "",
+        zipCode: originalInvoice?.buyer?.zipcode || "",
+        town: originalInvoice?.buyer?.town || "",
+      },
+      place: originalInvoice?.place || "",
+      note: originalInvoice?.note || "",
+      correctedItems: mappedItems,
+    };
+  }, [originalInvoice]);
   const [correctionForm, setCorrectionForm] = useState(initialFormState);
   const [currentTotal, setCurrentTotal] = useState(0);
-
-  // Funkcja pomocnicza do obliczania wartości dla pojedynczej pozycji
-  const calculateItemWorth = (quantity, price, vatRate) => {
-    const qty = parseFloat(quantity) || 0;
-    const prc = parseFloat(price) || 0;
-
-    // Zakładamy, że cena jest ceną netto. Jeśli brutto, logika się zmieni.
-    const worth = qty * prc;
-    // const worthWithVat = worth * (1 + vat / 100); // Jeśli potrzebna wartość brutto
-    return worth;
-  };
 
   // Funkcja obliczająca sumę wszystkich korygowanych pozycji
   const calculateTotalWorth = useCallback(() => {
@@ -56,19 +78,14 @@ export const useCorrectionForm = (originalInvoice) => {
         // Obliczamy oryginalną wartość dla punktu odniesienia
         const productQuantity = parseFloat(product.quantity || 0);
         const productPrice = parseFloat(product.price || 0);
-        const productVat = parseFloat(product.vat || 0);
 
-        const originalWorth = calculateItemWorth(
-          productQuantity,
-          productPrice,
-          productVat
-        );
+        const originalWorth = calculateItemWorth(productQuantity, productPrice);
 
         return {
-          id: product.id, // ID oryginalnego produktu
-          itemId: product.id, // Używamy też jako itemId dla kluczy w listach
+          id: product.id,
+          itemId: product.id,
           title: product.title,
-          type: "MODIFICATION", // Domyślnie modyfikacja dla istniejących
+          type: "MODIFICATION",
           // Oryginalne wartości (niezmienne referencje)
           originalQuantity: product.quantity,
           originalPrice: product.price,
@@ -97,27 +114,46 @@ export const useCorrectionForm = (originalInvoice) => {
     calculateTotalWorth();
   }, [correctionForm.correctedItems, calculateTotalWorth]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    // Obsługa zagnieżdżonych pól (np. buyer.name)
-    if (name.includes(".")) {
-      const [parent, child] = name.split(".");
-      setCorrectionForm((prevForm) => ({
-        ...prevForm,
-        [parent]: {
-          ...prevForm[parent],
-          [child]: value,
-        },
-      }));
-    } else {
-      setCorrectionForm((prevForm) => ({
-        ...prevForm,
-        [name]: value,
-      }));
-    }
-  };
+  const handleChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
 
+      if (name.includes(".")) {
+        // np. "buyer.nip", "buyer.name", ...
+        const [parent, child] = name.split(".");
+
+        setCorrectionForm((prevForm) => ({
+          ...prevForm,
+          [parent]: {
+            ...prevForm[parent],
+            [child]: value,
+          },
+        }));
+
+        // >>> KLUCZOWE: czyścimy dokładnie ten błąd po ścieżce
+        if (errors?.[parent]?.[child] !== undefined) {
+          setErrors((prev) => clearErrorByPath(prev, name));
+        }
+      } else {
+        // pola płaskie (reason, place, note, itp.)
+        setCorrectionForm((prevForm) => ({
+          ...prevForm,
+          [name]: value,
+        }));
+
+        if (errors?.[name] !== undefined) {
+          setErrors((prev) => {
+            const next = { ...prev };
+            delete next[name];
+            return next;
+          });
+        }
+      }
+    },
+    [errors, setCorrectionForm, setErrors]
+  );
   const handleItemChange = useCallback(
+    // dla komponentu CorrectionItemRow
     (index, fieldName, value) => {
       setCorrectionForm((prevForm) => {
         const updatedItems = [...prevForm.correctedItems];
@@ -142,8 +178,7 @@ export const useCorrectionForm = (originalInvoice) => {
         ) {
           const newWorth = calculateItemWorth(
             itemToUpdate.correctedQuantity, // Są już liczbami
-            itemToUpdate.correctedPrice, // Są już liczbami
-            itemToUpdate.correctedVat // Są już liczbami
+            itemToUpdate.correctedPrice // Są już liczbami
           );
           itemToUpdate.correctedWorth = newWorth;
 
@@ -168,7 +203,7 @@ export const useCorrectionForm = (originalInvoice) => {
         return { ...prevForm, correctedItems: updatedItems };
       });
     },
-    [calculateItemWorth]
+    [calculateItemWorth, errors]
   );
 
   const handleAddItem = useCallback(() => {
@@ -177,7 +212,7 @@ export const useCorrectionForm = (originalInvoice) => {
       const newItem = {
         id: newItemId,
         itemId: newItemId,
-        title: "", // Puste, aby użytkownik mógł wpisać
+        title: "",
         type: "ADDITION",
         originalQuantity: 0,
         originalPrice: 0,
@@ -199,6 +234,13 @@ export const useCorrectionForm = (originalInvoice) => {
     });
   }, []);
 
+  const handleOpenDeleteModal = (index) => {
+    setItemToDeleteIndex(index);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setItemToDeleteIndex(null);
+  };
   const handleRemoveItem = useCallback((index) => {
     setCorrectionForm((prevForm) => {
       const updatedItems = [...prevForm.correctedItems];
@@ -209,6 +251,7 @@ export const useCorrectionForm = (originalInvoice) => {
         correctedItems: updatedItems,
       };
     });
+    handleCloseDeleteModal()
   }, []);
 
   const createCorrectionPayload = (originalInvoiceId) => {
@@ -226,7 +269,7 @@ export const useCorrectionForm = (originalInvoice) => {
           name: correctionForm.buyer.name,
           nip: correctionForm.buyer.nip,
           street: correctionForm.buyer.street,
-          zipcode: correctionForm.buyer.zipCode, // Jeśli baza oczekuje 'zipcode'
+          zipcode: correctionForm.buyer.zipCode,
           town: correctionForm.buyer.town,
         },
         place: correctionForm.place || "",
@@ -285,6 +328,19 @@ export const useCorrectionForm = (originalInvoice) => {
   // Funkcja obsługująca zatwierdzenie formularza
   const handleSubmitCorrection = async (event, originalInvoiceId, onClose) => {
     event.preventDefault();
+    setErrors({});
+    const { reason } = correctionForm;
+    const nip = correctionForm.buyer.nip;
+
+    const errorText = validate(reason, nip, spamTest);
+    if (errorText && Object.keys(errorText).length > 0) {
+      dispatch({
+        type: "ALERT__ERROR",
+        item: "Sprwadż formularz i popraw pola zaznaczone na czerwono",
+      });
+      setErrors(errorText);
+      return;
+    }
 
     try {
       const generatedCorrectionNum = await generateCorrectionNumber(
@@ -296,12 +352,46 @@ export const useCorrectionForm = (originalInvoice) => {
 
       await addDocument(payload, "invoiceCorrections");
       onClose();
+      dispatch({
+        type: "ALERT_SUCCESS",
+        item: "Faktura korygująca została utworzona",
+      });
     } catch (error) {
       console.error("Błąd podczas zapisywania faktury korygującej:", error);
-      alert("Wystąpił błąd podczas tworzenia faktury korygującej.");
+      dispatch({
+        type: "ALERT__ERROR",
+        item: "Wystąpił błąd podczas tworzenia faktury korygującej.",
+      });
     }
   };
+  // Porównanie płaskie i zagnieżdżone (buyer, correctedItems itd.)
+  const isFormChanged = useCallback(() => {
+    // Porównujemy wszystkie pola, w tym zagnieżdżone obiekty
+    // `initialFormState` jest stałą wartością, więc porównanie działa poprawnie.
+    const hasHeaderChanged =
+      correctionForm.reason !== initialFormState.reason ||
+      correctionForm.createdAt !== initialFormState.createdAt ||
+      correctionForm.correctedIssueDate !==
+        initialFormState.correctedIssueDate ||
+      correctionForm.buyer.name !== initialFormState.buyer.name ||
+      correctionForm.buyer.nip !== initialFormState.buyer.nip ||
+      correctionForm.buyer.street !== initialFormState.buyer.street ||
+      correctionForm.buyer.zipCode !== initialFormState.buyer.zipCode ||
+      correctionForm.buyer.town !== initialFormState.buyer.town ||
+      correctionForm.place !== initialFormState.place ||
+      correctionForm.note !== initialFormState.note;
+
+    const areItemsChanged =
+      JSON.stringify(correctionForm.correctedItems) !==
+      JSON.stringify(initialFormState.correctedItems);
+
+    return hasHeaderChanged || areItemsChanged;
+  }, [correctionForm, initialFormState]);
+
   return {
+    spamTest,
+    setSpamTest,
+    errors,
     correctionForm,
     currentTotal,
     handleChange,
@@ -309,9 +399,9 @@ export const useCorrectionForm = (originalInvoice) => {
     handleAddItem,
     handleRemoveItem,
     handleSubmitCorrection,
+    isFormChanged,
+    itemToDeleteIndex,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
   };
 };
-
-// Dodaj funkcję pomocniczą calculateItemWorth poza hookiem, jeśli nie zależy Ci na memoizacji,
-// albo wewnątrz z useCallback, jeśli jest skomplikowana.
-// Domyślnie zostawiłem ją wewnątrz, ale można ją przenieść jeśli nie korzysta ze stanu hooka.
