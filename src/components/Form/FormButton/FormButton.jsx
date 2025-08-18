@@ -1,10 +1,10 @@
 import Button from "@mui/material/Button";
 
-function FormButton({ text, styles, onClick, disabled, className, type }) {
+function FormButton({ text, styles, onClick, disabled, className, type, color="primary" }) {
   return (
     <Button
       variant="contained"
-      color="primary"
+      color={color}
       type={type}
       onClick={onClick}
       disabled={disabled}
