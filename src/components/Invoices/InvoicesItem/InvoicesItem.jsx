@@ -1,16 +1,16 @@
-import { useState, memo, useRef, useMemo, useEffect } from "react";
-import "./InvoicesItem.css";
-import { getTotal } from "../../../utility/functions";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
+import { getTotal } from "../../../utility/functions";
+import "./InvoicesItem.css";
 //components
-import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal";
 import AddCorrectionInvoiceModal from "../../CorrectionInvoices/AddCorrectionInvoices/AddCorrectionInvoice.jsx";
+import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal";
 // Subcomponents
 import BuyerInfo from "./BuyerInfo";
-import InvoiceMeta from "./InvoiceMeta.jsx";
-import InvoiceIcons from "./InvoiceIcons";
-import NoteEditor from "./NoteEditor";
 import CorrectionSection from "./CorrectionSection";
+import InvoiceIcons from "./InvoiceIcons/InvoiceIcons.jsx";
+import InvoiceMeta from "./InvoiceMeta.jsx";
+import NoteEditor from "./NoteEditor";
 
 function InvoicesItem({
   item,

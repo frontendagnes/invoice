@@ -52,9 +52,8 @@
 .invoicesitem__icons {
   cursor: pointer;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .invoicesitem__icons>div {
