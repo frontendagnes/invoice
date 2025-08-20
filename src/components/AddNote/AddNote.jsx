@@ -1,51 +1,84 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import "./AddNote.css";
+import { validate } from "./validate";
 
 import useFirestore from "../../api/useFirestore/useFirestore";
-import { useStateValue } from "../../state/StateProvider";
 //mui
 import { TextField } from "@mui/material";
 //components
 import FormButton from "../Form/FormButton/FormButton";
+import Tooltip from "../Tooltip/Tooltip";
 import ValidationError from "../ValidationError/ValidationError";
 
-function AddNote({ optionalValue, setIsEdit, index }) {
-  const [note, setNote] = useState("" || optionalValue);
-  const [{ user }, dispatch] = useStateValue();
+const MAX_NOTE_LENGTH = 500;
+
+function AddNote({ initialNote, onClose, invoiceId }) {
+  const [note, setNote] = useState(initialNote || "");
+  const [errors, setErrors] = useState({});
   const { updateDocument, loading, errorFirestore } = useFirestore("invoices");
 
-  const  saveNote = async () => {
-    if (!note || !note.trim()) {
-      dispatch({
-        type: "ALERT__ERROR",
-        item: "Nie można zapisać pustej notatki",
-      });
+  const saveNote = async () => {
+    const validationError = validate(note);
+    if (validationError) {
+      setErrors(validationError);
       return;
     }
-    await updateDocument("invoice", index, { note: note });
+    await updateDocument("invoice", invoiceId, { note: note });
     setNote("");
-    setIsEdit(false);
+    onClose(false);
   };
-
+  const handleNoteChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setNote(value);
+    // Na bieżąco usuwaj błędy danego pola
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  }, []);
+  const isChanged = note.trim() !== initialNote.trim();
   return (
     <div className="note">
       {errorFirestore ? <ValidationError text={errorFirestore} /> : null}
       <div className="note__row">
         <TextField
           value={note}
-          onChange={(e) => setNote(e.target.value)}
+          name="note"
+          onChange={handleNoteChange}
           id="outlined-basic"
-          label={optionalValue ? "Edytuj notatkę" : "Dodaj notatkę"}
+          label={initialNote ? "Edytuj notatkę" : "Dodaj notatkę"}
           placeholder="np. informacja o zwrocie, terminie płatności itp."
           variant="outlined"
-          sx={{ backgroundColor: "#ffffff"}}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              backgroundColor: "#ffffff",
+            },
+            "& .MuiFormHelperText-root": {
+              color: "#676767",
+            },
+          }}
+          inputProps={{
+            maxLength: MAX_NOTE_LENGTH,
+          }}
+          error={!!errors.note}
+          helperText={errors.note || `${note.length}/${MAX_NOTE_LENGTH}`}
           fullWidth
         />
+        <Tooltip
+          text={`${isChanged ? "Zapisz zmiany" : "Brak zmian do zapisania"}`}
+        >
+          <FormButton
+            text={loading ? "Zapisuję..." : "Zapisz"}
+            disabled={loading || !isChanged}
+            onClick={saveNote}
+            styles={{ textTransform: "none", marginLeft: "10px" }}
+          />
+        </Tooltip>
         <FormButton
-          text={loading ? "Zapisuję..." : "Zapisz"}
-          disabled={loading}
-          onClick={saveNote}
-          styles={{ textTransform: "none", marginLeft: "10px" }}
+          text="Anuluj"
+          color="success"
+          onClick={() => {
+            onClose(false);
+          }}
         />
       </div>
     </div>

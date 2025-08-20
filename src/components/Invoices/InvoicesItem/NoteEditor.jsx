@@ -5,9 +5,9 @@ const NoteEditor = ({ isEdit, refNote, optionalValue, setIsEdit, itemId }) => {
     <div className={`invoiceItem__displayNote ${isEdit ? "expanded" : ""}`}>
       <div ref={refNote} className="invoicesItem__note--container">
         <AddNote
-          optionalValue={optionalValue}
-          setIsEdit={setIsEdit}
-          index={itemId}
+          initialNote={optionalValue}
+          onClose={setIsEdit}
+          invoiceId={itemId}
         />
       </div>
     </div>
