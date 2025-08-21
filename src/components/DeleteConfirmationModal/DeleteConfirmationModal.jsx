@@ -7,8 +7,6 @@ import { useClickAway } from "react-use";
 import { useFocusTrap } from "../../hooks/useFocusTrap.jsx";
 import FormButton from "../Form/FormButton/FormButton.jsx";
 
-
-
 const modalVariants = {
   initial: { opacity: 0, scale: 0.8 },
   animate: { opacity: 1, scale: 1, transition: { duration: 0.2 } },
@@ -73,11 +71,7 @@ function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
             <FormButton
               text="Tak"
               onClick={onClickYes}
-              styles={{
-                backgroundColor: "red",
-                color: "white",
-                "&:hover": { backgroundColor: "darkred" },
-              }}
+              color="error"
               ref={yesButtonRef}
             />
             <FormButton text="Nie" onClick={onClickNo} ref={noButtonRef} />

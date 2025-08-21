@@ -4,15 +4,14 @@ import "./AddCorrectionInvoice.css";
 import { TextField } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { useClickAway } from "react-use";
-
+import { useCorrectionForm } from "../useCorrectionForm.jsx";
 // Import komponentów
 import AntySpam from "../../AntySpam/AntySpam.jsx";
-import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal(old).jsx";
+import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal.jsx";
 import Form from "../../Form/Form";
 import FormButton from "../../Form/FormButton/FormButton";
 import ValidationError from "../../ValidationError/ValidationError.jsx";
 import CorrectionItemRow from "../CorrectionItemRow/CorrectionItemRow";
-import { useCorrectionForm } from "../useCorrectionForm.jsx";
 import AddCorrectionItemTotal from "./AddCorrectionItemTotal.jsx";
 import AddCorrectionsHeader from "./AddCorrectionsHeader.jsx";
 import BuyerFields from "./BuyerFields.jsx";
