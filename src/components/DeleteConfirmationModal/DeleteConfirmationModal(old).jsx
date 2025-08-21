@@ -1,13 +1,9 @@
-import ReactDOM from "react-dom"; // <-- portal
-import "./DeleteConfirmationModal.css";
-
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useClickAway } from "react-use";
 import { useFocusTrap } from "../../hooks/useFocusTrap.jsx";
 import FormButton from "../Form/FormButton/FormButton.jsx";
-
-
+import "./DeleteConfirmationModal.css";
 
 const modalVariants = {
   initial: { opacity: 0, scale: 0.8 },
@@ -16,19 +12,6 @@ const modalVariants = {
 };
 
 function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
-  const contentRef = useRef();
-  const yesButtonRef = useRef(null);
-  const noButtonRef = useRef(null);
-
-  useClickAway(contentRef, onClickNo);
-  const handleKeyDown = useFocusTrap(
-    contentRef,
-    yesButtonRef,
-    noButtonRef,
-    isOpen,
-    onClickNo
-  );
-
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add("no-scroll");
@@ -40,9 +23,24 @@ function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  const contentRef = useRef();
+  const yesButtonRef = useRef(null);
+  const noButtonRef = useRef(null);
+  useClickAway(contentRef, onClickNo);
 
-  const modalContent = (
+  const handleKeyDown = useFocusTrap(
+    contentRef,
+    yesButtonRef,
+    noButtonRef,
+    isOpen,
+    onClickNo
+  );
+
+  const message = item
+    ? `Element "${item}" zostanie trwale usunięty, czy na pewno chcesz kontynuować?`
+    : "Czy na pewno chcesz kontynuować tę operację?";
+
+  return (
     <AnimatePresence>
       <motion.div
         key="modal"
@@ -50,8 +48,8 @@ function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
         role="dialog"
         aria-modal="true"
         variants={modalVariants}
-        initial="initial"
-        animate="animate"
+        initial="hidden"
+        animate="visible"
         exit="exit"
       >
         <motion.div
@@ -59,16 +57,12 @@ function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
           ref={contentRef}
           onKeyDown={handleKeyDown}
           variants={{
-            initial: { scale: 0.9 },
-            animate: { scale: 1 },
+            hidden: { scale: 0.9 },
+            visible: { scale: 1 },
             exit: { scale: 0.9 },
           }}
         >
-          <h2>
-            {item
-              ? `Element "${item}" zostanie trwale usunięty, czy na pewno chcesz kontynuować?`
-              : "Czy na pewno chcesz kontynuować tę operację?"}
-          </h2>
+          <h2>{message}</h2>
           <div className="deleteConfirmationModal__buttons">
             <FormButton
               text="Tak"
@@ -76,7 +70,9 @@ function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
               styles={{
                 backgroundColor: "red",
                 color: "white",
-                "&:hover": { backgroundColor: "darkred" },
+                "&:hover": {
+                  backgroundColor: "darkred",
+                },
               }}
               ref={yesButtonRef}
             />
@@ -86,9 +82,6 @@ function DeleteConfirmationModal({ isOpen, onClickYes, onClickNo, item }) {
       </motion.div>
     </AnimatePresence>
   );
-
-  // Renderujemy modal w body przez portal
-  return ReactDOM.createPortal(modalContent, document.body);
 }
 
 export default DeleteConfirmationModal;

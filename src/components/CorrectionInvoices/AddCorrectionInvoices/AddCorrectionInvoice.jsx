@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import "./AddCorrectionInvoice.css";
 
 import { TextField } from "@mui/material";
@@ -6,17 +6,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useClickAway } from "react-use";
 
 // Import komponentów
-import { useCorrectionForm } from "../useCorrectionForm.jsx";
+import AntySpam from "../../AntySpam/AntySpam.jsx";
+import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal(old).jsx";
 import Form from "../../Form/Form";
 import FormButton from "../../Form/FormButton/FormButton";
+import ValidationError from "../../ValidationError/ValidationError.jsx";
 import CorrectionItemRow from "../CorrectionItemRow/CorrectionItemRow";
-import CorrectionOriginalBuyer from "./CorrectionOriginalBuyer.jsx";
+import { useCorrectionForm } from "../useCorrectionForm.jsx";
+import AddCorrectionItemTotal from "./AddCorrectionItemTotal.jsx";
 import AddCorrectionsHeader from "./AddCorrectionsHeader.jsx";
 import BuyerFields from "./BuyerFields.jsx";
-import AddCorrectionItemTotal from "./AddCorrectionItemTotal.jsx";
-import AntySpam from "../../AntySpam/AntySpam.jsx";
-import ValidationError from "../../ValidationError/ValidationError.jsx";
-import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal.jsx";
+import CorrectionOriginalBuyer from "./CorrectionOriginalBuyer.jsx";
 // Animacje dla modala
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.8 },

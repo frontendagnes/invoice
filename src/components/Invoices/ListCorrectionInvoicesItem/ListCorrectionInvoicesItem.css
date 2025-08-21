@@ -1,4 +1,4 @@
-.listCorrectionInvoices{
+.listCorrectionInvoices {
     display: flex;
     gap: 20px;
     align-items: center;
@@ -7,17 +7,20 @@
     border-radius: 5px;
 }
 
-.listCorrectionInvoices__items{
+.listCorrectionInvoices__items {
     flex: 1 1;
     display: flex;
     justify-content: space-between;
-}
-
-.listCorrectionInvoices__item{
-    display: flex;
     gap: 10px;
 }
-.listCorrectionInvoices__action{
+
+.listCorrectionInvoices__item {
+    display: flex;
+    gap: 5px;
+    width: calc(99% /3);
+}
+
+.listCorrectionInvoices__action {
     display: flex;
     gap: 10px;
 }
@@ -27,5 +30,14 @@
     .listCorrectionInvoices,
     .listCorrectionInvoices__items {
         flex-direction: column;
+        width: 90%;
+        align-items: center;
+    }
+
+    .listCorrectionInvoices__item {
+        box-sizing: border-box;
+        width: 70%;
+        justify-content: space-between;
+
     }
 }

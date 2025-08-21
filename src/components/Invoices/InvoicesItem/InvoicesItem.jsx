@@ -4,7 +4,7 @@ import { getTotal } from "../../../utility/functions";
 import "./InvoicesItem.css";
 //components
 import AddCorrectionInvoiceModal from "../../CorrectionInvoices/AddCorrectionInvoices/AddCorrectionInvoice.jsx";
-import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal";
+import DeleteConfirmationModal from "../../DeleteConfirmationModal/DeleteConfirmationModal.jsx";
 // Subcomponents
 import BuyerInfo from "./BuyerInfo";
 import CorrectionSection from "./CorrectionSection";
@@ -124,12 +124,13 @@ function InvoicesItem({
       />
 
       <CorrectionSection
-        isSettings={isSettings}
-        refCorrections={refCorrections}
+        isExpanded={isSettings}
+        ref={refCorrections}
         onAddCorrection={() => setIsCorrectionModal(true)}
         corrections={filteredCorrections}
         openCorrectionDetails={openCorrectionDetails}
         deleteCorrection={deleteCorrection}
+        onClose={setIsSettings}
       />
     </div>
   );
