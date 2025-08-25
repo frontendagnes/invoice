@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import "./AddNote.css";
 import { validate } from "./validate";
 
@@ -23,8 +23,9 @@ function AddNote({ initialNote, onClose, invoiceId }) {
       setErrors(validationError);
       return;
     }
+
     await updateDocument("invoice", invoiceId, { note: note });
-    setNote("");
+    setNotes({});
     onClose(false);
   };
   const handleNoteChange = useCallback((e) => {

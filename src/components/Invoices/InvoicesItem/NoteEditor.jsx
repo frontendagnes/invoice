@@ -1,11 +1,11 @@
 import AddNote from "../../AddNote/AddNote";
 
-const NoteEditor = ({ isEdit, refNote, optionalValue, setIsEdit, itemId }) => {
+const NoteEditor = ({ isEdit, refNote, initialValue, setIsEdit, itemId }) => {
   return (
     <div className={`invoiceItem__displayNote ${isEdit ? "expanded" : ""}`}>
       <div ref={refNote} className="invoicesItem__note--container">
         <AddNote
-          initialNote={optionalValue}
+          initialNote={initialValue}
           onClose={setIsEdit}
           invoiceId={itemId}
         />

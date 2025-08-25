@@ -114,11 +114,10 @@ function InvoicesItem({
       </div>
 
       <div className="invoicesItem__note">{item.note}</div>
-
       <NoteEditor
         isEdit={isEdit}
         refNote={refNote}
-        optionalValue={item.note}
+        initialValue={item.note}
         setIsEdit={setIsEdit}
         itemId={itemId}
       />

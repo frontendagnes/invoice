@@ -2,7 +2,6 @@
 import InvoicesItem from "./InvoicesItem/InvoicesItem.jsx";
 import PaginationUX from "../PaginationUX/PaginationUX";
 import ValidationError from "../ValidationError/ValidationError";
-import { useStateValue } from "../../state/StateProvider.jsx";
 
 const InvoiceList = ({
   invoices,
@@ -15,7 +14,7 @@ const InvoiceList = ({
   openCorrectionDetails,
   deleteCorrection,
 }) => {
-  const [{ selectedYear }] = useStateValue();
+
   return (
     <>
       {invoices.length === 0 ? (

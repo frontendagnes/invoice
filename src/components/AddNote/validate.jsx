@@ -1,4 +1,5 @@
 export const validate = (note) => {
+  const MAX_NOTE_LENGTH = 500;
   const newErrors = {};
   if (!note || !note.trim()) {
     newErrors.note = "Notatka nie może być pusta";

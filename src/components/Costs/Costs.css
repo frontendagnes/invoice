@@ -3,22 +3,25 @@
     padding: 20px 5px;
 }
 
-.costs__action{
+.costs__action {
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.costs__action > button{
+
+.costs__action>button {
     height: 56px;
     width: 80%;
     text-transform: none;
     letter-spacing: 2px;
 }
- .costs__list{
+
+.costs__list {
     padding: 0px 10px;
 
 }
-.costs__list > div{
+
+.costs__list>div {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -47,6 +50,7 @@
 
 .costs__input--width {
     width: 60%;
+    margin-top: 10px;
 }
 
 .costs__button {
@@ -61,7 +65,8 @@
     padding: 10px 20px;
     width: 80%;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .costs__emptyList {
@@ -70,6 +75,6 @@
     justify-content: center;
 }
 
-.costs__list .datefilter__input{
+.costs__list .datefilter__input {
     flex-direction: row;
 }
