@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./AddContractor.css";
 
 //mui
@@ -14,14 +15,20 @@ function AddContractor({
   onContractorSubmit,
   test,
   setTest,
+  errors,
+  setErrors,
 }) {
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+
+    // Na bieżąco usuwaj błędy danego pola umieścić w onChange
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   return (
@@ -37,7 +44,8 @@ function AddContractor({
               id="contractor"
               label="Nazwa kontrachenta"
               variant="outlined"
-              helperText="Podaj nazwę kontrachenta"
+              helperText={errors.contractor || "Podaj nazwę kontrachenta"}
+              error={!!errors.contractor}
               fullWidth
             />
           </div>
@@ -50,7 +58,8 @@ function AddContractor({
               label="NIP"
               value={state.nip}
               onChange={handleChange}
-              helperText="Podaj numer NIP"
+              helperText={errors.nip || "Podaj numer NIP"}
+              error={!!errors.nip}
             />
           </div>
         </div>

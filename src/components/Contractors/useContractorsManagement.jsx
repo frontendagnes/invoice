@@ -77,6 +77,11 @@ export function useContractorsManagement() {
    */
   const [itemToDeleteName, setItemToDeleteName] = useState(null);
 
+  /** stan lokalny hooka przechowujący błędy walidacji
+   * @type {object}
+  */
+  const [errors, setErrors] = useState({});
+
   /**
    * Stan lokalny hooka przechowujący wartość testu antyspamowego.
    * @type {string}
@@ -178,16 +183,17 @@ export function useContractorsManagement() {
     e.preventDefault();
     const msg = validateContractor(state.contractor, state.nip, test);
     if (msg) {
-      dispatch({ type: "ALERT__ERROR", item: msg });
+      // dispatch({ type: "ALERT__ERROR", item: msg });
+      setErrors(msg)
       setTest("");
       return;
     }
     if (checkNipDuplicate(state.nip, contractors)) {
-        dispatch({
-          type: "ALERT__ERROR",
-          item: `Kontrahent o tym NIP-ie ${state.nip} już istnieje.`,
-        });
-        return;
+      dispatch({
+        type: "ALERT__ERROR",
+        item: `Kontrahent o tym NIP-ie ${state.nip} już istnieje.`,
+      });
+      return;
     }
 
     const data = {
@@ -233,6 +239,7 @@ export function useContractorsManagement() {
   return {
     //state
     errorFirestore,
+    errors,
     isModalOpen,
     itemToDeleteName,
     searchContractors,
@@ -245,6 +252,7 @@ export function useContractorsManagement() {
     totalPages,
     test,
     setTest,
+    setErrors,
     //functions
     handlePageChange,
     openConfirmModal,

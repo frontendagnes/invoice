@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./Contractors.css";
 import { useContractorsManagement } from "./useContractorsManagement";
 
@@ -14,6 +13,7 @@ function Contractors() {
   const {
     //state
     errorFirestore,
+    errors,
     isModalOpen,
     itemToDeleteName,
     searchContractors,
@@ -26,6 +26,7 @@ function Contractors() {
     totalPages,
     test,
     setTest,
+    setErrors,
     //functions
     handlePageChange,
     openConfirmModal,
@@ -33,13 +34,13 @@ function Contractors() {
     handleContractorSubmit,
     handleContractorDelete,
   } = useContractorsManagement();
-  useEffect(() => {
-    console.log("test", test);
-    
-  },[test])
+
   return (
     <div className="contactors">
-      {errorFirestore && <ValidationError text={errorFirestore} />}
+      <div className="contracros__errors">
+        {errorFirestore && <ValidationError text={errorFirestore} />}
+        {errors.test && <ValidationError text={errors.test} />}
+      </div>
       <div className="contactors__header">
         <AddContractor
           state={state}
@@ -47,6 +48,8 @@ function Contractors() {
           onContractorSubmit={handleContractorSubmit}
           test={test}
           setTest={setTest}
+          errors={errors}
+          setErrors={setErrors}
         />
       </div>
       <div className="contracotrs__list">
