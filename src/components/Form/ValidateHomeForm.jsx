@@ -6,38 +6,55 @@ export const validate = (
   streetBuyer,
   zipcodeBuyer,
   townBuyer,
-  seller
+  nip,
+  place,
+  test
 ) => {
-  if (!count) {
-    return "Wpisz numer faktury";
+  const newErrors = {};
+
+  if (test) {
+    newErrors.test =
+      "Nie przeszedłeś filtra antyspamowego. Odśwież stronę i spróbuj ponownie";
   }
-  if (!year) {
-    return "Wpisz rok";
+
+  if (!count) {//
+    newErrors.count = "Wpisz numer faktury";
+  }
+  if (!year) { //
+    newErrors.year = "Wpisz rok";
   }
 
   if (!date) {
-    return "Data jest wymagana";
+    newErrors.date = "Data jest wymagana";
   }
   if (!nameBuyer) {
-    return "Wpisz nazwę nabywcy";
+    newErrors.name = "Wpisz nazwę nabywcy";
   }
   if (!streetBuyer) {
-    return "Wpisz ulicę nabywcy";
+    newErrors.street = "Wpisz ulicę nabywcy";
   }
   if (!zipcodeBuyer) {
-    return "Wpisz kod pocztowy nabywcy";
+    newErrors.zipcode = "Wpisz kod pocztowy nabywcy";
   }
   if (!townBuyer) {
-    return "Wpisz misato nabywcy";
+    newErrors.town = "Wpisz misato nabywcy";
   }
-  // if (!seller) {
-  //   return "Wpisz sprzedawcę";
-  // }
-  return null;
-};
-export const validateSeller = (name) => {
-    if(!name){
-        return "Wpisz imię i nazwisko"
+  if(!place){
+    newErrors.place = "Wpisz miejsce wystawienia faktury"
+  }
+  if (nip) {
+    const strippedNip = nip.replace(/\D/g, "");
+    if (!/^\d{10}$/.test(strippedNip)) {
+      newErrors.nip = "NIP musi składać się z dokładnie 10 cyfr";
     }
-    return null
+  }
+  return Object.keys(newErrors).length ? newErrors : null;
+};
+
+export const validateSeller = (name) => {
+  const newErrors ={}
+  if (!name) {
+    newErrors.name = "Wpisz imię i nazwisko";
+  }
+  return Object.keys(newErrors).length ? newErrors : null;
 };

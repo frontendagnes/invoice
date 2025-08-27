@@ -1,7 +1,15 @@
-import React from "react";
 import { TextField } from "@mui/material";
 
-function DataPlace({ date, dispatch, place, setPlace }) {
+function DataPlace({ date, dispatch, place, setPlace, errors, setErrors}) {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    dispatch({ type: "SET_DATE", date: value });
+    // Na bieżąco usuwaj błędy danego pola umieścić w onChange
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
   return (
     <div className="formtop__input">
       <div>
@@ -9,7 +17,9 @@ function DataPlace({ date, dispatch, place, setPlace }) {
           label="Data wystawienia faktury"
           type="date"
           value={date}
-          onChange={(e) => dispatch({ type: "SET_DATE", date: e.target.value })}
+          onChange={handleChange}
+          helperText={errors.date}
+          error={!!errors.date}
           fullWidth
         />
       </div>
@@ -20,6 +30,8 @@ function DataPlace({ date, dispatch, place, setPlace }) {
           value={place}
           onChange={(e) => setPlace(e.target.value)}
           title="Wprowadzona wartość zostanie zapamiętana na tym komputerze!"
+          helperText={errors.place}
+          error={!!errors.place}
           fullWidth
         />
       </div>

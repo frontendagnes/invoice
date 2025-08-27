@@ -1,17 +1,21 @@
-import React from "react";
 import "./FormPerson.css";
 
 import { TextField } from "@mui/material";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 
-function FormPerson({ data, title, dispatch, type }) {
+function FormPerson({ data, title, dispatch, type, errors, setErrors }) {
   const { name, street, zipcode, town, nip } = data;
 
   const handleChange = (type) => (e) => {
+    const { name, value } = e.target;
     dispatch({
       type: type,
-      payload: { [e.target.name]: e.target.value },
+      payload: { [name]: value },
     });
+    // Na bieżąco usuwaj błędy danego pola umieścić w onChange
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
   };
 
   return (
@@ -25,6 +29,8 @@ function FormPerson({ data, title, dispatch, type }) {
           id="outlined-basic"
           label="Imię i nazwisko"
           variant="outlined"
+          helperText={errors.name}
+          error={!!errors.name}
           fullWidth
         />
       </div>
@@ -36,6 +42,8 @@ function FormPerson({ data, title, dispatch, type }) {
           id="outlined-basic"
           label="Ulica i numer domu"
           variant="outlined"
+          helperText={errors.street}
+          error={!!errors.street}
           fullWidth
         />
       </div>
@@ -49,6 +57,8 @@ function FormPerson({ data, title, dispatch, type }) {
             placeholder="__-___"
             label="Kod pocztowy"
             name="zipcode"
+            helperText={errors.zipcode}
+            error={!!errors.zipcode}
           />
         </div>
         <div className="formperson__input formperson__town">
@@ -59,6 +69,8 @@ function FormPerson({ data, title, dispatch, type }) {
             id="outlined-basic"
             label="Miejscowość"
             variant="outlined"
+            helperText={errors.town}
+            error={!!errors.town}
             fullWidth
           />
         </div>
@@ -74,6 +86,8 @@ function FormPerson({ data, title, dispatch, type }) {
           name="nip"
           value={nip}
           onChange={handleChange(type)}
+          helperText={errors.nip}
+          error={!!errors.nip}
         />
       </div>
     </div>

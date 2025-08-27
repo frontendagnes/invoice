@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import "./CreateInvoice.css";
 
 import useFirestore from "../../api/useFirestore/useFirestore";
@@ -27,6 +27,10 @@ import ButtonToggle from "../Form/ToggleButton/ToggleButton";
 import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
 import UploadImage from "../UploadImage/UploadImage";
 import ValidationError from "../ValidationError/ValidationError";
+import AntySpam from "../AntySpam/AntySpam";
+
+const ERROR_MSG =
+  "W formularzu znajdują się błędy - popraw pola zaznaczone na czerwono.";
 
 function CreateInvoice() {
   const {
@@ -40,11 +44,14 @@ function CreateInvoice() {
 
   const [productsStorage, setProductsStorage] = useLocalStorage("products", []);
   const [place, setPlace] = useLocalStorage("place", "");
-  const [{ amount, numberInvoice, salesman, products }, dispatch] = useStateValue();
+  const [{ amount, numberInvoice, salesman, products }, dispatch] =
+    useStateValue();
   const [state, localDispatch] = useReducer(invoiceReducer, initialState);
-
+  const [spamTest, setSpamTest] = useState("");
+  const [errors, setErrors] = useState({});
+  const [errorsSeller, setErrorsSeller] = useState({});
   const navigate = useNavigate();
-
+  const [originalSeller, setOriginalSeller] = useState({});
   useEffect(() => {
     // loads the seller
     if (salesman?.length > 0) {
@@ -52,6 +59,7 @@ function CreateInvoice() {
         type: "LOAD_SELLER_FROM_DB",
         payload: salesman[0].data.seller,
       });
+      setOriginalSeller(salesman[0].data.seller);
     }
   }, [salesman]);
 
@@ -77,7 +85,11 @@ function CreateInvoice() {
   const saveSeller = async () => {
     const msg = validateSeller(state.seller.name);
     if (msg) {
-      dispatch({ type: "ALERT__ERROR", item: msg });
+      setErrorsSeller(msg);
+      dispatch({
+        type: "ALERT__ERROR",
+        item: ERROR_MSG,
+      });
       return;
     }
     const data = {
@@ -149,29 +161,38 @@ function CreateInvoice() {
       state.buyer.name,
       state.buyer.street,
       state.buyer.zipcode,
-      state.buyer.town
+      state.buyer.town,
+      state.buyer.nip,
+      state.place,
+      spamTest
     );
     if (msg) {
-      localDispatch({ type: "SET_ERROR", error: msg });
-      dispatch({ type: "ALERT__ERROR", item: msg });
+      setErrors(msg);
+      dispatch({
+        type: "ALERT__ERROR",
+        item: ERROR_MSG,
+      });
       return;
     }
+
     try {
       await addData();
       if (!updateNumber) await changeNumber();
       window.localStorage.removeItem("products");
     } catch (err) {
       console.log("Błąd dodawania faktury", err.message);
+      dispatch({
+        type: "ALERT__ERROR",
+        item: err.message,
+      });
     }
   };
   return (
     <div className="createinvoice">
-      {state.error ? (
-        <div className="createinvoice__error">
-          <ValidationError text={state.error} />
-          <ValidationError text={errorFirestore} />
-        </div>
-      ) : null}
+      <div className="createinvoice__error">
+        <ValidationError text={errorFirestore} />
+        <ValidationError text={errors.test} />
+      </div>
       <div className="createinvoice__prev">
         <ButtonToggle check={state.check} dispach={localDispatch} />
         <UploadImage />
@@ -184,12 +205,16 @@ function CreateInvoice() {
             year={state.year}
             order={state.order}
             number={state.number}
+            errors={errors}
+            setErrors={setErrors}
           />
           <DataPlace
             date={state.date}
             dispatch={localDispatch}
             place={place}
             setPlace={setPlace}
+            errors={errors}
+            setErrors={setErrors}
           />
         </div>
         <div className="createinvoice__wrapper">
@@ -198,12 +223,16 @@ function CreateInvoice() {
             data={state.buyer}
             type="SET_BUYER"
             dispatch={localDispatch}
+            errors={errors}
+            setErrors={setErrors}
           />
           <FormPerson
             title="Sprzedawca"
             data={state.seller}
             type="SET_SELLER"
             dispatch={localDispatch}
+            errors={errorsSeller}
+            setErrors={setErrorsSeller}
           />
         </div>
         <div className="creativeinvoice__buttonWrapper">
@@ -217,7 +246,7 @@ function CreateInvoice() {
               onClick={saveSeller}
             />
           ) : (
-            <FormSelect seller={state.seller} />
+            <FormSelect seller={state.seller} originalSeller={originalSeller} />
           )}
         </div>
         <FormPayment selected={state.selected} dispatch={localDispatch} />
@@ -243,6 +272,7 @@ function CreateInvoice() {
           />
         </div>
         <FooterNote note={state.note} dispatch={localDispatch} />
+        <AntySpam test={spamTest} setTest={setSpamTest} />
         <div className="creativeinvoice__buttonAdd">
           <FormButton
             text={loading ? "Dodawanie..." : "Dodaj fakturę"}
