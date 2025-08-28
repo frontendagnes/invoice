@@ -64,7 +64,14 @@ function AddYear() {
       resetInvoiceCounter();
     }
   };
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setValue(value);
 
+    if (error) {
+      setError(null);
+    }
+  };
   return (
     <>
       <h3>Dodaj Nowy Rok</h3>
@@ -72,7 +79,7 @@ function AddYear() {
         <div className="selectedYear__input">
           <TextField
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={handleChange}
             label="Wpisz Rok"
             placeholder={`np. ${CURRENT_YEAR}`}
             error={!!error}
