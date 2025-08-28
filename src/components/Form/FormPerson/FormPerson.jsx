@@ -3,19 +3,15 @@ import "./FormPerson.css";
 import { TextField } from "@mui/material";
 import NumericField from "../../NumberComponents/NumericField/NumericField.jsx";
 
-function FormPerson({ data, title, dispatch, type, errors, setErrors }) {
+function FormPerson({ data, title, dispatch, type, errors }) {
   const { name, street, zipcode, town, nip } = data;
 
-  const handleChange = (type) => (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch({
       type: type,
       payload: { [name]: value },
     });
-    // Na bieżąco usuwaj błędy danego pola umieścić w onChange
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
-    }
   };
 
   return (
@@ -25,7 +21,7 @@ function FormPerson({ data, title, dispatch, type, errors, setErrors }) {
         <TextField
           value={name}
           name="name"
-          onChange={handleChange(type)}
+          onChange={handleChange}
           id="outlined-basic"
           label="Imię i nazwisko"
           variant="outlined"
@@ -38,7 +34,7 @@ function FormPerson({ data, title, dispatch, type, errors, setErrors }) {
         <TextField
           value={street}
           name="street"
-          onChange={handleChange(type)}
+          onChange={handleChange}
           id="outlined-basic"
           label="Ulica i numer domu"
           variant="outlined"
@@ -53,7 +49,7 @@ function FormPerson({ data, title, dispatch, type, errors, setErrors }) {
             format="##-###"
             mask="_"
             value={zipcode}
-            onChange={handleChange(type)}
+            onChange={handleChange}
             placeholder="__-___"
             label="Kod pocztowy"
             name="zipcode"
@@ -65,7 +61,7 @@ function FormPerson({ data, title, dispatch, type, errors, setErrors }) {
           <TextField
             value={town}
             name="town"
-            onChange={handleChange(type)}
+            onChange={handleChange}
             id="outlined-basic"
             label="Miejscowość"
             variant="outlined"
@@ -85,7 +81,7 @@ function FormPerson({ data, title, dispatch, type, errors, setErrors }) {
           label="NIP"
           name="nip"
           value={nip}
-          onChange={handleChange(type)}
+          onChange={handleChange}
           helperText={errors.nip}
           error={!!errors.nip}
         />

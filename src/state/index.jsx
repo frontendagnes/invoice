@@ -4,7 +4,6 @@ import { userReducer, initialUserState } from "./reducers/user";
 import { alertReducer, initialAlertState } from "./reducers/alert";
 import { salesmanReducer, initialSalesmanState } from "./reducers/salesman";
 import { amountReducer, initialAmountState } from "./reducers/amount";
-import { invoiceReducer, initialInvoiceState } from "./reducers/invoice";
 import { logoReducer, initialLogoState } from "./reducers/logo";
 import { costsReducer, initialCostsState } from "./reducers/costs";
 import {
@@ -27,7 +26,6 @@ export const initialState = {
   alert: initialAlertState,
   salesman: initialSalesmanState,
   amount: initialAmountState,
-  numberInvoice: initialInvoiceState,
   logo: initialLogoState,
   costs: initialCostsState,
   contractors: initialContractorsState,
@@ -43,7 +41,6 @@ export const rootReducer = combineReducers({
   alert: alertReducer,
   salesman: salesmanReducer,
   amount: amountReducer,
-  numberInvoice: invoiceReducer,
   logo: logoReducer,
   costs: costsReducer,
   contractors: contractorsReducer,

@@ -1,12 +1,21 @@
 import { TextField } from "@mui/material";
 
-function DataPlace({ date, dispatch, place, setPlace, errors, setErrors}) {
+function DataPlace({ date, dispatch, place, setPlace, errors}) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     dispatch({ type: "SET_DATE", date: value });
-    // Na bieżąco usuwaj błędy danego pola umieścić w onChange
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+
+    if (errors.date) {
+      dispatch({ type: "CLEAR_ERROR", fieldName: "date" });
+    }
+  };
+
+  const handlePlaceChange = (e) => {
+    const { name, value } = e.target;
+    setPlace(value);
+
+    if (errors.place) {
+      dispatch({ type: "CLEAR_ERROR", fieldName: "place" });
     }
   };
 
@@ -28,7 +37,7 @@ function DataPlace({ date, dispatch, place, setPlace, errors, setErrors}) {
           label="Miejsce wystawienia"
           type="text"
           value={place}
-          onChange={(e) => setPlace(e.target.value)}
+          onChange={handlePlaceChange}
           title="Wprowadzona wartość zostanie zapamiętana na tym komputerze!"
           helperText={errors.place}
           error={!!errors.place}

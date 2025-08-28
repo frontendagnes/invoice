@@ -1,3 +1,5 @@
+// nie wykorzytywane
+
 export const initialInvoiceState = "";
 
 export const invoiceReducer = (state = initialInvoiceState, action) => {

@@ -44,14 +44,13 @@ function CreateInvoice() {
 
   const [productsStorage, setProductsStorage] = useLocalStorage("products", []);
   const [place, setPlace] = useLocalStorage("place", "");
-  const [{ amount, numberInvoice, salesman, products }, dispatch] =
-    useStateValue();
+  const [{ amount, salesman, products }, dispatch] = useStateValue();
   const [state, localDispatch] = useReducer(invoiceReducer, initialState);
+
   const [spamTest, setSpamTest] = useState("");
-  const [errors, setErrors] = useState({});
-  const [errorsSeller, setErrorsSeller] = useState({});
+
   const navigate = useNavigate();
-  const [originalSeller, setOriginalSeller] = useState({});
+
   useEffect(() => {
     // loads the seller
     if (salesman?.length > 0) {
@@ -59,7 +58,6 @@ function CreateInvoice() {
         type: "LOAD_SELLER_FROM_DB",
         payload: salesman[0].data.seller,
       });
-      setOriginalSeller(salesman[0].data.seller);
     }
   }, [salesman]);
 
@@ -70,22 +68,11 @@ function CreateInvoice() {
     } else localDispatch({ type: "SET_COUNT", count: 1 });
   }, [amount]);
 
-  // sets the appropriate invoice number
-  useEffect(() => {
-    dispatch({
-      type: "INVOICE_NUMBER",
-      count: state.count || amount,
-      year: state.year,
-      order: state.order,
-    });
-    localDispatch({ type: "SET_NUMBER", number: numberInvoice });
-  }, [dispatch, state.order, state.year, amount, numberInvoice, state.count]);
-
   //  Remembers the vendor if not already added
   const saveSeller = async () => {
     const msg = validateSeller(state.seller.name);
     if (msg) {
-      setErrorsSeller(msg);
+      localDispatch({ type: "SET_ERRORS_SELLER", payload: msg });
       dispatch({
         type: "ALERT__ERROR",
         item: ERROR_MSG,
@@ -100,7 +87,6 @@ function CreateInvoice() {
       nip: state.seller?.nip,
     };
     setDocumentField("seller", "item-seller123", data, "seller");
-    // const refSeller = doc(db, "invoices", user.uid, "seller", "item-seller123");
   };
   // Changes the invoice number to the next
   const changeNumber = async () => {
@@ -151,27 +137,34 @@ function CreateInvoice() {
       console.log("Błąd dodawania dokumentu", err);
     }
   };
-  // Responsible for adding the invoice
-  const addInvoice = async (event, updateNumber = false) => {
-    event.preventDefault();
+  const validateInvoiceData = () => {
     const msg = validate(
-      state.count,
-      state.year,
       state.date,
       state.buyer.name,
       state.buyer.street,
       state.buyer.zipcode,
       state.buyer.town,
       state.buyer.nip,
-      state.place,
+      place,
       spamTest
     );
+
     if (msg) {
-      setErrors(msg);
+      localDispatch({ type: "SET_ERRORS", payload: msg });
       dispatch({
         type: "ALERT__ERROR",
         item: ERROR_MSG,
       });
+      return false;
+    }
+    localDispatch({ type: "SET_ERRORS", payload: {} });
+    return true;
+  };
+  // Responsible for adding the invoice
+  const addInvoice = async (event, updateNumber = false) => {
+    event.preventDefault();
+
+    if (!validateInvoiceData()) {
       return;
     }
 
@@ -190,8 +183,8 @@ function CreateInvoice() {
   return (
     <div className="createinvoice">
       <div className="createinvoice__error">
-        <ValidationError text={errorFirestore} />
-        <ValidationError text={errors.test} />
+        {errorFirestore && <ValidationError text={errorFirestore} />}
+        {state.errors.test && <ValidationError text={state.errors.test} />}
       </div>
       <div className="createinvoice__prev">
         <ButtonToggle check={state.check} dispach={localDispatch} />
@@ -205,16 +198,13 @@ function CreateInvoice() {
             year={state.year}
             order={state.order}
             number={state.number}
-            errors={errors}
-            setErrors={setErrors}
           />
           <DataPlace
             date={state.date}
             dispatch={localDispatch}
             place={place}
             setPlace={setPlace}
-            errors={errors}
-            setErrors={setErrors}
+            errors={state.errors}
           />
         </div>
         <div className="createinvoice__wrapper">
@@ -223,16 +213,14 @@ function CreateInvoice() {
             data={state.buyer}
             type="SET_BUYER"
             dispatch={localDispatch}
-            errors={errors}
-            setErrors={setErrors}
+            errors={state.errors}
           />
           <FormPerson
             title="Sprzedawca"
             data={state.seller}
             type="SET_SELLER"
             dispatch={localDispatch}
-            errors={errorsSeller}
-            setErrors={setErrorsSeller}
+            errors={state.errorsSeller}
           />
         </div>
         <div className="creativeinvoice__buttonWrapper">
@@ -246,7 +234,10 @@ function CreateInvoice() {
               onClick={saveSeller}
             />
           ) : (
-            <FormSelect seller={state.seller} originalSeller={originalSeller} />
+            <FormSelect
+              seller={state.seller}
+              originalSeller={state.originalSeller}
+            />
           )}
         </div>
         <FormPayment selected={state.selected} dispatch={localDispatch} />

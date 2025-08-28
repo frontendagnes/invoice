@@ -1,6 +1,4 @@
 export const validate = (
-  count,
-  year,
   date,
   nameBuyer,
   streetBuyer,
@@ -16,14 +14,6 @@ export const validate = (
     newErrors.test =
       "Nie przeszedłeś filtra antyspamowego. Odśwież stronę i spróbuj ponownie";
   }
-
-  if (!count) {//
-    newErrors.count = "Wpisz numer faktury";
-  }
-  if (!year) { //
-    newErrors.year = "Wpisz rok";
-  }
-
   if (!date) {
     newErrors.date = "Data jest wymagana";
   }
@@ -35,12 +25,18 @@ export const validate = (
   }
   if (!zipcodeBuyer) {
     newErrors.zipcode = "Wpisz kod pocztowy nabywcy";
+  } else {
+    // sprawdzamy polski format XX-XXX
+    const zipRegex = /^\d{2}-\d{3}$/;
+    if (!zipRegex.test(zipcodeBuyer)) {
+      newErrors.zipcode = "Kod pocztowy musi być w formacie XX-XXX";
+    }
   }
   if (!townBuyer) {
     newErrors.town = "Wpisz misato nabywcy";
   }
-  if(!place){
-    newErrors.place = "Wpisz miejsce wystawienia faktury"
+  if (!place) {
+    newErrors.place = "Wpisz miejsce wystawienia faktury";
   }
   if (nip) {
     const strippedNip = nip.replace(/\D/g, "");
@@ -52,7 +48,7 @@ export const validate = (
 };
 
 export const validateSeller = (name) => {
-  const newErrors ={}
+  const newErrors = {};
   if (!name) {
     newErrors.name = "Wpisz imię i nazwisko";
   }
