@@ -64,23 +64,25 @@ function AddNote({ initialNote, onClose, invoiceId }) {
           helperText={errors.note || `${note.length}/${MAX_NOTE_LENGTH}`}
           fullWidth
         />
-        <Tooltip
-          text={`${isChanged ? "Zapisz zmiany" : "Brak zmian do zapisania"}`}
-        >
+        <div className="note__actions">
+          <Tooltip
+            text={`${isChanged ? "Zapisz zmiany" : "Brak zmian do zapisania"}`}
+          >
+            <FormButton
+              text={loading ? "Zapisuję..." : "Zapisz"}
+              disabled={loading || !isChanged}
+              onClick={saveNote}
+              styles={{ textTransform: "none", marginLeft: "10px" }}
+            />
+          </Tooltip>
           <FormButton
-            text={loading ? "Zapisuję..." : "Zapisz"}
-            disabled={loading || !isChanged}
-            onClick={saveNote}
-            styles={{ textTransform: "none", marginLeft: "10px" }}
+            text="Anuluj"
+            color="success"
+            onClick={() => {
+              onClose(false);
+            }}
           />
-        </Tooltip>
-        <FormButton
-          text="Anuluj"
-          color="success"
-          onClick={() => {
-            onClose(false);
-          }}
-        />
+        </div>
       </div>
     </div>
   );

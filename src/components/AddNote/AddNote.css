@@ -13,6 +13,23 @@
     gap: 10px;
 }
 
-.note__row button{
+.note__actions {
+    display: flex;
+    gap: 10px;
+}
+
+.note__row button {
     height: 56px;
+}
+
+@media screen and (max-width: 800px) {
+    .note__row {
+        flex-direction: column;
+    }
+
+    .note__actions {
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
 }
