@@ -75,6 +75,7 @@ function AddYear() {
             onChange={(e) => setValue(e.target.value)}
             label="Wpisz Rok"
             placeholder={`np. ${CURRENT_YEAR}`}
+            error={!!error}
             fullWidth
           />
         </div>
