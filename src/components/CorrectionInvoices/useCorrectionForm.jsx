@@ -251,7 +251,7 @@ export const useCorrectionForm = (originalInvoice) => {
         correctedItems: updatedItems,
       };
     });
-    handleCloseDeleteModal()
+    handleCloseDeleteModal();
   }, []);
 
   const createCorrectionPayload = (originalInvoiceId) => {
@@ -332,8 +332,8 @@ export const useCorrectionForm = (originalInvoice) => {
     const { reason } = correctionForm;
     const nip = correctionForm.buyer.nip;
 
-    const errorText = validate(reason, nip, spamTest);
-    if (errorText && Object.keys(errorText).length > 0) {
+    const errorText = validate(reason, nip, errors.spamTest);
+    if (errorText) {
       dispatch({
         type: "ALERT__ERROR",
         item: "Sprwadż formularz i popraw pola zaznaczone na czerwono",
