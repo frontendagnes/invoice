@@ -30,6 +30,7 @@ h2{
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  /* padding-bottom: 20px; */
 }
 
 .datefilter__input--width {

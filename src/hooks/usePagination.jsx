@@ -1,8 +1,8 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 
 const usePagination = (data, itemsPerPage) => {
   const [currentPage, setCurrentPage] = useState(1);
-
+  const prevTotalPages = useRef(0);
   const totalPages = useMemo(() => {
     return Math.ceil(data.length / itemsPerPage);
   }, [data, itemsPerPage]);
@@ -14,12 +14,16 @@ const usePagination = (data, itemsPerPage) => {
   }, [data, currentPage, itemsPerPage]);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [data]);
+    if (currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+
+    prevTotalPages.current = totalPages;
+  }, [totalPages, currentPage]);
 
   const handlePageChange = useCallback((event, value) => {
     setCurrentPage(value);
-  },[]);
+  }, []);
   return {
     currentPage,
     currentPageData,

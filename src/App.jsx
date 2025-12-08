@@ -175,6 +175,7 @@ function App() {
     errorInvoices,
     errorCorrections,
   ]);
+
   return (
     <div className="app">
       <Suspense fallback={renderLoader()}>

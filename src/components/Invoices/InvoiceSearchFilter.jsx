@@ -1,41 +1,8 @@
-import { useEffect, memo } from "react";
-
-import { useStateValue } from "../../state/StateProvider";
-import usePagination from "../../hooks/usePagination";
-import useInvoiceSearchFilter from "../../hooks/useInvoiceSearchFilter";
-//mui
+import { memo } from "react";
+import "./Invoices.css";
 import { TextField } from "@mui/material";
 
-const ITEMS_PER_PAGE = import.meta.env.VITE_APP_ITEMS_PER_PAGE_MORE || 10;
-
-const InvoiceSearchFilter = ({ data, onFilterChange }) => {
-  const [{ selectedYear }] = useStateValue();
-  const { searchText, setSearchText, filteredDataBySearchAndYear } =
-    useInvoiceSearchFilter(data, selectedYear);
-  const {
-    currentPage,
-    currentPageData: paginatedDataForList,
-    totalPages,
-    handlePageChange,
-    setCurrentPage: setPageSearch,
-  } = usePagination(filteredDataBySearchAndYear, ITEMS_PER_PAGE);
-
-  useEffect(() => {
-    onFilterChange("search", {
-      data: paginatedDataForList,
-      totalPages,
-      handlePageChange,
-      currentPage,
-      setPage: setPageSearch,
-    });
-  }, [
-    paginatedDataForList,
-    totalPages,
-    handlePageChange,
-    currentPage,
-    setPageSearch,
-    onFilterChange,
-  ]);
+const InvoiceSearchFilter = ({ searchText, setSearchText }) => {
   return (
     <div className="invoices__nameFilter">
       <div className="namefilter__input">
