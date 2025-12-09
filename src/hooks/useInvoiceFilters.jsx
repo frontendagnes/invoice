@@ -47,17 +47,30 @@ const useInvoiceFilterSystem = (data, selectedYear) => {
   const filteredFinal = useMemo(() => {
     const s = search.toLowerCase();
 
-    if (!s) return filteredByDate;
+    let result = filteredByDate;
 
-    return filteredByDate.filter((i) => {
-      return (
-        i._number.includes(s) ||
-        i._buyerName.includes(s) ||
-        i._buyerNip.includes(s) ||
-        i._buyerTown.includes(s) ||
-        i._note.includes(s)
-      );
+    // ——— 1. Filtr wyszukiwania
+    if (s) {
+      result = result.filter((i) => {
+        return (
+          i._number.includes(s) ||
+          i._buyerName.includes(s) ||
+          i._buyerNip.includes(s) ||
+          i._buyerTown.includes(s) ||
+          i._note.includes(s)
+        );
+      });
+    }
+
+    // ——— 2. SORTOWANIE (najnowsze na górze)
+    result = [...result].sort((a, b) => {
+      const da = new Date(a._date).getTime();
+      const db = new Date(b._date).getTime();
+
+      return db - da; // DESC
     });
+
+    return result;
   }, [filteredByDate, search]);
 
   // ——————— 5. Paginacja
