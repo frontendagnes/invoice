@@ -12,7 +12,7 @@ function InfoYear() {
   const [userConfirmed, setUserConfirmed] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [{ yearArray }, dispatch] = useStateValue();
-  const { INVOICE_COUNTER_DOCUMENT_ID } = import.meta.env;
+  const { VITE_APP_INVOICE_COUNTER_DOCUMENT_ID } = import.meta.env;
 
   const { setDocument, addDocument } = useFirestore("invoices");
 
@@ -30,7 +30,7 @@ function InfoYear() {
     const data = {
       count: 1,
     };
-    await setDocument("number", INVOICE_COUNTER_DOCUMENT_ID, data);
+    await setDocument("number", VITE_APP_INVOICE_COUNTER_DOCUMENT_ID, data);
     dispatch({
       type: "ALERT_SUCCESS",
       item: "Numer faktury został zresetowany",
