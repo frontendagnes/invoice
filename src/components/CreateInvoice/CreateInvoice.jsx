@@ -25,7 +25,6 @@ import Number from "../Form/FormTop/Left/Number";
 import DataPlace from "../Form/FormTop/Right/DataPlace";
 import ButtonToggle from "../Form/ToggleButton/ToggleButton";
 import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
-import UploadImage from "../UploadImage/UploadImage";
 import ValidationError from "../ValidationError/ValidationError";
 import AntySpam from "../AntySpam/AntySpam";
 import UploadImageClaudinary from "../UploadImage/UploadImageClaudinary";
@@ -188,7 +187,6 @@ function CreateInvoice() {
       </div>
       <div className="createinvoice__prev">
         <ButtonToggle check={state.check} dispach={localDispatch} />
-        {/* <UploadImage /> */}
         <UploadImageClaudinary />
       </div>
       <Form>
