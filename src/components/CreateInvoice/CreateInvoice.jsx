@@ -28,7 +28,7 @@ import ViewProducts from "../Form/ViewProducts.js/ViewProducts";
 import UploadImage from "../UploadImage/UploadImage";
 import ValidationError from "../ValidationError/ValidationError";
 import AntySpam from "../AntySpam/AntySpam";
-
+import UploadImageClaudinary from "../UploadImage/UploadImageClaudinary";
 const ERROR_MSG =
   "W formularzu znajdują się błędy - popraw pola zaznaczone na czerwono.";
 
@@ -188,7 +188,8 @@ function CreateInvoice() {
       </div>
       <div className="createinvoice__prev">
         <ButtonToggle check={state.check} dispach={localDispatch} />
-        <UploadImage />
+        {/* <UploadImage /> */}
+        <UploadImageClaudinary />
       </div>
       <Form>
         <div className="createinvoice__formtop">

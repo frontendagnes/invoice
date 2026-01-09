@@ -7,8 +7,8 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, IconButton, LinearProgress } from "@mui/material";
 //components
-import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
-import Tooltip from "../Tooltip/Tooltip";
+import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal.jsx";
+import Tooltip from "../Tooltip/Tooltip.jsx";
 import ValidationError from "../ValidationError/ValidationError.jsx";
 import useImageUpload from "./useImageUpload.jsx";
 const VisuallyHiddenInput = styled.input`

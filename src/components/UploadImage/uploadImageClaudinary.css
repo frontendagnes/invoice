@@ -1,0 +1,164 @@
+/* --- UploadImage.css --- */
+
+/* Główny kontener komponentu */
+.uploadImage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #3f4d70;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(123, 31, 162, 0.08);
+    max-width: 250px;
+    width: 100%;
+    /* Szerokość dopasowana do formularza */
+    margin: 20px auto;
+    gap: 20px;
+}
+
+/* Formularz jako kontener typu Flex (pionowy) */
+.uploadImage__form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+    /* Stały odstęp między przyciskiem wyboru, podglądem i uploadem */
+}
+
+/* Ukrycie natywnego inputa file */
+.input-hidden {
+    /* display: none; */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+/* Wspólne style dla obu przycisków (Wybierz i Wgraj), aby były identyczne */
+.custom-file-upload,
+.upload-submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 45px;
+    /* Równa wysokość dla symetrii */
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    /* transition: all 0.3s ease; */
+    transition: background-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+
+    box-sizing: border-box;
+    padding: 10px 20px;
+    ;
+}
+
+/* Przycisk 1: Wybierz zdjęcie (Lżejszy styl) */
+.custom-file-upload {
+    background-color: #b9cef8;
+    color: #3f4d70;
+    border: 2px dashed #3f4d70;
+}
+
+.custom-file-upload:hover {
+    background-color: #ffffff;
+    border-style: solid;
+    box-shadow: 0 2px 8px rgba(123, 31, 162, 0.15);
+}
+
+/* Przycisk 2: Wgraj zdjęcie (Styl główny) */
+.upload-submit-btn {
+    background-color: #3f4d70;
+    color: #ffffff;
+    border: none;
+}
+
+.upload-submit-btn:hover:not(:disabled) {
+    background-color: #586b9b;
+    box-shadow: 0 4px 12px rgba(123, 31, 162, 0.08);
+    transform: translateY(-1px);
+}
+
+.upload-submit-btn:disabled {
+    filter: grayscale(0.5);
+    /* Kolor neutralny dla nieaktywnego przycisku */
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Kontener podglądu zdjęcia */
+.preview-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0;
+    animation: fadeIn 0.25s ease;
+    z-index: 999;
+}
+
+.preview-image-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+/* preview-container */
+.border-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #3f4d70;
+    box-shadow: var(--shadow-lg)0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Dodatkowy mikro-hover na ikonę usuwania */
+.preview-delete-overlay button:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+.logo_uploaded-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo_uploaded-section img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 12px;
+    border: 2px solid #3f4d70;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.upload-error-message {
+    color: #ff0000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
