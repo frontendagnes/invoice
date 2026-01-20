@@ -40,7 +40,7 @@ import {
 import { firebaseConfig, firebaseConfigTest } from "./config";
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfigTest);
+const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);

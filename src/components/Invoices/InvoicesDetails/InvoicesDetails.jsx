@@ -117,7 +117,7 @@ function InvoicesDetails({ data }) {
                         <td className="table__price">
                           {Number.parseFloat(item.worth).toFixed(2)} zł
                         </td>
-                        <td>{item.vat}</td>
+                        <td>zw.</td>
                       </tr>
                     </tbody>
                   ))}
